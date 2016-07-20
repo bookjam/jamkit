@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+<title>Google Map</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+body {
+    background-color: transparent;
+    color: white;
+};
+</style>
+</head>
+<body style="margin:0;padding:0;" onload="window.location='map://initialize'">
+    <div id="map_canvas" style="width:100%;height:100vh;"></div>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="map.js"></script>
+    <script type="text/javascript">
+        var initialize = function() {
+            configureMap(document.getElementById('map_canvas'));
+        }
+    </script>
+</body>
+</html>

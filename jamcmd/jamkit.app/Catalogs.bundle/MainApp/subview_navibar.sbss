@@ -1,0 +1,14 @@
+import themes.sbss
+
+#btn_back: width=44dp, height=44dp, position=absolute, gravity=left-bottom, \
+        image=subview_btn_back.png
+#label_title: width=0.9pw, height=44dp, position=absolute, gravity=top, y=20dp, \
+            font-family=$SANSSERIF_LIGHT, text-color=$THEME_COLOR_100, text-align=center
+
+/navibar: page-background-color=$PAGE_BG_COLOR
+
+if $SCREEN_SIZE > "7.0"
+    #label_title: font-size=1.4
+else
+    #label_title: font-size=1.3
+end

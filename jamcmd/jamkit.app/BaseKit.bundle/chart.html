@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+<title>Chart</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+body {
+    background-color: transparent;
+    color: white;
+};
+</style>
+</head>
+<body style="margin:0;padding:0;" onload="window.location='chart://initialize'">
+    <div style="width:100%;height:100vh;">
+        <canvas id="chart_canvas"></canvas>
+    </div>
+    <script src="chart.min.js"></script>
+    <script src="chart.js"></script>
+    <script type="text/javascript">
+        var initialize = function(type, data, options) {
+            configureChart(document.getElementById('chart_canvas'), type, data, options);
+        }
+    </script>
+</body>
+</html>

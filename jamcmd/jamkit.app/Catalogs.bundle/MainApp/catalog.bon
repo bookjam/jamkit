@@ -1,0 +1,7 @@
+{
+    "database-version":"2.0",
+    "default-subview":"V_HOME",
+    "title":"Hello, World",
+    "uses-database":"yes",
+    "version":"1.0"
+}
