@@ -1,2 +1,8 @@
-node_modules/
+# Node
+node_modules
+*.log
+.nvm
+
+# OS X
 .DS_Store
+
