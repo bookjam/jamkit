@@ -1,0 +1,32 @@
+{
+  "name": "jamcmd",
+  "version": "0.0.1",
+  "description": "A command-line tool for jamkit.",
+  "main": "index.js",
+  "bin": {
+    "jamkit": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bookjam/jamkit.git"
+  },
+  "keywords": [
+    "jamkit",
+    "app"
+  ],
+  "author": "Hanyeol Cho <hanyeol.cho@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bookjam/jamkit/issues"
+  },
+  "homepage": "https://github.com/bookjam/jamkit#readme",
+  "dependencies": {
+    "chokidar": "^1.6.0",
+    "fs-extra": "^0.30.0",
+    "path": "^0.12.7",
+    "shelljs": "^0.7.0",
+    "simctl": "0.0.9",
+    "simple-plist": "^0.1.4",
+    "yargs": "^4.7.1"
+  }
+}
