@@ -4,6 +4,7 @@ var options = require('yargs')
 	.usage('Usage: $0 <command> [argument, ...] [--help]')
 	.command('create', 'Create a new project.')
 	.command('run', 'Run on iOS simulator.')
+	.command('build', 'Build a jam file.')
 	.demand(1, 'Command should be provided.')
 	.help('help'),
 	argv = options.argv,
@@ -51,6 +52,18 @@ if (command === 'run') {
 		.argv
 
 	commands.runProject();
+
+	return;
+}
+
+if (command === 'build') {
+	argv = options.reset()
+		.usage('Usage: $0 build')
+		.example('$0 build', 'Build a jam file. App must be in the current working directory.')
+		.help('help')
+		.argv
+
+	commands.buildProject();
 
 	return;
 }

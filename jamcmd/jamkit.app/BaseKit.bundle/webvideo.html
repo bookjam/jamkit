@@ -10,16 +10,12 @@ body {
 };
 </style>
 </head>
-<body style="margin:0;padding:0;">
-    <iframe id="video-player" class="video-player" type="text/html" src="%@"
-            style="width:100%%;height:100vh;" frameborder="0"
-            onload="window.location='video://initialize'"></iframe>
+<body style="margin:0;padding:0;" onload="window.location='video://initialize'">
+    <iframe id="video" type="text/html" style="width:100%;height:100vh;" frameborder="0"></iframe>
     <script src="video.js"></script>
     <script type="text/javascript">
-        var initialize = function() {
-            configureVideo(document.getElementById("video-player")
-                                   .contentDocument
-                                   .getElementsByTagName('video')[0]);
+        var initialize = function(url) {
+            document.getElementById("video").src = url;
         }
     </script>
 </body>

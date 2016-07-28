@@ -1,6 +1,7 @@
 const fs         = require('fs-extra'),
 	  path       = require('path'),
 	  plist      = require('simple-plist'),
+	  easyzip    = require('easy-zip'),
 	  template   = require('./template'),
 	  simulator  = require('./simulator'),
 	  shell      = require('./shell'),
@@ -66,6 +67,20 @@ var commands = {
 					});
 				});
 			});
+		});
+	},
+
+	buildProject : function() {
+        if (!fs.existsSync('./package.bon')) {
+            console.log('ERROR: package.bon not found!');
+            return;
+        }
+
+		var zip = new easyzip.EasyZip();
+		var name = path.basename(path.resolve('.'));
+
+		zip.zipFolder('.', function() {
+			zip.writeToFile(name + '.jam');
 		});
 	}
 };
