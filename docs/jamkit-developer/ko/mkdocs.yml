@@ -1,0 +1,6 @@
+site_name: Jamkit for Developer
+pages:
+- 시작하기: index.md
+- 튜토리얼: tutorials.md
+- 참조문서: references.md
+theme: flatly
