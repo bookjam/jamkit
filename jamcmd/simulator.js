@@ -9,15 +9,17 @@ var simulator = {
 
 		if (device_id === null) {
 			device_id = this.findAvailableDevice();
+			
+			if (device_id === null) {
+				this.createAvailableDevice('iPhone');
+				this.createAvailableDevice('iPad');
+
+				device_id = this.findAvailableDevice();
+			}	
+
+			simctl.boot(device_id);
 		}
 
-		if (device_id === null) {
-			this.createAvailableDevice('iPhone');
-			this.createAvailableDevice('iPad');
-
-			device_id = this.findAvailableDevice();
-		}
-	
 		simctl.extensions.start(device_id);
     },
 
@@ -60,8 +62,6 @@ var simulator = {
 
         var devices = siminfo.json.devices.filter(function(devinfo) {
             return (devinfo.runtime.lastIndexOf('iOS', 0) === 0);
-        }).sort(function(devinfo1, devinfo2) {
-            return devinfo2.runtime.localeCompare(devinfo1.runtime);
         });
 
         devices.every(function(devinfo, index) {
