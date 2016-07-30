@@ -5,22 +5,20 @@ const simctl = require('simctl'),
 var simulator = {
 
     start : function() {
-		var device_id = this.findBootedDevice();
+		var device = this.findBootedDevice();
 
-		if (device_id === null) {
-			device_id = this.findAvailableDevice();
+		if (device === null) {
+			device = this.findAvailableDevice();
 			
-			if (device_id === null) {
+			if (device === null) {
 				this.createAvailableDevice('iPhone');
 				this.createAvailableDevice('iPad');
 
-				device_id = this.findAvailableDevice();
+				device = this.findAvailableDevice();
 			}	
-
-			simctl.boot(device_id);
+		
+			simctl.extensions.start(device.id);
 		}
-
-		simctl.extensions.start(device_id);
     },
 
 	install : function(path) {
@@ -51,55 +49,57 @@ var simulator = {
         });
 
 		if (devtypes.length > 0 && runtimes.length > 0) {
-			r = simctl.create('Simulator for jamkit', devtypes[0].id, runtimes[0].id);
-			console.log(r);
+			simctl.create('Simulator for jamkit - ' + type, devtypes[0].id, runtimes[0].id);
 		}
 	},
 
 	findBootedDevice : function() {
         var siminfo = simctl.list({ silent:true });
-        var device_id = null;
+        var device = null;
 
         var devices = siminfo.json.devices.filter(function(devinfo) {
             return (devinfo.runtime.lastIndexOf('iOS', 0) === 0);
         });
 
         devices.every(function(devinfo, index) {
-            devinfo.devices.every(function(device, index) {
-                if (device.state === 'Booted') {
-                    device_id = device.id;
-                    return true;
+            devinfo.devices.every(function(candidate, index) {
+                if (candidate.state === 'Booted') {
+                    device = candidate;
+                    return false;
                 }
-                return false;
+                return true;
             });
-            return (device_id != null) ? false : true;
+            return (device != null) ? false : true;
         });
 
-		return device_id;
+		return device;
 	},
 
 	findAvailableDevice : function() {
         var siminfo = simctl.list({ silent:true });
-        var device_id = null;
+        var device = null;
 
         var devices = siminfo.json.devices.filter(function(devinfo) {
             return (devinfo.runtime.lastIndexOf('iOS', 0) === 0);
         }).sort(function(devinfo1, devinfo2) {
+			if (devinfo1.runtime == devinfo2.runtime) {
+				return devinfo1.name.localeCompare(devinfo2.name);
+			}
             return devinfo2.runtime.localeCompare(devinfo1.runtime);
         });
 
         devices.every(function(devinfo, index) {
-            devinfo.devices.every(function(device, index) {
-                if (device.available) {
-                    device_id = device.id;
-                    return true;
+            devinfo.devices.every(function(candidate, index) {
+                if (candidate.available) {
+                    device = candidate;
+                    return false;
                 }
-                return false;
+                return true;
             });
-            return (device_id != null) ? false : true;
+            return (device != null) ? false : true;
         });
 
-		return device_id;
+		return device;
 	},
 
 	getAppContainer : function(app_id) {
