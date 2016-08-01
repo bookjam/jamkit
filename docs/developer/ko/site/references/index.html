@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>참조문서 - Jamkit for Developer</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="Jamkit for Developer">
+    <meta property="og:image" content="None/../">
+    <meta name="apple-mobile-web-app-title" content="Jamkit for Developer">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../assets/fonts/icon.eot?52m981');
+      	src: url('../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+    <script src="../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+          </span>
+        
+        참조문서
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Jamkit for Developer
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="잼킷이란?" href="..">
+      잼킷이란?
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="시작하기" href="../start/">
+      시작하기
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="튜토리얼" href="../tutorials/">
+      튜토리얼
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="레시피" href="../recipes/">
+      레시피
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="current" title="참조문서" href="./">
+      참조문서
+    </a>
+    
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="마크업 문법" href="#_1">
+                마크업 문법
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="기본 스타일" href="#_2">
+                기본 스타일
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="기본 오브젝트" href="#_3">
+                기본 오브젝트
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="컨테이너 오브젝트" href="#_103">
+                컨테이너 오브젝트
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="쇼케이스 오브젝트" href="#_113">
+                쇼케이스 오브젝트
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="컨트롤러" href="#_114">
+                컨트롤러
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+            <h1>참조문서</h1>
+          
+          <h2 id="_1">마크업 문법</h2>
+<h2 id="_2">기본 스타일</h2>
+<h2 id="_3">기본 오브젝트</h2>
+<h3 id="image">이미지 (Image)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_4">사용예</h4>
+<pre><code>=object image: filename="image.jpg"
+</code></pre>
+<h4 id="_5">속성</h4>
+<h4 id="_6">액션</h4>
+<h4 id="_7">이벤트</h4>
+<h3 id="photo">포토 (Photo)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_8">사용예</h4>
+<pre><code>=object photo: filename="photo.jpg"
+</code></pre>
+<h4 id="_9">속성</h4>
+<h4 id="_10">액션</h4>
+<h4 id="_11">이벤트</h4>
+<h3 id="photo-plus">포토플러스 (Photo Plus)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_12">사용예</h4>
+<pre><code>=object photoplus: filename="photo.jpg"
+</code></pre>
+<h4 id="_13">속성</h4>
+<h4 id="_14">액션</h4>
+<h4 id="_15">이벤트</h4>
+<h3 id="photo-zoom">포토줌 (Photo Zoom)</h3>
+<ul>
+<li>지원 플랫폼: iOS</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_16">사용예</h4>
+<pre><code>=object photoplus: filename="photo.jpg"
+</code></pre>
+<h4 id="_17">속성</h4>
+<h4 id="_18">액션</h4>
+<h4 id="_19">이벤트</h4>
+<h3 id="photo-scroll">포토스크롤 (Photo Scroll)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_20">사용예</h4>
+<pre><code>=object photoscroll: filename="photo.jpg"
+</code></pre>
+<h4 id="_21">속성</h4>
+<h4 id="_22">액션</h4>
+<h3 id="multi-photo">멀티포토 (Multi Photo)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_23">사용예</h4>
+<pre><code>=object multiphoto: photo-1="photo.jpg;메인캡션;서브캡션", photo-2="photo.jpg;메인캡션;서브캡션", photo-3="photo.jpg;메인캡션;서브캡션"
+</code></pre>
+<h4 id="_24">속성</h4>
+<h4 id="_25">액션</h4>
+<h4 id="_26">이벤트</h4>
+<h3 id="photo-roll">포토롤 (Photo Roll)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_27">사용예</h4>
+<pre><code>=object photoroll: photo-1="photo.jpg;메인캡션;서브캡션", photo-2="photo.jpg;메인캡션;서브캡션", photo-3="photo.jpg;메인캡션;서브캡션"
+</code></pre>
+<h4 id="_28">속성</h4>
+<h4 id="_29">액션</h4>
+<h4 id="_30">이벤트</h4>
+<h3 id="comic">코믹 (Comic)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_31">사용예</h4>
+<pre><code>=object comic: image="comic.jpg"
+</code></pre>
+<h4 id="_32">속성</h4>
+<h4 id="_33">액션</h4>
+<h4 id="_34">이벤트</h4>
+<h3 id="map">지도 (Map)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_35">사용예</h4>
+<pre><code>=object map: latitude="37.566535", longitude="126.977969", zoom-level="17"
+</code></pre>
+<h4 id="_36">속성</h4>
+<h4 id="_37">액션</h4>
+<h4 id="_38">이벤트</h4>
+<h3 id="mini-map">미니지도 (Mini Map)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_39">사용예</h4>
+<pre><code>=object minimap: latitude="37.566535", longitude="126.977969", zoom-level="17"
+</code></pre>
+<h4 id="_40">속성</h4>
+<h4 id="_41">액션</h4>
+<h4 id="_42">이벤트</h4>
+<h3 id="label">라벨 (Label)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_43">사용예</h4>
+<pre><code>=object label: text="라벨"
+=object label: image="label.jpg"
+</code></pre>
+<h4 id="_44">속성</h4>
+<h4 id="_45">액션</h4>
+<h4 id="_46">이벤트</h4>
+<h3 id="button">버튼 (Button)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_47">사용예</h4>
+<pre><code>=object button: label="클릭"
+=object button: image="click.jpg", highlight-image="clicked.jpg"
+</code></pre>
+<h4 id="_48">속성</h4>
+<h4 id="_49">액션</h4>
+<h4 id="_50">이벤트</h4>
+<h3 id="textfield">텍스트필드 (Textfield)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_51">사용예</h4>
+<pre><code>=object textfield: placeholder="여기에 입력하세요."
+</code></pre>
+<h4 id="_52">속성</h4>
+<h4 id="_53">액션</h4>
+<h4 id="_54">이벤트</h4>
+<h3 id="text">텍스트 입력창 (Text)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_55">사용예</h4>
+<pre><code>=object text: text="여기에 입력하세요."
+</code></pre>
+<h4 id="_56">속성</h4>
+<h4 id="_57">액션</h4>
+<h4 id="_58">이벤트</h4>
+<h3 id="checkbox">체크박스 (CheckBox)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_59">사용예</h4>
+<pre><code>=object checkbox: image="normal.jpg", selected-image="selected.jpg"
+</code></pre>
+<h4 id="_60">속성</h4>
+<h4 id="_61">액션</h4>
+<h4 id="_62">이벤트</h4>
+<h3 id="choices">초이스 (Choices)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_63">사용예</h4>
+<pre><code>=object choices: choice-1="(1);보기 1", choice-2="(2);보기 2", choice-3="(3);보기 3", choice-image="selected.jpg"
+</code></pre>
+<h4 id="_64">속성</h4>
+<h4 id="_65">액션</h4>
+<h4 id="_66">이벤트</h4>
+<h3 id="input">입력 (Input)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_67">사용예</h4>
+<pre><code>=object input: id="key", value="value"
+</code></pre>
+<h4 id="_68">속성</h4>
+<h4 id="_69">액션</h4>
+<h4 id="_70">이벤트</h4>
+<h3 id="video">비디오 (Video)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_71">사용예</h4>
+<pre><code>=object video: filename="sample.mp4"
+=object video: url="http://www.video.org/sample.mp4"
+</code></pre>
+<h4 id="_72">속성</h4>
+<h4 id="_73">액션</h4>
+<h4 id="_74">이벤트</h4>
+<h3 id="web-video">웹비디오 (Web Video)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_75">사용예</h4>
+<pre><code>=object webvideo: url="https://embed-ssl.ted.com/talks/shivani_siroya_a_smart_loan_for_people_with_no_credit_history_yet.html"
+</code></pre>
+<h4 id="_76">속성</h4>
+<h4 id="_77">액션</h4>
+<h4 id="_78">이벤트</h4>
+<h3 id="youtube">유튜브 (YouTube)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_79">사용예</h4>
+<pre><code>=object youtube: video-id="9bZkp7q19f0"
+</code></pre>
+<h4 id="_80">속성</h4>
+<h4 id="_81">액션</h4>
+<h4 id="_82">이벤트</h4>
+<h3 id="vimeo">비메오 (Vimeo)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_83">사용예</h4>
+<pre><code>=object vimeo: video-id="176434092"
+</code></pre>
+<h4 id="_84">속성</h4>
+<h4 id="_85">액션</h4>
+<h4 id="_86">이벤트</h4>
+<h3 id="web">웹 (Web)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_87">사용예</h4>
+<pre><code>=object web: url="http://m.naver.com"
+</code></pre>
+<h4 id="_88">속성</h4>
+<h4 id="_89">액션</h4>
+<h4 id="_90">이벤트</h4>
+<h3 id="pdf-pdf-page">PDF 페이지 (PDF Page)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_91">사용예</h4>
+<pre><code>=object pdf: url="http://www.pdf.org/sample.pdf", page=1
+</code></pre>
+<h4 id="_92">속성</h4>
+<h4 id="_93">액션</h4>
+<h4 id="_94">이벤트</h4>
+<h3 id="chart">차트 (Chart)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_95">사용예</h4>
+<pre><code>=object chart: filename="chart.json"
+</code></pre>
+<h4 id="_96">속성</h4>
+<h4 id="_97">액션</h4>
+<h4 id="_98">이벤트</h4>
+<h3 id="blank">블랭크 (Blank)</h3>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_99">사용예</h4>
+<pre><code>=object blank: color="#ff0"
+</code></pre>
+<h4 id="_100">속성</h4>
+<h4 id="_101">액션</h4>
+<h4 id="_102">이벤트</h4>
+<h2 id="_103">컨테이너 오브젝트</h2>
+<h3 id="panes">Panes 오브젝트</h3>
+<p>Panes 오브젝트는 pane이라 부르는 페이지를 여러 개 포함할 수 있는 콘테이너 오브젝트이다. 각 pane의 크기는 오브젝트의 크기와 동일하며, pane의 내용은 sbml로 표현한다. pane 간의 이동은 가로 스크롤이나 네비게이션 바를 이용한다. 네비게이션 바는 오브젝트 상단이나 하단, 혹은 좌우에 배치할 수 있으며, 네비게이션 바에는 각 pane마다 대응되는 셀(cell)이 있어서 해당 셀을 선택하면 이와 대응되는 pane이 화면에 나타난다. 또한 셀을 통해 현재 선택되어 있는 pane을 확인할 수 있다. 네비게이션의 셀의 내용은 sbml로 표현한다. Panes 오브젝트는 헤더(header)를 포함할 수 있으며 헤더의 내용은 sbml로 표현한다.</p>
+<ul>
+<li>지원 플랫폼: iOS, 안드로이드</li>
+<li>잼킷 버전: 1.0</li>
+</ul>
+<h4 id="_104">사용예</h4>
+<pre><code>=object panes: name="main", has-navibar="yes", navibar-cell-size="0.2pw, 2em"
+</code></pre>
+<h4 id="_105">선택된 셀의 표현 방법</h4>
+<p>네비게이션 바에서 현재 선택된 셀을 위한 sbml을 로딩할 때 선택된 상태를 나타내는 환경변수를 sbss에서 사용할 수 있다. 환경변수 이름은 $STATE이고 선택된 셀에는 $STATE의 값으로 "selected"가 지정된다. 따라서 아래와 같은 방법으로 sbss를 작성하면 선택된 셀에 특정 색상 값이나 이미지 등을 지정할 수 있다.</p>
+<pre><code>if $STATE == "selected"
+    /cell: text-color=#f00
+else
+    /cell: text-color=#000
+end
+</code></pre>
+<h4 id="_106">디바이스별 고려사항</h4>
+<p>메모리가 작은 디바이스 등에서 적은 리소스로 동작을 시키려면 싱글 모드를 사용해야 한다.</p>
+<h4 id="_107">속성</h4>
+<h4 id="_108">액션</h4>
+<h4 id="_109">이벤트</h4>
+<h3 id="banner">Banner 오브젝트</h3>
+<p>Banner 오브젝트란 한 개 이상의 배너 페이지를 자동으로 롤링하여 보여주는 콘테이너 오브젝트이다. Banner 오브젝트는 주로 화면 상단에 배치되어 광고용으로 사용된다. Banner 오브젝트에 포함된 배너 페이지를 셀(cell)이라고 하며, 각 셀의 내용은 sbml을 이용하여 표현한다. 여러 개의 셀이 자동으로 전환될 때의 시간 간격이나 효과 등을 지정할 수 있다. </p>
+<h4 id="_110">사용예</h4>
+<pre><code>=object banner: name="main", rotate-interval=1.0
+</code></pre>
+<h4 id="_111">외부 데이터를 사용하는 방법</h4>
+<p>Banner 오브젝트는 외부 데이터를 사용하여 셀의 내용을 채워넣는 기능을 지원한다. 외부 데이터는 웹(HTTP/S)을 통해 액세스 가능해야 하며, 요청에 대한 응답으로 json으로 표현된 데이터를 전송해야 한다. 웹 요청은 GET 메소드를 사용하며, 해당 배너의 모든 데이터를 한번에 포함하여 응답해야 한다. Banner 오브젝트에서 외부 데이터를 사용하려면 data-downloadable을 "yes"로 지정하고, data-url 속성에 외부 데이터의 URL을 지정하면 된다. </p>
+<pre><code>=object banner: name="ads", data-downloadable="yes", data-url="http://www.munhak.com/ads"
+</code></pre>
+<h3 id="showcase">Showcase 오브젝트</h3>
+<p>Showcase 오브젝트란 말그대로 진열장이다. Showcase 오브젝트를 이용하여 여러 개의 상품이나 컨텐츠들을 늘어놓고 진열할 수 있다. Showcase 오브젝트는 격자형 모양으로 상품들을 진열하는 데, 격자의 한 칸을 가리켜 셀(cell)이라고 하며, 각 셀은 sbml을 이용하여 표현한다. Showcase 오브젝트는 고정 크기이거나 가로/세로 스크롤이 가능하도록 지정할 수 있다. Showcase 오브젝트 내에 포함된 셀들은 정렬이 가능하며, 정렬의 기준은 sortkey와 sortorder 속성을 이용하여 변경할 수 있다. Showcase 오브젝트는 헤더(header)와 푸터(footer)를 포함할 수 있는데, 이들의 내용은 각각 sbml로 표현한다. </p>
+<h4 id="_112">외부 데이터를 사용하는 방법</h4>
+<p>Showcase 오브젝트는 외부 데이터를 사용하여 셀의 내용을 채워넣는 기능을 지원한다. 외부 데이터는 웹(HTTP/S)을 통해 액세스 가능해야 하며, 요청에 대한 응답으로 json으로 표현된 데이터를 전송해야 한다. 웹 요청은 POST 방식을 사용하며, 요청하는 데이터의 범위(시작위치, 갯수)를 파라미터로 전달할 수 있다. 요청받은 범위가 실제 데이터의 범위를 벗어나면, 빈 json 데이터와 함께 성공 응답(200)을 해야 한다. 데이터 범위를 파라미터로 전달하지 않으면, 모든 데이터를 한번에 포함하여 응답한다. Showcase 오브젝트에서 외부 데이터를 사용하려면 data-downloadable을 "yes"로 지정하고, data-url 속성에 외부 데이터의 URL을 지정하면 된다. Showcase 오브젝트에 Load more 기능이 활성화되어 있다면(loads-more="yes"), 데이터의 범위를 지정하여 외부 </p>
+<pre><code>=object showcase: name="magazine", data-downloadable="yes", data-url="http://www.munhak.com/magazine", loads-more="yes"
+</code></pre>
+<h3 id="cards">Cards 오브젝트</h3>
+<h2 id="_113">쇼케이스 오브젝트</h2>
+<h2 id="_114">컨트롤러</h2>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../recipes/" title="레시피">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                레시피
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '..';
+      var repo_id  = '';
+    </script>
+    <script src="../assets/javascripts/application-997097ee0c.js"></script>
+    
+    
+  </body>
+</html>
