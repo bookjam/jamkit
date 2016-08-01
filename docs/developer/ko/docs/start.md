@@ -44,7 +44,7 @@ HelloWorld라는 디렉토리가 생성되었다면 해당 디렉토리로 이�
 	cd YouTubeSample
 	jamkit run
 
-위의 명령을 수행하면 방금 만든 유튜브 앱이 실행됩니다. 하지만 제대로 된 화면이 나오지 않을 것입니다. 당연하게도 아직 유튜브 채널 아이디를 앱 내에 지정한 적이 없기 때문입니다. 앱 디렉토리 안에서 catalog_home.sbml 파일을 찾아 파일 내의 ${YOUTUBE_CHANNEL_ID}를 실제 유튜브 채널 아이디로 변경해주시기 바랍니다. 예제에서는 디즈니 영국 공식 채널 아이디인 UCQphRgAhj5UxktrQNP3WF5g를 사용하였습니다. 그 뒤 파일을 저장하면 iOS 시뮬레이터의 앱이 변화를 감지하여 새로운 화면으로 업데이트할 것입니다. catalog_home.sbml 파일의 위치는 아래 내용을 참고하시기 바랍니다.
+위의 명령을 수행하면 방금 만든 유튜브 앱이 실행됩니다. 하지만 제대로 된 화면이 나오지 않을 것입니다. 당연하게도 아직 유튜브 채널 아이디를 앱 내에 지정한 적이 없기 때문입니다. 앱 디렉토리 안에서 catalog_home.sbml 파일을 찾아 파일 내의 ${YOUTUBE_CHANNEL_ID}를 실제 유튜브 채널 아이디로 변경해주시기 바랍니다. 예제에서는 디즈니 영국 공식 채널 아이디인 UCQphRgAhj5UxktrQNP3WF5g를 사용하였습니다. 그 뒤 파일을 저장하면 iOS 시뮬레이터의 앱이 변화를 감지하여 새로운 화면으로 업데이트할 것입니다. catalog_home.sbml 파일의 위치는 아래와 같습니다.
 
 	catalogs/MainApp/catalog_home.sbml
 
