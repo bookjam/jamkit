@@ -1,6 +1,8 @@
 site_name: Jamkit for Developer
 pages:
-- 시작하기: index.md
+- 잼킷이란?: index.md
+- 시작하기: start.md
 - 튜토리얼: tutorials.md
+- 레시피: recipes.md
 - 참조문서: references.md
-theme: flatly
+theme_dir: material
