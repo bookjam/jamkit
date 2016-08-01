@@ -1,19 +1,17 @@
-var video;
+var player;
 
 function configureVideo(element) {
-    video = element;
-    
-    video.addEventListener('play', function() {
-    }, false);
+    player = element;
 }
 
 function playVideo() {
-    video.play();
+    player.play();
 }
 
 function pauseVideo() {
-    video.pause();
+    player.pause();
 }
 
 function stopVideo() {
+    player.stop();
 }

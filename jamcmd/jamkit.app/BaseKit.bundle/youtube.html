@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<title>YouTube</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+body {
+    background-color: transparent;
+    color: white;
+};
+</style>
+</head>
+<body style="margin:0;padding:0;">
+    <div id="video" style="width:100%;height:100vh;"></div>
+    <script src="youtube.js"></script>
+    <script type="text/javascript">
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        
+        function onYouTubeIframeAPIReady() {
+            window.location = "video://initialize";
+        }
+   
+        var initialize = function(video_id, options) {
+            configureVideo("video", video_id, options)
+        }
+    </script>
+</body>
+</html>
