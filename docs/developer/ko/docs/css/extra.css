@@ -7,6 +7,10 @@ img[alt=Jamkit_Screenshot_6] { width:130px; }
 img[alt=HelloWorld_Screenshot] { width:250px; border-style:solid; border-width:1px; border-color:#ddd;}
 img[alt=YouTubeChannel_Screenshot] { width:250px; border-style:solid; border-width:1px; border-color:#ddd; }
 
+.video-wrap {
+	max-width: 640px;
+}
+
 .video-container {
     position: relative;
     padding-bottom: 56.25%;

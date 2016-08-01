@@ -27,10 +27,11 @@
 
 BXP는 북잼이 자체 개발한 고품질 전자책 포맷입니다. BXP는 기존 전자책 포맷에 비해 뛰어난 레이아웃의 구현이 가능합니다. 또한 동영상/오디오 등의 멀티미디어는 기본적으로 지원하며, 시험이나 문제풀이, 녹음 등의 스마트 교육에 필요한 기능도 다양하게 지원하고 있습니다. 아래 영상에서 BXP 포맷의 놀라운 기능을 확인해보세요.
 
+<div class="video-wrap">
 <div class="video-container">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/IWicDAojd70?list=PL_7HjgpQk886_-fAhfhatO6Upfsr2z3n8" frameborder="0" allowfullscreen></iframe>
 </div>
-
+</div>
 
 ### 지금 바로 시작하세요!
 
