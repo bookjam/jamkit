@@ -7,3 +7,4 @@ pages:
 - 레시피: recipes.md
 - 참조문서: references.md
 theme_dir: material
+google_analytics: ['UA-30027224-9', 'bookjam.github.io']
