@@ -1,5 +1,6 @@
 site_name: Jamkit for Developer
 repo_url: https://bookjam.github.io/jamkit
+site_url: https://bookjam.github.io/jamkit
 pages:
 - 잼킷이란?: index.md
 - 시작하기: start.md

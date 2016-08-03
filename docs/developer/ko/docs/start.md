@@ -60,6 +60,12 @@ HelloWorld라는 디렉토리가 생성되었다면 해당 디렉토리로 이�
 
 이렇게 생성된 jam 파일을 카카오톡이나 메일로 친구들에게 전달하면 클릭 한번으로 바로 앱을 사용할 수 있습니다. 물론 jam 파일을 전달받은 친구의 스마트폰에 잼킷 브라우저 기능이 탑재된 앱이 설치되어 있어야 합니다. (잼킷 브라우저 기능을 탑재한 Slidly 앱이 2016년 8월 중 런칭 예정입니다.)
 
+<div class="video-wrap">
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7g6ABCiqtl4" frameborder="0" allowfullscreen></iframe>
+</div>
+</div>
+
 ### 앱 배포하기
 
 잼킷으로 만든 앱은 애플 앱스토어와 구글 플레이 등의 안드로이드 마켓으로도 배포할 수 있습니다. 앱을 배포하는 데 드는 비용은 무료입니다. 무료 앱에는 광고가 게재될 수 있으며, 광고를 제거한 월 과금 방식의 유료 버전으로 배포할 수도 있습니다. (2016년 7월 20일 현재, 앱 배포 기능은 개발 진행 중에 있습니다. 그 전에 배포가 필요하다면 help@bookjam.net로 연락주시기 바랍니다.)
