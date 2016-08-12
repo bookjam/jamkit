@@ -242,6 +242,7 @@
 "LABEL_MYBOOKS" = "책장";
 "LABEL_MYBOOKS_EDIT" = "편집";
 "LABEL_MYBOOKS_DONE" = "완료";
+"LABEL_PURCHASES_BOOKCASE" = "구매 목록";
 "LABEL_DEFAULT_BOOKCASE" = "기본 책장";
 "LABEL_ADD_BOOKCASE" = "+ 책장 만들기";
 "LABEL_ALL_SERIES" = "전체 작품";

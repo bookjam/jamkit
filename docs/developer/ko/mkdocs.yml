@@ -5,6 +5,7 @@ pages:
 - 잼킷이란?: index.md
 - 시작하기: start.md
 - 튜토리얼: tutorials.md
+- 템플릿: templates.md
 - 레시피: recipes.md
 - 참조문서: references.md
 theme_dir: material

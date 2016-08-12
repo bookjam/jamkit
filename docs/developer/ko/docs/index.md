@@ -2,7 +2,7 @@
 
 잼킷은 모바일 네이티브 앱을 쉽고 빠르게 만들 수 있는 툴입니다. 어려운 개발 언어를 사용할 필요가 없이 단순한 마크업 언어만으로 네이티브 앱을 만들 수 있기 때문에 초보 개발자나 비개발자들도 어렵지 않게 사용할 수 있는 툴입니다. 그렇지만 기능이 부족할 것이라 염려할 필요는 없습니다. 잼킷이 기본적으로 제공하는 다양한 모듈을 조합하면 상용으로도 손색이 없는 고품질 앱을 뚝딱 만들어낼 수 있습니다. 북잼이 제작한 다양한 유료 앱은 모두 잼킷으로 제작되었습니다.
 
-![Jamkit_Screenshot_1](images/jamkit-1.jpg) ![Jamkit_Screenshot_2](images/jamkit-2.jpg) ![Jamkit_Screenshot_3](images/jamkit-3.jpg) ![Jamkit_Screenshot_4](images/jamkit-4.jpg) ![Jamkit_Screenshot_5](images/jamkit-5.jpg) ![Jamkit_Screenshot_6](images/jamkit-6.jpg)
+![Jamkit_Sample](images/jamkit-1.jpg) ![Jamkit_Sample](images/jamkit-2.jpg) ![Jamkit_Sample](images/jamkit-3.jpg) ![Jamkit_Sample](images/jamkit-4.jpg) ![Jamkit_Sample](images/jamkit-5.jpg) ![Jamkit_Sample](images/jamkit-6.jpg)
 
 ### 하이브리드 앱이 아닙니다.
 

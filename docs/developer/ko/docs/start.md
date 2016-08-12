@@ -32,7 +32,7 @@ HelloWorld라는 디렉토리가 생성되었다면 해당 디렉토리로 이�
 
 아래와 같은 화면이 나온다면 첫번째 앱을 성공적으로 실행한 것입니다. 
 
-![HelloWorld_Screenshot](images/HelloWorld.jpg)
+![Template_Screenshot](images/HelloWorld.jpg)
 
 ### 유튜브 채널 앱 만들기
 
@@ -50,7 +50,7 @@ HelloWorld라는 디렉토리가 생성되었다면 해당 디렉토리로 이�
 
 아래와 같은 화면이 나왔다면 유튜브 채널 앱을 성공적으로 만든 것입니다.
 
-![YouTubeChannel_Screenshot](images/YouTubeChannel.jpg)
+![Template_Screenshot](images/YouTubeChannel.jpg)
 
 ### 카카오톡으로 앱 전달하기
 

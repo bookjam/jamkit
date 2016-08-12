@@ -236,6 +236,7 @@
 "LABEL_MYBOOKS" = "Bookshelf";
 "LABEL_MYBOOKS_EDIT" = "Edit";
 "LABEL_MYBOOKS_DONE" = "Done";
+"LABEL_PURCHASES_BOOKCASE" = "";
 "LABEL_DEFAULT_BOOKCASE" = "Main Bookshelf";
 "LABEL_ADD_BOOKCASE" = "+ Create bookshelf";
 "LABEL_ALL_SERIES" = "All Contents";
