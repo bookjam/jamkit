@@ -1,7 +1,8 @@
 const fs         = require('fs-extra'),
 	  path       = require('path'),
 	  plist      = require('simple-plist'),
-	  easyzip    = require('easy-zip'),
+	  zipFolder  = require('zip-folder'),
+	  tmp        = require('tmp'),
 	  template   = require('./template'),
 	  simulator  = require('./simulator'),
 	  shell      = require('./shell'),
@@ -76,11 +77,19 @@ var commands = {
             return;
         }
 
-		var zip = new easyzip.EasyZip();
-		var name = path.basename(path.resolve('.'));
+		var jamfile = path.basename(path.resolve('.')) + '.jam';
 
-		zip.zipFolder('.', function() {
-			zip.writeToFile(name + '.jam');
+		if (fs.existsSync(jamfile)) {
+			fs.unlink(jamfile);
+		}
+
+		tempfile = tmp.tmpNameSync();
+		zipFolder('.', tempfile, function(err) {
+			if (err) {
+				throw err;
+			}
+
+			fs.rename(tempfile, jamfile);
 		});
 	}
 };
