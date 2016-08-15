@@ -4,9 +4,27 @@ site_url: https://bookjam.github.io/jamkit
 pages:
 - 잼킷이란?: index.md
 - 시작하기: start.md
-- 튜토리얼: tutorials.md
-- 템플릿: templates.md
-- 레시피: recipes.md
-- 참조문서: references.md
+- 튜토리얼:
+    - 잼킷 명령어 도구 사용하기: tutorial_jamkit.md
+    - 템플릿으로 앱 제작하기: tutorial_templates.md
+    - 레이아웃 다루기: tutorial_layouts.md
+    - 화면 네비게이션: tutorial_navigation.md
+    - 액션과 이벤트: tutorial_actions.md
+    - 템플릿 변수와 환경변수: tutorial_variables.md
+    - 데이터 다루기: tutorial_data.md
+    - 입력 폼 처리하기: tutorial_form.md
+    - sbml/sbss 문법: tutorial_sbml.md
+- 템플릿:
+    - 유튜브 템플릿: tmpl_youtube.md
+    - 페이스북 템플릿: tmpl_facebook.md
+    - 팟캐스트 템플릿: tmpl_podcast.md
+    - RSS 템플릿: tmpl_rss.md
+- 참조문서:
+    - 기본 스타일: refs_styles.md
+    - 기본 오브젝트: refs_objects.md
+    - 컨테이너 오브젝트: refs_containers.md
+    - 기능성 쇼케이스 오브젝트: refs_showcases.md
+    - 컨트롤러: refs_controllers.md
+    - 테마 색상: refs_themes.md
 theme_dir: material
 google_analytics: ['UA-30027224-9','bookjam.github.io']
