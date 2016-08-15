@@ -12,7 +12,7 @@ paragraph-spacing | Float | 0 | dp, em | section | | 예 |
 spacing | Float | 0 | dp, em | section | | 예 | 한개 또는 두개의 값을 가짐
 spacing-no-scale | Boolean | no | | section | | 예 | 
 empty-line-height | Float | 1em | dp, em | section | | 예 | 
-line-break-mode | auto / word-wrap / cahracter-wrap | auto | | section | | 예 | 
+line-break-mode | auto / word-wrap / character-wrap | auto | | section | | 예 | 
 
 ## 박스 레이아웃 속성
 

@@ -13,7 +13,7 @@
 year | Integer | 오늘 날짜의 연도 | | 캘린더의 기준 연도.
 month | Integer | 오늘 날짜의 월 | | 캘린더의 기준 월.
 day | Integer | 오늘 날짜의 일 | | 캘린더의 기준 일.
-mode | Calendar.Mode | monthly | | 캘린더의 날짜 단위. monthly, weekly, daily 중 하나를 지정할 수 있다.
+mode | monthly / weekly / daily | monthly | | 캘린더의 날짜 단위.
 monday-is-first | Boolean | no | | 캘린더의 요일이 일요일이 아닌 월요일부터 시작하려면 yes를 지정한다.
 
 ### 셀의 템플릿 변수

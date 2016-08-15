@@ -582,7 +582,7 @@ editable | Boolean | yes | | 입력이 불가능한 상태로 만들려면 no를
 secure | Boolean | no | | 입력 보안을 설정하려면 yes를 지정한다. 비밀번호 입력 등에서 사용할 수 있다.
 keyboard-type | default / email / url / number / decimal / phone / name-phone / twitter / alphabet | default | | 텍스트 입력 시에 사용할 키보드 종류.
 return-key-type | default / next / done / join / go / search / send | default | | 키보드의 리턴키를 상황에 맞는 단어로 변경하기 위해서 지정한다.
-auto-capitalization-type | word / all / none | word | 텍스트 입력 시에 적용될 자동 대문자 타입.
+auto-capitalization-type | word / all / none | word | | 텍스트 입력 시에 적용될 자동 대문자 타입.
 
 ### 액션
 N/A
@@ -705,9 +705,9 @@ action-when-deselected | 버튼을 눌러 선택된 상태가 해제 되었을 �
 속성 | 타입(허용값) | 기본값 | 단위 | 설명
 --- | --- | --- | --- | ---
 choice-n | "심볼;보기" | | | 심볼과 보기 텍스트를 하나로 묶어 선택항을 지정함. 선택항이 여러 개일 때에는 choice-1="...", choice-2="..." 등으로 지정.
-blank-text | String | None | | 빈칸을 표현할 텍스트. _____ 등을 사용할 수 있다.
+blank-text | String | None | | 문제의 빈칸을 표현할 텍스트.
 number | String | None | | 문항 번호.
-answer | String | None | | 정답인 보기 번호.
+answer | String | None | | 정답 번호.
 check-image | 파일명 | None | | 보기를 선택할 때 심볼 위에 나타날 이미지의 파일명. 파일은 Images 디렉토리에 들어있어야 한다.
 answer-image | 파일명 | None | | 정답 확인 시 심볼 위에 나타날 이미지의 파일명. 파일은 Images 디렉토리에 들어있어야 한다.
 font | "[weight] [style] size family" | | | 심볼 및 보기 텍스트의 글꼴. weight, style 은 생략 가능. 예) "bold 1.2em sans-serif", "0.7 monospace"
