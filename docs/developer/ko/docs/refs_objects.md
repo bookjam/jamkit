@@ -814,7 +814,7 @@ action-when-finished | 비디오 재생이 완료되었을 때 발생함.
 
 ### 사용예
 
-	=object webvideo: url="https: /  / embed-ssl.ted.com / talks / shivani_siroya_a_smart_loan_for_people_with_no_credit_history_yet.html"
+	=object webvideo: url="https://embed-ssl.ted.com/talks/shivani_siroya_a_smart_loan_for_people_with_no_credit_history_yet.html"
 
 ### 속성
 
