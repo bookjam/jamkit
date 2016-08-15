@@ -7,7 +7,7 @@
 
 속성 | 타입(허용값) | 기본값 | 단위 | 설명
 --- | --- | --- | --- | ---
-id | String | None | | 오브젝트의 ID. 화면에 나타나는 오브젝트 중 유일한 값이어야 한다.
+id | String | None | | 오브젝트의 ID. 화면에 존재하는 오브젝트 중 유일한 값이어야 한다.
 group | String | None | | 오브젝트의 그룹 ID. 동일한 그룹 ID의 오브젝트들은 하나의 그룹으로 묶이게 된다.
 alpha | Float | 1 | | 오브젝트의 알파값. 0일 경우 오브젝트가 투명해진다.
 hidden | Boolean | no | | 오브젝트를 숨기려면 yes를 지정한다.
@@ -52,8 +52,8 @@ image-url | URL | None | | 이미지의 URL. URL로 부터 이미지를 다운�
 mask-image | 파일명 | None | | 이미지 위에 겹쳐지는 마스크 이미지의 파일명. 파일은 Images 디렉토리에 들어있어야 한다. 마스크 이미지는 정가운데 한점을 중심으로 9-patch로 표현된다.
 default-image | 파일명 | None | | 이미지가 아직 로드되어 있지 않을 때 나타낼 기본 이미지의 파일명. 파일은 Images 디렉토리에 들어있어야 한다.
 image-downloadable | Boolean | no | | 이미지를 외부에서 다운로드할 수 있을 때 yes로 지정한다. 마스크 이미지와 기본 이미지는 다운로드 할 수 없다.
-scale-mode | fill / fit | fit | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대 / 축소 모드.
-content-gravity | left-top / left-bottom / right-top / right-bottom / top / right / bottom / left / center | center | | 이미지가 확대 / 축소되어 표현되었을 때, 화면에 나타날 이미지 내의 위치를 지정한다.
+scale-mode | fill / fit | fit | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대/축소 모드.
+content-gravity | left-top / left-bottom / right-top / right-bottom / top / right / bottom / left / center | center | | 이미지가 확대/축소되어 표현되었을 때, 화면에 나타날 이미지 내의 위치를 지정한다.
 
 ### 액션
 N/A
@@ -81,9 +81,9 @@ hidden-image | 파일명 | None | | 뒤로 숨은 이미지의 파일명. 파일
 mask-image | 파일명 | None | | 이미지 위에 겹쳐지는 마스크 이미지의 파일명. 파일은 Images 디렉토리에 들어있어야 한다. 마스크 이미지는 정가운데 한점을 중심으로 9-patch로 표현된다.
 default-image | 파일명 | None | | 이미지가 아직 로드되어 있지 않을 때 나타낼 기본 이미지의 파일명. 파일은 Images 디렉토리에 들어있어야 한다.
 image-downloadable | Boolean | no | | 이미지를 외부에서 다운로드할 수 있을 때 yes로 지정한다. 마스크 이미지와 기본 이미지는 다운로드 할 수 없다.
-scale-mode | fill / fit | fit | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대 / 축소 모드.
+scale-mode | fill / fit | fit | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대/축소 모드.
 actual-mode | Boolean | no | | actual-mode를 yes로 지정하면 이미지가 오브젝트의 크기보다 작을 경우 scale-mode에 따라 이미지를 확대할 필요가 있을 때 이미지의 원본 크기보다 커질 수 없다.
-content-gravity | left-top / left-bottom / right-top / right-bottom / top / right / bottom / left / center | center | | 이미지가 확대 / 축소되어 표현되었을 때, 화면에 보여질 이미지의 위치를 지정한다.
+content-gravity | left-top / left-bottom / right-top / right-bottom / top / right / bottom / left / center | center | | 이미지가 확대/축소되어 표현되었을 때, 화면에 보여질 이미지의 위치를 지정한다.
 half-mode | Boolean | no | | 이미지를 반으로 나눠 절반 만을 표현하려면 yes로 설정한다. 표현될 이미지의 부분은 half-side로 지정할 수 있다.
 half-side | top / right / bottom / left / center | center | | half-mode가 yes인 경우, 이미지가 표현될 부분의 위치를 지정한다
 floating | Boolean | no | | floating을 yes로 지정하면 이미지가 둥둥 떠다니는 애니메이션을 반복한다.
@@ -133,9 +133,9 @@ filename | 파일명 | None | | 이미지 파일명. 파일은 Images 디렉토�
 image-url | URL | None | | 이미지의 URL. URL로 부터 이미지를 다운로드한다. 이 때, image-downloadable을 yes로 설정해야 한다.
 default-image | 파일명 | None | | 이미지가 아직 로드되어 있지 않을 때 나타낼 기본 이미지의 파일명. 파일은 Images 디렉토리에 들어있어야 한다.
 image-downloadable | Boolean | no | | 이미지를 외부에서 다운로드할 수 있을 때 yes로 지정한다. 기본 이미지는 다운로드 할 수 없다.
-scale-mode | fill / fit | fill | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대 / 축소 모드.
-maximize-scale-mode | fill / fit | fit | | 이미지가 전체화면으로 커졌을 경우에 사용될 확대 / 축소 모드.
-content-gravity | left-top / left-bottom / right-top / right-bottom / top / right / bottom / left / center | center | | 이미지가 확대 / 축소되어 표현되었을 때, 화면에 보여질 이미지의 위치를 지정한다.
+scale-mode | fill / fit | fill | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대/축소 모드.
+maximize-scale-mode | fill / fit | fit | | 이미지가 전체화면으로 커졌을 경우에 사용될 확대/축소 모드.
+content-gravity | left-top / left-bottom / right-top / right-bottom / top / right / bottom / left / center | center | | 이미지가 확대/축소되어 표현되었을 때, 화면에 보여질 이미지의 위치를 지정한다.
 half-mode | Boolean | no | | 이미지를 반으로 나눠 절반 만을 표현하려면 yes로 설정한다. 표현될 이미지의 부분은 half-side로 지정할 수 있다.
 half-side | top / right / bottom / left / center | center | | half-mode가 yes인 경우, 이미지가 표현될 부분의 위치를 지정한다.
 shadow-color | Color | #000000 | | 이미지 그림자 효과에 사용될 색상.
@@ -186,9 +186,9 @@ filename | 파일명 | None | | 이미지 파일명. 파일은 Images 디렉토�
 image-url | URL | None | | 이미지의 URL. URL로 부터 이미지를 다운로드한다. 이 때, image-downloadable을 yes로 설정해야 한다.
 default-image | 파일명 | None | | 이미지가 아직 로드되어 있지 않을 때 나타낼 기본 이미지의 파일명. 파일은 Images 디렉토리에 들어있어야 한다.
 image-downloadable | Boolean | no | | 이미지를 외부에서 다운로드할 수 있을 때 yes로 지정한다. 기본 이미지는 다운로드 할 수 없다.
-scale-mode | fill / fit | fill | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대 / 축소 모드.
-maximize-scale-mode | fill / fit | fit | | 이미지가 전체화면으로 커졌을 경우에 사용될 확대 / 축소 모드.
-content-gravity | left-top / left-bottom / right-top / right-bottom / top / right / bottom / left / center | center | | 이미지가 확대 / 축소되어 표현되었을 때, 화면에 보여질 이미지의 위치를 지정한다.
+scale-mode | fill / fit | fill | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대/축소 모드.
+maximize-scale-mode | fill / fit | fit | | 이미지가 전체화면으로 커졌을 경우에 사용될 확대/축소 모드.
+content-gravity | left-top / left-bottom / right-top / right-bottom / top / right / bottom / left / center | center | | 이미지가 확대/축소되어 표현되었을 때, 화면에 보여질 이미지의 위치를 지정한다.
 shadow-color | Color | #000000 | | 이미지 그림자 효과에 사용될 색상.
 dim-color | Color | #ffffff | | 이미지가 전체화면으로 커졌을 경우 이미지 주변 배경에 사용될 색상.
 caption | String | None | | 이미지의 캡션.
@@ -236,7 +236,7 @@ filename | 파일명 | None | | 이미지 파일명. 파일은 Images 디렉토�
 image-url | URL | None | | 이미지의 URL. URL로 부터 이미지를 다운로드한다. 이 때, image-downloadable을 yes로 설정해야 한다.
 default-image | 파일명 | None | | 이미지가 아직 로드되어 있지 않을 때 나타낼 기본 이미지의 파일명. 파일은 Images 디렉토리에 들어있어야 한다.
 image-downloadable | Boolean | no | | 이미지를 외부에서 다운로드할 수 있을 때 yes로 지정한다. 기본 이미지는 다운로드 할 수 없다.
-scale-mode | fill / fit | fill | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대 / 축소 모드. fill 또는 fit을 지정할 수 있다.
+scale-mode | fill / fit | fill | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대/축소 모드. fill 또는 fit을 지정할 수 있다.
 max-scale | Float | 3 | | 이미지가 확대될 수 있는 최대 비율.
 caption | String | None | | 이미지의 캡션.
 subcaption | String | None | | 이미지의 서브 캡션.
@@ -280,7 +280,7 @@ N/A
 속성 | 타입(허용값) | 기본값 | 단위 | 설명
 --- | --- | --- | --- | ---
 photo-n | "파일명;캡션;서브캡션" | | | 이미지 파일명과 캡션을 하나로 묶어 이미지를 지정함. 이미지가 여러 장일 때에는 photo-1="...", photo-2="..." 등으로 지정.
-scale-mode | fill / fit | fill | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대 / 축소 모드.
+scale-mode | fill / fit | fill | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대/축소 모드.
 dim-color | Color | #ffffff | | 이미지가 전체화면으로 커졌을 경우 이미지 주변 배경에 사용될 색상.
 caption | String | None | | 이미지의 캡션.
 subcaption | String | None | | 이미지의 서브 캡션.
@@ -326,7 +326,7 @@ N/A
 photo-n | "파일명;캡션;서브캡션" | | | 이미지 파일명과 캡션을 하나로 묶어 이미지를 지정함. 이미지가 여러 장일 때에는 photo-1="...", photo-2="..." 등으로 지정.
 photo-width | Float | 0 | dp, em, layout의 상대값 | 이미지 썸네일 한장의 너비. 0으로 지정한 경우, 자동으로 계산한다.
 photo-spacing | Float | 0 | dp, em, layout의 상대값 | 이미지 썸네일 사이의 간격.
-maximize-scale-mode | fill / fit | fill | | 이미지가 전체화면으로 커졌을 경우에 사용될 확대 / 축소 모드.
+maximize-scale-mode | fill / fit | fill | | 이미지가 전체화면으로 커졌을 경우에 사용될 확대/축소 모드.
 dim-color | Color | #ffffff | | 이미지가 전체화면으로 커졌을 경우 이미지 주변 배경에 사용될 색상.
 caption | String | None | | 이미지의 캡션.
 subcaption | String | None | | 이미지의 서브 캡션.
@@ -373,8 +373,8 @@ image | 파일명 | None | | 이미지 파일명. 파일은 Images 디렉토리�
 image-url | URL | None | | 이미지의 URL. URL로 부터 이미지를 다운로드한다. 이 때, image-downloadable을 yes로 설정해야 한다.
 default-image | 파일명 | None | | 이미지가 아직 로드되어 있지 않을 때 나타낼 기본 이미지의 파일명. 파일은 Images 디렉토리에 들어있어야 한다.
 image-downloadable | Boolean | no | | 이미지를 외부에서 다운로드할 수 있을 때 yes로 지정한다. 기본 이미지는 다운로드 할 수 없다.
-scale-mode | fill / fit | fill | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대 / 축소 모드.
-zoomable | Boolean | yes | | 핀치 액션으로 이미지의 확대 / 축소가 가능하게 하려면 yes를 지정한다.
+scale-mode | fill / fit | fill | | 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대/축소 모드.
+zoomable | Boolean | yes | | 핀치 액션으로 이미지의 확대/축소가 가능하게 하려면 yes를 지정한다.
 gutter-align | left / right / none | none | | 거터 이미지의 위치를 지정한다.
 gutter-hidden | Boolean | yes | | 거터 이미지를 보이게 하려면 no를 지정한다.
 
@@ -400,7 +400,7 @@ N/A
 --- | --- | --- | --- | ---
 latitude | Float | 37.566535 | | 지도의 위도.
 longitude | Float | 126.977969 | | 지도의 경도.
-zoom-level | Float | 17 | | 지도의 확대 / 축소 레벨.
+zoom-level | Float | 17 | | 지도의 확대/축소 레벨.
 title | String | None | | 장소 마크에 표시될 제목.
 subtitle | String | None | | 장소 마크에 표시될 부제목.
 caption | String | None | | 이미지의 캡션.
@@ -446,7 +446,7 @@ N/A
 --- | --- | --- | --- | ---
 latitude | Float | 37.566535 | | 지도의 위도.
 longitude | Float | 126.977969 | | 지도의 경도.
-zoom-level | Float | 17 | | 지도의 확대 / 축소 레벨.
+zoom-level | Float | 17 | | 지도의 확대/축소 레벨.
 title | String | None | | 장소 마크에 표시될 제목.
 subtitle | String | None | | 장소 마크에 표시될 부제목.
 
@@ -536,7 +536,7 @@ highlight-background-color | Color | 투명 | | 하이라이트 상태일 때의
 selected-background-color | Color | 투명 | | 선택된 상태일 때의 배경색.
 disable-background-color | Color | 투명 | | 비활성 상태일 때의 배경색.
 content-padding | Side | "0 0 0 0" | dp, em, layout의 상대값 | 라벨 텍스트 영역의 패딩값. 축약형 사용 가능. 예) "1em", "1em 20dp", "1em 1.5em 0 1.2em"
-scale-mode | fill / fit | fill | | 버튼 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대 / 축소 모드.
+scale-mode | fill / fit | fill | | 버튼 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대/축소 모드.
 enabled | Boolean | yes | | 버튼을 비활성 상태로 만들려면 yes를 지정한다.
 selected | Boolean | no | | 버튼을 선택된 상태로 만들려면 yes를 지정한다.
 hides-when-disabled | Boolean | no | | 버튼이 비활성화될 때 숨기려면 yes를 지정한다.
@@ -672,7 +672,7 @@ disable-background-color | Color | 투명 | | 비활성 상태일 때의 배경�
 content-padding | Side | "0 0 0 0" | dp, em, layout의 상대값 | 라벨 텍스트 영역의 패딩값. 축약형 사용 가능. 예) "1em", "1em 20dp", "1em 1.5em 0 1.2em"
 content-spacing | Float | 0 | dp, em, layout의 상대값 | 이미지와 라벨 텍스트 사이의 간격.
 select-mode | single / multiple / none | none | | 그룹 체크박스의 선택 모드.
-scale-mode | fill / fit | fill | | 체크박스 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대 / 축소 모드.
+scale-mode | fill / fit | fill | | 체크박스 이미지가 오브젝트의 크기에 맞지 않을 경우에 사용될 확대/축소 모드.
 enabled | Boolean | yes | | 체크박스를 비활성화 상태로 만들려면 yes를 지정한다.
 selected | Boolean | no | | 체크박스를 선택된 상태로 만들려면 yes를 지정한다.
 hides-when-disabled | Boolean | no | | 체크박스가 비활성화될 때 숨기려면 yes를 지정한다.
