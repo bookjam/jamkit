@@ -185,7 +185,7 @@ hidden-header-image | 파일명 | None | | 히든 헤더 이미지의 파일명.
 hidden-footer-image | 파일명 | None | | 히든 푸터 이미지의 파일명. 파일은 Images 디렉토리에 들어있어야 한다.
 has-own-navibar | Boolean | no | | 셀을 선택하여 나타난 디테일 화면 또는 페이지 화면의 네비바를 별도로 정의하려면 yes를 지정한다.
 hides-navibar | Boolean | no | | 셀을 선택하여 나타난 디테일 화면 또는 페이지 화면의 네비바를 숨기려면 yes를 지정한다.
-has-own-title | Boolean | no | | 셀을 선택하여 나타난 디테일 화면 또는 페이지 화면의 네비바의 제목을 셀의 displayUnit으로부터 얻어내려면 yes를 지정한다.
+has-own-title | Boolean | no | | 셀을 선택하여 나타난 디테일 화면 또는 페이지 화면의 네비바의 제목을 셀의 데이터로부터 얻어내려면 yes를 지정한다.
 expiry-labels-hidden | Boolean | no | | 대여기간을 표시용 라벨을 숨기려면 yes를 지정한다.
 
 ### 액션
