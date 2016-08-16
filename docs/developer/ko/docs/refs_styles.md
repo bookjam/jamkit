@@ -105,8 +105,7 @@ border-right-style | solid / stitch / dotted / dashed / dash-?-? | solid | | sec
 속성 | 타입(허용값) | 기본값 | 단위 | 적용대상 | @-suffixes | Cascades? | 설명
 --- | --- | --- | ---  | ---  | ---  | --- | ---
 bullet-text | %n / %i / %I | %n | | section | | 아니오 | display=list / list-item 인 경우에만 유효함.
-bullet-font | "[weight] [style] size family" | 부모섹션의 값 | | section | | 아니오 | display=list / list-item 인 경우에만 유효함. weight, style 은 생략 가능
-예) "bold 1.2em sans-serif", "0.7 monospace"
+bullet-font | "[weight] [style] size family" | 부모섹션의 값 | | section | | 아니오 | display=list / list-item 인 경우에만 유효함. weight, style 은 생략 가능. 예) "bold 1.2em sans-serif", "0.7 monospace"
 bullet-font-family | serif / sans-serif / monospace / 글꼴 이름 | 부모섹션의 값 | | section | | 아니오 | display=list / list-item 인 경우에만 유효함. 콤마(,)로 구분하여 여러 값 입력 가능. 예) "맑은 고딕, 굴림, sans-serif"
 bullet-font-size | Float | 부모섹션의 값 | em | section | | 아니오 | display=list / list-item 인 경우에만 유효함.
 bullet-font-weight | normal / bold | 부모섹션의 값 | | section | | 아니오 | display=list / list-item 인 경우에만 유효함.
