@@ -25,6 +25,10 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.PLAYING) {
+        window.location = "video://playing";
+    }
+
     if (event.data === YT.PlayerState.ENDED) {
         window.location = "video://ended";
     }
