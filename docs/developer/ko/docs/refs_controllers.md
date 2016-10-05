@@ -1,0 +1,8 @@
+## StoreView
+
+## CloudView
+
+## MyBooksView
+
+## PurchasesView
+

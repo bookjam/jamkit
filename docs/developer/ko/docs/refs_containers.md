@@ -14,10 +14,13 @@
 속성 | 타입(허용값) | 기본값 | 단위 | 설명
 --- | --- | --- | --- | ---
 name | String | None | | 데이터의 이름. 로컬 데이터베이스의 panes 테이블에서 panes의 이름이 name인 항목을 가리킨다.
+filename | 파일명 | None | | 데이터가 저장된 파일명. 파일의 포맷은 json 이어야 하며, 파일은 Texts 디렉토리에 들어있어야 한다.
 alternate-name | String | None | | sbml 파일을 선택할 때 사용할 가상의 이름.
 catalog | String | None | | 데이터가 포함되어 있는 카탈로그의 ID.
 subcatalog | String | None | | 특정 카테고리가 포함되어 있는 서브카탈로그의 값. category의 값과 함께 사용된다.
 category | String | None | | 데이터에서 특정 카테고리만을 선택할 때 지정함.
+number-of-panes | Integer | 0 | | pane의 갯수. name으로 데이터를 지정하지 않을 때 사용함.
+pane-display-unit | String | None | | name으로 데이터를 지정하지 않을 때 사용할 데이터의 displayUnit 항목.
 focused-pane | String 혹은 Integer | None | | 로드 시에 선택할 pane의 항목. displayUnit 값이나 pane의 index 값을 지정할 수 있다.
 has-header | Boolean | no | | 헤더를 포함하려면 yes를 지정함.
 header-display-unit | String | None | | 헤더에 사용할 데이터의 displayUnit 항목.
@@ -27,8 +30,6 @@ has-toolbar | Boolean | no | | 툴바를 포함하려면 yes를 지정함.
 toolbar-display-unit | String | None | | 툴바에 사용할 데이터의 displayUnit 항목.
 toolbar-height | Float | 0 | dp, em, layout의 상대값 | 툴바의 높이. 0이면 자동계산.
 toolbar-position | top / bottom | bottom | | 툴바의 위치.
-number-of-panes | Integer | 0 | | pane의 갯수. name으로 데이터를 지정하지 않을 때 사용함.
-pane-display-unit | String | None | | name으로 데이터를 지정하지 않을 때 사용할 데이터의 displayUnit 항목.
 has-navibar | Boolean | no | | 네비게이션 바를 포함하려면 yes를 지정함.
 navibar-cell-size | Size | "0, 0" | dp, em, layout의 상대값 | 네비게이션 바의 셀 크기.
 navibar-cell-spacing | Float | 0 | dp, em, layout의 상대값 | 네비게이션 바의 셀 간격.
@@ -44,6 +45,10 @@ shows-throbber | Boolean | no | | 네비게이션을 통한 pane 간의 이동 �
 bounces | Boolean | yes | | pane 영역의 바운스 효과를 없애려면 no를 지정한다.
 
 ### 액션
+
+액션 | 매개변수 | 설명 
+--- | --- | ---
+reload | | 오브젝트를 다시 로드한다.
 
 ### 이벤트
 
@@ -74,10 +79,18 @@ bounces | Boolean | yes | | pane 영역의 바운스 효과를 없애려면 no�
 속성 | 타입(허용값) | 기본값 | 단위 | 설명
 --- | --- | --- | --- | ---
 name | String | None | | 데이터의 이름. 로컬 데이터베이스의 banners 테이블에서 banner의 이름이 name인 항목을 가리킨다.
+filename | 파일명 | None | | 데이터가 저장된 파일명. 파일의 포맷은 json 이어야 하며, 파일은 Texts 디렉토리에 들어있어야 한다.
 alternate-name | String | None | | sbml 파일을 선택할 때 사용할 가상의 이름.
 catalog | String | None | | 데이터가 포함되어 있는 카탈로그의 ID.
 subcatalog | String | None | | 특정 카테고리가 포함되어 있는 서브카탈로그의 값. category의 값과 함께 사용된다.
 category | String | None | | 데이터에서 특정 카테고리만을 선택할 때 지정함.
+data-downloadable | Boolean | no | | 데이터를 외부에서 다운로드하려면 yes를 지정한다.
+data-url | URL | None | | 데이터를 다운로드 받을 URL. 이 때 다운로드되는 데이터의 형식은 json이어야 한다.
+data-path | String | None | | 다운로드한 데이터 중 셀이 사용할 데이터의 루트를 지정한다.
+data-key | String | None | | 다운로드한 데이터에서 id로 사용할 항목을 지정한다.
+transition-style | slide / dissolve / cross-dissolve / none | slide | | 배너의 트랜지션 효과.
+rotate-interval | Float | 7 | | 배너의 트랜지션 간격. 초단위로 지정한다.
+transition-duration | Float | 0.3 | | 트랜지션의 애니메이션 시간. 초단위로 지정한다.
 has-page-control | Boolean | no | | 페이지 컨트롤을 포함하려면 yes를 지정함.
 page-control-height | Float | 0 | dp, em, layout의 상대값 | 툴바의 높이. 0이면 자동계산.
 page-control-position | left-top / left-bottom / right-top / right-bottom / top / right / bottom / left / center | bottom | | 페이지 컨트롤의 위치.
@@ -90,7 +103,12 @@ inactive-page-dot | 파일명 | None | | 비활성화된 페이지 점 이미지
 
 ### 액션
 
+액션 | 매개변수 | 설명 
+--- | --- | ---
+reload | | 오브젝트를 다시 로드한다.
+
 ### 이벤트
+N/A
 
 ### 외부 데이터를 사용하는 방법
 
@@ -165,14 +183,15 @@ extends-data | Boolean | no | | 셀 데이터의 내용을 확장하려면 yes�
 data-downloadable | Boolean | no | | 데이터를 외부에서 다운로드하려면 yes를 지정한다.
 data-url | URL | None | | 데이터를 다운로드 받을 URL. 이 때 다운로드되는 데이터의 형식은 json이어야 한다.
 data-path | String | None | | 다운로드한 데이터 중 쇼케이스가 사용할 데이터의 루트를 지정한다.
-data-key | String | None | | 다운로드한 데이터에서 displayUnit의 id로 사용할 항목을 지정한다.
+data-key | String | None | | 다운로드한 데이터에서 id로 사용할 항목을 지정한다.
 loads-more | Boolean | no | | 데이터를 한 묶음씩 순차대로 다운로드하려면 yes를 지정한다.
 more-count | Integer | 쇼케이스 오브젝트의 3배 크기에 들어갈 셀의 갯수 | | 데이터를 한 묶음씩 불러올 때의 셀의 갯수.
 download-path | 디렉토리명 | Downloads | | 쇼케이스 오브젝트를 통해 외부의 파일을 다운로드할 때 파일을 저장할 디렉토리명.
 eager-loading | Boolean | no | | 쇼케이스 오브젝트가 로드될 때 셀을 모두 한꺼번에 로드하려면 yes를 지정한다.
 lazy-loading | Boolean | yes | | 셀이 화면에 보이는 즉시 셀을 활성화하려면 no를 지정한다.
+keeps-offscreen-cells | Boolean | no | | 화면 밖으로 사라진 셀을 보관하여 다시 화면에 나타날 때 재사용하려면 yes를 지정한다.
 page-enabled | Boolean | no | | 쇼케이스를 페이지 단위로 스크롤 하도록 하려면 yes를 지정한다.
-appearance | String | None | | 쇼케이스의 모양을 지정하는 임의의 값. 해당 값은 $APPEARANCE라는 환경변수를 통해 헤더, 푸타, 툴바 및 모든 셀에 전달된다.
+appearance | String | None | | 쇼케이스의 모양을 지정하는 임의의 값. 해당 값은 $APPEARANCE라는 환경변수를 통해 헤더, 푸터, 툴바 및 모든 셀에 전달된다.
 focused-cell | String | None | | 포커스된 셀을 가리키는 displayUnit 항목.
 focus-when-loading | Boolean | no | | 쇼케이스가 로드될 때, 포커스 셀로 이동하려면 yes를 지정한다.
 scroll-indicator-hidden | Boolean | no | | 스크롤 시 나타나는 스크롤바를 보이지 않게 하려면 yes를 지정한다.
@@ -190,7 +209,32 @@ expiry-labels-hidden | Boolean | no | | 대여기간을 표시용 라벨을 숨�
 
 ### 액션
 
+액션 | 매개변수 | 설명 
+--- | --- | ---
+reload | | 오브젝트를 다시 로드한다.
+category | category={CATEGORY} | 카테고리를 변경한다.
+search | keyword={KEYWORD} | 쇼케이스를 검색 모드로 변경하고, keyword가 지정되어 있다면 검색을 시작한다.
+sort | sortkey={SORTKEY}, sortorder={SORTORDER} | 쇼케이스를 sortkey와 sortorder를 이용하여 정렬한다.
+appearance | appearance={APPEARANCE} | 쇼케이스의 모양을 appearance의 값으로 변경한다.
+next-page | | 쇼케이스의 다음 페이지로 이동한다. 쇼케이스가 page-enabled=yes인 경우에 동작한다.
+prev-page | | 쇼케이스의 이전 페이지로 이동한다. 쇼케이스가 page-enabled=yes인 경우에 동작한다.
+edit | | 쇼케이스를 편집 모드로 전환한다.
+edit-done | | 쇼케이스의 편집 모드를 종료한다.
+select | number={NUMBER} | number로 지정된 셀을 선택한다.
+deselect | number={NUMBER} | number로 지정된 셀의 선택을 해제한다.
+select-all | | 모든 셀을 선택한다.
+deselect-all | | 모든 셀의 선택을 해제한다.
+remove | display-unit=${DISPLAY_UNIT} | display-unit으로 지정된 셀을 삭제한다. 만약 display-unit이 지정되어 있지 않다면 현재 선택된 모든 셀을 삭제한다.
+shows-expiry | | 셀에 포함되어 있는 대여기간 라벨을 보여준다.
+hides-expiry | | 셀에 포함되어 있는 대여기간 라벨을 숨긴다.
+open | item=next/prev | 쇼케이스에 지정되어 있는 시리즈의 아이템 중 가장 최근에 읽은 아이템을 오픈한다. series-mode=yes일 때 동작한다. 만약 item을 next로 지정했다면 최근 아이템의 다음 아이템을 오픈하고, prev로 지정했다면 최근 아이템의 이전 아이템을 오픈한다.
+purchase | points={POINTS}, product-key={KEY} | 쇼케이스의 모든 셀과 연관된 상품을 구매한다. 만약 쇼케이스가 편집 모드라면 현재 선택되어 있는 셀과 연관된 상품을 구매한다. 셀과 연관된 상품이란 셀의 데이터 중 product 항목을 가리킨다. 만약 product-key가 지정되어 있다면 셀의 데이터 중 product-key로 지정된 항목을 가리킨다. 이 때, points가 지정되어 있다면 구매시 지정된 points를 이용한다. 
+
 ### 이벤트
+
+이벤트 액션명 | 설명 
+--- | ---
+action-when-selected | 셀을 눌러 선택된 상태가 되었을 때 발생함.
 
 ### 외부 데이터를 사용하는 방법
 
@@ -210,10 +254,12 @@ expiry-labels-hidden | Boolean | no | | 대여기간을 표시용 라벨을 숨�
 속성 | 타입(허용값) | 기본값 | 단위 | 설명
 --- | --- | --- | --- | ---
 name | String | None | | 데이터의 이름. 로컬 데이터베이스의 collections 테이블에서 collection의 이름이 name인 항목을 가리킨다.
+filename | 파일명 | None | | 데이터가 저장된 파일명. 파일의 포맷은 json 이어야 하며, 파일은 Texts 디렉토리에 들어있어야 한다.
 alternate-name | String | None | | sbml 파일을 선택할 때 사용할 가상의 이름.
 catalog | String | None | | 데이터가 포함되어 있는 카탈로그의 ID.
 subcatalog | String | None | | 특정 카테고리가 포함되어 있는 서브카탈로그의 값. category의 값과 함께 사용된다.
 category | String | None | | 데이터에서 특정 카테고리만을 선택할 때 지정함.
+cell-spacing | Float | 0 | dp, em, layout의 상대값 | 카드 셀 간의 간격.
 has-page-control | Boolean | no | | 페이지 컨트롤을 포함하려면 yes를 지정함.
 page-control-height | Float | 0 | dp, em, layout의 상대값 | 툴바의 높이. 0이면 자동계산.
 page-control-position | left-top / left-bottom / right-top / right-bottom / top / right / bottom / left / center | bottom | | 페이지 컨트롤의 위치.
@@ -226,7 +272,12 @@ inactive-page-dot | 파일명 | None | | 비활성화된 페이지 점 이미지
 
 ### 액션
 
+액션 | 매개변수 | 설명 
+--- | --- | ---
+reload | | 오브젝트를 다시 로드한다.
+
 ### 이벤트
+N/A
 
 
 ## 셀(Cell) 오브젝트
@@ -240,12 +291,22 @@ inactive-page-dot | 파일명 | None | | 비활성화된 페이지 점 이미지
 속성 | 타입(허용값) | 기본값 | 단위 | 설명
 --- | --- | --- | --- | ---
 display-unit | String | None | | 데이터의 displayUnit 항목.
+filename | 파일명 | None | | 데이터가 저장된 파일명. 파일의 포맷은 json 이어야 하며, 파일은 Texts 디렉토리에 들어있어야 한다.
 alternate-name | String | None | | sbml 파일을 선택할 때 사용할 가상의 이름.
 catalog | String | None | | 데이터가 포함되어 있는 카탈로그의 ID.
-subcatalog | String | None | | 특정 카테고리가 포함되어 있는 서브카탈로그의 값. category의 값과 함께 사용된다.
-category | String | None | | 데이터에서 특정 카테고리만을 선택할 때 지정함.
+data-downloadable | Boolean | no | | 데이터를 외부에서 다운로드하려면 yes를 지정한다.
+data-url | URL | None | | 데이터를 다운로드 받을 URL. 이 때 다운로드되는 데이터의 형식은 json이어야 한다.
+data-path | String | None | | 다운로드한 데이터 중 셀이 사용할 데이터의 루트를 지정한다.
+data-key | String | None | | 다운로드한 데이터에서 id로 사용할 항목을 지정한다.
+lazy-loading | Boolean | yes | | 셀이 화면에 보이는 즉시 셀을 활성화하려면 no를 지정한다.
 
 ### 액션
 
+액션 | 매개변수 | 설명 
+--- | --- | ---
+reload | | 오브젝트를 다시 로드한다.
+
+
 ### 이벤트
+N/A
 
