@@ -14,6 +14,7 @@
 "MSG_DATA_003" = "Failed to download";
 "MSG_DATA_004" = "Download queued";
 "MSG_DATA_005" = "Download canceled";
+"MSG_DATA_006" = "";
 "MSG_NETWORK_001" = "Network connection required";
 "MSG_NETWORK_002" = "";
 "MSG_NETWORK_003" = "Cellular network may charge additional fees. Do you want to continue?";
@@ -27,6 +28,7 @@
 "MSG_ADULT_001" = "";
 "MSG_ADULT_002" = "";
 "MSG_ADULT_003" = "";
+"MSG_AD_001" = "";
 "MSG_QUIZ_001" = "";
 "MSG_EXAM_001" = "";
 "MSG_EXAM_002" = "";
@@ -59,7 +61,7 @@
 "MSG_STORE_015" = "";
 "MSG_STORE_016" = "";
 "MSG_STORE_017" = "Unable to make a purchase.";
-"MSG_STORE_018" = "Cannot find the requested information.";
+"MSG_STORE_030" = "";
 "MSG_STORE_019" = "";
 "MSG_STORE_020" = "You already purchased this book. Purchase restore will proceed.";
 "MSG_STORE_021" = "Purchase %@ for %@?";
@@ -69,6 +71,7 @@
 "MSG_STORE_027" = "";
 "MSG_STORE_028" = "";
 "MSG_STORE_029" = "processing...";
+"MSG_STORE_030" = "Cannot find the requested information.";
 "MSG_STORE_999" = "Sorry. The request cannot be completed due to a temporary system error. Try again or contact us.";
 "MSG_MYBOOKS_001" = "Update required. Please download again.";
 "MSG_MYBOOKS_002" = "Cancel 「%@」 download?";
@@ -158,13 +161,13 @@
 "MSG_CLOUD_020" = "Bookjam Cloud makes whatever you buy available on all of your devices.";
 "MSG_CLOUD_021" = "";
 "MSG_CLOUD_022" = "";
-"MSG_CLOUD_023" = "With Bookjam Cloud, your furthest page syncs across all of your devices.";
-"MSG_CLOUD_024" = "With Bookjam Cloud, your notes, highlights, and bookmarks sync across all of your devices.";
-"MSG_CLOUD_025" = "";
-"MSG_CLOUD_026" = "With Bookjam Cloud, you can always download the books purchased on other devices.";
+"MSG_CLOUD_023" = "";
+"MSG_CLOUD_024" = "With Bookjam Cloud, your furthest page syncs across all of your devices.";
+"MSG_CLOUD_025" = "With Bookjam Cloud, your notes, highlights, and bookmarks sync across all of your devices.";
+"MSG_CLOUD_026" = "";
 "MSG_CLOUD_027" = "";
-"MSG_CLOUD_028" = "Please agree to the Terms of Service and Privacy Policy.";
-"MSG_CLOUD_029" = "Please agree to the Terms of Service and Privacy Policy.";
+"MSG_CLOUD_028" = "";
+"MSG_CLOUD_029" = "";
 "MSG_CLOUD_030" = "Do you want to sign out?";
 "MSG_CLOUD_031" = "";
 "MSG_CLOUD_032" = "";
@@ -341,6 +344,7 @@
 "INFO_EXCHANGING" = "Processing...";
 "INFO_RESTORING_PURCHASES" = "Restoring...";
 "INFO_SUBMITTING_EVENT" = "Joining...";
+"INFO_REQUESTING_REWARD" = "";
 "INFO_REGISTERING_COUPON" = "Registering...";
 "INFO_EXCHANGING_COUPON" = "Exchanging...";
 "INFO_REGISTERING_ITEMS" = "Registering...";

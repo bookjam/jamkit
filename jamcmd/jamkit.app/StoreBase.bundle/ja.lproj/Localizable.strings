@@ -14,6 +14,7 @@
 "MSG_DATA_003" = "ダウンロードが予約されています。";
 "MSG_DATA_004" = "ダウンロードが予約されています。";
 "MSG_DATA_005" = "ダウンロードがキャンセルされました。";
+"MSG_DATA_006" = "";
 "MSG_NETWORK_001" = "ネットワーク接続が必要です。";
 "MSG_NETWORK_002" = "";
 "MSG_NETWORK_003" = "";
@@ -27,6 +28,7 @@
 "MSG_ADULT_001" = "";
 "MSG_ADULT_002" = "";
 "MSG_ADULT_003" = "";
+"MSG_AD_001" = "";
 "MSG_QUIZ_001" = "";
 "MSG_EXAM_001" = "";
 "MSG_EXAM_002" = "";
@@ -59,7 +61,7 @@
 "MSG_STORE_015" = "";
 "MSG_STORE_016" = "";
 "MSG_STORE_017" = "";
-"MSG_STORE_018" = "";
+"MSG_STORE_030" = "";
 "MSG_STORE_019" = "";
 "MSG_STORE_020" = "すでに購入した項目です。リストアを行います。";
 "MSG_STORE_021" = "%@を%@で購入しますか。";
@@ -69,6 +71,7 @@
 "MSG_STORE_027" = "";
 "MSG_STORE_028" = "";
 "MSG_STORE_029" = "";
+"MSG_STORE_030" = "";
 "MSG_STORE_999" = "";
 "MSG_MYBOOKS_001" = "データがアップデートされました。\n再ダウンロードしてください。";
 "MSG_MYBOOKS_002" = "「%@」のダウンロードをキャンセルしますか。";
@@ -340,6 +343,7 @@
 "INFO_EXCHANGING" = "";
 "INFO_RESTORING_PURCHASES" = "リストア中...";
 "INFO_SUBMITTING_EVENT" = "イベント参加中...";
+"INFO_REQUESTING_REWARD" = "";
 "INFO_REGISTERING_COUPON" = "クーポン登録中...";
 "INFO_EXCHANGING_COUPON" = "";
 "INFO_REGISTERING_ITEMS" = "本を登録中...";

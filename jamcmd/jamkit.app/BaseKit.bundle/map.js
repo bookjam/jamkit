@@ -16,7 +16,7 @@ function setPlaceMark(latitude, longitude, title, subtitle) {
     var location = new google.maps.LatLng(latitude, longitude);
     
     marker = new google.maps.Marker({ position:location, map:map, title:subtitle });
-    infoWindow = new google.maps.InfoWindow({ content:title, maxWidth:300 });
+    infoWindow = new google.maps.InfoWindow({ content:title });
     
     google.maps.event.addListener(marker, 'click', function() {
         infoWindow.open(map, marker);
