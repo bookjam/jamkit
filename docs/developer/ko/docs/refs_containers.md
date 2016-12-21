@@ -280,6 +280,36 @@ reload | | 오브젝트를 다시 로드한다.
 N/A
 
 
+## 리스트(List) 오브젝트
+
+### 사용예
+
+	=object list: name="booklist"
+
+### 속성
+
+속성 | 타입(허용값) | 기본값 | 단위 | 설명
+--- | --- | --- | --- | ---
+name | String | None | | 데이터의 이름. 로컬 데이터베이스의 collections 테이블에서 collection의 이름이 name인 항목을 가리킨다.
+filename | 파일명 | None | | 데이터가 저장된 파일명. 파일의 포맷은 json 이어야 하며, 파일은 Texts 디렉토리에 들어있어야 한다.
+alternate-name | String | None | | sbml 파일을 선택할 때 사용할 가상의 이름.
+catalog | String | None | | 데이터가 포함되어 있는 카탈로그의 ID.
+subcatalog | String | None | | 특정 카테고리가 포함되어 있는 서브카탈로그의 값. category의 값과 함께 사용된다.
+category | String | None | | 데이터에서 특정 카테고리만을 선택할 때 지정함.
+cell-spacing | Float | 0 | dp, em, layout의 상대값 | 리스트 셀 간의 간격.
+
+
+### 액션
+
+액션 | 매개변수 | 설명 
+--- | --- | ---
+reload | | 오브젝트를 다시 로드한다.
+
+
+### 이벤트
+N/A
+
+
 ## 셀(Cell) 오브젝트
 
 ### 사용예
