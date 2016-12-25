@@ -78,6 +78,7 @@ function onPlayerNotAvailable(event) {
     innerHTML = iframe.contentWindow.document.body.innerHTML;
     reason_keywords = [
         [ "Watch on YouTube",          "embeded" ],
+        [ "YouTube에서 보기",            "embeded" ],
         [ "available in your country", "country" ]
     ];
     
