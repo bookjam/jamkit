@@ -847,7 +847,7 @@
 		</data>
 		<key>Settings.plist</key>
 		<data>
-		99mR7EXVuk9WLbvLKuiIRUQYsaw=
+		GJ6NzySR6GAElS9aHWtGpQQKmUM=
 		</data>
 		<key>SettingsViewController_iPad.nib</key>
 		<data>
@@ -877,7 +877,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Mb9XG24DTbrhZ578furaPsPTRUc=
+			CeEP76RRq2Nnp1Q/Ll4XXL6mkdQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -895,7 +895,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mb8V5Gt6FvLa2Q4dzW+usGH69d4=
+			ilCl6CK7Hc1ZQUrrE1QihngCOOI=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -913,7 +913,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			p3uiYJRjYB/bQ8rI51UThB2HXgc=
+			UKP/DWsLFi6cCzdMKoAP4G8VccY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -2154,6 +2154,30 @@
 		<key>WebViewController_iPhone.nib</key>
 		<data>
 		gSjgV1fqF1JNA/frzxpgCFkEQSg=
+		</data>
+		<key>__vungle.db</key>
+		<data>
+		7NcidY6F44dNT+Cxy9aIkSuioX0=
+		</data>
+		<key>vg_close.png</key>
+		<data>
+		G/pED8XXZvXPbYoCjEjlNwsgO2M=
+		</data>
+		<key>vg_cta.png</key>
+		<data>
+		9lHAEWKlZwasdzKJdo2AO6PSwj8=
+		</data>
+		<key>vg_mute_off.png</key>
+		<data>
+		XKmdudBHHaJxLB9JFfMNFeVdygI=
+		</data>
+		<key>vg_mute_on.png</key>
+		<data>
+		dNk2JR8YDc8OZBpycE9w6ewUsUw=
+		</data>
+		<key>vg_privacy.png</key>
+		<data>
+		+n+rFNY20qZgwRbizMn5fQ2Aewg=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -4347,11 +4371,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			99mR7EXVuk9WLbvLKuiIRUQYsaw=
+			GJ6NzySR6GAElS9aHWtGpQQKmUM=
 			</data>
 			<key>hash2</key>
 			<data>
-			3kfwqR5LwpLcEJHlKZdpPo72USI1mc2Gw8406/rKzQo=
+			vABlAuongCD3zaZcL3CI9luTcBWd0FwgAUPtHHJ3fVg=
 			</data>
 		</dict>
 		<key>SettingsViewController_iPad.nib</key>
@@ -4424,11 +4448,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Mb9XG24DTbrhZ578furaPsPTRUc=
+			CeEP76RRq2Nnp1Q/Ll4XXL6mkdQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			av7pL5cbvT9xH0HsCr0JGNtd5WtVesI1n5ievYw7QZg=
+			8L2mH+oxsPdw4uOEEWgUq0hgLyM3TZkhdLIVJzT3/8g=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -4450,11 +4474,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mb8V5Gt6FvLa2Q4dzW+usGH69d4=
+			ilCl6CK7Hc1ZQUrrE1QihngCOOI=
 			</data>
 			<key>hash2</key>
 			<data>
-			X99E9t6ecpbtHYx8TmBON5CzlcyBEm/nxYMo6YhAiKs=
+			P8zq4qVMJdKh7xJ6JeHqxGklRjAyRcQidMTCK3ti40s=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -4476,11 +4500,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			p3uiYJRjYB/bQ8rI51UThB2HXgc=
+			UKP/DWsLFi6cCzdMKoAP4G8VccY=
 			</data>
 			<key>hash2</key>
 			<data>
-			tvJMcoD1MJbQaqdyZwvyOhSMNs3QuVu7BmLGomInBPI=
+			reqhiOJzBChanyhMzaXqr4gTqH2MiLxRkMOR/659IQ8=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -7873,6 +7897,72 @@
 			<key>hash2</key>
 			<data>
 			huurwTRUD2eDb/ds3EFqxXFLMSYla5NB7pxlhfcv1Uw=
+			</data>
+		</dict>
+		<key>__vungle.db</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7NcidY6F44dNT+Cxy9aIkSuioX0=
+			</data>
+			<key>hash2</key>
+			<data>
+			rRz5fM/9JN6aHeutoJRHyBNaKPfREh095lgYfbTdFzA=
+			</data>
+		</dict>
+		<key>vg_close.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			G/pED8XXZvXPbYoCjEjlNwsgO2M=
+			</data>
+			<key>hash2</key>
+			<data>
+			+8+fGbKH4Fm3FPYQZZSvCzXzNOf9/vqvZZevGppUk8M=
+			</data>
+		</dict>
+		<key>vg_cta.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			9lHAEWKlZwasdzKJdo2AO6PSwj8=
+			</data>
+			<key>hash2</key>
+			<data>
+			N9GroohM2MtunpX4El411I1W/qoFV1YSMYVctGG7E/Q=
+			</data>
+		</dict>
+		<key>vg_mute_off.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			XKmdudBHHaJxLB9JFfMNFeVdygI=
+			</data>
+			<key>hash2</key>
+			<data>
+			+9BKdAT/T2jTDAlcCeV5F6eOraR/2zMqwMfhCr0WbsY=
+			</data>
+		</dict>
+		<key>vg_mute_on.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			dNk2JR8YDc8OZBpycE9w6ewUsUw=
+			</data>
+			<key>hash2</key>
+			<data>
+			1Cl6dSgcI8s4yhBR8KnSzj4adAIndjoO13jO47S2OXo=
+			</data>
+		</dict>
+		<key>vg_privacy.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			+n+rFNY20qZgwRbizMn5fQ2Aewg=
+			</data>
+			<key>hash2</key>
+			<data>
+			thy44T3L22Sd8mVTkz/07xd6AXKDBECnslJHJhGMtEc=
 			</data>
 		</dict>
 	</dict>

@@ -19,6 +19,7 @@ pages:
     - 페이스북 템플릿: tmpl_facebook.md
     - 팟캐스트 템플릿: tmpl_podcast.md
     - RSS 템플릿: tmpl_rss.md
+- 샘플: samples.md
 - 참조문서:
     - 기본 스타일: refs_styles.md
     - 기본 오브젝트: refs_objects.md

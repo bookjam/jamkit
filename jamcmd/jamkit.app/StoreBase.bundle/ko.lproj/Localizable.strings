@@ -29,7 +29,8 @@
 "MSG_ADULT_001" = "성인인증을 중단하시겠습니까?";
 "MSG_ADULT_002" = "성인인증이 완료되었습니다.";
 "MSG_ADULT_003" = "성인인증에 실패했습니다.";
-"MSG_AD_001" = "광고 게시에 실패했습니다. 잠시 후 다시 시도해주세요.";
+"MSG_AD_001" = "광고가 준비되지 않았습니다. 잠시 후 다시 시도해주세요.";
+"MSG_AD_002" = "광고 게시에 실패했습니다. 잠시 후 다시 시도해주세요.";
 "MSG_QUIZ_001" = "문제를 풀어주세요.";
 "MSG_EXAM_001" = "시험을 시작하시겠습니까?";
 "MSG_EXAM_002" = "시험이 시작되었습니다.";
@@ -196,6 +197,9 @@
 "ALERT_ITEM_EXPIRED" = "이용기간 만료 안내";
 "ALERT_DELETE_BOOKCASE" = "책장 삭제 확인";
 "ALERT_RATE" = "응원해주세요";
+"ALERT_SELECT" = "선택해주세요";
+"ALERT_CAMERA" = "사진 찍기";
+"ALERT_PHOTOLIBRARY" = "사진 보관함";
 "LABEL_OK" = "확인";
 "LABEL_CANCEL" = "취소";
 "LABEL_YES" = "예";
