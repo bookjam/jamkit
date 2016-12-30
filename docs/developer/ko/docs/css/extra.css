@@ -1,5 +1,6 @@
 img[alt=Jamkit_Sample] { width:130px; }
 img[alt=Template_Screenshot] { width:250px; border-style:solid; border-width:1px; border-color:#ddd;}
+img[alt=Sample_Screenshot] { width:250px; border-style:solid; border-width:1px; border-color:#ddd;}
 
 .video-wrap {
 	max-width: 480px;
