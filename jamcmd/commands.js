@@ -53,22 +53,32 @@ var commands = {
 
 		simulator.launch(app_id);
 
-		shell.ready(3000);
-		shell.open(function() {
-			shell.execute('app id ' + pkginfo.id, function() {
-				shell.execute('catalog path bundle', function(bundle_path) {
-					var needs_reset = true;
-					syncfolder.start('./catalogs', bundle_path, function() {
-						if (needs_reset) {
-							shell.execute('catalog reset');
-							needs_reset = false;
-						} else {
-							shell.execute('catalog reload');
-						}
+		var try_count = 0;
+
+		while (try_count < 3) {
+			try {
+				shell.ready(3000);
+				shell.open(function() {
+					shell.execute('app id ' + pkginfo.id, function() {
+						shell.execute('catalog path bundle', function(bundle_path) {
+							var needs_reset = true;
+							syncfolder.start('./catalogs', bundle_path, function() {
+								if (needs_reset) {
+									shell.execute('catalog reset');
+									needs_reset = false;
+								} else {
+									shell.execute('catalog reload');
+								}
+							});
+						});
 					});
 				});
-			});
-		});
+			} catch (error) {
+				console.log('Connection failed(127.0.0.1:8888). Try again...');
+			}
+
+			try_count = try_count + 1;
+		}
 	},
 
 	buildProject : function() {
