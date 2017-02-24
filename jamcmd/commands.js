@@ -53,7 +53,7 @@ var commands = {
 
         simulator.launch(app_id);
 
-        shell.ready(10000);
+        shell.ready(60 * 1000); // 1 minute
         shell.open(function() {
             shell.execute('app id ' + pkginfo.id, function() {
                 shell.execute('catalog path bundle', function(bundle_path) {
