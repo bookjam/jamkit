@@ -25,6 +25,7 @@
 "MSG_PACKAGE_002" = "";
 "MSG_PACKAGE_003" = "";
 "MSG_PACKAGE_004" = "";
+"MSG_PACKAGE_005" = "";
 "MSG_ADULT_001" = "";
 "MSG_ADULT_002" = "";
 "MSG_ADULT_003" = "";
@@ -191,6 +192,7 @@
 "ALERT_CANCEL_DOWNLOADING" = "ダウンロードのキャンセル確認";
 "ALERT_ITEM_EXPIRED" = "保管期間満了案内";
 "ALERT_DELETE_BOOKCASE" = "本棚削除確認";
+"ALERT_DELETE_PACKAGE" = "";
 "ALERT_RATE" = "応援して下さい。";
 "LABEL_OK" = "確認";
 "LABEL_CANCEL" = "キャンセル";
@@ -241,7 +243,6 @@
 "LABEL_MYBOOKS_DONE" = "完了";
 "LABEL_DEFAULT_BOOKCASE" = "本棚";
 "LABEL_PURCHASES_BOOKCASE" = "";
-"LABEL_FILES_BOOKCASE" = "";
 "LABEL_ADD_BOOKCASE" = "本棚生成";
 "LABEL_ALL_SERIES" = "全体作品";
 "LABEL_CLOUD_LOGIN" = "";
@@ -335,6 +336,7 @@
 "INFO_SAVING" = "保存中...";
 "INFO_REGISTERING" = "登録中...";
 "INFO_UNREGISTERING" = "";
+"INFO_WAITING" = "";
 "INFO_REQUESTING" = "要請中...";
 "INFO_PROCESSING" = "";
 "INFO_LOGGING_IN" = "ログイン中...";

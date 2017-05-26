@@ -53,20 +53,22 @@ var commands = {
 
         simulator.launch(app_id);
 
-        shell.ready(60 * 1000); // 1 minute
-        shell.open(function() {
-            shell.execute('app id ' + pkginfo.id, function() {
-                shell.execute('catalog path bundle', function(bundle_path) {
-                    var needs_reset = true;
-                    syncfolder.start('./catalogs', bundle_path, function() {
-                        if (needs_reset) {
-                            shell.execute('catalog reset');
-                            needs_reset = false;
-                        } else {
-                            shell.execute('catalog reload');
-                        }
+        shell.ready(60 * 1000, function() {  // 1 minute
+            shell.open(function() { setTimeout(function() {
+                shell.execute('app id ' + pkginfo.id, function() {
+                    shell.execute('catalog path bundle', function(bundle_path) {
+                        var needs_reset = true;
+                        syncfolder.start('./catalogs', bundle_path, function() {
+                            if (needs_reset) {
+                                shell.execute('catalog reset');
+                                needs_reset = false;
+                            } else {
+                                shell.execute('catalog reload');
+                            }
+                        });
                     });
                 });
+            }, 3000);
             });
         });
     },

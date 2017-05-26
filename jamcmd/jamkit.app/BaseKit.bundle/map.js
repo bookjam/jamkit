@@ -1,7 +1,7 @@
 var map, marker, infoWindow;
 
-function configureMap(div) {
-    map = new google.maps.Map(div, { zoom:17, mapTypeId:google.maps.MapTypeId.ROADMAP });
+function configureMap(element) {
+    map = new google.maps.Map(element, { zoom:17, mapTypeId:google.maps.MapTypeId.ROADMAP });
 }
 
 function setLocation(latitude, longitude, zoom) {

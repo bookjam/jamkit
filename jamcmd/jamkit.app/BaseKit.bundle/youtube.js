@@ -79,6 +79,7 @@ function onPlayerNotAvailable(event) {
     reason_keywords = [
         [ "Watch on YouTube",          "embeded" ],
         [ "YouTube에서 보기",            "embeded" ],
+        [ "who has blocked",           "blocked" ],
         [ "available in your country", "country" ]
     ];
     
@@ -132,4 +133,13 @@ function getTitle() {
 
 function getAuthor() {
     return player.getVideoData().author;
+}
+
+function enterFullscreen() {
+}
+
+function exitFullscreen() {
+}
+
+function isFullscreen() {
 }

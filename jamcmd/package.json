@@ -1,6 +1,6 @@
 {
   "name": "jamcmd",
-  "version": "0.1.29",
+  "version": "0.1.32",
   "description": "A command-line tool for jamkit.",
   "main": "index.js",
   "bin": {
@@ -23,6 +23,7 @@
   "dependencies": {
     "chokidar": "^1.6.0",
     "fs-extra": "^0.30.0",
+    "googleapis": "^19.0.0",
     "path": "^0.12.7",
     "shelljs": "^0.7.0",
     "simctl": "0.0.9",

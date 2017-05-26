@@ -25,6 +25,7 @@
 "MSG_PACKAGE_002" = "";
 "MSG_PACKAGE_003" = "";
 "MSG_PACKAGE_004" = "";
+"MSG_PACKAGE_005" = "";
 "MSG_ADULT_001" = "";
 "MSG_ADULT_002" = "";
 "MSG_ADULT_003" = "";
@@ -192,6 +193,7 @@
 "ALERT_CANCEL_DOWNLOADING" = "Confirm";
 "ALERT_ITEM_EXPIRED" = "Trial Expired";
 "ALERT_DELETE_BOOKCASE" = "Confirm";
+"ALERT_DELETE_PACKAGE" = "";
 "ALERT_RATE" = "Rate now!";
 "LABEL_OK" = "OK";
 "LABEL_CANCEL" = "Cancel";
@@ -242,7 +244,6 @@
 "LABEL_MYBOOKS_DONE" = "Done";
 "LABEL_DEFAULT_BOOKCASE" = "Main Bookshelf";
 "LABEL_PURCHASES_BOOKCASE" = "";
-"LABEL_FILES_BOOKCASE" = "";
 "LABEL_ADD_BOOKCASE" = "+ Create bookshelf";
 "LABEL_ALL_SERIES" = "All Contents";
 "LABEL_CLOUD_LOGIN" = "Sign in";
@@ -337,6 +338,7 @@
 "INFO_REGISTERING" = "Registering...";
 "INFO_UNREGISTERING" = "Unregistering...";
 "INFO_REQUESTING" = "Requesting...";
+"INFO_WAITING" = "Waiting...";
 "INFO_PROCESSING" = "Processing...";
 "INFO_LOGGING_IN" = "Signing in...";
 "INFO_LOGGING_OUT" = "Signing out...";

@@ -1,24 +1,12 @@
 window.open = function(url) {
-    var t = document.createElement("a");
-    var e = document.createEvent("MouseEvent");
-
-    t.setAttribute("href", "web://open/" + getAbsoluteUrl(url));
-    e.initMouseEvent("click");
-    
-    t.dispatchEvent(e);
+    window.location = __getAbsoluteUrl(url);
 };
 
 window.close = function() {
-    var t = document.createElement("a");
-    var e = document.createEvent("MouseEvent");
-    
-    t.setAttribute("href", "web://close");
-    e.initMouseEvent("click");
-    
-    t.dispatchEvent(e);
+    window.history.back();
 };
 
-var getAbsoluteUrl = (function() {
+var __getAbsoluteUrl = (function() {
   var a;
                       
   return function(url) {

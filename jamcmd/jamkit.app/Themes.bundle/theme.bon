@@ -64,5 +64,16 @@
         "menu-colors":[
             #e5e5e5, #f6f6f6, #ffffff
         ]
+    },
+    "Audio":{
+        "status-bar-style":"Default",
+        "text-color":#000000,
+        "background-color":#ffffff,
+        "label-colors":[
+            #232323, #545454, #737373
+        ],
+        "menu-colors":[
+            #e5e5e5, #f6f6f6, #ffffff
+        ]
     }
 }
