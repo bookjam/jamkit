@@ -3,8 +3,6 @@ const net   = require('net'),
       host  = '127.0.0.1',
       port  = 8888;
 
-require('events').EventEmitter.defaultMaxListeners = Infinity;
-
 var client, callbacks, lines;
 
 var shell = {
