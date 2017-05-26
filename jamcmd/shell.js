@@ -7,7 +7,7 @@ var client, callbacks, lines;
 
 var shell = {
     ready : function(timeout, callback) {
-        __setup_connection(timeout, function() {
+        __connect_to_host(timeout, function() {
             callback();
         });
     },
@@ -43,7 +43,7 @@ var shell = {
     }
 };
 
-__setup_connection = function(timeout, callback) {
+__connect_to_host = function(timeout, callback) {
     var started_time = new Date().getTime();
 
     client = net.connect({ host:host, port:port }, function() {
@@ -55,7 +55,7 @@ __setup_connection = function(timeout, callback) {
 
         if (timeout > 0) {
             setTimeout(function() {
-                __setup_connection(timeout - 100, callback);
+                __connect_to_host(timeout - 100, callback);
             }, 100);
         } else {
             console.log("ERROR: Failed to establish connection!");

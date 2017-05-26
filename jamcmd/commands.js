@@ -40,11 +40,23 @@ var commands = {
         simulator.start();
 
         var app_path = path.resolve(__dirname, 'jamkit.app');
-        var app_id = plist.readFileSync(path.resolve(app_path, 'Info.plist')).CFBundleIdentifier;
+        var app_info = plist.readFileSync(path.resolve(app_path, 'Info.plist'))
+        var app_id = app_info.CFBundleIdentifier;
+        var app_version = app_info.CFBundleVersion;
         var container = simulator.getAppContainer(app_id);
 
-        if (!container) {
+        if (container != null) {
+            var installed_info = plist.readFileSync(path.resolve(container, 'Info.plist'));
+            var installed_version = installed_info.CFBundleVersion;
+ 
+            if (installed_version !== app_version) {
+                simulator.install(app_path);
+            }
+        } else {
             simulator.install(app_path);
+        }
+
+        if (container == null) {
             container = simulator.getAppContainer(app_id);
         }
 
