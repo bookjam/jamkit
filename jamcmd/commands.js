@@ -54,7 +54,7 @@ var commands = {
         simulator.launch(app_id);
 
         shell.ready(60 * 1000, function() {  // 1 minute
-            shell.open(function() { setTimeout(function() {
+            shell.open(function() {
                 shell.execute('app id ' + pkginfo.id, function() {
                     shell.execute('catalog path bundle', function(bundle_path) {
                         var needs_reset = true;
@@ -68,7 +68,6 @@ var commands = {
                         });
                     });
                 });
-            }, 3000);
             });
         });
     },
