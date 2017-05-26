@@ -48,15 +48,15 @@ var commands = {
         if (container != null) {
             var installed_info = plist.readFileSync(path.resolve(container, 'Info.plist'));
             var installed_version = installed_info.CFBundleVersion;
- 
+
             if (installed_version !== app_version) {
-                simulator.install(app_path);
+                simulator.uninstall(app_id);
+                container = null;
             }
-        } else {
-            simulator.install(app_path);
         }
 
         if (container == null) {
+            simulator.install(app_path);
             container = simulator.getAppContainer(app_id);
         }
 

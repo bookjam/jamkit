@@ -26,7 +26,7 @@ var simulator = {
     },
 
     uninstall : function(app_id) {
-        simctl.install('booted', app_id);
+        simctl.uninstall('booted', app_id);
     },
 
     launch : function(app_id) {
