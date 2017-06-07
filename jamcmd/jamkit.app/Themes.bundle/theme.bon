@@ -1,6 +1,6 @@
 {
     "White":{
-        "status-bar-style":"Default",
+        "statusbar-style":"Default",
         "text-color":#000000,
         "background-color":#ffffff,
         "label-colors":[
@@ -11,7 +11,7 @@
         ]
     },
     "Sepia":{
-        "status-bar-style":"Default",
+        "statusbar-style":"Default",
         "text-color":#5f4b32,
         "background-color":#fcf1d9,
         "label-colors":[
@@ -22,7 +22,7 @@
         ]
     },
     "Gray":{
-        "status-bar-style":"Default",
+        "statusbar-style":"Default",
         "text-color":#000000,
         "background-color":#d5d5d5,
         "label-colors":[
@@ -33,7 +33,7 @@
         ]
     },
 	"Paper":{
-        "status-bar-style":"Default",
+        "statusbar-style":"Default",
         "text-color":#000000,
         "background-color":#ffffff,
         "label-colors":[
@@ -44,7 +44,7 @@
         ]
 	},
     "Night":{
-        "status-bar-style":"LightContent",
+        "statusbar-style":"LightContent",
         "text-color":#bbbbbb,
         "background-color":#000000,
         "label-colors":[
@@ -55,7 +55,7 @@
         ]
     },
     "Comic":{
-        "status-bar-style":"Default",
+        "statusbar-style":"Default",
         "text-color":#000000,
         "background-color":#ffffff,
         "label-colors":[
@@ -66,7 +66,7 @@
         ]
     },
     "Audio":{
-        "status-bar-style":"Default",
+        "statusbar-style":"Default",
         "text-color":#000000,
         "background-color":#ffffff,
         "label-colors":[
