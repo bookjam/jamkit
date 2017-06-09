@@ -48,8 +48,8 @@
 "MSG_PHOTOS_002" = "Unable to save image";
 "MSG_STORE_001" = "Unable to connect to server. Please try again.";
 "MSG_STORE_002" = "Purchase restore will proceed. This may take a few minutes.";
-"MSG_STORE_003" = "Restore complete. You can download restored books now.";
-"MSG_STORE_004" = "You haven’t made any purchase yet. If there is a problem with your purchase list, please contact our customer service.";
+"MSG_STORE_003" = "Restore complete.";
+"MSG_STORE_004" = "";
 "MSG_STORE_005" = "Unable to restore purchase";
 "MSG_STORE_006" = "Do you want to join '%@' promotion?";
 "MSG_STORE_007" = "Promotion joined";
