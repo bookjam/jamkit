@@ -70,19 +70,19 @@
 		</data>
 		<key>ArticleViewController_iPad.nib</key>
 		<data>
-		Lb0OYs0LECc/eeO9XpFxPHACcNA=
+		leCyQqQpvivU2O35+NZ52+nECEs=
 		</data>
 		<key>ArticleViewController_iPhone.nib</key>
 		<data>
-		h/jYzBuKDh4aDcvLgs9+jYAIn1Q=
+		Sy3l8T8vdhTnmqUbQiAgljWstqg=
 		</data>
 		<key>AudioBookViewController_iPad.nib</key>
 		<data>
-		q2hxUaaWCvvoDwoPAUPLEfQVhG0=
+		rUWc0HTvVeJmaumOsKlW8lRWCJU=
 		</data>
 		<key>AudioBookViewController_iPhone.nib</key>
 		<data>
-		O6xqQY5VgIHe8DhgLFjoJM6w62w=
+		VhhvQ//f6727sIuIS+ImJQf1PI8=
 		</data>
 		<key>AudioMarkAddView_iPad.nib</key>
 		<data>
@@ -166,11 +166,11 @@
 		</data>
 		<key>BookViewController_iPad.nib</key>
 		<data>
-		RVjlqeTVPPrNMfjKK9nrv7D+gQU=
+		dQgmTsv56ycB9gGk7F7bmsUh4tM=
 		</data>
 		<key>BookViewController_iPhone.nib</key>
 		<data>
-		iSAOzg4S0afm0Hp/WVGZiOn6D80=
+		8dG81g5bb1SjShmGxQNkvAErDp4=
 		</data>
 		<key>CloudAuthView_iPad.nib</key>
 		<data>
@@ -190,11 +190,11 @@
 		</data>
 		<key>ComicViewController_iPad.nib</key>
 		<data>
-		Swdv0oQsBR6JEYp53TU561NMJMY=
+		KrQvZvNC/8onauSAB4l+GIIg0Qs=
 		</data>
 		<key>ComicViewController_iPhone.nib</key>
 		<data>
-		9EYbZPheUAzFCgBtSFDejJUib20=
+		us07grB5q2RewDcMty6rmWMxXUo=
 		</data>
 		<key>CouponsViewController_iPad.nib</key>
 		<data>
@@ -214,7 +214,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		i3WaX0BCikoCqlsHUbrDYkpOpPA=
+		QniInYv9NLb9fDvOy5tmHD1saXk=
 		</data>
 		<key>KoPubBatangBold.ttf</key>
 		<data>
@@ -294,11 +294,11 @@
 		</data>
 		<key>MainAppViewController_iPad.nib</key>
 		<data>
-		sb9RScE3hg83h69fiV26u1D4d/U=
+		bxXtqSkWv18rnkamtHI4RqD3KpI=
 		</data>
 		<key>MainAppViewController_iPhone.nib</key>
 		<data>
-		Lm+pih6xUXPAQt2F5qVAk+ZhPNA=
+		mhxSlVuDtiPVW6bIrtoc5rJWM5M=
 		</data>
 		<key>MainViewController_iPad.nib</key>
 		<data>
@@ -739,7 +739,7 @@
 		</data>
 		<key>Papyrus.bundle/packages.sqlite</key>
 		<data>
-		mUBrDWDXIgAzYMMnhWt5Wipnjig=
+		3JjyyUZaC0p7RxgLdj2t/LMt+QI=
 		</data>
 		<key>Papyrus.bundle/pagecontrol_active_dot.png</key>
 		<data>
@@ -913,7 +913,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			OvnuhT9fUAxy5IClYJ63GE6+w2Q=
+			pRc28peXAU/BdqO8nZfso7PAByA=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -931,7 +931,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GcXuT7eadJSAGyDPWmNEVcLBBwU=
+			LQSUUaI9HEqFDFsccn0dxMo5WAY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -949,7 +949,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			TcaTBWvq6Itt3u9ibPTddzqhnBQ=
+			VvzHl1BGlPQ1tiygeYi1I0vaRIU=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1005,11 +1005,11 @@
 		</data>
 		<key>StoryViewController_iPad.nib</key>
 		<data>
-		gIJuRhszqEuR9etH0liBtRGv7AU=
+		bSwb/wtpshcaM/c4LKKBXtnOYTw=
 		</data>
 		<key>StoryViewController_iPhone.nib</key>
 		<data>
-		LgeXoFJ5qGARovo1zxCv97Cn+gY=
+		H7CqZxmx8HoociNW8VS5js8kduE=
 		</data>
 		<key>SupportViewController_iPad.nib</key>
 		<data>
@@ -2341,11 +2341,11 @@
 		</data>
 		<key>WebViewController_iPad.nib</key>
 		<data>
-		xzFTBNitGlIUwJQQP/+CD5TGbuM=
+		1n+RMGgLrrHq74yg+KJeQJBiJb0=
 		</data>
 		<key>WebViewController_iPhone.nib</key>
 		<data>
-		Bph0lqP99Q/SwDJ0DW0IFq/vrrM=
+		011iuILcWT9xQD9PpHvOXHyc5ZU=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -2530,44 +2530,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Lb0OYs0LECc/eeO9XpFxPHACcNA=
+			leCyQqQpvivU2O35+NZ52+nECEs=
 			</data>
 			<key>hash2</key>
 			<data>
-			+ixcS/kMa+7Iio7goizUh/er1FUtf7/pBNghL5eyEQo=
+			ryGT51lgemF5Tn85AUYpCj8U6sn2cURrz6UxWBrFcFs=
 			</data>
 		</dict>
 		<key>ArticleViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			h/jYzBuKDh4aDcvLgs9+jYAIn1Q=
+			Sy3l8T8vdhTnmqUbQiAgljWstqg=
 			</data>
 			<key>hash2</key>
 			<data>
-			MTu6joFUJokHC58bZmQlCPeMXOUbLaDy0jTxgqRwtd0=
+			YxQk8QMdb5wzNeilZcey09UJOD/Ey63dQ6INsXL3ozo=
 			</data>
 		</dict>
 		<key>AudioBookViewController_iPad.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			q2hxUaaWCvvoDwoPAUPLEfQVhG0=
+			rUWc0HTvVeJmaumOsKlW8lRWCJU=
 			</data>
 			<key>hash2</key>
 			<data>
-			6hMwWXDABE7ccqQDL+8yYvkMoNqKjIfvsqVIrGk8USo=
+			8sRXtRbt8GkW5Kc3eB2aM1egAqRoEzrc0AqUR6dGjvI=
 			</data>
 		</dict>
 		<key>AudioBookViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			O6xqQY5VgIHe8DhgLFjoJM6w62w=
+			VhhvQ//f6727sIuIS+ImJQf1PI8=
 			</data>
 			<key>hash2</key>
 			<data>
-			6hBhC4I4jIuPdD52YuHkz9bpGjK+8O/fvm2ifKERfsY=
+			f9dx5GS3rU2kJVwao9xdQ7fGKijjOGJbQUsT7a4jcsk=
 			</data>
 		</dict>
 		<key>AudioMarkAddView_iPad.nib</key>
@@ -2794,22 +2794,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			RVjlqeTVPPrNMfjKK9nrv7D+gQU=
+			dQgmTsv56ycB9gGk7F7bmsUh4tM=
 			</data>
 			<key>hash2</key>
 			<data>
-			H+nxtu8hEoVrmdE3LLmzcIZtjxphBfsOqmSFOrAw9JI=
+			MJKyjucDTXnN4kalHiREXsW0b7YzarAMZh6hIcAbHwo=
 			</data>
 		</dict>
 		<key>BookViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			iSAOzg4S0afm0Hp/WVGZiOn6D80=
+			8dG81g5bb1SjShmGxQNkvAErDp4=
 			</data>
 			<key>hash2</key>
 			<data>
-			jOH/TNVicGomfTbokO7THz9PeI43/oFZT5LOHX2CrpM=
+			AKREBJx3625J25FQ5b2eF1ZjsevXZFebdUu9cJHMiXM=
 			</data>
 		</dict>
 		<key>CloudAuthView_iPad.nib</key>
@@ -2860,22 +2860,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Swdv0oQsBR6JEYp53TU561NMJMY=
+			KrQvZvNC/8onauSAB4l+GIIg0Qs=
 			</data>
 			<key>hash2</key>
 			<data>
-			MYdBROvtUFt2OBIbxCzqIFWYbisE0zE9RqCuPkWOi+8=
+			Yo46SyrxtHljgUzdjbQ1bUS8jF1JQQMsRoCq04pkCKM=
 			</data>
 		</dict>
 		<key>ComicViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			9EYbZPheUAzFCgBtSFDejJUib20=
+			us07grB5q2RewDcMty6rmWMxXUo=
 			</data>
 			<key>hash2</key>
 			<data>
-			44C9BoL/oC58+0J24wOn8CNgvYnfII3PlLGKl27VyNA=
+			oT1at7obF+nU1pi+XMbWAj3pXPICaylmyI2DgcZnE2M=
 			</data>
 		</dict>
 		<key>CouponsViewController_iPad.nib</key>
@@ -3135,22 +3135,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			sb9RScE3hg83h69fiV26u1D4d/U=
+			bxXtqSkWv18rnkamtHI4RqD3KpI=
 			</data>
 			<key>hash2</key>
 			<data>
-			71bjXkOt/xR7uTccZISPN1F3ejKP+eazPcw3fc7hdio=
+			JcDP2hs4HDmA0trAAl1oiSCCmzb+qRGdMr9cO6MBG+w=
 			</data>
 		</dict>
 		<key>MainAppViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Lm+pih6xUXPAQt2F5qVAk+ZhPNA=
+			mhxSlVuDtiPVW6bIrtoc5rJWM5M=
 			</data>
 			<key>hash2</key>
 			<data>
-			xmR8vjFkUbr5QLHOsxHEvek7sFQAnsSya1UKf84FPnY=
+			CXoSneDoL7d3aIj6YH5UDn63Y3dgqUNTdW39qwy147A=
 			</data>
 		</dict>
 		<key>MainViewController_iPad.nib</key>
@@ -4253,11 +4253,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mUBrDWDXIgAzYMMnhWt5Wipnjig=
+			3JjyyUZaC0p7RxgLdj2t/LMt+QI=
 			</data>
 			<key>hash2</key>
 			<data>
-			gSr1fje70TURO2WQkltHpiaNlTxFYFdMqx6FuJMAbUE=
+			11Tasu7bS5wOH8zslUox9H7T02Ivfohq0RlWOVhuwCg=
 			</data>
 		</dict>
 		<key>Papyrus.bundle/pagecontrol_active_dot.png</key>
@@ -4715,11 +4715,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			OvnuhT9fUAxy5IClYJ63GE6+w2Q=
+			pRc28peXAU/BdqO8nZfso7PAByA=
 			</data>
 			<key>hash2</key>
 			<data>
-			DoTiCPhkvXNrniCRCGeoDfoKCl13GBWYvY6uv/t1zS0=
+			6jlYLTH83SKy8foM2KIyDFAfIMWHhwpCqsvE7lMVlPU=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -4741,11 +4741,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GcXuT7eadJSAGyDPWmNEVcLBBwU=
+			LQSUUaI9HEqFDFsccn0dxMo5WAY=
 			</data>
 			<key>hash2</key>
 			<data>
-			Ckh+zxW+WhukQj5FpZcgTdClegvZ5Ivkv5RHBUpkBzU=
+			4y+ft3WFlibqt7jJFxvXe/4cqwY/LwmRl/ZlA0Cy8Pk=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -4767,11 +4767,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			TcaTBWvq6Itt3u9ibPTddzqhnBQ=
+			VvzHl1BGlPQ1tiygeYi1I0vaRIU=
 			</data>
 			<key>hash2</key>
 			<data>
-			+322gw5fKLN8XO2Mh5K3310wPdyz96hHt8/8Krod0AQ=
+			c1ueldgP/MhpBQsWy/6rYfwrfJRRYbA/JZwaaUx+lKc=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -4903,22 +4903,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gIJuRhszqEuR9etH0liBtRGv7AU=
+			bSwb/wtpshcaM/c4LKKBXtnOYTw=
 			</data>
 			<key>hash2</key>
 			<data>
-			GR0bpB2TsAkqDbYiILp1dgO7dtSdJN7x2QeTgH0TLPU=
+			ZHKOm6/qJISy/tXMBSg7biuPCcglOsKgVsJ2PsAba44=
 			</data>
 		</dict>
 		<key>StoryViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			LgeXoFJ5qGARovo1zxCv97Cn+gY=
+			H7CqZxmx8HoociNW8VS5js8kduE=
 			</data>
 			<key>hash2</key>
 			<data>
-			wOHR6OvAA1GBCemyU5CC0nZv9hJ4h1BM9wy7BUIs9Cw=
+			xfp+hmGOMevdE60jZGJZu/clt7FN3jhjIf+Gv7MUeik=
 			</data>
 		</dict>
 		<key>SupportViewController_iPad.nib</key>
@@ -8577,22 +8577,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			xzFTBNitGlIUwJQQP/+CD5TGbuM=
+			1n+RMGgLrrHq74yg+KJeQJBiJb0=
 			</data>
 			<key>hash2</key>
 			<data>
-			aBTreG/p6WrJK3tfmpFrYDpmOvUoBlx2XugbK7V78b4=
+			9REGSFeTQnoqmxEd14iRQ9sJK0zQZ2pEYVk6bkx2CRs=
 			</data>
 		</dict>
 		<key>WebViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Bph0lqP99Q/SwDJ0DW0IFq/vrrM=
+			011iuILcWT9xQD9PpHvOXHyc5ZU=
 			</data>
 			<key>hash2</key>
 			<data>
-			Enzdv5cxjh9piJfM34EyDuGmPOuyX/pjqTED+3XNnzA=
+			1DoUk3VnDaXJ9lK+mlmf5y4f23r63QdDb9mTG971REA=
 			</data>
 		</dict>
 	</dict>
