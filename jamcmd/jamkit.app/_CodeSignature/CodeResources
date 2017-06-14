@@ -124,6 +124,10 @@
 		<data>
 		mBNmiA9gS6lJ6OnRYEKTkYyeK4Q=
 		</data>
+		<key>BaseKit.bundle/Modules/web3.js</key>
+		<data>
+		ZMC32xtYI3QWtN3TezHf4xtqpxE=
+		</data>
 		<key>BaseKit.bundle/chart.html</key>
 		<data>
 		x6PXnY4KGqn3yfxz9LiKuxgBE+I=
@@ -214,7 +218,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		QniInYv9NLb9fDvOy5tmHD1saXk=
+		ZJ4gamIZ8X3wIshZKiLEMYrbRwA=
 		</data>
 		<key>KoPubBatangBold.ttf</key>
 		<data>
@@ -310,11 +314,11 @@
 		</data>
 		<key>MainWindow_iPad.nib</key>
 		<data>
-		La03fzmeNpNQUJu7+ALSa3+D6Cs=
+		jdtdo1l8oO+Fy65947wTdEQCQfQ=
 		</data>
 		<key>MainWindow_iPhone.nib</key>
 		<data>
-		KVPwzN6J5aG7QG6lnXQtkaqwXHM=
+		DT99K0cBOsv79zjtI54RKegsr7Y=
 		</data>
 		<key>MarkTableViewCell_iPad.nib</key>
 		<data>
@@ -2680,6 +2684,17 @@
 			t2p+kSMbOXab0HXsRMR+up4a3P1V+Bh17RRDWroNtmY=
 			</data>
 		</dict>
+		<key>BaseKit.bundle/Modules/web3.js</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ZMC32xtYI3QWtN3TezHf4xtqpxE=
+			</data>
+			<key>hash2</key>
+			<data>
+			OBtHCWpTYG3q+agr+FblPq74yugeD8XA8sYkCeUcnJI=
+			</data>
+		</dict>
 		<key>BaseKit.bundle/chart.html</key>
 		<dict>
 			<key>hash</key>
@@ -3179,22 +3194,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			La03fzmeNpNQUJu7+ALSa3+D6Cs=
+			jdtdo1l8oO+Fy65947wTdEQCQfQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			CKKECGak4gz+2T9SBdh44D/ZmxfCKrh6fKlm2Q0xYQg=
+			cwIVD3o04nIFV/fx7kfK2LWCpHEuz4tqUF/rsDOuyqk=
 			</data>
 		</dict>
 		<key>MainWindow_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			KVPwzN6J5aG7QG6lnXQtkaqwXHM=
+			DT99K0cBOsv79zjtI54RKegsr7Y=
 			</data>
 			<key>hash2</key>
 			<data>
-			Te1TU4yMr7K+PGp2SDBpcsT4dNzhfmG4Tt9eGGfoOJc=
+			vs/9bVVI3M/YfHYCihKDMNDDtOQqU1Wua1RbSZDpsf0=
 			</data>
 		</dict>
 		<key>MarkTableViewCell_iPad.nib</key>
