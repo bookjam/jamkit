@@ -124,10 +124,6 @@
 		<data>
 		mBNmiA9gS6lJ6OnRYEKTkYyeK4Q=
 		</data>
-		<key>BaseKit.bundle/Modules/web3.js</key>
-		<data>
-		ZMC32xtYI3QWtN3TezHf4xtqpxE=
-		</data>
 		<key>BaseKit.bundle/chart.html</key>
 		<data>
 		x6PXnY4KGqn3yfxz9LiKuxgBE+I=
@@ -218,7 +214,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		o9PFiuB3YV4j4+h7OpZbuYpe8Dg=
+		AZAeY9+cMFeKsgSKozwWd0r0+Fk=
 		</data>
 		<key>KoPubBatangBold.ttf</key>
 		<data>
@@ -310,15 +306,15 @@
 		</data>
 		<key>MainViewController_iPhone.nib</key>
 		<data>
-		8bnFEWuGqhX6R/euY1A/DUqcodQ=
+		z8ucOXAFFxEvh+H/XS6Yv22+V9Q=
 		</data>
 		<key>MainWindow_iPad.nib</key>
 		<data>
-		jdtdo1l8oO+Fy65947wTdEQCQfQ=
+		mymaGdZG/YLPndF9yEC3OwMacSI=
 		</data>
 		<key>MainWindow_iPhone.nib</key>
 		<data>
-		DT99K0cBOsv79zjtI54RKegsr7Y=
+		/5gMH+KUSPv3gCqP2XTF3+0OhW0=
 		</data>
 		<key>MarkTableViewCell_iPad.nib</key>
 		<data>
@@ -2684,17 +2680,6 @@
 			t2p+kSMbOXab0HXsRMR+up4a3P1V+Bh17RRDWroNtmY=
 			</data>
 		</dict>
-		<key>BaseKit.bundle/Modules/web3.js</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			ZMC32xtYI3QWtN3TezHf4xtqpxE=
-			</data>
-			<key>hash2</key>
-			<data>
-			OBtHCWpTYG3q+agr+FblPq74yugeD8XA8sYkCeUcnJI=
-			</data>
-		</dict>
 		<key>BaseKit.bundle/chart.html</key>
 		<dict>
 			<key>hash</key>
@@ -3183,33 +3168,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8bnFEWuGqhX6R/euY1A/DUqcodQ=
+			z8ucOXAFFxEvh+H/XS6Yv22+V9Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			XiNanBRkpr/B085yuNHK53rsbtdd9dIB0YL6NSF6Eyw=
+			sbEXdttshdPhheY3rppqelV3cHQlHQxFwTjgVEbBFOE=
 			</data>
 		</dict>
 		<key>MainWindow_iPad.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			jdtdo1l8oO+Fy65947wTdEQCQfQ=
+			mymaGdZG/YLPndF9yEC3OwMacSI=
 			</data>
 			<key>hash2</key>
 			<data>
-			cwIVD3o04nIFV/fx7kfK2LWCpHEuz4tqUF/rsDOuyqk=
+			QYmJH9nIb9ns4f1wZpaRW690Mk6QkiOEtNYIBO1fGLw=
 			</data>
 		</dict>
 		<key>MainWindow_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			DT99K0cBOsv79zjtI54RKegsr7Y=
+			/5gMH+KUSPv3gCqP2XTF3+0OhW0=
 			</data>
 			<key>hash2</key>
 			<data>
-			vs/9bVVI3M/YfHYCihKDMNDDtOQqU1Wua1RbSZDpsf0=
+			nmgUVqG2YheQP/71Vn6z4sn2BshGTDZ6xuZeBu9m60c=
 			</data>
 		</dict>
 		<key>MarkTableViewCell_iPad.nib</key>
