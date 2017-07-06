@@ -170,7 +170,7 @@
 		</data>
 		<key>BookViewController_iPhone.nib</key>
 		<data>
-		ORst71rMuzTWAfw8tUBQiYaULgo=
+		Z6tb4s6fSZpIaiJLqhCA3ZdA0mQ=
 		</data>
 		<key>CloudAuthView_iPad.nib</key>
 		<data>
@@ -190,7 +190,7 @@
 		</data>
 		<key>ComicViewController_iPad.nib</key>
 		<data>
-		4WbrDfSOhfrDD62ingsAb5qkX88=
+		3LTF92vDp+oBVQIUneH6Wb7EIc4=
 		</data>
 		<key>ComicViewController_iPhone.nib</key>
 		<data>
@@ -214,7 +214,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		YdmUgZXqy/qLljfGkNupvLYXjv4=
+		fl1Han13uIan4XbNM2KwHKOH45Q=
 		</data>
 		<key>KoPubBatangBold.ttf</key>
 		<data>
@@ -739,7 +739,7 @@
 		</data>
 		<key>Papyrus.bundle/packages.sqlite</key>
 		<data>
-		3JjyyUZaC0p7RxgLdj2t/LMt+QI=
+		cXq/nVBPEnpHwce7eRQVLSaslFM=
 		</data>
 		<key>Papyrus.bundle/pagecontrol_active_dot.png</key>
 		<data>
@@ -1005,7 +1005,7 @@
 		</data>
 		<key>StoryViewController_iPad.nib</key>
 		<data>
-		GO8Q7XBPFXnIUgQBsCBaNRc/epo=
+		BKt6FTbndqATY1OTiMT2uyi3fZU=
 		</data>
 		<key>StoryViewController_iPhone.nib</key>
 		<data>
@@ -1987,6 +1987,18 @@
 		<data>
 		cNYPFr0BaHG2230te91g0eiYFRI=
 		</data>
+		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_next@m.png</key>
+		<data>
+		g4P8jNbDzQg7bbFxcIWWMBOsvGo=
+		</data>
+		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_next@u.png</key>
+		<data>
+		9gcRgiIqqMY4zlcxk+e975irQyM=
+		</data>
+		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_next@x.png</key>
+		<data>
+		XNcawGnd0oKlnmXultnnRY9DYU8=
+		</data>
 		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_next_contents@m.png</key>
 		<data>
 		TQvoPpa9AUGfk2GafAbK+e7qxIw=
@@ -1998,6 +2010,18 @@
 		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_next_contents@x.png</key>
 		<data>
 		gGQGvFYK24X1bGwQz/1KvM5Oqz8=
+		</data>
+		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_prev@m.png</key>
+		<data>
+		ZC2CMPz57unPFaxBuE7C9Pwt4Kc=
+		</data>
+		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_prev@u.png</key>
+		<data>
+		Iu755ydtx5L3Y3BAPO6KWl2VAeU=
+		</data>
+		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_prev@x.png</key>
+		<data>
+		QFV+j2A3aRNE0Flm94QWNl2kQjs=
 		</data>
 		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_prev_contents@m.png</key>
 		<data>
@@ -2321,7 +2345,7 @@
 		</data>
 		<key>Themes.bundle/theme.bon</key>
 		<data>
-		WOa1gO3mYkBW14SCSmredtnBtKw=
+		07zFmjdHQTV0+2wfjAI6FwFWjzk=
 		</data>
 		<key>UserViewController_iPad.nib</key>
 		<data>
@@ -2346,6 +2370,14 @@
 		<key>WebViewController_iPhone.nib</key>
 		<data>
 		+teWxVhftiOL7nlzMTj9B+kaFkg=
+		</data>
+		<key>WebtoonViewController_iPad.nib</key>
+		<data>
+		vqUwzbfK83g+w3xAihcf62oe2DY=
+		</data>
+		<key>WebtoonViewController_iPhone.nib</key>
+		<data>
+		g3JjYWRTc/RwjacMa40R1Acsq8k=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -2805,11 +2837,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ORst71rMuzTWAfw8tUBQiYaULgo=
+			Z6tb4s6fSZpIaiJLqhCA3ZdA0mQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			WCvS79j3t9FIWxE+v9ySEixF7NZVHk/4WpfTTpQn2AY=
+			HgS3eEvVjrPDrjMx3tKKtpA7eox7n08icfCzt/ekTuU=
 			</data>
 		</dict>
 		<key>CloudAuthView_iPad.nib</key>
@@ -2860,11 +2892,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			4WbrDfSOhfrDD62ingsAb5qkX88=
+			3LTF92vDp+oBVQIUneH6Wb7EIc4=
 			</data>
 			<key>hash2</key>
 			<data>
-			hVmkWPwKXSZJGrdEVTyWmhJxPRQM81tF4I42WzlwDic=
+			qjXatMW7dSZ0ptKByvl1d2jUObQ5a1eBhXCKdUcFLxM=
 			</data>
 		</dict>
 		<key>ComicViewController_iPhone.nib</key>
@@ -4253,11 +4285,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			3JjyyUZaC0p7RxgLdj2t/LMt+QI=
+			cXq/nVBPEnpHwce7eRQVLSaslFM=
 			</data>
 			<key>hash2</key>
 			<data>
-			11Tasu7bS5wOH8zslUox9H7T02Ivfohq0RlWOVhuwCg=
+			60Mtw/XGker5BohE1dyJsv/mG2/AkDdg9QpkkCEI74A=
 			</data>
 		</dict>
 		<key>Papyrus.bundle/pagecontrol_active_dot.png</key>
@@ -4903,11 +4935,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GO8Q7XBPFXnIUgQBsCBaNRc/epo=
+			BKt6FTbndqATY1OTiMT2uyi3fZU=
 			</data>
 			<key>hash2</key>
 			<data>
-			dw6kdYDZsp90/tLMc8YNfzuyhl1EI3nxk+0dNvcMn00=
+			sRjMP0oWEb8UJWyjZXjQOS1iucCCyhega3NEXi0zHEQ=
 			</data>
 		</dict>
 		<key>StoryViewController_iPhone.nib</key>
@@ -7605,6 +7637,39 @@
 			93RFSgGbQtH3GK8bbrQg41n9Zx5aqHiFa17cpTL8+kM=
 			</data>
 		</dict>
+		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_next@m.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			g4P8jNbDzQg7bbFxcIWWMBOsvGo=
+			</data>
+			<key>hash2</key>
+			<data>
+			AOoElySKunHx/P7iiJzdIiiVj/4OJFZ7pELbcXGjBL4=
+			</data>
+		</dict>
+		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_next@u.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			9gcRgiIqqMY4zlcxk+e975irQyM=
+			</data>
+			<key>hash2</key>
+			<data>
+			aZ7pYOUlRE+DrU+HiDl7JD3lWAfOAqhgVVfB1iycZd4=
+			</data>
+		</dict>
+		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_next@x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			XNcawGnd0oKlnmXultnnRY9DYU8=
+			</data>
+			<key>hash2</key>
+			<data>
+			6P4jwhQm+cRA+cbsVrlc7To5mBiTI8yWTCJPB/qVlf8=
+			</data>
+		</dict>
 		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_next_contents@m.png</key>
 		<dict>
 			<key>hash</key>
@@ -7636,6 +7701,39 @@
 			<key>hash2</key>
 			<data>
 			ncCmwOKiiDfmYC5bqU9HI8qzo7DzV0DTaSSfe2zoTh8=
+			</data>
+		</dict>
+		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_prev@m.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ZC2CMPz57unPFaxBuE7C9Pwt4Kc=
+			</data>
+			<key>hash2</key>
+			<data>
+			LSmG/finNwUil1vRQzjkU3ob4bG939h9Qtnxyh2hGQc=
+			</data>
+		</dict>
+		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_prev@u.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Iu755ydtx5L3Y3BAPO6KWl2VAeU=
+			</data>
+			<key>hash2</key>
+			<data>
+			hV9LcGn3qoGP22wKFE6c1rLRNPOcPyTilBtJddgVGLQ=
+			</data>
+		</dict>
+		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_prev@x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			QFV+j2A3aRNE0Flm94QWNl2kQjs=
+			</data>
+			<key>hash2</key>
+			<data>
+			ThM7L9QFH3YXJhe0rqSSZ/pZTaTuR0zZzUvfmBOPMk4=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/bookview_toolbar_btn_prev_contents@m.png</key>
@@ -8522,11 +8620,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			WOa1gO3mYkBW14SCSmredtnBtKw=
+			07zFmjdHQTV0+2wfjAI6FwFWjzk=
 			</data>
 			<key>hash2</key>
 			<data>
-			xdTVEi3x2pCj3qtwdatbw2odaNcCsodxvYG88VF/olI=
+			onQ+VJqnpUOSERiciyfjpv6qBxKm7Ih+EVywKAIva68=
 			</data>
 		</dict>
 		<key>UserViewController_iPad.nib</key>
@@ -8593,6 +8691,28 @@
 			<key>hash2</key>
 			<data>
 			Md5y5zwOhBqVe4cwouO3nwpyIZXiWEVcJMjmqZ5CcsQ=
+			</data>
+		</dict>
+		<key>WebtoonViewController_iPad.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			vqUwzbfK83g+w3xAihcf62oe2DY=
+			</data>
+			<key>hash2</key>
+			<data>
+			bclo0lZTOSt42hVKFU6P2wurSrmPZ8S7SDLA59q7oGo=
+			</data>
+		</dict>
+		<key>WebtoonViewController_iPhone.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			g3JjYWRTc/RwjacMa40R1Acsq8k=
+			</data>
+			<key>hash2</key>
+			<data>
+			sEzImxhc7z+QrzS2ds5QFrkpncrw6UAArnyNF22/1KM=
 			</data>
 		</dict>
 	</dict>
