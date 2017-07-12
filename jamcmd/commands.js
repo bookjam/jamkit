@@ -93,7 +93,7 @@ var commands = {
         var jamfile = path.basename(path.resolve('.')) + '.jam';
 
         if (fs.existsSync(jamfile)) {
-            fs.unlink(jamfile);
+            fs.unlinkSync(jamfile);
         }
 
         tempfile = tmp.tmpNameSync();
@@ -102,7 +102,7 @@ var commands = {
                 throw err;
             }
 
-            fs.rename(tempfile, jamfile);
+            fs.renameSync(tempfile, jamfile);
         });
     }
 };
