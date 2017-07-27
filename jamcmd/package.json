@@ -1,6 +1,6 @@
 {
   "name": "jamcmd",
-  "version": "0.1.74",
+  "version": "0.1.76",
   "description": "A command-line tool for jamkit.",
   "main": "index.js",
   "bin": {

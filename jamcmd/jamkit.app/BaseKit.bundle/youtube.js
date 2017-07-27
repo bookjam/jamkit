@@ -3,6 +3,7 @@ var iframe = null;
 var current_video_id = null;
 var suggested_quality = 'default'
 var plays_when_ready = false;
+var turns_off_captions = false;
 var bufferfing_video = false;
 
 function configureVideo(element, video_id, quality, options) {
@@ -25,6 +26,10 @@ function configureVideo(element, video_id, quality, options) {
     if (options.autoplay === "1") {
         plays_when_ready = true;
     }
+    
+    if (options.captions === "0") {
+        turns_off_captions = true;
+    }
 }
 
 function onPlayerReady(event) {
@@ -38,13 +43,21 @@ function onPlayerReady(event) {
 function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.CUED) {
         window.location = "video://ready";
-        
+ 
+        if (turns_off_captions) {
+            player.unloadModule("captions");
+        }
+
         return;
     }
 
     if (event.data === YT.PlayerState.PLAYING) {
         window.location = "video://playing";
-        
+
+        if (turns_off_captions) {
+            player.unloadModule("captions");
+        }
+
         return;
     }
 
