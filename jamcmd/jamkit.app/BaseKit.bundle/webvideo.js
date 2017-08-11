@@ -33,7 +33,7 @@ function __configureEvents(player) {
         window.location = "video://ready";
     }
     
-    player.onplaying = function(event) {
+    player.onplay = function(event) {
         window.location = "video://playing";
     }
     

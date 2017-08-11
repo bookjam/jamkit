@@ -154,7 +154,7 @@
 		</data>
 		<key>BaseKit.bundle/webvideo.js</key>
 		<data>
-		WN4Be0zdvWBjZYBUSp4xZM0mwfA=
+		c34KdjpB6TQacGr4YGdAP8jHknE=
 		</data>
 		<key>BaseKit.bundle/youtube.html</key>
 		<data>
@@ -214,7 +214,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		DRF6fSzPTLi1UACCqCs0eDqPedE=
+		H+zk37pjAHXYWqYDV35u32KNgj0=
 		</data>
 		<key>KoPubBatangBold.ttf</key>
 		<data>
@@ -761,10 +761,6 @@
 		<data>
 		U9ASU90xxE6WjAU3H2NuEOtB0qs=
 		</data>
-		<key>PapyrusBook.entitlements</key>
-		<data>
-		gqw0iWlNZPlbJL0itQZaC0DSmks=
-		</data>
 		<key>PasscodeViewController_iPad.nib</key>
 		<data>
 		po/KUwuPaWRlEYlb0J8x8KfzzbE=
@@ -963,6 +959,10 @@
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>StoreBase.bundle/webyoutube.js</key>
+		<data>
+		1Y5OUl6O/X/uYkjFDJx+tM8pqdE=
+		</data>
 		<key>StoreCatalogView_iPad.nib</key>
 		<data>
 		l5zb2RqfMLdEx2aOGLnhO1LNCCc=
@@ -2793,11 +2793,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			WN4Be0zdvWBjZYBUSp4xZM0mwfA=
+			c34KdjpB6TQacGr4YGdAP8jHknE=
 			</data>
 			<key>hash2</key>
 			<data>
-			d7vy6UTyRIRB/Xi+X1O/pUo/QZVs8Uw8AZJj6P/lszM=
+			EriiwFe/ncGZAVCCVDU3HOi/YiRMXuDxpOVsSE/pUXw=
 			</data>
 		</dict>
 		<key>BaseKit.bundle/youtube.html</key>
@@ -4347,17 +4347,6 @@
 			raw9kJdeiU8nbhBjVSYkjtox/j4GKoE3TZD2HG18haI=
 			</data>
 		</dict>
-		<key>PapyrusBook.entitlements</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			gqw0iWlNZPlbJL0itQZaC0DSmks=
-			</data>
-			<key>hash2</key>
-			<data>
-			hmlPDlC4JtKgb3A4AWrVOUm5TrMYmFB6UT7KWLs465w=
-			</data>
-		</dict>
 		<key>PasscodeViewController_iPad.nib</key>
 		<dict>
 			<key>hash</key>
@@ -4820,6 +4809,17 @@
 			</data>
 			<key>optional</key>
 			<true/>
+		</dict>
+		<key>StoreBase.bundle/webyoutube.js</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			1Y5OUl6O/X/uYkjFDJx+tM8pqdE=
+			</data>
+			<key>hash2</key>
+			<data>
+			CC0bwjcAIcLd3BQoNkSj6KpHMUbikDaHJLxvwL1Ql/w=
+			</data>
 		</dict>
 		<key>StoreCatalogView_iPad.nib</key>
 		<dict>
