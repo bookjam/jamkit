@@ -15,6 +15,8 @@
 "MSG_DATA_004" = "Download queued";
 "MSG_DATA_005" = "Download canceled";
 "MSG_DATA_006" = "";
+"MSG_DATA_007" = "";
+"MSG_DATA_008" = "";
 "MSG_NETWORK_001" = "Network connection required";
 "MSG_NETWORK_002" = "";
 "MSG_NETWORK_003" = "Cellular network may charge additional fees. Do you want to continue?";
@@ -28,8 +30,6 @@
 "MSG_PACKAGE_005" = "";
 "MSG_PACKAGE_006" = "";
 "MSG_PACKAGE_007" = "";
-"MSG_PACKAGE_008" = "";
-"MSG_PACKAGE_009" = "";
 "MSG_ADULT_001" = "";
 "MSG_ADULT_002" = "";
 "MSG_ADULT_003" = "";
@@ -110,6 +110,10 @@
 "MSG_MYBOOKS_029" = "";
 "MSG_MYBOOKS_030" = "";
 "MSG_MYBOOKS_031" = "";
+"MSG_FILE_001" = "";
+"MSG_FILE_002" = "";
+"MSG_FILE_003" = "";
+"MSG_FILE_004" = "";
 "MSG_NOTE_001" = "Starting to sync your notes";
 "MSG_NOTE_002" = "Note sync complete";
 "MSG_NOTE_003" = "Unable to sync notes";
@@ -136,12 +140,6 @@
 "MSG_BOOK_017" = "";
 "MSG_SHARE_001" = "“%@”\n\n- %@,  From 『%@』\n\n%@";
 "MSG_SHARE_002" = "“%@”\n\n- %@,  From『%@』";
-"MSG_FACEBOOK_001" = "Sign in with Facebook";
-"MSG_FACEBOOK_002" = "";
-"MSG_KAKAOTALK_001" = "Kakao Talk is not installed";
-"MSG_KAKAOSTORY_001" = "Kakao Story is not installed";
-"MSG_LINE_001" = "Line is not installed";
-"MSG_BAND_001" = "";
 "MSG_MAIL_001" = "Hi, I would like to share this quote with you.";
 "MSG_MAIL_002" = "Please set up your email account.";
 "MSG_PHONE_001" = "Do you want to make a call?";
@@ -196,6 +194,7 @@
 "ALERT_DISCARD_BOOK" = "Confirm";
 "ALERT_CANCEL_DOWNLOADING" = "Confirm";
 "ALERT_ITEM_EXPIRED" = "Trial Expired";
+"ALERT_DELETE_DATA" = "";
 "ALERT_DELETE_BOOKCASE" = "Confirm";
 "ALERT_DELETE_PACKAGE" = "";
 "ALERT_RATE" = "Rate now!";

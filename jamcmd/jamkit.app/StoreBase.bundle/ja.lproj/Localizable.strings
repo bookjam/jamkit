@@ -15,6 +15,8 @@
 "MSG_DATA_004" = "ダウンロードが予約されています。";
 "MSG_DATA_005" = "ダウンロードがキャンセルされました。";
 "MSG_DATA_006" = "";
+"MSG_DATA_007" = "";
+"MSG_DATA_008" = "";
 "MSG_NETWORK_001" = "ネットワーク接続が必要です。";
 "MSG_NETWORK_002" = "";
 "MSG_NETWORK_003" = "";
@@ -28,8 +30,6 @@
 "MSG_PACKAGE_005" = "";
 "MSG_PACKAGE_006" = "";
 "MSG_PACKAGE_007" = "";
-"MSG_PACKAGE_008" = "";
-"MSG_PACKAGE_009" = "";
 "MSG_ADULT_001" = "";
 "MSG_ADULT_002" = "";
 "MSG_ADULT_003" = "";
@@ -110,6 +110,10 @@
 "MSG_MYBOOKS_029" = "";
 "MSG_MYBOOKS_030" = "書籍が追加されました。";
 "MSG_MYBOOKS_031" = "";
+"MSG_FILE_001" = "";
+"MSG_FILE_002" = "";
+"MSG_FILE_003" = "";
+"MSG_FILE_004" = "";
 "MSG_NOTE_001" = "ノートを同期します。";
 "MSG_NOTE_002" = "ノートを同期完了しました。";
 "MSG_NOTE_003" = "ノートの同期に失敗しました。";
@@ -136,12 +140,6 @@
 "MSG_BOOK_017" = "";
 "MSG_SHARE_001" = "“%@”\n\n- %@,『%@』で\n\n%@";
 "MSG_SHARE_002" = "“%@”\n\n- %@,『%@』で";
-"MSG_FACEBOOK_001" = "Facebookにログインします。";
-"MSG_FACEBOOK_002" = "";
-"MSG_KAKAOTALK_001" = "カカオトークアプリが\nインストールされていません。";
-"MSG_KAKAOSTORY_001" = "カカオストーリーが\nインストールされていません。";
-"MSG_LINE_001" = "Lineアプリが\nインストールされていません。";
-"MSG_BAND_001" = "";
 "MSG_MAIL_001" = "お気に入りの文章をシェアする。";
 "MSG_MAIL_002" = "メールアドレスが設定されていません。";
 "MSG_PHONE_001" = "電話をおかけしますか。";
@@ -195,6 +193,7 @@
 "ALERT_DISCARD_BOOK" = "本データの削除確認";
 "ALERT_CANCEL_DOWNLOADING" = "ダウンロードのキャンセル確認";
 "ALERT_ITEM_EXPIRED" = "保管期間満了案内";
+"ALERT_DELETE_DATA" = "";
 "ALERT_DELETE_BOOKCASE" = "本棚削除確認";
 "ALERT_DELETE_PACKAGE" = "";
 "ALERT_RATE" = "応援して下さい。";

@@ -214,7 +214,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		JhF8Iv8XPT20yjD5AcmuKcmZFFQ=
+		oA2iG7ZjPnBWo/jcE++72LqDkdA=
 		</data>
 		<key>KoPubBatangBold.ttf</key>
 		<data>
@@ -358,7 +358,7 @@
 		</data>
 		<key>Papyrus.bundle/auxiliary.sqlite</key>
 		<data>
-		VUh6W7vX33sBJdycYhQsSXYjyz8=
+		JkH1w9LOUyECew4P5Jd2aOxkg08=
 		</data>
 		<key>Papyrus.bundle/bookview_gutter.png</key>
 		<data>
@@ -909,7 +909,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			sbGo/O6G/tP6LWRfGhDkaiADNtc=
+			jqZLICNLG9rzjlFkfXVYlDTGBBQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -927,7 +927,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			wAjLaRtV/XlhXtKU4qFIKCSDHBM=
+			0AwI+b9St+RgkDhB2OjMYU1CrlU=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -945,7 +945,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gqdHkxK5JviTczCMN/vZbDIybps=
+			C6jp1InCE82D9CedvhitGFgHamc=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -3343,11 +3343,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VUh6W7vX33sBJdycYhQsSXYjyz8=
+			JkH1w9LOUyECew4P5Jd2aOxkg08=
 			</data>
 			<key>hash2</key>
 			<data>
-			4cCqT5YyXDgTirOGUaOfcqoHVPJ8A1aMqDG1eX5JoCk=
+			mMz9kiI1MMykpOf9OndbZfFJUvSkI0qv7exSUDjjJpQ=
 			</data>
 		</dict>
 		<key>Papyrus.bundle/bookview_gutter.png</key>
@@ -4736,11 +4736,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			sbGo/O6G/tP6LWRfGhDkaiADNtc=
+			jqZLICNLG9rzjlFkfXVYlDTGBBQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			52KjAu8M2UAyx/gqt9EO0JVDYgRbjFFJ2lThfASx5o0=
+			yxu2Zomy6qdkLHpcSDzGA7YqCU6nYeRBzqmrrlNQGI8=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -4762,11 +4762,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			wAjLaRtV/XlhXtKU4qFIKCSDHBM=
+			0AwI+b9St+RgkDhB2OjMYU1CrlU=
 			</data>
 			<key>hash2</key>
 			<data>
-			sLp6R2kmKeYoIG807q03wzZRooae6ZKPjt5t/BmvEN8=
+			DcEJuhF10+QvWkomaxsRHDI5mUfeWKnenyl9rXuxKt4=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -4788,11 +4788,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gqdHkxK5JviTczCMN/vZbDIybps=
+			C6jp1InCE82D9CedvhitGFgHamc=
 			</data>
 			<key>hash2</key>
 			<data>
-			zMDGkIyKI+7go9bN0QEggXLuZW7GtRAcpryBWNKRf6I=
+			phbQuiaYACEOXQeXwY1V49/4dQ8r3fj4NLboELIFAI4=
 			</data>
 			<key>optional</key>
 			<true/>
