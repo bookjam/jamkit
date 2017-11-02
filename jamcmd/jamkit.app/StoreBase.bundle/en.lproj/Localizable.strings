@@ -17,6 +17,7 @@
 "MSG_DATA_006" = "";
 "MSG_DATA_007" = "";
 "MSG_DATA_008" = "";
+"MSG_DATA_009" = "";
 "MSG_NETWORK_001" = "Network connection required";
 "MSG_NETWORK_002" = "";
 "MSG_NETWORK_003" = "Cellular network may charge additional fees. Do you want to continue?";

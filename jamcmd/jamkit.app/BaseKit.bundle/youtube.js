@@ -4,7 +4,7 @@ var current_video_id = null;
 var suggested_quality = 'default'
 var plays_when_ready = false;
 var turns_off_captions = false;
-var bufferfing_video = false;
+var buffering_video = false;
 
 function configureVideo(element, video_id, quality, options) {
     player = new YT.Player(element, {
@@ -21,7 +21,7 @@ function configureVideo(element, video_id, quality, options) {
 
     current_video_id = video_id;
     suggested_quality = quality;
-    bufferfing_video = false;
+    buffering_video = false;
 
     if (options.autoplay === "1") {
         plays_when_ready = true;
@@ -74,14 +74,14 @@ function onPlayerStateChange(event) {
     }
     
     if (event.data === YT.PlayerState.BUFFERING) {
-        bufferfing_video = true;
+        buffering_video = true;
         
         return;
     }
     
-    if (event.data === -1 && bufferfing_video) {
+    if (event.data === -1 && buffering_video) {
         onPlayerNotAvailable(event);
-        bufferfing_video = false;
+        buffering_video = false;
         
         return;
     }
@@ -109,7 +109,7 @@ function loadVideo(video_id) {
     player.cueVideoById(video_id, 0, suggested_quality);
     
     current_video_id = video_id;
-    bufferfing_video = false;
+    buffering_video = false;
 }
 
 function playVideo() {
