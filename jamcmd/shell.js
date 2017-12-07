@@ -6,36 +6,42 @@ const net   = require('net'),
 var client, callbacks, lines;
 
 var shell = {
-    ready : function(timeout, callback) {
-        __connect_to_host(timeout, function() {
-            callback();
+    ready : function(timeout) {
+        return new Promise(function(resolve, reject) {
+            __connect_to_host(timeout, function() {
+                resolve();
+            });
         });
     },
 
-    open : function(callback) {
-        callbacks = new Array();
-        lines = '';
+    open : function() {
+        return new Promise(function(resolve, reject) {
+            callbacks = new Array();
+            lines = '';
 
-        callbacks.push(callback||function(){});
+            callbacks.push(resolve);
         
-        client.on('data', function(data) {
-            lines += utils.bytesToString(data);
+            client.on('data', function(data) {
+                lines += utils.bytesToString(data);
 
-            if (lines.match(/(.|\n)*\$ $/)) {
-                (lines.match(/(.|\n)*\$ ?/g)||[]).forEach(function(line) {
-                    callbacks.shift()(line.replace('$ ', '').trim());
-                });
+                if (lines.match(/(.|\n)*\$ $/)) {
+                    (lines.match(/(.|\n)*\$ ?/g)||[]).forEach(function(line) {
+                        callbacks.shift()(line.replace('$ ', '').trim());
+                    });
 
-                lines = '';
-            }
+                    lines = '';
+                }
+            });
         });
-    },
+     },
 
-    execute : function(command, callback) {
-        callbacks.push(callback||function(){});
+    execute : function(command) {
+        return new Promise(function(resolve, reject) {
+            callbacks.push(resolve);
 
-        client.write(command);
-        client.write('\r\n');
+            client.write(command);
+            client.write('\r\n');
+        });
     },
 
     close : function() {

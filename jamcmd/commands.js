@@ -10,28 +10,28 @@ const fs         = require('fs-extra'),
 
 var commands = {
 
-    createProject : function(project, options) {
-        if (fs.existsSync(project)) {
-            console.log('ERROR: ' + project + ' already exists!');
+    createApp : function(name, options) {
+        if (fs.existsSync(name)) {
+            console.log('ERROR: ' + name + ' already exists!');
             return;
         }
 
-        template.copy(options.template, options.language, project);    
+        template.copy('apps', options.template, options.language, name);    
 
-        if (!fs.existsSync(project)) {
+        if (!fs.existsSync(name)) {
             console.log('ERROR: template may not exists.');
             return;
         }
 
-        var pkg_path = path.resolve(project, 'package.bon');
-        var pkginfo = JSON.parse(fs.readFileSync(pkg_path, 'utf8'));
+        var bon_path = path.resolve(name, 'package.bon');
+        var appinfo = JSON.parse(fs.readFileSync(bon_path, 'utf8'));
 
-        pkginfo.id = options.app_id;
-        pkginfo.version = options.version;
-        fs.writeFile(pkg_path, JSON.stringify(pkginfo, null, 4));
+        appinfo.id = options.app_id;
+        appinfo.version = options.version;
+        fs.writeFile(bon_path, JSON.stringify(appinfo, null, 4));
     },
 
-    runProject : function() {
+    runApp : function() {
         if (!fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found!');
             return;
@@ -60,31 +60,35 @@ var commands = {
             container = simulator.getAppContainer(app_id);
         }
 
-        var pkginfo = JSON.parse(fs.readFileSync('./package.bon', 'utf8'));
+        var appinfo = JSON.parse(fs.readFileSync('./package.bon', 'utf8'));
         var settings = plist.readFileSync(path.resolve(container, 'Settings.plist'));
 
         simulator.launch(app_id);
 
-        shell.ready(60 * 1000, function() {  // 1 minute
-            shell.open(function() {
-                shell.execute('app id ' + pkginfo.id, function() {
-                    shell.execute('catalog path bundle', function(bundle_path) {
-                        var needs_reset = true;
-                        syncfolder.start('./catalogs', bundle_path, function() {
-                            if (needs_reset) {
-                                shell.execute('catalog reset');
-                                needs_reset = false;
-                            } else {
-                                shell.execute('catalog reload');
-                            }
-                        });
-                    });
+        shell.ready(60 * 1000) // 1 minute
+            .then(function() { 
+                return shell.open();
+            })
+            .then(function() {
+                return shell.execute('app id ' + appinfo.id);
+            })
+            .then(function() {
+                return shell.execute('catalog path bundle');
+            })
+            .then(function(bundle_path) {
+                var needs_reset = true;
+                syncfolder.start('./catalogs', bundle_path, function() {
+                    if (needs_reset) {
+                        shell.execute('catalog reset');
+                        needs_reset = false;
+                    } else {
+                        shell.execute('catalog reload');
+                    }
                 });
             });
-        });
     },
 
-    buildProject : function() {
+    buildApp : function() {
         if (!fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found!');
             return;
@@ -103,6 +107,99 @@ var commands = {
             }
 
             fs.renameSync(tempfile, jamfile);
+        });
+    },
+
+    createBook : function(name, options) {
+        if (fs.existsSync(name)) {
+            console.log('ERROR: ' + name + ' already exists!');
+            return;
+        }
+
+        template.copy('books', options.template, options.language, name);    
+
+        if (!fs.existsSync(name)) {
+            console.log('ERROR: template may not exists.');
+            return;
+        }
+
+        var bon_path = path.resolve(name, 'book.bon');
+        var bookinfo = JSON.parse(fs.readFileSync(bon_path, 'utf8'));
+
+        bookinfo.version = options.version;
+        fs.writeFile(bon_path, JSON.stringify(bookinfo, null, 4));
+    },
+
+    runBook : function() {
+        if (!fs.existsSync('./book.bon')) {
+            console.log('ERROR: book.bon not found!');
+            return;
+        }
+
+        simulator.start();
+
+        var app_path = path.resolve(__dirname, 'jamkit.app');
+        var app_info = plist.readFileSync(path.resolve(app_path, 'Info.plist'))
+        var app_id = app_info.CFBundleIdentifier;
+        var app_version = app_info.CFBundleVersion;
+        var container = simulator.getAppContainer(app_id);
+
+        if (container != null) {
+            var installed_info = plist.readFileSync(path.resolve(container, 'Info.plist'));
+            var installed_version = installed_info.CFBundleVersion;
+
+            if (installed_version !== app_version) {
+                simulator.uninstall(app_id);
+                container = null;
+            }
+        }
+
+        if (container == null) {
+            simulator.install(app_path);
+            container = simulator.getAppContainer(app_id);
+        }
+
+        simulator.launch(app_id);
+
+        shell.ready(60 * 1000) // 1 minute
+            .then(function() { 
+                return shell.open();
+            })
+            .then(function() {
+                return shell.execute('book path bundle');
+            })
+            .then(function(bundle_path) {
+                var needs_open = true;
+                syncfolder.start('.', bundle_path, function() {
+                    if (needs_open) {
+                        shell.execute('book open');
+                        needs_open = false;
+                    } else {
+                        shell.execute('book reload');
+                    }
+                });
+            });
+    },
+
+    buildBook : function() {
+        if (!fs.existsSync('./book.bon')) {
+            console.log('ERROR: book.bon not found!');
+            return;
+        }
+
+        var bxpfile = path.basename(path.resolve('.')) + '.bxp';
+
+        if (fs.existsSync(bxpfile)) {
+            fs.unlinkSync(bxpfile);
+        }
+
+        tempfile = tmp.tmpNameSync();
+        zipFolder('.', tempfile, function(err) {
+            if (err) {
+                throw err;
+            }
+
+            fs.renameSync(tempfile, bxpfile);
         });
     }
 };

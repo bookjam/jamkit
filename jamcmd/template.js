@@ -3,8 +3,8 @@ const shell = require('shelljs'),
     
 var template = {
 
-    copy : function(template, language, path) {
-        var svn_path = github_url + '/trunk/' + template + '/' + language;
+    copy : function(type, template, language, path) {
+        var svn_path = github_url + '/trunk/' + type + '/' + template + '/' + language;
         var options = '--non-interactive --trust-server-cert';
         var command = 'svn export ' + svn_path + ' ' + path + ' ' + options;
 
@@ -13,4 +13,3 @@ var template = {
 };
 
 module.exports = template;
-
