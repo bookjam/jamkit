@@ -296,9 +296,9 @@
 "LABEL_EXPIRY_MINUTES" = "%d분 남음";
 "LABEL_EXPIRY_TIME" = "남은 시간은 %02d:%02d:%02d입니다.";
 "LABEL_ELAPSE_TIME" = "%02d:%02d:%02d가 경과되었습니다.";
-"LABEL_AGO_YEARS" = "yyyy년 MM월 dd일 a hh:mm";
-"LABEL_AGO_DAYS" = "MM월 dd일 a hh:mm";
-"LABEL_AGO_YESTERDAY" = "어제 a hh:mm";
+"LABEL_AGO_YEARS" = "yyyy년 M월 d일 a h:mm";
+"LABEL_AGO_DAYS" = "M월 d일 a h:mm";
+"LABEL_AGO_YESTERDAY" = "어제 a h:mm";
 "LABEL_AGO_HOURS" = "%d시간 전";
 "LABEL_AGO_1_HOUR" = "1시간 전";
 "LABEL_AGO_MINUTES" = "%d분 전";
