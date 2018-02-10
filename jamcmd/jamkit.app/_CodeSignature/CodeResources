@@ -62,11 +62,11 @@
 		</data>
 		<key>AppViewController_iPad.nib</key>
 		<data>
-		kfztUcGLuAt+RV1xfBxXfRJqHk4=
+		NLjeUmGYKJNhBjjjGg/dWUJFEyQ=
 		</data>
 		<key>AppViewController_iPhone.nib</key>
 		<data>
-		DA2k4LVAvJPQozagkZHjODk+sO4=
+		GSnobKDv1lBvSij3TM34XSoWEeY=
 		</data>
 		<key>ArticleViewController_iPad.nib</key>
 		<data>
@@ -222,7 +222,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		KsfMzDjl7V5Re/Oh+6C6bFEk8tw=
+		8fXCAHz0NKe1INs6e5O2JuGt9Qg=
 		</data>
 		<key>KoPubBatangBold.ttf</key>
 		<data>
@@ -310,11 +310,11 @@
 		</data>
 		<key>MainViewController_iPad.nib</key>
 		<data>
-		vgyBEqdMg/MSnlYsLMOdAH4TfzQ=
+		oh0L20DftWybfNUbfFAkUIZNNAM=
 		</data>
 		<key>MainViewController_iPhone.nib</key>
 		<data>
-		2p2WVrWQkACVBS/HhiGIOv9OyMs=
+		WkVNvINGHI5xSaMftojL8TxLRPg=
 		</data>
 		<key>MainWindow_iPad.nib</key>
 		<data>
@@ -2620,22 +2620,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			kfztUcGLuAt+RV1xfBxXfRJqHk4=
+			NLjeUmGYKJNhBjjjGg/dWUJFEyQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			0C31Chfi1hz0YFGvrQfgIreM6+tdelHvIacEuFuiQGM=
+			zu2Xck1ToLzp4RHa7ulJCXuWQz2YE0MKNIlXoJqU13g=
 			</data>
 		</dict>
 		<key>AppViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			DA2k4LVAvJPQozagkZHjODk+sO4=
+			GSnobKDv1lBvSij3TM34XSoWEeY=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZPjDtNQb6s4upjPYrE8skq2QltNjWIl1DEEhxAUmedk=
+			CZWahwBFghyRamZ83AS9WAxz7lL6F6n6zYTVD/MGJo4=
 			</data>
 		</dict>
 		<key>ArticleViewController_iPad.nib</key>
@@ -3291,22 +3291,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			vgyBEqdMg/MSnlYsLMOdAH4TfzQ=
+			oh0L20DftWybfNUbfFAkUIZNNAM=
 			</data>
 			<key>hash2</key>
 			<data>
-			Ub3bqro4l2s3hq2Jqv2BnIFFKITu3LKlRkQTz+h6X8A=
+			dLf9bMhWa+dO2pdOLetG+lcA0jXXqeBX1X6fdKl6Jmo=
 			</data>
 		</dict>
 		<key>MainViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			2p2WVrWQkACVBS/HhiGIOv9OyMs=
+			WkVNvINGHI5xSaMftojL8TxLRPg=
 			</data>
 			<key>hash2</key>
 			<data>
-			/5u+G5PzctrEg4HHwdIAayqcCa67TZmjp8u0AHx3nI0=
+			MafU8f1f/Xhvhg+NxXTFmEcbGamkrZe2GaCKcMefNQA=
 			</data>
 		</dict>
 		<key>MainWindow_iPad.nib</key>
