@@ -10,20 +10,20 @@ function configureVideo(element, url, options) {
 }
 
 function __configureOptions(player, options) {
-    if (options["autoplay"] === "1") {
+    if (options.autoplay === "1") {
         player.autoplay = true;
     }
     
-    if (options["loop"] === "1") {
+    if (options.loop === "1") {
         player.loop = true;
     }
     
-    if (options["playsinline"] === "1") {
+    if (options.playsinline === "1") {
         player.setAttribute('playsinline', '');
         player.setAttribute('webkit-playsinline', '');
     }
     
-    if (options["controls"] === "0") {
+    if (options.controls === "0") {
         player.controls = false;
     }
 }
