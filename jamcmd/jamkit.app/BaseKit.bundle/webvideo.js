@@ -1,4 +1,4 @@
-var player;
+var player = null;
 
 function configureVideo(element, url, options) {
     player = element;

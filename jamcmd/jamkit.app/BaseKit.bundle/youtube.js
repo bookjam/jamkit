@@ -80,29 +80,10 @@ function onPlayerStateChange(event) {
     }
     
     if (event.data === -1 && buffering_video) {
-        onPlayerNotAvailable(event);
         buffering_video = false;
         
         return;
     }
-}
-
-function onPlayerNotAvailable(event) {
-    innerHTML = iframe.contentWindow.document.body.innerHTML;
-    reason_keywords = [
-        [ "Watch on YouTube",          "embeded" ],
-        [ "YouTube에서 보기",            "embeded" ],
-        [ "who has blocked",           "blocked" ],
-        [ "available in your country", "country" ]
-    ];
-    
-    reason_keywords.forEach(function(keyword, nth) {
-        if (innerHTML.search(keyword[0]) != -1) {
-            window.location = "video://notavailable/" + keyword[1];
-                            
-            return;
-        }
-    });
 }
 
 function loadVideo(video_id) {
