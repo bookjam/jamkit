@@ -1,0 +1,6 @@
+=begin catalog
+
+=object blank: id=container, style=blank_container
+=object tabbar: type=subview, style=tabbar
+
+=end catalog

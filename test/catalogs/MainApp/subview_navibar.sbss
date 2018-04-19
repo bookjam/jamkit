@@ -1,0 +1,18 @@
+import themes.sbss
+
+#btn_back: width=44dp, height=44dp, position=abs, gravity=left-bottom, \
+        image=subview_btn_close.png
+#btn_sidebar: width=44dp, height=44dp, position=abs, gravity=left-bottom, \
+        image=subview_btn_sidebar.png
+
+#label_title: width=1pw-44dp*2, height=44dp, position=abs, gravity=top, y=20dp, \
+        font-family=$SANSSERIF_LIGHT, line-break-mode=tail-truncation, \
+        text-color=$WHITE_COLOR, text-align=center
+
+/navibar: page-background-color=$MAIN_COLOR
+
+if $SCREEN_SIZE > 7
+    #label_title: font-size=1.4
+else
+    #label_title: font-size=1.3
+end

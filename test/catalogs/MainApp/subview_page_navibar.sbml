@@ -1,0 +1,7 @@
+=begin navibar
+
+=object button: type=back, action=page-back, style=btn_back
+
+=object label: type=title, text="정보", style=label_title
+
+=end navibar

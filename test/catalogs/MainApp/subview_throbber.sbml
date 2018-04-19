@@ -1,0 +1,14 @@
+=begin throbber
+
+=begin content
+=begin box
+=object image: style=img_icon
+=object label: style=label_message
+=object progress: style=progress_main
+=end box
+=object button: style=btn_cancel
+=end content
+
+=object section: style=section_content
+
+=end throbber

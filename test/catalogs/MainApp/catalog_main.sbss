@@ -1,0 +1,6 @@
+import themes.sbss
+
+#blank_container: width=1pw, height=1ph-50dp, position=abs, gravity=top, autoresizing=flexible-size
+#tabbar: width=1pw, height=50dp, position=abs, gravity=bottom
+
+/catalog: page-background-color=$WHITE_COLOR
