@@ -34,7 +34,7 @@ function configureVideo(element, video_id, quality, options) {
 
 function onPlayerReady(event) {
     player.cueVideoById(current_video_id, 0, suggested_quality);
-    
+
     if (plays_when_ready) {
         player.playVideo();
     }
@@ -127,6 +127,14 @@ function getTitle() {
 
 function getAuthor() {
     return player.getVideoData().author;
+}
+
+function mute() {
+    player.mute();
+}
+
+function unmute() {
+    player.unMute();
 }
 
 function enterFullscreen() {
