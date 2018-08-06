@@ -78,7 +78,7 @@
 		</data>
 		<key>Assets.car</key>
 		<data>
-		0JBYcCN49rt9I1xLNpmDYXeadxg=
+		IIEdgRI0oXJ1OZ1NGtVQ9ZG0yMY=
 		</data>
 		<key>AudioBookViewController_iPad.nib</key>
 		<data>
@@ -222,7 +222,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		4bwwDm6Vh9izjHllbiCFqzkJwBU=
+		b3WP/IZnHMM/j6sLMzpGj+bJEwE=
 		</data>
 		<key>KoPubBatangBold.ttf</key>
 		<data>
@@ -243,6 +243,10 @@
 		<key>KoPubDotumMedium.ttf</key>
 		<data>
 		1gwWmZj2YMQ7ciABE4N6+Go6xsQ=
+		</data>
+		<key>LaunchImage-1100-Portrait-2436h@3x.png</key>
+		<data>
+		JbE/OGbDNjHieYN0YdlRXwHYGJM=
 		</data>
 		<key>LaunchImage-568h@2x.png</key>
 		<data>
@@ -2672,11 +2676,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			0JBYcCN49rt9I1xLNpmDYXeadxg=
+			IIEdgRI0oXJ1OZ1NGtVQ9ZG0yMY=
 			</data>
 			<key>hash2</key>
 			<data>
-			mtuKKks+oY7knl7kYfknBeKyR+aU9Jc7RP92E1FPejk=
+			KmQfp4kmHLTe+UZ4ftA/viOOo5F+8nRt5i15IKBiURQ=
 			</data>
 		</dict>
 		<key>AudioBookViewController_iPad.nib</key>
@@ -3117,6 +3121,17 @@
 			<key>hash2</key>
 			<data>
 			zkSQK5b/kFbDcYxvUyTqZxlAmIbPGzBBPqiWBEkEukA=
+			</data>
+		</dict>
+		<key>LaunchImage-1100-Portrait-2436h@3x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			JbE/OGbDNjHieYN0YdlRXwHYGJM=
+			</data>
+			<key>hash2</key>
+			<data>
+			ngkbeytg8EngCOZ3OTXoQmHQAWEPqLJBf9eu1B3Kn98=
 			</data>
 		</dict>
 		<key>LaunchImage-568h@2x.png</key>
