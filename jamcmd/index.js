@@ -95,7 +95,7 @@ if (command === 'run') {
             .help('help')
             .argv
 
-        commands.runApp();
+        commands.runApp(argv['mode']);
     
         return;
     }
