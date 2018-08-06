@@ -78,14 +78,14 @@ var commands = {
             })
             .then(function() {
                if (mode === 'jam') {
-                    return shell.execute('catalog path resource ' + appinfo.id);
+                    return shell.execute('catalog path bundle ' + appinfo.id);
                 } else {
                     return shell.execute('catalog path bundle');
                 }
             })
-            .then(function(resource_path) {
+            .then(function(bundle_path) {
                 var needs_reset = true;
-                syncfolder.start('./catalogs', resource_path, function() {
+                syncfolder.start('./catalogs', bundle_path, function() {
                     if (needs_reset) {
                         if (mode === 'jam') {
                             shell.execute('catalog reset ' + appinfo.id);
