@@ -1,7 +1,7 @@
 const fs         = require('fs-extra'),
       path       = require('path'),
       plist      = require('simple-plist'),
-      zipFolder  = require('zip-folder'),
+      zipdir     = require('zip-dir'),
       tmp        = require('tmp'),
       template   = require('./template'),
       simulator  = require('./simulator'),
@@ -31,7 +31,7 @@ var commands = {
         fs.writeFile(bon_path, JSON.stringify(appinfo, null, 4));
     },
 
-    runApp : function() {
+    runApp : function(mode) {
         if (!fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found!');
             return;
@@ -70,19 +70,35 @@ var commands = {
                 return shell.open();
             })
             .then(function() {
-                return shell.execute('app id ' + appinfo.id);
+                if (mode === 'jam') {
+                    return shell.execute('app id'); // dummy command for promise
+                } else {
+                    return shell.execute('app id ' + appinfo.id);
+                }
             })
             .then(function() {
-                return shell.execute('catalog path bundle');
+               if (mode === 'jam') {
+                    return shell.execute('catalog path resource ' + appinfo.id);
+                } else {
+                    return shell.execute('catalog path bundle');
+                }
             })
-            .then(function(bundle_path) {
+            .then(function(resource_path) {
                 var needs_reset = true;
-                syncfolder.start('./catalogs', bundle_path, function() {
+                syncfolder.start('./catalogs', resource_path, function() {
                     if (needs_reset) {
-                        shell.execute('catalog reset');
+                        if (mode === 'jam') {
+                            shell.execute('catalog reset ' + appinfo.id);
+                        } else {
+                            shell.execute('catalog reset');
+                        }
                         needs_reset = false;
                     } else {
-                        shell.execute('catalog reload');
+                        if (mode === 'jam') {
+                            shell.execute('catalog reload ' + appinfo.id);
+                        } else {
+                            shell.execute('catalog reload');
+                        }
                     }
                 });
             });
@@ -101,7 +117,7 @@ var commands = {
         }
 
         tempfile = tmp.tmpNameSync();
-        zipFolder('.', tempfile, function(err) {
+        zipdir('.', { saveTo:tempfile }, function(err, buffer) {
             if (err) {
                 throw err;
             }
@@ -194,7 +210,7 @@ var commands = {
         }
 
         tempfile = tmp.tmpNameSync();
-        zipFolder('.', tempfile, function(err) {
+        zipdir('.', { saveTo:tempfile }, function(err, buffer) {
             if (err) {
                 throw err;
             }

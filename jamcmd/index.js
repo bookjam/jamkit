@@ -88,6 +88,10 @@ if (command === 'run') {
        argv = options.reset()
             .usage('Usage: $0 run')
             .example('$0 run', 'Run on iOS simulator. App must be in the current working directory.')
+            .option('mode', { 
+                default:'main',
+                describe: 'Specify run mode, main or jam'
+            })
             .help('help')
             .argv
 
