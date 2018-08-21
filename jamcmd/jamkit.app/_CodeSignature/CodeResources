@@ -70,11 +70,11 @@
 		</data>
 		<key>ArticleViewController_iPad.nib</key>
 		<data>
-		rljmwNyDLxhyyrG6Xpz8r+d6Iag=
+		tyqWN3qK59R/v5awpGXl4FLHMmU=
 		</data>
 		<key>ArticleViewController_iPhone.nib</key>
 		<data>
-		c4eaw/C8dIsuenWLBy1XMY9Me5I=
+		XZ0AVsISdduZfjg4puIX/ilFhfQ=
 		</data>
 		<key>Assets.car</key>
 		<data>
@@ -82,11 +82,11 @@
 		</data>
 		<key>AudioBookViewController_iPad.nib</key>
 		<data>
-		Z6nwF2m8tEKLFkrW8esrAjMJKSA=
+		97qJO4Rn/kimia3KyGvw+lL5m18=
 		</data>
 		<key>AudioBookViewController_iPhone.nib</key>
 		<data>
-		iWjSS7QikhyfiSvL+Jtrx/kFL7A=
+		e28Wz6uRxf0evyMP5w028msT+vY=
 		</data>
 		<key>AudioMarkAddView_iPad.nib</key>
 		<data>
@@ -174,11 +174,11 @@
 		</data>
 		<key>BookViewController_iPad.nib</key>
 		<data>
-		P74eo//4uzItiM7khjR/PI/tbq0=
+		uEx5ZYxEKKqax0PvFPQ9M2/iuFo=
 		</data>
 		<key>BookViewController_iPhone.nib</key>
 		<data>
-		1gCm5eynhzP2LYo2zo1/xdmK+LQ=
+		9GXeZ/uXRGiw048imO9mVvsAQok=
 		</data>
 		<key>CloudAuthView_iPad.nib</key>
 		<data>
@@ -198,11 +198,11 @@
 		</data>
 		<key>ComicViewController_iPad.nib</key>
 		<data>
-		UdvXyHCg6/0/5EX34JpgfUsQ2oA=
+		Oa8n+Ro62zv3GPYx/pkaRJrJtOs=
 		</data>
 		<key>ComicViewController_iPhone.nib</key>
 		<data>
-		GQ7pZHQN0715eVp3YP0yr5BJ2Q0=
+		2vQXo5l5CuleJisQIK1PRMJRD2M=
 		</data>
 		<key>CouponsViewController_iPad.nib</key>
 		<data>
@@ -214,7 +214,7 @@
 		</data>
 		<key>Fonts.plist</key>
 		<data>
-		K5Fphba7MI8pC97chEFkYbss3Co=
+		ur7B1yW/CeAM1gVJLgrMzIbuRAc=
 		</data>
 		<key>GoogleService-Info.plist</key>
 		<data>
@@ -222,7 +222,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		ENXIjPQSofo4XUzsBQ3ZL9YU/2A=
+		UKEfvr4caPXoI3knmcXclXyYdXs=
 		</data>
 		<key>KoPubBatangBold.ttf</key>
 		<data>
@@ -899,7 +899,7 @@
 		</data>
 		<key>Settings.plist</key>
 		<data>
-		FZkdPQnmSu/SnUGO5t8/ImqAFzU=
+		6Pn8Hbm4BcZj4sGU9ln/P3QjYcQ=
 		</data>
 		<key>SettingsViewController_iPad.nib</key>
 		<data>
@@ -1033,11 +1033,11 @@
 		</data>
 		<key>StoryViewController_iPad.nib</key>
 		<data>
-		VJ78Z2Nqh3LHxu316qRib0dRL4w=
+		jw2d7OvrIXNKGUvJsBUyYzljAlw=
 		</data>
 		<key>StoryViewController_iPhone.nib</key>
 		<data>
-		oWR/Bro62ww2V2itBmlgfMaxyYA=
+		lKTOzpcAcwSpdjWH0ffagqLuPlI=
 		</data>
 		<key>SupportViewController_iPad.nib</key>
 		<data>
@@ -2141,11 +2141,11 @@
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_page_off-f@u.png</key>
 		<data>
-		Os2MbKmoPQIfKoi6yFMijTbxuiY=
+		72wXRQO2SJmFYdgQLKIt2HMpGfc=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_page_off-f@x.png</key>
 		<data>
-		57puj2KhKzMFKwxu17ty/mO/XYI=
+		yJ0qY4pIvIU3An44wfJj5pLQaxI=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_page_off-p@m.png</key>
 		<data>
@@ -2157,11 +2157,11 @@
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_page_on-f@u.png</key>
 		<data>
-		QR32gVt9LEK9LGSyMkkBC7QxWoI=
+		SS4+vIl8ZzFrFL4FIO0DymSCw8g=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_page_on-f@x.png</key>
 		<data>
-		CDU5eoOMQl6mgep6x9PyLDXvbuo=
+		qoFkwRs2/A1xZxuQ5OK8uu8n2d4=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_page_on-p@m.png</key>
 		<data>
@@ -2173,11 +2173,11 @@
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_off-f@u.png</key>
 		<data>
-		pNCeKvM6A9I+9ZR6YfSyukjv/aE=
+		c0P5TdJaOboRMWIAOVECKWJjspE=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_off-f@x.png</key>
 		<data>
-		MzsHGDpzwNzTbGyWKk0CT1uGkJs=
+		KhIwYRWiIAKoueqMy5dFvepkbEY=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_off-p@m.png</key>
 		<data>
@@ -2189,11 +2189,11 @@
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_off_disabled-f@u.png</key>
 		<data>
-		/UD6sQ0LTdoPSCb6ArGkzHKSjqg=
+		gUmNDRpV4sgQiQqemSAJQokfDBo=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_off_disabled-f@x.png</key>
 		<data>
-		D0VYJMMmu4tPWilXnI+n1kUt3wY=
+		ONZcW4UWTe+IF2sT2juy6Qg8w5Q=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_off_disabled-p@m.png</key>
 		<data>
@@ -2205,11 +2205,11 @@
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_on-f@u.png</key>
 		<data>
-		9FenaqhyPGCzMsPAi/UlF9MScJM=
+		Ow+9mgDPWPGJVohm9P5wjs9nwEY=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_on-f@x.png</key>
 		<data>
-		7rw300cfbvvqHo6hdpp+5HeQILg=
+		9JyJyt0/MWL9pLFkCCdEf6V1DVA=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_on-p@m.png</key>
 		<data>
@@ -2221,11 +2221,11 @@
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_on_disabled-f@u.png</key>
 		<data>
-		ylEbzWxkZ768q+wupF1RxgHnKC8=
+		fO7WwzTvhIC4AalbSYMrlBEyUZ0=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_on_disabled-f@x.png</key>
 		<data>
-		4Mvpn81n6g42aBrtOxRqU/GjhW0=
+		mG9MAeyWO7htvC5aHnKdzZUyaUU=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_on_disabled-p@m.png</key>
 		<data>
@@ -2237,11 +2237,11 @@
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_close-f@u.png</key>
 		<data>
-		zVj0pyIE1nG5WkVX92lZhzAQyy8=
+		JYkDKzuZ+KPDVCVQQJWw/wUIJtM=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_close-f@x.png</key>
 		<data>
-		HlsZmOh7+PsFudB/3wkdtK1k4EM=
+		YlsfteQ+SLUqr3JPvlpqKHbv5eM=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_close-p@m.png</key>
 		<data>
@@ -2253,11 +2253,11 @@
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_close_down-f@u.png</key>
 		<data>
-		9p6gFbnoyUlTG07THG3gmd+lbUw=
+		4c50UpQ0iUcZ1JrNJ95pzSW9SOM=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_close_down-f@x.png</key>
 		<data>
-		JdyjRitSc58EbLwbTto7Nnlhvuo=
+		o+KYI0vZ4y1FaJyD4OtcXJjD5oY=
 		</data>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_close_down-p@m.png</key>
 		<data>
@@ -2465,11 +2465,11 @@
 		</data>
 		<key>WebtoonViewController_iPad.nib</key>
 		<data>
-		v1XviLS4fjJUwLHRouIct9mWuHk=
+		EzAa40oYMf5+Pxz8kd8cob2VbeU=
 		</data>
 		<key>WebtoonViewController_iPhone.nib</key>
 		<data>
-		lKN+bfsIGAMlQzr+7OdLoLua8+M=
+		/BZSK75DroRrRaJU7NuM974OchQ=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -2654,22 +2654,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			rljmwNyDLxhyyrG6Xpz8r+d6Iag=
+			tyqWN3qK59R/v5awpGXl4FLHMmU=
 			</data>
 			<key>hash2</key>
 			<data>
-			8UYGRhs0HwkTXKdMQ7GShRH89fNEKJ3RhUOPzjjSshQ=
+			MyxIcD0kc7OsqPS/nsPq32gymGzj7UYNQg3MDyndKtw=
 			</data>
 		</dict>
 		<key>ArticleViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			c4eaw/C8dIsuenWLBy1XMY9Me5I=
+			XZ0AVsISdduZfjg4puIX/ilFhfQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			963JSiyRRGoikr2FFT9NLD2PkMWreAoMl0+kvLV53YM=
+			Zu4g4aBoPWmzgoC6CQQ/LVFGs66ceSgaQ6n1x2EAvqU=
 			</data>
 		</dict>
 		<key>Assets.car</key>
@@ -2687,22 +2687,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Z6nwF2m8tEKLFkrW8esrAjMJKSA=
+			97qJO4Rn/kimia3KyGvw+lL5m18=
 			</data>
 			<key>hash2</key>
 			<data>
-			kAW0Ji3g2sMPn6UgvUhPgldKMhQWNDjz5l3fDQBS1Qk=
+			vRiKbuNmj/luPhaxlbHAmHaTYrFaja7zc4IuI+VGFaw=
 			</data>
 		</dict>
 		<key>AudioBookViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			iWjSS7QikhyfiSvL+Jtrx/kFL7A=
+			e28Wz6uRxf0evyMP5w028msT+vY=
 			</data>
 			<key>hash2</key>
 			<data>
-			qsmki5vB9DLq1TcRNWxtDjxhKQH62WmH/LSqh/y7Zn4=
+			BgMBwkKW/Dx0kFT2iwjgOpeAlHg3DW1oId3DRQtUWrs=
 			</data>
 		</dict>
 		<key>AudioMarkAddView_iPad.nib</key>
@@ -2940,22 +2940,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			P74eo//4uzItiM7khjR/PI/tbq0=
+			uEx5ZYxEKKqax0PvFPQ9M2/iuFo=
 			</data>
 			<key>hash2</key>
 			<data>
-			JgTeY61dlZ+TGKR4PGntmFBW22KfQm+qkc6miKjv3sc=
+			irJk11XsJhaNY1cmiIrTAXMHzlvQbSVsoAzUxMHl3Ws=
 			</data>
 		</dict>
 		<key>BookViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			1gCm5eynhzP2LYo2zo1/xdmK+LQ=
+			9GXeZ/uXRGiw048imO9mVvsAQok=
 			</data>
 			<key>hash2</key>
 			<data>
-			3emthMal/zkKm9E2kJomJH0jTXsZTsSeWxCXu8KJyK8=
+			gq5gJPNkUV/Yv1CSTx1wHP7fZHbcErUG2MaERePfkSk=
 			</data>
 		</dict>
 		<key>CloudAuthView_iPad.nib</key>
@@ -3006,22 +3006,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			UdvXyHCg6/0/5EX34JpgfUsQ2oA=
+			Oa8n+Ro62zv3GPYx/pkaRJrJtOs=
 			</data>
 			<key>hash2</key>
 			<data>
-			bmnOBt70/RVhggAqUTwOu5lCyyOnuwb4vGuC8xvGol4=
+			Jje14R5HuVro+yjimODDTz+addimI6rl/57xe87tLoM=
 			</data>
 		</dict>
 		<key>ComicViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			GQ7pZHQN0715eVp3YP0yr5BJ2Q0=
+			2vQXo5l5CuleJisQIK1PRMJRD2M=
 			</data>
 			<key>hash2</key>
 			<data>
-			KmiDcz6E29FP9UgqAcrOMjxiJHfjkNt9U6zTf3CjdDA=
+			wgbM3WoRsKY3rwi7EfMxNBpADGgFCQdy6+LuKu6GL2s=
 			</data>
 		</dict>
 		<key>CouponsViewController_iPad.nib</key>
@@ -3050,11 +3050,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			K5Fphba7MI8pC97chEFkYbss3Co=
+			ur7B1yW/CeAM1gVJLgrMzIbuRAc=
 			</data>
 			<key>hash2</key>
 			<data>
-			0SmwmKz079XR+SfCMM7ku49g1AkTy4dJ+nH/l41oI3g=
+			IxQN18hOxPL1UYejSoJ+oF2F28MIetrLE55fwAtEYJQ=
 			</data>
 		</dict>
 		<key>GoogleService-Info.plist</key>
@@ -4806,11 +4806,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			FZkdPQnmSu/SnUGO5t8/ImqAFzU=
+			6Pn8Hbm4BcZj4sGU9ln/P3QjYcQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			urTkzKh9CtUMBq7O7fgOdRbJ9lepkbj7rxC7LTjV5Sk=
+			PxZ6oOQNiY69qil9kyGzMp+5RBQt8zrQTD94Dgf6eZE=
 			</data>
 		</dict>
 		<key>SettingsViewController_iPad.nib</key>
@@ -5104,22 +5104,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VJ78Z2Nqh3LHxu316qRib0dRL4w=
+			jw2d7OvrIXNKGUvJsBUyYzljAlw=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZIS+0AUhgRug4DVoyZ2j2L3PoiSSLuR4iFlGER2sS3k=
+			e8opmw81O8hgm5kAY/W9mvtAaiHsImmvGkZbAbvX1NM=
 			</data>
 		</dict>
 		<key>StoryViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			oWR/Bro62ww2V2itBmlgfMaxyYA=
+			lKTOzpcAcwSpdjWH0ffagqLuPlI=
 			</data>
 			<key>hash2</key>
 			<data>
-			PySGRo7G6RebAfF1WrcaBh2hLQ9cqqgRrA10qXiw0mc=
+			gdJHy+9eYjdMpUcpBYTOUzoPBaK5B8PtRj/i7WM3fIA=
 			</data>
 		</dict>
 		<key>SupportViewController_iPad.nib</key>
@@ -8151,22 +8151,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Os2MbKmoPQIfKoi6yFMijTbxuiY=
+			72wXRQO2SJmFYdgQLKIt2HMpGfc=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZzrvQ0SJYwEb3HIoBrgQGRaJh7kBJ4u+Vs3S45UH5Fs=
+			OCX0BYv6Uw7PUHHkqxkiKK/P3eqyl/pnDlih5ggm+eU=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_page_off-f@x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			57puj2KhKzMFKwxu17ty/mO/XYI=
+			yJ0qY4pIvIU3An44wfJj5pLQaxI=
 			</data>
 			<key>hash2</key>
 			<data>
-			eaHNiB8S3gVWwMf5WWKAQhiLyWpIgbeswI659VZLM+g=
+			u0RKH537rx+5ncorgQrAg2EcCFamULg017teqaPOCY4=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_page_off-p@m.png</key>
@@ -8195,22 +8195,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			QR32gVt9LEK9LGSyMkkBC7QxWoI=
+			SS4+vIl8ZzFrFL4FIO0DymSCw8g=
 			</data>
 			<key>hash2</key>
 			<data>
-			UeHMSuvSyeEd8UZWehsyyPNQmlX6eGCVMNy2+o6GWfg=
+			0m7XxodD74fPacKgeho1/59VmcK5+U5SsU4t7oK7yfs=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_page_on-f@x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			CDU5eoOMQl6mgep6x9PyLDXvbuo=
+			qoFkwRs2/A1xZxuQ5OK8uu8n2d4=
 			</data>
 			<key>hash2</key>
 			<data>
-			UjmDVcm9rzuegz5+OVd/qvxL2nEYiejOzgZUdHChOo0=
+			5sS9CPYTh8Xwn3++oWJ5BU+bcM2AKH9lmSvenMazGvk=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_page_on-p@m.png</key>
@@ -8239,22 +8239,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			pNCeKvM6A9I+9ZR6YfSyukjv/aE=
+			c0P5TdJaOboRMWIAOVECKWJjspE=
 			</data>
 			<key>hash2</key>
 			<data>
-			FuEezDBL21aYuAQF9z9umELa1XOuepJZIm+uPF3++Ew=
+			AjgD2bpuoAIaIHCWnnTWVo6NlUDL3ZFdp+PQokMVm7Y=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_off-f@x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			MzsHGDpzwNzTbGyWKk0CT1uGkJs=
+			KhIwYRWiIAKoueqMy5dFvepkbEY=
 			</data>
 			<key>hash2</key>
 			<data>
-			SJhnuUG3/PbFBNqmU1nT4v4NIKsU5SuDgwopl4hjQwk=
+			S/micVru3atkAY2/vg3x7D1TyZaKegTaqpyMX1//AZs=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_off-p@m.png</key>
@@ -8283,22 +8283,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			/UD6sQ0LTdoPSCb6ArGkzHKSjqg=
+			gUmNDRpV4sgQiQqemSAJQokfDBo=
 			</data>
 			<key>hash2</key>
 			<data>
-			lnokBKGHbqezSWlD3S8F4upT3mjdTxIu0bFX+8iQg+A=
+			cIMmHBTcK4TaBBzbZNoihj0HlEkRQMLaV3n3+1PvuGk=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_off_disabled-f@x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			D0VYJMMmu4tPWilXnI+n1kUt3wY=
+			ONZcW4UWTe+IF2sT2juy6Qg8w5Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			Ot3HkUQUldNFgzWkih5lCCirH7F2LixQDgl4Bryw6xA=
+			K3qibSkYeLST393hatGYSZHB0FFIkEaba4kFqQK3PhA=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_off_disabled-p@m.png</key>
@@ -8327,22 +8327,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9FenaqhyPGCzMsPAi/UlF9MScJM=
+			Ow+9mgDPWPGJVohm9P5wjs9nwEY=
 			</data>
 			<key>hash2</key>
 			<data>
-			5TpLUFIYal0GdOtLaEHggvUUc2WAen82upptMwhGvak=
+			TdqFRkh3+TnxOqLc9PpxoyAOPZMTDt2bDroLTKtQbY0=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_on-f@x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7rw300cfbvvqHo6hdpp+5HeQILg=
+			9JyJyt0/MWL9pLFkCCdEf6V1DVA=
 			</data>
 			<key>hash2</key>
 			<data>
-			8+LWdSd/zK1yhQp0z3fpRSiiN25g8u4BJfzv4jMCaSU=
+			G64oJhkMFeXZk9K6BWyoVBr1juAjUT7XdOzDdtw6H9I=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_on-p@m.png</key>
@@ -8371,22 +8371,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ylEbzWxkZ768q+wupF1RxgHnKC8=
+			fO7WwzTvhIC4AalbSYMrlBEyUZ0=
 			</data>
 			<key>hash2</key>
 			<data>
-			8XsCut8/ilIiMVFX81O6cy06R3Vkox8NGnCn+wAE0Hc=
+			lsLGyWlP0Xy0EAysNlhRbtTQyEh7DrBSaebI9q+heRk=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_on_disabled-f@x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			4Mvpn81n6g42aBrtOxRqU/GjhW0=
+			mG9MAeyWO7htvC5aHnKdzZUyaUU=
 			</data>
 			<key>hash2</key>
 			<data>
-			U0nQvR1YnThRY3UspuD+v+TDKvTEP0Va0lResjN7Whg=
+			OQmBA5PuipoDj8LXme6h+2FiogmqNaic0F7GX8UoEZ4=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_auto_sync_on_disabled-p@m.png</key>
@@ -8415,22 +8415,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			zVj0pyIE1nG5WkVX92lZhzAQyy8=
+			JYkDKzuZ+KPDVCVQQJWw/wUIJtM=
 			</data>
 			<key>hash2</key>
 			<data>
-			Uakg8SWt18hvtHq/jM8C8FtuTxzG4qjFIOTRXCZqLHg=
+			+gdVw6d/B9EMNxVrcInNqPr0B3jSx6nxJbIdTdVBgAc=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_close-f@x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			HlsZmOh7+PsFudB/3wkdtK1k4EM=
+			YlsfteQ+SLUqr3JPvlpqKHbv5eM=
 			</data>
 			<key>hash2</key>
 			<data>
-			NBEhIMeAL0iDpW2ByJHFPDOunrmDC/RVcdzpbpSpBKk=
+			NFnYEVWP21po/UWdOFIC5JXgaBwaB7mlv6iw0JN5GtA=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_close-p@m.png</key>
@@ -8459,22 +8459,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9p6gFbnoyUlTG07THG3gmd+lbUw=
+			4c50UpQ0iUcZ1JrNJ95pzSW9SOM=
 			</data>
 			<key>hash2</key>
 			<data>
-			9VHfl/Rw46STNnJDyCxtuMRLloA7JA8nHhQVT46qF14=
+			fGXQBN08/Z+27e5cUsEApCv2tDYIB3vfG10SPLw9OLE=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_close_down-f@x.png</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			JdyjRitSc58EbLwbTto7Nnlhvuo=
+			o+KYI0vZ4y1FaJyD4OtcXJjD5oY=
 			</data>
 			<key>hash2</key>
 			<data>
-			o45dwHFv308bbdvrHMLjeG5lR2OZSi1fwvrn35wafhE=
+			hDUHwiotWpHj79TlfnWxuoul7Mxig8XgtHpe7R9NpxQ=
 			</data>
 		</dict>
 		<key>Themes.bundle/Paper/BookView/storyview_btn_close_down-p@m.png</key>
@@ -9042,22 +9042,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			v1XviLS4fjJUwLHRouIct9mWuHk=
+			EzAa40oYMf5+Pxz8kd8cob2VbeU=
 			</data>
 			<key>hash2</key>
 			<data>
-			zVxucXbklGMLikQLFdeqEaeieTWRbF7bTSveS/YLv3o=
+			bEs2XdsQXaEJxoHdLLYOXC4/2Cj9YFHHVe/yCABI93c=
 			</data>
 		</dict>
 		<key>WebtoonViewController_iPhone.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			lKN+bfsIGAMlQzr+7OdLoLua8+M=
+			/BZSK75DroRrRaJU7NuM974OchQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			aROdtcvOozAV4JUghEN7amPWy8M8PKA6K7GhvLZ552Y=
+			ThtKrYQpaQ3eYmmGBTjb13lbhFMpmBj/oj8EhxGlQDg=
 			</data>
 		</dict>
 	</dict>
