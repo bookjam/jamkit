@@ -3,7 +3,7 @@ var iframe = null;
 var current_video_id = null;
 var suggested_quality = 'default'
 var plays_when_ready = false;
-var turns_off_captions = false;
+var turns_off_captions = false;ㅋ
 var buffering_video = false;
 
 function configureVideo(element, video_id, quality, options) {

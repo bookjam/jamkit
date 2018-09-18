@@ -170,7 +170,7 @@
 		</data>
 		<key>BaseKit.bundle/youtube.js</key>
 		<data>
-		7dFm+oSE8XXdFDU1iB4myXfxBUI=
+		jg4XqA0uKhYm4V7ngldSeuuEHYw=
 		</data>
 		<key>BookViewController_iPad.nib</key>
 		<data>
@@ -222,11 +222,15 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		UKEfvr4caPXoI3knmcXclXyYdXs=
+		78p8REH/jjf9nMoKctl+SlNZHWk=
 		</data>
 		<key>KoPubBatangBold.ttf</key>
 		<data>
 		xhLnTUYDyDbR3JVc9urp8KqP60I=
+		</data>
+		<key>KoPubBatangLight.ttf</key>
+		<data>
+		bpSpbHSsWPvN9afFXtkNNxuhGM0=
 		</data>
 		<key>KoPubBatangMedium.ttf</key>
 		<data>
@@ -2929,11 +2933,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			7dFm+oSE8XXdFDU1iB4myXfxBUI=
+			jg4XqA0uKhYm4V7ngldSeuuEHYw=
 			</data>
 			<key>hash2</key>
 			<data>
-			KVATCGCwBwS5nvYLprV3sl3hgogln7KFN1MQKDHmhB0=
+			CGbVOENU0gLdfawgWmDvUPNvZevumbgbWukWwo+4ZY0=
 			</data>
 		</dict>
 		<key>BookViewController_iPad.nib</key>
@@ -3077,6 +3081,17 @@
 			<key>hash2</key>
 			<data>
 			DuVFpMV7PwRn+RUHNJHP7/TV4ktJ6j8tPRGsYwFfeRQ=
+			</data>
+		</dict>
+		<key>KoPubBatangLight.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			bpSpbHSsWPvN9afFXtkNNxuhGM0=
+			</data>
+			<key>hash2</key>
+			<data>
+			+31NGedkaNMgZT1MOJBVzSyBw/d/uoHoFsxeCW0jzEc=
 			</data>
 		</dict>
 		<key>KoPubBatangMedium.ttf</key>
