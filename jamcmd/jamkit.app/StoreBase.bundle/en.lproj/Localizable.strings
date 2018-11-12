@@ -122,6 +122,7 @@
 "MSG_WISHLIST_002" = "Already in Wish List";
 "MSG_NOTIFICATION_001" = "";
 "MSG_NOTIFICATION_002" = "";
+"MSG_NOTIFICATION_003" = "";
 "MSG_BOOK_001" = "Memo will be deleted if you delete underline.";
 "MSG_BOOK_002" = "Delete memo";
 "MSG_BOOK_003" = "Move to recent reading page?";

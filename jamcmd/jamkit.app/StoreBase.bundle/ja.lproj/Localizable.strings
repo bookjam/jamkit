@@ -122,6 +122,7 @@
 "MSG_WISHLIST_002" = "すでにウィッシュリストに入っています。";
 "MSG_NOTIFICATION_001" = "";
 "MSG_NOTIFICATION_002" = "";
+"MSG_NOTIFICATION_003" = "";
 "MSG_BOOK_001" = "下線を削除したらメモも削除されます。";
 "MSG_BOOK_002" = "メモを削除します。";
 "MSG_BOOK_003" = "最近読んだページに移動しますか。";
