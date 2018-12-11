@@ -3,7 +3,7 @@ var iframe = null;
 var current_video_id = null;
 var suggested_quality = 'default'
 var plays_when_ready = false;
-var turns_off_captions = false;ㅋ
+var turns_off_captions = false;
 var buffering_video = false;
 
 function configureVideo(element, video_id, quality, options) {
@@ -13,7 +13,8 @@ function configureVideo(element, video_id, quality, options) {
         playerVars: options,
         events: {
             'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
+            'onStateChange': onPlayerStateChange,
+            'onError': onError
         }
     });
 
@@ -43,7 +44,7 @@ function onPlayerReady(event) {
 function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.CUED) {
         window.location = "video://ready";
- 
+
         if (turns_off_captions) {
             player.unloadModule("captions");
         }
@@ -63,32 +64,58 @@ function onPlayerStateChange(event) {
 
     if (event.data === YT.PlayerState.PAUSED) {
         window.location = "video://paused";
-        
+
         return;
     }
-    
+
     if (event.data === YT.PlayerState.ENDED) {
         window.location = "video://finished";
-        
+
         return;
     }
-    
+
     if (event.data === YT.PlayerState.BUFFERING) {
         buffering_video = true;
-        
+
         return;
     }
-    
+
     if (event.data === -1 && buffering_video) {
         buffering_video = false;
-        
+
+        return;
+    }
+}
+
+function onError(event) {
+    if (event.data == 2) {
+        window.location = "video://error/invalid";
+
+        return;
+    }
+
+    if (event.data == 5) {
+        window.location = "video://error/system";
+
+        return;
+    }
+
+    if (event.data == 100) {
+        window.location = "video://notavailable/private";
+
+        return;
+    }
+
+    if (event.data == 101 || event.data == 105) {
+        window.location = "video://notavailable/protected";
+
         return;
     }
 }
 
 function loadVideo(video_id) {
     player.cueVideoById(video_id, 0, suggested_quality);
-    
+
     current_video_id = video_id;
     buffering_video = false;
 }
