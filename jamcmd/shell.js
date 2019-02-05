@@ -26,14 +26,26 @@ var shell = {
 
                 if (lines.match(/(.|\n)*\$ $/)) {
                     (lines.match(/(.|\n)*\$ ?/g)||[]).forEach(function(line) {
-                        callbacks.shift()(line.replace('$ ', '').trim());
+                        callbacks.shift()(line.replace('$ ', '').trimEnd());
                     });
 
                     lines = '';
+
+                    return;
+                }
+
+                if (lines.match(/(DEBUG: .*\n)+/)) {
+                    (lines.match(/DEBUG: .*\n/g)||[]).forEach(function(line) {
+                        console.log(line.replace('DEBUG: ', '').trimEnd());
+                    });
+
+                    lines = '';
+
+                    return;
                 }
             });
         });
-     },
+    },
 
     execute : function(command) {
         return new Promise(function(resolve, reject) {
