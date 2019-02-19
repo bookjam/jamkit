@@ -1,6 +1,5 @@
 const fs         = require('fs-extra'),
       path       = require('path'),
-      plist      = require('simple-plist'),
       zipdir     = require('zip-dir'),
       tmp        = require('tmp'),
       template   = require('./template'),
@@ -8,8 +7,7 @@ const fs         = require('fs-extra'),
       shell      = require('./shell'),
       syncfolder = require('./syncfolder');
 
-var commands = {
-
+module.exports = {
     createApp : function(name, options) {
         if (fs.existsSync(name)) {
             console.log('ERROR: ' + name + ' already exists!');
@@ -28,45 +26,25 @@ var commands = {
 
         appinfo.id = options.app_id;
         appinfo.version = options.version;
+        
         fs.writeFile(bon_path, JSON.stringify(appinfo, null, 4));
     },
 
-    runApp : function(mode) {
+    runApp : function(platform, mode) {
         if (!fs.existsSync('./package.bon')) {
-            console.log('ERROR: package.bon not found!');
+            console.log('ERROR: package.bon not found.');
+            return;
+        }
+        
+        var appinfo = JSON.parse(fs.readFileSync('./package.bon', 'utf8'));
+
+        if (!appinfo || !appinfo.id) {
+            console.log('ERROR: package.bon is malformed.');
             return;
         }
 
-        simulator.start();
-
-        var app_path = path.resolve(__dirname, 'jamkit.app');
-        var app_info = plist.readFileSync(path.resolve(app_path, 'Info.plist'))
-        var app_id = app_info.CFBundleIdentifier;
-        var app_version = app_info.CFBundleVersion;
-        var container = simulator.getAppContainer(app_id);
-
-        if (container != null && fs.existsSync(container)) {
-            var installed_info = plist.readFileSync(path.resolve(container, 'Info.plist'));
-            var installed_version = installed_info.CFBundleVersion;
-
-            if (installed_version !== app_version) {
-                simulator.uninstall(app_id);
-                container = null;
-            }
-        }
-
-        if (container == null || !fs.existsSync(container)) {
-            simulator.install(app_path);
-            container = simulator.getAppContainer(app_id);
-        }
-
-        var appinfo = JSON.parse(fs.readFileSync('./package.bon', 'utf8'));
-        var settings = plist.readFileSync(path.resolve(container, 'Settings.plist'));
-
-        simulator.launch(app_id);
-
-        shell.ready(60 * 1000) // 1 minute
-            .then(function() { 
+        simulator.start(platform).then(function(app_id) {
+            shell.ready(60 * 1000).then(function() {  // 1 minute
                 return shell.open();
             })
             .then(function() {
@@ -77,15 +55,15 @@ var commands = {
                 }
             })
             .then(function() {
-               if (mode === 'jam') {
-                    return shell.execute('catalog path bundle ' + appinfo.id);
+                if (mode === 'jam') {
+                    return shell.execute('catalog path resource ' + appinfo.id);
                 } else {
-                    return shell.execute('catalog path bundle');
+                    return shell.execute('catalog path resource');
                 }
             })
-            .then(function(bundle_path) {
+            .then(function(resource_path) {
                 var needs_reset = true;
-                syncfolder.start('./catalogs', bundle_path, function() {
+                syncfolder.start(platform, app_id, './catalogs', resource_path, function() {
                     if (needs_reset) {
                         if (mode === 'jam') {
                             shell.execute('catalog reset ' + appinfo.id);
@@ -102,6 +80,9 @@ var commands = {
                     }
                 });
             });
+        }, function() {
+            console.log('ERROR: could not start a simulator!');
+        });
     },
 
     buildApp : function() {
@@ -146,47 +127,22 @@ var commands = {
         fs.writeFile(bon_path, JSON.stringify(bookinfo, null, 4));
     },
 
-    runBook : function() {
+    runBook : function(platform) {
         if (!fs.existsSync('./book.bon')) {
             console.log('ERROR: book.bon not found!');
             return;
         }
 
-        simulator.start();
-
-        var app_path = path.resolve(__dirname, 'jamkit.app');
-        var app_info = plist.readFileSync(path.resolve(app_path, 'Info.plist'))
-        var app_id = app_info.CFBundleIdentifier;
-        var app_version = app_info.CFBundleVersion;
-        var container = simulator.getAppContainer(app_id);
-
-        if (container != null) {
-            var installed_info = plist.readFileSync(path.resolve(container, 'Info.plist'));
-            var installed_version = installed_info.CFBundleVersion;
-
-            if (installed_version !== app_version) {
-                simulator.uninstall(app_id);
-                container = null;
-            }
-        }
-
-        if (container == null) {
-            simulator.install(app_path);
-            container = simulator.getAppContainer(app_id);
-        }
-
-        simulator.launch(app_id);
-
-        shell.ready(60 * 1000) // 1 minute
-            .then(function() { 
+        simulator.start(platform).then(function() {
+            shell.ready(60 * 1000).then(function() { // 1 minute
                 return shell.open();
             })
             .then(function() {
-                return shell.execute('book path bundle');
+                return shell.execute('book path resource');
             })
-            .then(function(bundle_path) {
+            .then(function(resource_path) {
                 var needs_open = true;
-                syncfolder.start('.', bundle_path, function() {
+                syncfolder.start(platform, '.', resource_path, function() {
                     if (needs_open) {
                         shell.execute('book open');
                         needs_open = false;
@@ -195,6 +151,9 @@ var commands = {
                     }
                 });
             });
+        }, function() {
+            console.log('ERROR: could not start a simulator!');
+        });
     },
 
     buildBook : function() {
@@ -219,6 +178,4 @@ var commands = {
         });
     }
 };
-
-module.exports = commands;
 

@@ -1,4 +1,4 @@
-var utils = {
+module.exports = {
     bytesToString : function(bytes) {
         var string = "";
 
@@ -9,6 +9,3 @@ var utils = {
         return string;
     }
 };
-
-module.exports = utils;
-

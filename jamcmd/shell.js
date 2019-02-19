@@ -5,7 +5,7 @@ const net   = require('net'),
 
 var client, callbacks, lines;
 
-var shell = {
+module.exports = {
     ready : function(timeout) {
         return new Promise(function(resolve, reject) {
             __connect_to_host(timeout, function() {
@@ -20,7 +20,7 @@ var shell = {
             lines = '';
 
             callbacks.push(resolve);
-        
+
             client.on('data', function(data) {
                 lines += utils.bytesToString(data);
 
@@ -58,6 +58,10 @@ var shell = {
 
     close : function() {
         client.end();
+    }, 
+
+    port : function() {
+        return port;
     }
 };
 
@@ -80,6 +84,4 @@ __connect_to_host = function(timeout, callback) {
         }
     });
 };
-
-module.exports = shell;
 

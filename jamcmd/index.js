@@ -5,9 +5,9 @@ const commands = require('./commands'),
 var options = require('yargs')
     .usage('Usage: $0 <command> [argument, ...] [--help]')
     .command('create', 'Create a new project.')
-    .command('run', 'Run on iOS simulator.')
+    .command('run', 'Run on simulator.')
     .command('build', 'Build a package.')
-    .option('type', { 
+    .option('type', {  
         default:'auto',
         describe: 'Specify a type of project: app or book.'
     })
@@ -27,15 +27,15 @@ if (command === 'create') {
                 describe: 'Specify an app identifier.'
             })
             .option('version', { 
-                default:'1.0',
+                default: '1.0',
                 describe: 'Specify a version of app.'
             })
             .option('template', { 
-                default:'hello-world',
+                default: 'hello-world',
                 describe: 'Specify a template type. See https://github.com/bookjam/jamkit-templates.' 
             })
             .option('language', { 
-                default:'en',
+                default: 'en',
                 describe: 'Specify a language.' 
             })
             .help('help')
@@ -57,15 +57,15 @@ if (command === 'create') {
             .example('$0 create HelloWorld', 'Create a book named HelloWorld')
             .demand(2, 'Name should be specified.')
             .option('version', { 
-                default:'1.0',
+                default: '1.0',
                 describe: 'Specify a version of book.'
             })
             .option('template', { 
-                default:'hello-world',
+                default: 'hello-world',
                 describe: 'Specify a template type. See https://github.com/bookjam/jamkit-templates.' 
             })
             .option('language', { 
-                default:'en',
+                default: 'en',
                 describe: 'Specify a language.' 
             })
             .help('help')
@@ -87,15 +87,19 @@ if (command === 'run') {
     if ((argv['type'] === 'auto' && fs.existsSync('./package.bon')) || argv['type'] === 'app') {
        argv = options.reset()
             .usage('Usage: $0 run')
-            .example('$0 run', 'Run on iOS simulator. App must be in the current working directory.')
+            .example('$0 run', 'Run on simulator. App must be in the current working directory.')
+            .option('platform', {
+                default: (process.platform === 'win32') ? 'android' : 'ios',
+                describe: 'Specify platform, ios or android'
+            })
             .option('mode', { 
-                default:'main',
+                default: 'main',
                 describe: 'Specify run mode, main or jam'
             })
             .help('help')
             .argv
 
-        commands.runApp(argv['mode']);
+        commands.runApp(argv['platform'], argv['mode']);
     
         return;
     }
@@ -103,11 +107,15 @@ if (command === 'run') {
     if ((argv['type'] === 'auto' && fs.existsSync('./book.bon')) || argv['type'] === 'book') {
        argv = options.reset()
             .usage('Usage: $0 run')
-            .example('$0 run', 'Run on iOS simulator. Book must be in the current working directory.')
+            .example('$0 run', 'Run on simulator. Book must be in the current working directory.')
+            .option('platform', {
+                default: (process.platform === 'win32') ? 'android' : 'ios',
+                describe: 'Specify platform, ios or android'
+            })
             .help('help')
             .argv
 
-        commands.runBook();
+        commands.runBook(argv['platform']);
     
         return;
     }
