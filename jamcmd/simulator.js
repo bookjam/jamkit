@@ -16,7 +16,7 @@ var __impl = {
                 if (self.__start_device()) {
                     self.__launch_app(function(app_id) {
                         if (app_id) {
-                            resole(app_id);
+                            resolve(app_id);
                         } else {
                             reject();
                         }
@@ -69,12 +69,11 @@ var __impl = {
                 simctl.install('booted', app_path);
             }
 
-            if (!simctl.launch('booted', app_id)) {
+            if (simctl.launch('booted', app_id)) {
+                handler(app_id);
+            } else {
                 handler();
-                return;
             }
-
-            handler(app_id);
         },
 
         __create_available_device : function(type) {
@@ -227,6 +226,15 @@ var __impl = {
             this.__read_manifest(app_path).then(function(manifest) {
                 var app_id = manifest['package'];
                 var app_version = manifest['versionName'];
+                var installed_version = avdctl.version(app_id);
+
+                if (!installed_version || installed_version != app_version) {
+                    if (installed_version) {
+                        avdctl.uninstall(app_id);
+                    }
+                    
+                    avdctl.install(app_path);
+                }
 
                 if (avdctl.launch(app_id)) {
                     handler(app_id);

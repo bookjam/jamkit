@@ -26,19 +26,56 @@ module.exports = {
         return null;
     },
 
+    install : function(path) {
+        var command = 'adb install ' + path;
+        var result = shell.exec(command, { silent:true });
+
+        if (result.code === 0) {
+            return true;
+        }
+
+        return false;
+    },
+
+    uninstall : function(app_id) {
+        var command = 'adb uninstall ' + app_id;
+        var result = shell.exec(command, { silent:true });
+
+        if (result.code === 0) {
+            return true;
+        }
+
+        return false;
+    },
+
     launch : function(app_id) {
         var command = 'adb shell am start -n ' + app_id + '/' + app_id + '.SplashActivity';
         var result = shell.exec(command, { silent:true });
 
         if (result.code === 0) {
             if (!result.stderr) {
-                sleep.msleep(1000);
+                sleep.msleep(3000);
             }
 
             return true;
         }
 
         return false;
+    },
+
+    version : function(app_id) {
+        var command = 'adb shell "dumpsys package ' + app_id + ' | grep versionName"';
+        var result = shell.exec(command, { silent:true });
+
+        if (result.code === 0) {
+            var matched = result.stdout.match(/versionName=([0-9.]+)/);
+
+            if (matched) {
+                return matched[1];
+            }
+        }
+
+        return null;
     },
 
     forward : function(src, dest) {
