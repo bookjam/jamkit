@@ -33,14 +33,14 @@ var __impl = {
 
         copy : function(app_id, src, dest) {
             var tmproot = '/data/local/tmp/jamkit';
-            var tmppath = tmproot + "/" + src;
+            var tmppath = (tmproot + "/" + src).replace(/\\/g, '/');
 
             avdctl.push(src, tmppath);
             avdctl.shell('run-as ' + app_id + ' cp -rf ' + tmppath + ' ' + dest);
         },
         
         remove : function(app_id, path) {
-            avdctl.shell('run-as ' + app_id + ' rm -rf ' + path);
+            avdctl.shell('run-as ' + app_id + ' rm -rf ' + path.replace(/\\/g, '/'));
         }
     }
 }
@@ -52,42 +52,54 @@ module.exports = {
         
         watcher
             .on('ready', function() {
-                __impl[platform].sync(app_id, src, dest);
+				var target = dest.replace(/\\/g, '/');
+                
+				__impl[platform].sync(app_id, src, target);
                 is_ready = true;
 
                 handler();
             })
             .on('add', function(file) {
                 if (is_ready) {
-                    __impl[platform].copy(app_id, file, path.join(dest, path.relative(src, file)));
+					var target = path.join(dest, path.relative(src, file)).replace(/\\/g, '/');
+					
+                    __impl[platform].copy(app_id, file, target);
 
                     handler();
                 }
             })
             .on('addDir', function(dir) {
                 if (is_ready) {
-                    __impl[platform].copy(app_id, dir, path.join(dest, path.relative(src, dir)));
+					var target = path.join(dest, path.relative(src, dir)).replace(/\\/g, '/');
+
+                    __impl[platform].copy(app_id, dir, target);
 
                     handler();
                 }
             })
             .on('change', function(file, stats) {
                 if (is_ready) {
-                    __impl[platform].copy(app_id, file, path.join(dest, path.relative(src, file)));
+					var target = path.join(dest, path.relative(src, file)).replace(/\\/g, '/');
+
+                    __impl[platform].copy(app_id, file, target);
 
                     handler();
                 }
             })
             .on('unlink', function(file) {
                 if (is_ready) {
-                    __impl[platform].remove(app_id, path.join(dest, path.relative(src, file))); 
+					var target = path.join(dest, path.relative(src, file)).replace(/\\/g, '/');
+
+                    __impl[platform].remove(app_id, target); 
 
                     handler();
                 }
             })
             .on('unlinkDir', function(dir) {
                 if (is_ready) {
-                    __impl[platform].remove(app_id, path.join(dest, path.relative(src, dir))); 
+					var target = path.join(dest, path.relative(src, dir)).replace(/\\/g, '/');
+
+                    __impl[platform].remove(app_id, target); 
 
                     handler();
                 }

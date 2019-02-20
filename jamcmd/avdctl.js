@@ -123,7 +123,7 @@ module.exports = {
     },
 
     __emulator_path : function() {
-        var command = 'which emulator';
+        var command = (process.platform === 'win32') ? 'where emulator' : 'which emulator';
         var result = shell.exec(command, { silent:true });
         
         if (result.code === 0) {
