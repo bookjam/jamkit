@@ -7,7 +7,8 @@ var options = require('yargs')
     .command('create', 'Create a new project.')
     .command('run', 'Run on simulator.')
     .command('build', 'Build a package.')
-    .option('type', {  
+    .command('publish', 'Publish a package to IPFS.')
+    .option('type', {
         default:'auto',
         describe: 'Specify a type of project: app or book.'
     })
@@ -34,6 +35,10 @@ if (command === 'create') {
                 default: 'hello-world',
                 describe: 'Specify a template type. See https://github.com/bookjam/jamkit-templates.' 
             })
+            .option('repository', { 
+                default: 'bookjam/jamkit-templates',
+                describe: 'Specify a template repository.' 
+            })
             .option('language', { 
                 default: 'en',
                 describe: 'Specify a language.' 
@@ -42,10 +47,11 @@ if (command === 'create') {
             .argv
 
         commands.createApp(argv._[1], {
-            app_id:   argv['app-id'],
-            version:  argv['version'],
-            template: argv['template'],
-            language: argv['language']
+            app_id:     argv['app-id'],
+            version:    argv['version'],
+            template:   argv['template'],
+            repository: argv['repository'],
+            language:   argv['language']
         });
 
         return;
@@ -64,6 +70,10 @@ if (command === 'create') {
                 default: 'hello-world',
                 describe: 'Specify a template type. See https://github.com/bookjam/jamkit-templates.' 
             })
+            .option('repository', { 
+                default: 'bookjam/jamkit-templates',
+                describe: 'Specify a template repository.' 
+            })
             .option('language', { 
                 default: 'en',
                 describe: 'Specify a language.' 
@@ -72,9 +82,10 @@ if (command === 'create') {
             .argv
 
         commands.createBook(argv._[1], {
-            version:  argv['version'],
-            template: argv['template'],
-            language: argv['language']
+            version:    argv['version'],
+            template:   argv['template'],
+            repository: argv['repository'],
+            language:   argv['language']
         });
 
         return;
@@ -150,6 +161,80 @@ if (command === 'build') {
             .argv
 
         commands.buildBook();
+
+        return;
+    }
+
+    if (argv['type'] === 'auto') {
+        console.log('ERROR: package.bon or book.bon not found!');
+
+        return;
+    }
+
+    return;
+}
+
+if (command === 'publish') {
+    if ((argv['type'] === 'auto' && fs.existsSync('./package.bon')) || argv['type'] === 'app') {
+        argv = options.reset()
+            .usage('Usage: $0 publish')
+            .example('$0 publish', 'Publish a package to IPFS. App must be in the current working directory.')
+            .option('ipfs-host', { 
+                default: 'ipfs.infura.io',
+                describe: 'Specify ipfs host.'
+            })
+            .option('ipfs-port', { 
+                default: '5001',
+                describe: 'Specify ipfs port.'
+            })
+            .option('ipfs-protocol', { 
+                default: 'https',
+                describe: 'Specify ipfs protocol, https or http.'
+            })
+            .option('host-app', {
+                default: 'jamkit',
+                describe: 'Specify the custom url scheme that host app uses.'
+            })
+            .help('help')
+            .argv
+
+        commands.publishApp(argv['host-app'], {
+            'host': argv['ipfs-host'], 
+            'port': argv['ipfs-port'], 
+            'protocol': argv['ipfs-protocol']
+        });
+
+        return;
+    }
+
+    if ((argv['type'] === 'auto' && fs.existsSync('./book.bon')) || argv['type'] === 'book') {
+        argv = options.reset()
+            .usage('Usage: $0 publish')
+            .example('$0 publish', 'Publish a package to IPFS. Book must be in the current working directory.')
+            .option('ipfs-host', { 
+                default: 'ipfs.infura.io',
+                describe: 'Specify ipfs host.'
+            })
+            .option('ipfs-port', { 
+                default: '5001',
+                describe: 'Specify ipfs port.'
+            })
+            .option('ipfs-protocol', { 
+                default: 'https',
+                describe: 'Specify ipfs protocol, https or http.'
+            })
+            .option('host-app', {
+                default: 'jamkit',
+                describe: 'Specify the custom url scheme that host app uses.'
+            })
+            .help('help')
+            .argv
+
+        commands.publishBook(argv['host-app'], {
+            'host': argv['ipfs-host'], 
+            'port': argv['ipfs-port'], 
+            'protocol': argv['ipfs-protocol']
+        });
 
         return;
     }

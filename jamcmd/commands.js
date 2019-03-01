@@ -2,6 +2,7 @@ const fs         = require('fs-extra'),
       path       = require('path'),
       zipdir     = require('zip-dir'),
       tmp        = require('tmp'),
+      ipfs       = require('ipfs-http-client'),
       template   = require('./template'),
       simulator  = require('./simulator'),
       shell      = require('./shell'),
@@ -14,7 +15,7 @@ module.exports = {
             return;
         }
 
-        template.copy('apps', options.template, options.language, name);    
+        template.copy('apps', options.repository, options.template, options.language, name);    
 
         if (!fs.existsSync(name)) {
             console.log('ERROR: template may not exists.');
@@ -107,13 +108,47 @@ module.exports = {
         });
     },
 
+    publishApp : function(host_app, ipfs_options) {
+        if (!fs.existsSync('./package.bon')) {
+            console.log('ERROR: package.bon not found!');
+            return;
+        }
+
+        var jamfile = path.basename(path.resolve('.')) + '.jam';
+
+        if (fs.existsSync(jamfile)) {
+            fs.unlinkSync(jamfile);
+        }
+
+        tempfile = tmp.tmpNameSync();
+        zipdir('.', { saveTo:tempfile }, function(err, buffer) {
+            if (err) {
+                throw err;
+            }
+
+            fs.renameSync(tempfile, jamfile);
+
+            ipfs(ipfs_options).addFromFs(jamfile, {}, function(err, result) {
+                if (err) {
+                    throw err;
+                }
+
+                var url = "https://jamkit.io/connect/app/?"
+                        + "url=" + "ipfs://" + result[0]['hash'] + "&" 
+                        + "host-app=" + host_app;
+
+                console.log(url);
+            });
+       });
+    },
+
     createBook : function(name, options) {
         if (fs.existsSync(name)) {
             console.log('ERROR: ' + name + ' already exists!');
             return;
         }
 
-        template.copy('books', options.template, options.language, name);    
+        template.copy('books', options.repository, options.template, options.language, name);    
 
         if (!fs.existsSync(name)) {
             console.log('ERROR: template may not exists.');
@@ -133,7 +168,7 @@ module.exports = {
             return;
         }
 
-        simulator.start(platform).then(function() {
+        simulator.start(platform).then(function(app_id) {
             shell.ready(60 * 1000).then(function() { // 1 minute
                 return shell.open();
             })
@@ -142,7 +177,7 @@ module.exports = {
             })
             .then(function(resource_path) {
                 var needs_open = true;
-                syncfolder.start(platform, '.', resource_path, function() {
+                syncfolder.start(platform, app_id, '.', resource_path, function() {
                     if (needs_open) {
                         shell.execute('book open');
                         needs_open = false;
@@ -176,6 +211,39 @@ module.exports = {
 
             fs.renameSync(tempfile, bxpfile);
         });
+    },
+
+    publishBook : function(host_app, ipfs_options) {
+        if (!fs.existsSync('./book.bon')) {
+            console.log('ERROR: book.bon not found!');
+            return;
+        }
+
+        var bxpfile = path.basename(path.resolve('.')) + '.bxp';
+        
+        if (fs.existsSync(bxpfile)) {
+            fs.unlinkSync(bxpfile);
+        }
+
+        tempfile = tmp.tmpNameSync();
+        zipdir('.', { saveTo:tempfile }, function(err, buffer) {
+            if (err) {
+                throw err;
+            }
+
+            fs.renameSync(tempfile, bxpfile);
+
+            ipfs(ipfs_options).addFromFs(bxpfile, {}, function(err, result) {
+                if (err) {
+                    throw err;
+                }
+
+                var url = "https://jamkit.io/connect/book/?"
+                        + "url=" + "ipfs://" + result[0]['hash'] + "&" 
+                        + "host-app=" + host_app;
+
+                console.log(url);
+            });
+        });
     }
 };
-

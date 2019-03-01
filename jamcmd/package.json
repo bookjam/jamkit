@@ -21,18 +21,18 @@
   },
   "homepage": "https://github.com/bookjam/jamkit#readme",
   "dependencies": {
-    "chokidar": "^1.6.0",
+    "adbkit-apkreader": "^3.1.2",
+    "chokidar": "^2.1.2",
     "fs-extra": "^0.30.0",
     "googleapis": "^19.0.0",
-    "npm": "^6.2.0",
+    "ipfs-http-client": "^29.1.1",
     "path": "^0.12.7",
     "shelljs": "^0.7.0",
     "simctl": "0.0.9",
-    "simple-plist": "^0.1.4",
-    "adbkit-apkreader": "^3.1.2",
+    "simple-plist": "^1.0.0",
+    "sleep": "^6.0.0",
     "tmp": "^0.0.28",
     "yargs": "^4.7.1",
-    "zip-dir": "^1.0.2",
-    "sleep": "^6.0.0"
+    "zip-dir": "^1.0.2"
   }
 }
