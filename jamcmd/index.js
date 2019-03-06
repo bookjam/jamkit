@@ -195,6 +195,14 @@ if (command === 'publish') {
                 default: 'jamkit',
                 describe: 'Specify the custom url scheme that host app uses.'
             })
+            .option('apple-install-url', {
+                default: 'auto',
+                describe: 'Specify the install url for iOS.'
+            })
+            .option('google-install-url', {
+                default: 'auto',
+                describe: 'Specify the install url for Android.'
+            })
             .help('help')
             .argv
 
@@ -202,6 +210,9 @@ if (command === 'publish') {
             'host': argv['ipfs-host'], 
             'port': argv['ipfs-port'], 
             'protocol': argv['ipfs-protocol']
+        }, {
+            'apple': argv['apple-install-url'],
+            'google': argv['google-install-url']
         });
 
         return;
@@ -227,6 +238,14 @@ if (command === 'publish') {
                 default: 'jamkit',
                 describe: 'Specify the custom url scheme that host app uses.'
             })
+            .option('apple-install-url', {
+                default: 'auto',
+                describe: 'Specify the install url for iOS.'
+            })
+            .option('google-install-url', {
+                default: 'auto',
+                describe: 'Specify the install url for Android.'
+            })
             .help('help')
             .argv
 
@@ -234,6 +253,9 @@ if (command === 'publish') {
             'host': argv['ipfs-host'], 
             'port': argv['ipfs-port'], 
             'protocol': argv['ipfs-protocol']
+        }, {
+            'apple': argv['apple-install-url'],
+            'google': argv['google-install-url']
         });
 
         return;

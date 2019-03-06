@@ -108,7 +108,7 @@ module.exports = {
         });
     },
 
-    publishApp : function(host_app, ipfs_options) {
+    publishApp : function(host_app, ipfs_options, install_urls) {
         if (!fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found!');
             return;
@@ -134,8 +134,14 @@ module.exports = {
                 }
 
                 var url = "https://jamkit.io/connect/app/?"
-                        + "url=" + "ipfs://" + result[0]['hash'] + "&" 
+                        + "url=" + "ipfs://hash/" + result[0]['hash'] + "&" 
                         + "host-app=" + host_app;
+
+                Object.keys(install_urls).forEach(function(platform) {
+                    if (install_urls[platform] !== 'auto') {
+                        url = url + "&" + platform + "-install-url=" + install_urls[platform];
+                    }
+                });
 
                 console.log(url);
             });
@@ -213,7 +219,7 @@ module.exports = {
         });
     },
 
-    publishBook : function(host_app, ipfs_options) {
+    publishBook : function(host_app, ipfs_options, install_urls) {
         if (!fs.existsSync('./book.bon')) {
             console.log('ERROR: book.bon not found!');
             return;
@@ -239,9 +245,15 @@ module.exports = {
                 }
 
                 var url = "https://jamkit.io/connect/book/?"
-                        + "url=" + "ipfs://" + result[0]['hash'] + "&" 
+                        + "url=" + "ipfs://hash/" + result[0]['hash'] + "&" 
                         + "host-app=" + host_app;
 
+                Object.keys(install_urls).forEach(function(platform) {
+                    if (install_urls[platform] !== 'auto') {
+                        url = url + "&" + platform + "-install-url=" + install_urls[platform];
+                    }
+                });
+        
                 console.log(url);
             });
         });
