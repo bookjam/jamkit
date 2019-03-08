@@ -5,7 +5,7 @@ const simctl = require('./simctl'),
       fs     = require('fs-extra'),
       plist  = require('simple-plist'),
       apk    = require('adbkit-apkreader'),
-      sleep  = require('sleep')
+      sleep  = require('system-sleep')
 
 var __impl = {
     "ios": {
@@ -274,7 +274,7 @@ var __impl = {
             var timeout = 3000, sleeptime = 200;
 
             while (!avdctl.property('sys.boot_completed')) {
-                sleep.msleep(sleeptime);
+                sleep(sleeptime);
 
                 if (timeout < sleeptime) {
                     return false;
