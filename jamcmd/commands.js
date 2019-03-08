@@ -8,6 +8,8 @@ const fs         = require('fs-extra'),
       shell      = require('./shell'),
       syncfolder = require('./syncfolder');
 
+const connect_base_url = "https://jamkit-233705.appspot.com";
+
 module.exports = {
     createApp : function(name, options) {
         if (fs.existsSync(name)) {
@@ -133,7 +135,7 @@ module.exports = {
                     throw err;
                 }
 
-                var url = "https://jamkit.io/connect/app/?"
+                var url = connect_base_url + "/connect/app/?"
                         + "url=" + "ipfs://hash/" + result[0]['hash'] + "&" 
                         + "host-app=" + host_app;
 
@@ -244,7 +246,7 @@ module.exports = {
                     throw err;
                 }
 
-                var url = "https://jamkit.io/connect/book/?"
+                var url = connect_base_url + "/connect/book/?"
                         + "url=" + "ipfs://hash/" + result[0]['hash'] + "&" 
                         + "host-app=" + host_app;
 
