@@ -15,7 +15,7 @@ const __KEYS_IN_DATABASE = [
     'points', 'events', 'notifications'
 ]
 
-function __load_source_data(path) {
+function __load_spreadsheet_data(path) {
     var sheets = xlsx.readFile(path).Sheets;
     var data = {};
     
@@ -278,8 +278,8 @@ function __stringify_value(value) {
 }
 
 module.exports = {
-    load_from_file : function(path, store) {
-        var source = __load_source_data(path);
+    load_from_spreadsheet : function(path, store) {
+        var source = __load_spreadsheet_data(path);
         var data = {}, sortkeys = {};
 
         var main_dict = __rows_to_main_dict(source['main'], store);

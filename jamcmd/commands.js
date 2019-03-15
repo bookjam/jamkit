@@ -264,7 +264,7 @@ module.exports = {
     },
 
     generateDatabase : function(target, store, file) {
-        var data = catalog.load_from_file(file, store);
+        var data = catalog.load_from_spreadsheet(file, store);
         var basedir = path.join('catalogs', target);
 
         catalog.save_to_file(data[0], path.join(basedir, 'catalog.bon'));
