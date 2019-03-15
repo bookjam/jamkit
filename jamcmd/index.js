@@ -8,6 +8,7 @@ var options = require('yargs')
     .command('run', 'Run on simulator.')
     .command('build', 'Build a package.')
     .command('publish', 'Publish a package to IPFS.')
+    .command('generate', 'Generate a database with spreadsheets.')
     .option('type', {
         default:'auto',
         describe: 'Specify a type of project: app or book.'
@@ -97,15 +98,15 @@ if (command === 'create') {
 if (command === 'run') {
     if ((argv['type'] === 'auto' && fs.existsSync('./package.bon')) || argv['type'] === 'app') {
        argv = options.reset()
-            .usage('Usage: $0 run')
+            .usage('Usage: $0 run [option, ...]')
             .example('$0 run', 'Run on simulator. App must be in the current working directory.')
             .option('platform', {
                 default: (process.platform === 'win32') ? 'android' : 'ios',
-                describe: 'Specify platform, ios or android'
+                describe: 'Specify the platform, ios or android'
             })
             .option('mode', { 
                 default: 'main',
-                describe: 'Specify run mode, main or jam'
+                describe: 'Specify the run mode, main or jam'
             })
             .help('help')
             .argv
@@ -117,11 +118,11 @@ if (command === 'run') {
 
     if ((argv['type'] === 'auto' && fs.existsSync('./book.bon')) || argv['type'] === 'book') {
        argv = options.reset()
-            .usage('Usage: $0 run')
+            .usage('Usage: $0 run [option, ...]')
             .example('$0 run', 'Run on simulator. Book must be in the current working directory.')
             .option('platform', {
                 default: (process.platform === 'win32') ? 'android' : 'ios',
-                describe: 'Specify platform, ios or android'
+                describe: 'Specify the platform, ios or android'
             })
             .help('help')
             .argv
@@ -177,19 +178,19 @@ if (command === 'build') {
 if (command === 'publish') {
     if ((argv['type'] === 'auto' && fs.existsSync('./package.bon')) || argv['type'] === 'app') {
         argv = options.reset()
-            .usage('Usage: $0 publish')
+            .usage('Usage: $0 publish [option, ...]')
             .example('$0 publish', 'Publish a package to IPFS. App must be in the current working directory.')
             .option('ipfs-host', { 
                 default: 'ipfs.infura.io',
-                describe: 'Specify ipfs host.'
+                describe: 'Specify the ipfs host.'
             })
             .option('ipfs-port', { 
                 default: '5001',
-                describe: 'Specify ipfs port.'
+                describe: 'Specify the ipfs port.'
             })
             .option('ipfs-protocol', { 
                 default: 'https',
-                describe: 'Specify ipfs protocol, https or http.'
+                describe: 'Specify the ipfs protocol, https or http.'
             })
             .option('host-app', {
                 default: 'jamkit',
@@ -220,19 +221,19 @@ if (command === 'publish') {
 
     if ((argv['type'] === 'auto' && fs.existsSync('./book.bon')) || argv['type'] === 'book') {
         argv = options.reset()
-            .usage('Usage: $0 publish')
+            .usage('Usage: $0 publish [option, ...]')
             .example('$0 publish', 'Publish a package to IPFS. Book must be in the current working directory.')
             .option('ipfs-host', { 
                 default: 'ipfs.infura.io',
-                describe: 'Specify ipfs host.'
+                describe: 'Specify the ipfs host.'
             })
             .option('ipfs-port', { 
                 default: '5001',
-                describe: 'Specify ipfs port.'
+                describe: 'Specify the ipfs port.'
             })
             .option('ipfs-protocol', { 
                 default: 'https',
-                describe: 'Specify ipfs protocol, https or http.'
+                describe: 'Specify the ipfs protocol, https or http.'
             })
             .option('host-app', {
                 default: 'jamkit',
@@ -266,6 +267,27 @@ if (command === 'publish') {
 
         return;
     }
+
+    return;
+}
+
+if (command === 'generate') {
+    argv = options.reset()
+        .usage('Usage: $0 generate <file> [option, ...]')
+        .example('$0 generate data.xlsx', 'Generate a database with a file named data.xlsx.')
+        .demand(2, 'Source should be specified.')
+        .option('catalog', { 
+            default: 'MainApp',
+            describe: 'Specify the catalog in which the database will be generated.'
+        })
+        .option('store', { 
+            default: 'apple',
+            describe: 'Specify the target store.'
+        })
+        .help('help')
+        .argv
+
+    commands.generateDatabase(argv['catalog'], argv['store'], argv._[1]);
 
     return;
 }

@@ -5,6 +5,26 @@ const net   = require('net'),
 
 var client, callbacks, lines;
 
+function __connect_to_host(timeout, callback) {
+    var started_time = new Date().getTime();
+
+    client = net.connect({ host:host, port:port }, function() {
+         callback();
+    });
+
+    client.on('error', function(error) {
+        timeout = Math.max(timeout - (new Date().getTime() - started_time), 0);
+
+        if (timeout > 0) {
+            setTimeout(function() {
+                __connect_to_host(timeout - 100, callback);
+            }, 100);
+        } else {
+            console.log("ERROR: Failed to establish connection!");
+        }
+    });
+};
+
 module.exports = {
     ready : function(timeout) {
         return new Promise(function(resolve, reject) {
@@ -64,24 +84,3 @@ module.exports = {
         return port;
     }
 };
-
-__connect_to_host = function(timeout, callback) {
-    var started_time = new Date().getTime();
-
-    client = net.connect({ host:host, port:port }, function() {
-         callback();
-    });
-
-    client.on('error', function(error) {
-        timeout = Math.max(timeout - (new Date().getTime() - started_time), 0);
-
-        if (timeout > 0) {
-            setTimeout(function() {
-                __connect_to_host(timeout - 100, callback);
-            }, 100);
-        } else {
-            console.log("ERROR: Failed to establish connection!");
-        }
-    });
-};
-

@@ -1,12 +1,13 @@
-const fs         = require('fs-extra'),
-      path       = require('path'),
-      zipdir     = require('zip-dir'),
-      tmp        = require('tmp'),
-      ipfs       = require('ipfs-http-client'),
-      template   = require('./template'),
-      simulator  = require('./simulator'),
-      shell      = require('./shell'),
-      syncfolder = require('./syncfolder');
+const fs          = require('fs-extra'),
+      path        = require('path'),
+      zipdir      = require('zip-dir'),
+      tmp         = require('tmp'),
+      ipfs        = require('ipfs-http-client'),
+      template    = require('./template'),
+      catalog     = require('./catalog'),
+      simulator   = require('./simulator'),
+      shell       = require('./shell'),
+      syncfolder  = require('./syncfolder');
 
 const connect_base_url = "https://jamkit-233705.appspot.com";
 
@@ -30,7 +31,7 @@ module.exports = {
         appinfo.id = options.app_id;
         appinfo.version = options.version;
         
-        fs.writeFile(bon_path, JSON.stringify(appinfo, null, 4));
+        fs.writeFileSync(bon_path, JSON.stringify(appinfo, null, 4));
     },
 
     runApp : function(platform, mode) {
@@ -167,7 +168,8 @@ module.exports = {
         var bookinfo = JSON.parse(fs.readFileSync(bon_path, 'utf8'));
 
         bookinfo.version = options.version;
-        fs.writeFile(bon_path, JSON.stringify(bookinfo, null, 4));
+
+        fs.writeFileSync(bon_path, JSON.stringify(bookinfo, null, 4));
     },
 
     runBook : function(platform) {
@@ -259,5 +261,13 @@ module.exports = {
                 console.log(url);
             });
         });
+    },
+
+    generateDatabase : function(target, store, file) {
+        var data = catalog.load_from_file(file, store);
+        var basedir = path.join('catalogs', target);
+
+        catalog.save_to_file(data[0], path.join(basedir, 'catalog.bon'));
+        catalog.save_to_database(data[0], data[1], path.join(basedir, 'catalog.sqlite'));
     }
 };
