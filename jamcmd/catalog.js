@@ -1,6 +1,6 @@
-const sqlite          = require('./sqlite'),
-      xlsx            = require('xlsx'),
+const xlsx            = require('xlsx'),
       fs              = require('fs'),
+      sqlite          = require('./sqlite'),
       vsprintf        = require('sprintf-js').vsprintf,
       is_object       = require('is-object'),
       is_empty_object = require('is-empty-object'),
