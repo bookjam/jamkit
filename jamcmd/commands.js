@@ -9,7 +9,7 @@ const fs          = require('fs-extra'),
       shell       = require('./shell'),
       syncfolder  = require('./syncfolder');
 
-const connect_base_url = "https://jamkit-233705.appspot.com";
+const connect_base_url = "https://jamkit.io";
 
 module.exports = {
     createApp : function(name, options) {

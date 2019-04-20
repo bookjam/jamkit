@@ -8,7 +8,7 @@ var options = require('yargs')
     .command('run', 'Run on simulator.')
     .command('build', 'Build a package.')
     .command('publish', 'Publish a package to IPFS.')
-    .command('generate', 'Generate a database with spreadsheets.')
+    .command('generate', 'Generate a database with a spreadsheet file.')
     .option('type', {
         default:'auto',
         describe: 'Specify a type of project: app or book.'
@@ -275,7 +275,7 @@ if (command === 'generate') {
     argv = options.reset()
         .usage('Usage: $0 generate <file> [option, ...]')
         .example('$0 generate data.xlsx', 'Generate a database with a file named data.xlsx.')
-        .demand(2, 'Source should be specified.')
+        .demand(2, 'File should be specified.')
         .option('catalog', { 
             default: 'MainApp',
             describe: 'Specify the catalog in which the database will be generated.'
