@@ -200,15 +200,14 @@ function __keys_starts_with(dict, prefix) {
     return keys;
 }
 
-function __save_table_to_database(table, columns, indexes, rows, path) {
-    var database = sqlite.open_database(path);
-
-    sqlite.create_table(database, table, columns);
-    if (indexes) {
-        sqlite.create_indexes_to_table(database, table, indexes);
-    }    
-    sqlite.insert_rows_to_table(database, table, rows);
-    sqlite.close_database(database);
+function __save_table_to_database(database, table, columns, indexes, rows) {
+    database.serialize(function() {
+        sqlite.create_table(database, table, columns);
+        if (indexes) {
+            sqlite.create_indexes_to_table(database, table, indexes);
+        }    
+        sqlite.insert_rows_to_table(database, table, rows);    
+    });
 }
 
 function __merge_sortkeys(sortkeys) {
@@ -404,6 +403,8 @@ module.exports = {
             fs.unlinkSync(path);
         }
 
+        var database = sqlite.open_database(path);
+
         if ('subviews' in data) {
             var subviews_rows = [];
 
@@ -416,10 +417,11 @@ module.exports = {
             });
 
             __save_table_to_database(
+                database,
                 'subviews', 
                 [['id','TEXT'],['type','TEXT'],['attr','TEXT']], 
                 [['id'],['type']],
-                subviews_rows, path
+                subviews_rows
             );
         }
 
@@ -435,10 +437,11 @@ module.exports = {
             });
 
             __save_table_to_database(
+                database,
                 'subcatalogs', 
                 [['id','TEXT'],['attr','TEXT']], 
                 [['id']],
-                subcatalogs_rows, path
+                subcatalogs_rows
             );
         }
 
@@ -467,10 +470,11 @@ module.exports = {
             }
 
             __save_table_to_database(
+                database,
                 'categories', 
                 [['id','TEXT'],['subcatalog','TEXT'],['attr','TEXT']], 
                 [['id'],['subcatalog']],
-                categories_rows, path
+                categories_rows
             );
         }  
         
@@ -515,16 +519,18 @@ module.exports = {
                 });
     
                 __save_table_to_database(
+                    database,
                     singular_key + '_to_category', 
                     [['id','TEXT'],[singular_key,'TEXT'],['category','TEXT']], 
                     [[singular_key,'category']],
-                    dataset_to_category, path
+                    dataset_to_category
                 );
                 __save_table_to_database(
+                    database,
                     singular_key + '_to_membership', 
                     [['id','TEXT'],[singular_key,'TEXT'],['membership','TEXT']], 
                     [[singular_key,'membership']],
-                    dataset_to_membership, path
+                    dataset_to_membership
                 );
     
                 var columns = [['id','TEXT'],[singular_key,'TEXT'],['series','TEXT'],['item','TEXT'],['attr','TEXT']];
@@ -532,10 +538,11 @@ module.exports = {
                     return !['id',singular_key,'series','item'].includes(value);
                 });
                 __save_table_to_database(
+                    database,
                     dataset, 
                     array.union(columns, __columns_for_sortkeys(unique_sortkeys)), 
                     array.union([['id'],[singular_key],['series'],['item']], __indexes_for_sortkeys(dataset, unique_sortkeys)),
-                    datasets_rows, path
+                    datasets_rows
                 );
             }
         });
@@ -556,10 +563,11 @@ module.exports = {
                 }); 
                 
                 __save_table_to_database(
+                    database,
                     dataset,
                     [['id','TEXT'],[dataset,'TEXT'],['attr','TEXT']],
                     [['id',dataset]],
-                    datasets_rows, path
+                    datasets_rows
                 );
             }
         });
@@ -586,16 +594,18 @@ module.exports = {
             });
 
             __save_table_to_database(
+                database,
                 'item_to_series',
                 [['item','TEXT'],['series','TEXT']],
                 [['item'],['series']],
-                item_to_series, path
+                item_to_series
             );
             __save_table_to_database(
+                database,
                 'items',
                 [['id','TEXT'],['attr','TEXT']],
                 [['id']],
-                items_rows, path
+                items_rows
             );
         }
 
@@ -632,22 +642,25 @@ module.exports = {
             });
 
             __save_table_to_database(
+                database,
                 'product_to_item',
                 [['product','TEXT'],['item','TEXT']],
                 [['product'],['item']],
-                product_to_item, path
+                product_to_item
             );
             __save_table_to_database(
+                database,
                 'product_to_store',
                 [['product','TEXT'],['store','TEXT']],
                 [['product'],['store']],
-                product_to_store, path
+                product_to_store
             );
             __save_table_to_database(
+                database,
                 'products',
                 [['id','TEXT'],['free_of_charge','INTEGER'],['attr','TEXT']],
                 [['id'],['free_of_charge']],
-                products_rows, path
+                products_rows
             );
         }
 
@@ -664,12 +677,15 @@ module.exports = {
                 });
     
                 __save_table_to_database(
+                    database,
                     dataset,
                     [['id','TEXT'],['attr','TEXT']],
                     [['id']],
-                    datasets_rows, path
+                    datasets_rows
                 );
             }
         });
+
+        sqlite.close_database(database);
     }
 }

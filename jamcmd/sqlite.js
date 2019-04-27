@@ -1,9 +1,9 @@
-const Database = require('better-sqlite3'),
+const sqlite3 = require('sqlite3'),
       vsprintf = require('sprintf-js').vsprintf
 
 function QueryBuilder() {};
 
-QueryBuilder.prototype.crate_table = function(table, columns) {
+QueryBuilder.prototype.create_table = function(table, columns) {
     var defines = [];
     columns.forEach(function(column) {
         defines.push(vsprintf('%s %s', column));
@@ -56,7 +56,7 @@ QueryBuilder.prototype.__escape_special_characters = function(value) {
 
 module.exports = {
     open_database: function(path) {
-        return new Database(path);
+        return new sqlite3.Database(path);
     },
 
     close_database: function(database) {
@@ -64,22 +64,22 @@ module.exports = {
     },
 
     create_table: function(database, table, columns) {
-        database.exec(new QueryBuilder().crate_table(table, columns));
+        database.run(new QueryBuilder().create_table(table, columns));
     },
 
     create_indexes_to_table: function(database, table, indexes) {
         indexes.forEach(function(columns) {
-            database.exec(new QueryBuilder().create_index_to_table(table, columns));
+            database.run(new QueryBuilder().create_index_to_table(table, columns));
         });
     },
 
     drop_table_if_exists: function(database, table) {
-        database.exec(new QueryBuilder().drop_table_if_exists(table));
+        database.run(new QueryBuilder().drop_table_if_exists(table));
     }, 
 
     insert_rows_to_table: function(database, table, rows) {
         rows.forEach(function(row) {
-            database.exec(new QueryBuilder().insert_row_to_table(table, row));
+            database.run(new QueryBuilder().insert_row_to_table(table, row));
         });
     }
 }
