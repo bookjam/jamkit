@@ -1,6 +1,6 @@
 {
   "name": "jamcmd",
-  "version": "1.0.60",
+  "version": "1.0.62",
   "description": "A command-line tool for jamkit.",
   "main": "index.js",
   "bin": {
@@ -24,7 +24,7 @@
     "adbkit-apkreader": "^3.1.2",
     "array-extended": "^0.0.11",
     "chokidar": "^2.1.2",
-    "fs-extra": "^0.30.0",
+    "fs-extra": "^8.0.1",
     "googleapis": "^19.0.0",
     "ipfs-http-client": "^29.1.1",
     "is-empty-object": "^1.1.1",

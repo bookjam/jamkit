@@ -57,20 +57,22 @@ function __rows_to_dict(rows, store, skip_key) {
         var identifiers = [], data = {};
 
         Object.keys(row).forEach(function(header) {
+			var value = row[header].toString();
+
             if (header.endsWith('-(o)')) { // sortkey notation
                 header = header.replace(/\-\(o\)$/, '');
                 sortkeys.push(header);
             }
 
-            if (row[header] && !header.endsWith('-(x)')) {
+            if (value && !header.endsWith('-(x)')) {
                 var key = header.split('.');
                 var target_store = (key.length > 1) ? key[1] : null;
     
                 if (key[0] === 'id') {
-                    identifiers.push(row[header]);
+                    identifiers.push(value);
                 } else {
                     if (!target_store || target_store === store) {
-                        data[key[0]] = row[header];
+                        data[key[0]] = value;
                     }
                 }
             }
@@ -95,6 +97,8 @@ function __rows_to_list(rows, store, skip_key) {
         var identifiers = [], data = {};
 
         Object.keys(row).forEach(function(header) {
+			var value = row[header].toString();
+
             if (header.endsWith('-(o)')) { // sortkey notation
                 header = header.replace(/\-\(o\)$/, '');
                 if (!sortkeys.includes(header)) {
@@ -102,15 +106,15 @@ function __rows_to_list(rows, store, skip_key) {
                 }
             }
 
-            if (row[header] && !header.endsWith('-(x)')) {
+            if (value && !header.endsWith('-(x)')) {
                 var key = header.split('.');
                 var target_store = (key.length > 1) ? key[1] : null;
     
                 if (key[0] === 'id') {
-                    identifiers.push(row[header]);
+                    identifiers.push(value);
                 } else {
                     if (!target_store || target_store === store) {
-                        data[key[0]] = row[header];
+                        data[key[0]] = value;
                     }
                 }
             }
@@ -214,7 +218,7 @@ function __merge_sortkeys(sortkeys) {
     var merged_sortkeys = [];
 
     Object.keys(sortkeys).forEach(function(name) {
-        array.union(merged_sortkeys, sortkeys[name]);
+        merged_sortkeys = array.union(merged_sortkeys, sortkeys[name]);
     });
 
     return array.unique(merged_sortkeys);
@@ -483,7 +487,7 @@ module.exports = {
                 var singular_keys = { 'banners': 'banner', 'showcases': 'showcase', 'collections': 'collection' };
                 var singular_key = (dataset in singular_keys) ? singular_keys[dataset] : dataset;
                 var datasets_rows = [], dataset_to_category = [], dataset_to_membership = [];
-                var datasets_sortkeys = __merge_sortkeys((sortkeys[dataset] || {}));
+                var datasets_sortkeys = __merge_sortkeys(sortkeys[dataset] || {});
     
                 Object.keys(data[dataset]).forEach(function(name) {
                     var dataset_list = data[dataset][name];
@@ -532,7 +536,7 @@ module.exports = {
                     [[singular_key,'membership']],
                     dataset_to_membership
                 );
-    
+
                 var columns = [['id','TEXT'],[singular_key,'TEXT'],['series','TEXT'],['item','TEXT'],['attr','TEXT']];
                 var unique_sortkeys = datasets_sortkeys.filter(function(value, index, self) {
                     return !['id',singular_key,'series','item'].includes(value);
@@ -541,7 +545,7 @@ module.exports = {
                     database,
                     dataset, 
                     array.union(columns, __columns_for_sortkeys(unique_sortkeys)), 
-                    array.union([['id'],[singular_key],['series'],['item']], __indexes_for_sortkeys(dataset, unique_sortkeys)),
+                    array.union([['id'],[singular_key],['series'],['item']], __indexes_for_sortkeys(singular_key, unique_sortkeys)),
                     datasets_rows
                 );
             }

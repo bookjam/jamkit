@@ -107,7 +107,7 @@ module.exports = {
                 throw err;
             }
 
-            fs.renameSync(tempfile, jamfile);
+            fs.moveSync(tempfile, jamfile);
         });
     },
 
@@ -129,7 +129,7 @@ module.exports = {
                 throw err;
             }
 
-            fs.renameSync(tempfile, jamfile);
+            fs.moveSync(tempfile, jamfile);
 
             ipfs(ipfs_options).addFromFs(jamfile, {}, function(err, result) {
                 if (err) {
