@@ -195,10 +195,12 @@ var __impl = {
                 var device = this.__find_available_device();
 
                 if (device) {
-                    console.log("Starting a emulator...");
+                    process.stdout.write("Starting an emulator... ");
                     
                     if (avdctl.start(device)) {
                         if (this.__wait_until_device_booted()) {
+                            console.log("Done");
+                            
                             return true;
                         }
                     }
@@ -237,6 +239,8 @@ var __impl = {
                 }
 
                 if (avdctl.launch(app_id)) {
+                    console.log("Done");
+
                     handler(app_id);
                 } else {
                     handler();
@@ -244,6 +248,8 @@ var __impl = {
             }, function() {
                 handler();
             });
+
+            process.stdout.write("Launching the browser... ");
         }, 
 
         __find_available_device : function() {

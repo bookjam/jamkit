@@ -1,7 +1,7 @@
 const chokidar = require('chokidar'),
       path     = require('path'),
       fs       = require('fs-extra'),
-      avdctl   = require('./avdctl')
+      avdctl   = require('./avdctl-helper')
 
 var __impl = {
     "ios" : {
@@ -33,7 +33,7 @@ var __impl = {
 
         copy : function(app_id, src, dest) {
             var tmproot = '/data/local/tmp/jamkit';
-            var tmppath = (tmproot + "/" + src).replace(/\\/g, '/');
+            var tmppath = tmproot + "/" + path.basename(src);
 
             avdctl.push(src, tmppath);
             avdctl.shell('run-as ' + app_id + ' cp -rf ' + tmppath + ' ' + dest);
@@ -52,57 +52,59 @@ module.exports = {
         
         watcher
             .on('ready', function() {
-				var target = dest.replace(/\\/g, '/');
-                
-				__impl[platform].sync(app_id, src, target);
+                __impl[platform].sync(app_id, src, dest);
                 is_ready = true;
+
+                console.log("Done");
 
                 handler();
             })
             .on('add', function(file) {
                 if (is_ready) {
-					var target = path.join(dest, path.relative(src, file)).replace(/\\/g, '/');
+					var subpath = path.relative(src, file).replace(/\\/g, '/');
 					
-                    __impl[platform].copy(app_id, file, target);
+                    __impl[platform].copy(app_id, file, dest + "/" + subpath);
 
                     handler();
                 }
             })
             .on('addDir', function(dir) {
                 if (is_ready) {
-					var target = path.join(dest, path.relative(src, dir)).replace(/\\/g, '/');
-
-                    __impl[platform].copy(app_id, dir, target);
+					var subpath = path.relative(src, file).replace(/\\/g, '/');
+					
+                    __impl[platform].copy(app_id, dir, dest + "/" + subpath);
 
                     handler();
                 }
             })
             .on('change', function(file, stats) {
                 if (is_ready) {
-					var target = path.join(dest, path.relative(src, file)).replace(/\\/g, '/');
-
-                    __impl[platform].copy(app_id, file, target);
+					var subpath = path.relative(src, file).replace(/\\/g, '/');
+					
+                    __impl[platform].copy(app_id, file, dest + "/" + subpath);
 
                     handler();
                 }
             })
             .on('unlink', function(file) {
                 if (is_ready) {
-					var target = path.join(dest, path.relative(src, file)).replace(/\\/g, '/');
+					var subpath = path.relative(src, file).replace(/\\/g, '/');
 
-                    __impl[platform].remove(app_id, target); 
+                    __impl[platform].remove(app_id, dest + "/" + subpath); 
 
                     handler();
                 }
             })
             .on('unlinkDir', function(dir) {
                 if (is_ready) {
-					var target = path.join(dest, path.relative(src, dir)).replace(/\\/g, '/');
+					var subpath = path.relative(src, file).replace(/\\/g, '/');
 
-                    __impl[platform].remove(app_id, target); 
+                    __impl[platform].remove(app_id, dest + "/" + subpath); 
 
                     handler();
                 }
             });
+        
+        process.stdout.write("Copying files to the browser. It may takes long time... ");
     }
 };
