@@ -242,7 +242,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		0CZSW7Dq558ZlsWMv4wFoIjXDWY=
+		nVtGTIsxr36whsrxGWvEpZWAXpA=
 		</data>
 		<key>KoPubBatangBold.ttf</key>
 		<data>
@@ -464,23 +464,23 @@
 		<data>
 		0mDKDUcK1Y3VTnGo30roFHdCO6Y=
 		</data>
-		<key>NotoSansCJKKR-Bold.otf</key>
+		<key>NotoSansKR-Bold.otf</key>
 		<data>
 		y80710V8YCwGyxs4iOUjY5gX5Uc=
 		</data>
-		<key>NotoSansCJKKR-Light.otf</key>
+		<key>NotoSansKR-Light.otf</key>
 		<data>
 		Y910VabxVnNLSdUGK6nZXygaCx4=
 		</data>
-		<key>NotoSansCJKKR-Medium.otf</key>
+		<key>NotoSansKR-Medium.otf</key>
 		<data>
 		fDubjzDCxapgNQQKZb8Yla4BfHg=
 		</data>
-		<key>NotoSansCJKKR-Regular.otf</key>
+		<key>NotoSansKR-Regular.otf</key>
 		<data>
 		wmb+Py8Uk1VxRh0qkbpZPyxchk8=
 		</data>
-		<key>NotoSansCJKKR-Thin.otf</key>
+		<key>NotoSansKR-Thin.otf</key>
 		<data>
 		NIFJvgZz+bBbRzMsaDiDZG4jLL4=
 		</data>
@@ -3787,7 +3787,7 @@
 			7mt1Ttv93xmB/KNPYWiLNMti3Rl7jBGh+yW0TmcBSS0=
 			</data>
 		</dict>
-		<key>NotoSansCJKKR-Bold.otf</key>
+		<key>NotoSansKR-Bold.otf</key>
 		<dict>
 			<key>hash</key>
 			<data>
@@ -3798,7 +3798,7 @@
 			R6ISKw9gE1XEZ1JG5nBVIPO4HsRPVWNK+w0u28FVgZQ=
 			</data>
 		</dict>
-		<key>NotoSansCJKKR-Light.otf</key>
+		<key>NotoSansKR-Light.otf</key>
 		<dict>
 			<key>hash</key>
 			<data>
@@ -3809,7 +3809,7 @@
 			hkpZ9wvu3RIXnF9noRVGy9uJVU9q1USr/pfdCoAPBMc=
 			</data>
 		</dict>
-		<key>NotoSansCJKKR-Medium.otf</key>
+		<key>NotoSansKR-Medium.otf</key>
 		<dict>
 			<key>hash</key>
 			<data>
@@ -3820,7 +3820,7 @@
 			ZzLnphMzgy0NpA98eAjzzh4GNnNf0c6DkLJ6e0YYv/M=
 			</data>
 		</dict>
-		<key>NotoSansCJKKR-Regular.otf</key>
+		<key>NotoSansKR-Regular.otf</key>
 		<dict>
 			<key>hash</key>
 			<data>
@@ -3831,7 +3831,7 @@
 			mTJ89mPxac3VuOjbpXj+PrO6Y15lGG7Hos/Fj6GBvRU=
 			</data>
 		</dict>
-		<key>NotoSansCJKKR-Thin.otf</key>
+		<key>NotoSansKR-Thin.otf</key>
 		<dict>
 			<key>hash</key>
 			<data>
