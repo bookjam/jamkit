@@ -90,6 +90,8 @@ module.exports = {
     },
 
     buildApp : function() {
+        var self = this;
+
         if (!fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found!');
             return;
@@ -101,17 +103,15 @@ module.exports = {
             fs.unlinkSync(jamfile);
         }
 
-        tempfile = tmp.tmpNameSync();
-        zipdir('.', { saveTo:tempfile }, function(err, buffer) {
-            if (err) {
-                throw err;
-            }
-
+        var tempfile = tmp.tmpNameSync();
+        self.__compressFolder(tempfile, function() {
             fs.moveSync(tempfile, jamfile);
-        });
+        })
     },
 
     publishApp : function(host_app, ipfs_options, install_urls) {
+        var self = this;
+
         if (!fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found!');
             return;
@@ -123,21 +123,13 @@ module.exports = {
             fs.unlinkSync(jamfile);
         }
 
-        tempfile = tmp.tmpNameSync();
-        zipdir('.', { saveTo:tempfile }, function(err, buffer) {
-            if (err) {
-                throw err;
-            }
-
+        var tempfile = tmp.tmpNameSync();
+        self.__compressFolder(tempfile, function() {
             fs.moveSync(tempfile, jamfile);
 
-            ipfs(ipfs_options).addFromFs(jamfile, {}, function(err, result) {
-                if (err) {
-                    throw err;
-                }
-
+            self.__publishFile(jamfile, ipfs_options, function(hash) {
                 var url = connect_base_url + "/connect/app/?"
-                        + "url=" + "ipfs://hash/" + result[0]['hash'] + "&" 
+                        + "url=" + "ipfs://hash/" + hash + "&" 
                         + "host-app=" + host_app;
 
                 Object.keys(install_urls).forEach(function(platform) {
@@ -148,7 +140,7 @@ module.exports = {
 
                 console.log(url);
             });
-       });
+        })
     },
 
     createBook : function(name, options) {
@@ -202,6 +194,8 @@ module.exports = {
     },
 
     buildBook : function() {
+        var self = this;
+
         if (!fs.existsSync('./book.bon')) {
             console.log('ERROR: book.bon not found!');
             return;
@@ -213,17 +207,15 @@ module.exports = {
             fs.unlinkSync(bxpfile);
         }
 
-        tempfile = tmp.tmpNameSync();
-        zipdir('.', { saveTo:tempfile }, function(err, buffer) {
-            if (err) {
-                throw err;
-            }
-
+        var tempfile = tmp.tmpNameSync();
+        self.__compressFolder(tempfile, function() {
             fs.renameSync(tempfile, bxpfile);
-        });
+        })
     },
 
     publishBook : function(host_app, ipfs_options, install_urls) {
+        var self = this;
+
         if (!fs.existsSync('./book.bon')) {
             console.log('ERROR: book.bon not found!');
             return;
@@ -235,21 +227,13 @@ module.exports = {
             fs.unlinkSync(bxpfile);
         }
 
-        tempfile = tmp.tmpNameSync();
-        zipdir('.', { saveTo:tempfile }, function(err, buffer) {
-            if (err) {
-                throw err;
-            }
-
+        var tempfile = tmp.tmpNameSync();
+        self.__compressFolder(tempfile, function() {
             fs.renameSync(tempfile, bxpfile);
 
-            ipfs(ipfs_options).addFromFs(bxpfile, {}, function(err, result) {
-                if (err) {
-                    throw err;
-                }
-
+            self.__publishFile(bxpfile, ipfs_options, function(hash) {
                 var url = connect_base_url + "/connect/book/?"
-                        + "url=" + "ipfs://hash/" + result[0]['hash'] + "&" 
+                        + "url=" + "ipfs://hash/" + hash + "&" 
                         + "host-app=" + host_app;
 
                 Object.keys(install_urls).forEach(function(platform) {
@@ -269,5 +253,35 @@ module.exports = {
 
         catalog.save_to_file(data[0], path.join(basedir, 'catalog.bon'));
         catalog.save_to_database(data[0], data[1], path.join(basedir, 'catalog.sqlite'));
-    }
+    },
+
+    __compressFolder : function(zipPath, callback) {
+        zipdir('.', { 
+            saveTo: zipPath,
+            filter: function(fullPath, stat) {
+                if (path.basename(fullPath).startsWith(".")) {
+                    return false;
+                }
+
+                return true;
+            }
+         }, 
+         function(err, buffer) {
+            if (err) {
+                throw err;
+            }
+
+            callback();
+        });
+    },
+
+    __publishFile : function(zipPath, options, callback) {
+        ipfs(options).addFromFs(zipPath, {}, function(err, result) {
+            if (err) {
+                throw err;
+            }
+
+            callback(result[0]['hash']);
+        });
+    } 
 };

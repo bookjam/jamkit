@@ -4,29 +4,113 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>AboutViewController_iPad.nib</key>
+		<key>AboutViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		41HCU+pwBzWGpWEm9vIULwGPKqY=
+		n0EB6dlXohckC55ROC4r3gmfPjY=
 		</data>
-		<key>AboutViewController_iPhone.nib</key>
+		<key>AboutViewController_iPad.nib/runtime.nib</key>
 		<data>
-		byNvx1XB8yOliuFoYpCHgxYYH0Q=
+		9KTtAb51i0L8dzt6/hDSWbgLvuE=
 		</data>
-		<key>AdultVerifyView_iPad.nib</key>
+		<key>AboutViewController_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		Yt9vS670Ha7G51xBFqedYZ/TTiI=
+		EZkbWnbi0Z1EEqgwcFIqkmq+N7g=
 		</data>
-		<key>AdultVerifyView_iPhone.nib</key>
+		<key>AboutViewController_iPhone.nib/runtime.nib</key>
 		<data>
-		6WDk+4B0R8m/w2fecPzymUYtQns=
+		YKz4vojqQBw3vPy8tEw77pDNapA=
 		</data>
-		<key>AdultViewController_iPad.nib</key>
+		<key>AdultVerifyView_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		rI2mDzNQxWwNq2BczmnzQKDCyyU=
+		u5YmZw6WcgIYX1f5EOZVZoNp9iE=
 		</data>
-		<key>AdultViewController_iPhone.nib</key>
+		<key>AdultVerifyView_iPad.nib/runtime.nib</key>
 		<data>
-		sFYSLl9RhyFvJDECKIbykHTcivk=
+		G2kiS8HQ+cwsm7QZJt+XsWgOtq8=
+		</data>
+		<key>AdultVerifyView_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		tquBNVT+Isr+SENbJIX88odH9K8=
+		</data>
+		<key>AdultVerifyView_iPhone.nib/runtime.nib</key>
+		<data>
+		v4/amZqXthisn8RBkWRe81XUKM4=
+		</data>
+		<key>AdultViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		Ih4YXBJ+17xDKlZX4kbKBn96ljM=
+		</data>
+		<key>AdultViewController_iPad.nib/runtime.nib</key>
+		<data>
+		dD4/yXcbtVUVqm3fQjfe0kJY4kM=
+		</data>
+		<key>AdultViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		sfRvmEy9AnQ3Srm8+FdCtrWFw9M=
+		</data>
+		<key>AdultViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		926Iu5FJ+X/+D+2aren58/f5tzg=
+		</data>
+		<key>AppIcon20x20@2x.png</key>
+		<data>
+		J+PjjFj7LtHP4vbNpYH47jBnMmc=
+		</data>
+		<key>AppIcon20x20@2x~ipad.png</key>
+		<data>
+		J+PjjFj7LtHP4vbNpYH47jBnMmc=
+		</data>
+		<key>AppIcon20x20@3x.png</key>
+		<data>
+		V4GN49zOwppkgT8bWhkMuhBAoTs=
+		</data>
+		<key>AppIcon20x20~ipad.png</key>
+		<data>
+		JMJN3ptOPMMHsH2Ir7B4fc92Syo=
+		</data>
+		<key>AppIcon29x29.png</key>
+		<data>
+		R3QMOiDAsxuFB+L3Pz7yXUD5dg0=
+		</data>
+		<key>AppIcon29x29@2x.png</key>
+		<data>
+		2dKQiFrVNdCsZmTuDDw0vhEkOMY=
+		</data>
+		<key>AppIcon29x29@2x~ipad.png</key>
+		<data>
+		2dKQiFrVNdCsZmTuDDw0vhEkOMY=
+		</data>
+		<key>AppIcon29x29@3x.png</key>
+		<data>
+		idn3s2QAQB/cMt6qqhI5rgACCpg=
+		</data>
+		<key>AppIcon29x29~ipad.png</key>
+		<data>
+		R3QMOiDAsxuFB+L3Pz7yXUD5dg0=
+		</data>
+		<key>AppIcon40x40@2x.png</key>
+		<data>
+		tF00H0NmWmkYhZnBaSHuWn6dVro=
+		</data>
+		<key>AppIcon40x40@2x~ipad.png</key>
+		<data>
+		tF00H0NmWmkYhZnBaSHuWn6dVro=
+		</data>
+		<key>AppIcon40x40@3x.png</key>
+		<data>
+		KxOgAkdYXi4UW0FaF+CbxRIi8KU=
+		</data>
+		<key>AppIcon40x40~ipad.png</key>
+		<data>
+		J+PjjFj7LtHP4vbNpYH47jBnMmc=
+		</data>
+		<key>AppIcon50x50@2x~ipad.png</key>
+		<data>
+		y+u6JsrlB4s3TLSXg4GRE4bPJS4=
+		</data>
+		<key>AppIcon50x50~ipad.png</key>
+		<data>
+		k2DJDM0o4e3FDED5P9squGG6C6g=
 		</data>
 		<key>AppIcon57x57.png</key>
 		<data>
@@ -44,6 +128,10 @@
 		<data>
 		I97847rSqAtfxmlHiOSgoFiX8Wo=
 		</data>
+		<key>AppIcon72x72@2x~ipad.png</key>
+		<data>
+		lYFnm22EoDDAf4DU1FnUV8H1IKc=
+		</data>
 		<key>AppIcon72x72~ipad.png</key>
 		<data>
 		nGmWgKEtKmnDe/3SAaTANwCv7cE=
@@ -56,77 +144,145 @@
 		<data>
 		NF3NBcWfh7LwuoFrFE15S155iWs=
 		</data>
+		<key>AppIcon83.5x83.5@2x~ipad.png</key>
+		<data>
+		Wsc2IrxW9K1SibbFRwjZyqM6/VE=
+		</data>
 		<key>AppInfo.plist</key>
 		<data>
 		B7iCktWyuib6Q6wZLayW2xwcEiM=
 		</data>
-		<key>AppViewController_iPad.nib</key>
+		<key>AppViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		oY49+i7NOqtZxUA50+5f7QDr5sY=
+		uFhnQBDl94XniPPCLG9g13Nv0zA=
 		</data>
-		<key>AppViewController_iPhone.nib</key>
+		<key>AppViewController_iPad.nib/runtime.nib</key>
 		<data>
-		8/XjSvS2caXaLL5GxbRb8obkfWE=
+		baCIle5HIP61EHqchxPom0xN7Bg=
 		</data>
-		<key>ArticleViewController_iPad.nib</key>
+		<key>AppViewController_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		LuLMd5lW6HW6J9fBkUavQdGRjn8=
+		MLloAjz67CeFy7skdX4E+79Nn0Y=
 		</data>
-		<key>ArticleViewController_iPhone.nib</key>
+		<key>AppViewController_iPhone.nib/runtime.nib</key>
 		<data>
-		L8hawZ0XDEOcxtmHTecJ6nwmRP0=
+		ZDjESrvUzIVYAYLUKjlyxIxoHUo=
+		</data>
+		<key>ArticleViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		YGvV/BFujGek3KRNxxTmtuqJO0E=
+		</data>
+		<key>ArticleViewController_iPad.nib/runtime.nib</key>
+		<data>
+		BXZGo4VrSe5nacYKixVc9u9ctoY=
+		</data>
+		<key>ArticleViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		Qu8Xa+Mqy+fI4n2gsS5FTrSQoZU=
+		</data>
+		<key>ArticleViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		3DGvzfKIBe9E7mwfFuPe7CaIKuE=
 		</data>
 		<key>Assets.car</key>
 		<data>
-		1CS3zLAK2TlwBNy6T38MrptmIN4=
+		Z5Gnx64sox0c/ThDqnSHifkyTGQ=
 		</data>
-		<key>AudioBookViewController_iPad.nib</key>
+		<key>AudioBookViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		fq+Cr14u7rKhpLknQ2Fb44p685g=
+		/QskcT0uZcXXojeEBWaCTbR/nOI=
 		</data>
-		<key>AudioBookViewController_iPhone.nib</key>
+		<key>AudioBookViewController_iPad.nib/runtime.nib</key>
 		<data>
-		8NdaMNRTi1kICXg+xxKe1cuYyUU=
+		2wapzTshPcc2AEK17GOyKKd8xE8=
 		</data>
-		<key>AudioMarkAddView_iPad.nib</key>
+		<key>AudioBookViewController_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		MnvTVm6+Pc3jSwaya+27AGXmqHs=
+		+HuiELLibkKHkIaGd8jQcVpaLwI=
 		</data>
-		<key>AudioMarkAddView_iPhone.nib</key>
+		<key>AudioBookViewController_iPhone.nib/runtime.nib</key>
 		<data>
-		qzfGlGgZjK9YX/NkRxdTaZ1sqj0=
+		5Qu9YCPbXnZaqGz4FtxpARkFMO8=
 		</data>
-		<key>AudioMarkTableViewCell_iPad.nib</key>
+		<key>AudioMarkAddView_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		gFAXOq+WyEkeUlQYknR9txnXllE=
+		H8LkHLkDD1TbqhE3oPCBCTBc5OE=
 		</data>
-		<key>AudioMarkTableViewCell_iPhone.nib</key>
+		<key>AudioMarkAddView_iPad.nib/runtime.nib</key>
 		<data>
-		p3msnscbAXQEDeWervLbZrum5Hc=
+		S2Bs9tLIKSe0bHk0UwlMd4gFsXg=
 		</data>
-		<key>AudioPlayerView_iPad.nib</key>
+		<key>AudioMarkAddView_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		WqmitG1g4az7OEG/HGEr1inkjvE=
+		xNW68e9U572rumyLGMS77Qk1+3U=
 		</data>
-		<key>AudioPlayerView_iPhone.nib</key>
+		<key>AudioMarkAddView_iPhone.nib/runtime.nib</key>
 		<data>
-		kvE1nUGWwcFS+Wq5H3e7jg7VwV0=
+		zvEr4TlhRBjSsWUp90tBF88werU=
 		</data>
-		<key>AudioRateView_iPad.nib</key>
+		<key>AudioMarkTableViewCell_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		JUffMDH78hs246R1Z072tS4bP6g=
+		q5iWlJH98SWwVuu2gbicWHyT9TM=
 		</data>
-		<key>AudioRateView_iPhone.nib</key>
+		<key>AudioMarkTableViewCell_iPad.nib/runtime.nib</key>
 		<data>
-		nkwuDse7qu5w9WQHJqzD8HjwNnQ=
+		hFiLERYlnbMs0KdFneOXuxsQhLc=
 		</data>
-		<key>AudioRecorderView_iPad.nib</key>
+		<key>AudioMarkTableViewCell_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		u97uOkZSvGajISSois5FE/+z4bc=
+		LsGtrqgR9xxK5A495RoiXJ14tdk=
 		</data>
-		<key>AudioRecorderView_iPhone.nib</key>
+		<key>AudioMarkTableViewCell_iPhone.nib/runtime.nib</key>
 		<data>
-		hPBu9Bn91mY1oG+xLIgQ9N3bIyA=
+		9XwN7TavtKXLdb0c4GSW8EN3HLI=
+		</data>
+		<key>AudioPlayerView_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		HTW4ZP39GV489ZBjsQBFBvTZbC4=
+		</data>
+		<key>AudioPlayerView_iPad.nib/runtime.nib</key>
+		<data>
+		8MiykjyB2aeAvNbMjYC7oEmNbVg=
+		</data>
+		<key>AudioPlayerView_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		EFQROpzUiNBzTz6thpmo/fzXH04=
+		</data>
+		<key>AudioPlayerView_iPhone.nib/runtime.nib</key>
+		<data>
+		SMJGB2erdIdI7PmMD8Q8rGo7ghw=
+		</data>
+		<key>AudioRateView_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		Maxau6w94y5Ya9xExLIQEyl7sAY=
+		</data>
+		<key>AudioRateView_iPad.nib/runtime.nib</key>
+		<data>
+		rDAAnVPKdePO0JVi2+VjXuZOPUA=
+		</data>
+		<key>AudioRateView_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		lOGfHFxvtDj5DHBTJqxEYnVUoT8=
+		</data>
+		<key>AudioRateView_iPhone.nib/runtime.nib</key>
+		<data>
+		ValGApW1iblNzT7oemv5YVtXb4E=
+		</data>
+		<key>AudioRecorderView_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		7FPdMRzNl2BpAMOrpo+b4E7m8+M=
+		</data>
+		<key>AudioRecorderView_iPad.nib/runtime.nib</key>
+		<data>
+		C3QpuF5Tm3X4PrpX3AioHM7Ly1w=
+		</data>
+		<key>AudioRecorderView_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		gzZsWZG4talEwCCDiJN3O/oBkNI=
+		</data>
+		<key>AudioRecorderView_iPhone.nib/runtime.nib</key>
+		<data>
+		pwNPHJ2GUhL3E87V8EANdW/ag8Y=
 		</data>
 		<key>BaseKit.bundle/chart.html</key>
 		<data>
@@ -158,7 +314,7 @@
 		</data>
 		<key>BaseKit.bundle/webvideo.js</key>
 		<data>
-		c55UrxYPMJaPeBWtAZ0t04OW+0Q=
+		wgThLiVwCFBAbKIq7GcIzVFjdQY=
 		</data>
 		<key>BaseKit.bundle/webview_helper.js</key>
 		<data>
@@ -170,7 +326,7 @@
 		</data>
 		<key>BaseKit.bundle/youtube.js</key>
 		<data>
-		kLQzB7EpY9CzGIrC5g20VZrPu/k=
+		AEGEVz5PkU5LzpBP6Qlv8Vb3xhU=
 		</data>
 		<key>BaseKit.bundle/youtube_hiding_ads.js</key>
 		<data>
@@ -180,45 +336,85 @@
 		<data>
 		3Nz4WVa9ZsZL2dfByhX3v2ITPp0=
 		</data>
-		<key>BookViewController_iPad.nib</key>
+		<key>BookViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		E4TCMgwL6UZqADrETZbrH2Pnsjk=
+		90fxDl1ntq2Vzn5M44fiYVlB5X4=
 		</data>
-		<key>BookViewController_iPhone.nib</key>
+		<key>BookViewController_iPad.nib/runtime.nib</key>
 		<data>
-		XCSJ/OPtEulBIQXT4SEPZ7t9OMs=
+		9L1mtS/oirEQLn3lovQ4BM8+P6c=
 		</data>
-		<key>CloudAuthView_iPad.nib</key>
+		<key>BookViewController_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		HzaVWqyFBGA1uTTkFoFVQpXhDOc=
+		7m7jsAqd4S1VFWngwCV5aydqkgc=
 		</data>
-		<key>CloudAuthView_iPhone.nib</key>
+		<key>BookViewController_iPhone.nib/runtime.nib</key>
 		<data>
-		eTFFxbuhpY8WMRhVz4J6o9TDlZo=
+		KyQQ43wRlL09ma5dYu4EDWCYl/A=
 		</data>
-		<key>CloudViewController_iPad.nib</key>
+		<key>CloudAuthView_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		fGPsAStmQFs9wr/TuUDrZvlRfjs=
+		I3HEqyhzWoN0NfznAlmM5s2arnY=
 		</data>
-		<key>CloudViewController_iPhone.nib</key>
+		<key>CloudAuthView_iPad.nib/runtime.nib</key>
 		<data>
-		9Q6ZriNmRRB2f6NIpt3IQgRiC+s=
+		Ecdz6VxiawyN5Bf5EHkF5GsR5EE=
 		</data>
-		<key>ComicViewController_iPad.nib</key>
+		<key>CloudAuthView_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		ApBgbsxN2IxDgGx+GihmaUGOba4=
+		fLFMsLy0TqAQBcpp5yN6OMMpMkA=
 		</data>
-		<key>ComicViewController_iPhone.nib</key>
+		<key>CloudAuthView_iPhone.nib/runtime.nib</key>
 		<data>
-		GgThC3ATQGoB0BhTLGk+XON0gJo=
+		MGzQ6h1ZpG5PhE69aAuoR23D7AM=
 		</data>
-		<key>CouponsViewController_iPad.nib</key>
+		<key>CloudViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		wWarJBKDnEbRg3HKjBDL9LX6AnA=
+		+++OK7uDM2pfeZpJP8ykRv5O3hU=
 		</data>
-		<key>CouponsViewController_iPhone.nib</key>
+		<key>CloudViewController_iPad.nib/runtime.nib</key>
 		<data>
-		+2xKaC4a7liYNmGru0YzRXzppY8=
+		1HRSNYo7TeLCsrdJRt+Q2AJWrxc=
+		</data>
+		<key>CloudViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		rHhVdnFbn41BJ9C28FlngSYCHsw=
+		</data>
+		<key>CloudViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		mFmQEoMelIayNNXxfnnZsyf00QU=
+		</data>
+		<key>ComicViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		3zhz05CQOIjgxcNe2gTuAqVk9rU=
+		</data>
+		<key>ComicViewController_iPad.nib/runtime.nib</key>
+		<data>
+		e2mlVlKUWy0wTG1RTeemp9U3hb0=
+		</data>
+		<key>ComicViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		mdYB44SDXk9id0baktZD3rOtfBw=
+		</data>
+		<key>ComicViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		Rx8rfdBKW5lABFApQ7TLt+oeAQg=
+		</data>
+		<key>CouponsViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		MZUylWGDX8hYWc9wMo53XOIlZ0k=
+		</data>
+		<key>CouponsViewController_iPad.nib/runtime.nib</key>
+		<data>
+		gZOR001g5rV/oCNZcwmucBTTMdQ=
+		</data>
+		<key>CouponsViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		ssJJP+uor/nHTxYVruozAZTNoAo=
+		</data>
+		<key>CouponsViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		xVT29wUnGzvPLOOjSi56LnSSfXU=
 		</data>
 		<key>Fonts.plist</key>
 		<data>
@@ -226,15 +422,15 @@
 		</data>
 		<key>Frameworks/Lottie.framework/Info.plist</key>
 		<data>
-		JvWpAgpnofULFoMSYIIvkGlkPvc=
+		nAvI1ajNoEgfSkDhr1sMYE+4WC8=
 		</data>
 		<key>Frameworks/Lottie.framework/Lottie</key>
 		<data>
-		69CmZxFQ571oN9BAUB9nPjUctiI=
+		YrJrRyTl6aREO15bi8V8E7B88Pc=
 		</data>
 		<key>Frameworks/Lottie.framework/_CodeSignature/CodeResources</key>
 		<data>
-		7eyM7YfYzrinJIcxqKncHv40ylc=
+		2onYVBhdQhLvuBkAtkqZZ6RrQxM=
 		</data>
 		<key>GoogleService-Info.plist</key>
 		<data>
@@ -242,7 +438,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		QUZ0YffL3vmVCx3vJU9C7lVUTa8=
+		oaQ2NWhqWwXw2cMQtEdE3ecbU38=
 		</data>
 		<key>KoPubBatangBold.ttf</key>
 		<data>
@@ -268,145 +464,153 @@
 		<data>
 		1gwWmZj2YMQ7ciABE4N6+Go6xsQ=
 		</data>
-		<key>LaunchImage-1100-Portrait-2436h@3x.png</key>
+		<key>LaunchScreen_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		JbE/OGbDNjHieYN0YdlRXwHYGJM=
+		3dWXr2jjh8+oCeAba94f9REgkSE=
 		</data>
-		<key>LaunchImage-568h@2x.png</key>
+		<key>LaunchScreen_iPad.nib/runtime.nib</key>
 		<data>
-		m+F6jvW2hRkWvd+zeA8FQP8PIhM=
+		WQPpLf9ccK1ZaluCEoj89wJetA0=
 		</data>
-		<key>LaunchImage-700-568h@2x.png</key>
+		<key>LaunchScreen_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		m+F6jvW2hRkWvd+zeA8FQP8PIhM=
+		LgnjlcasmHA0+MS52SUaALXV6HA=
 		</data>
-		<key>LaunchImage-700-Landscape@2x~ipad.png</key>
+		<key>LaunchScreen_iPhone.nib/runtime.nib</key>
 		<data>
-		ccQyMkbmtYdCtyIHhokJhYy40m0=
-		</data>
-		<key>LaunchImage-700-Landscape~ipad.png</key>
-		<data>
-		0BkkShrcPYBINEBY6oZUKfuyHZ4=
-		</data>
-		<key>LaunchImage-700-Portrait@2x~ipad.png</key>
-		<data>
-		lRmfefF/vW9vel/bUeFZCVq2KQo=
-		</data>
-		<key>LaunchImage-700-Portrait~ipad.png</key>
-		<data>
-		kNL6D+i3ZOA98739NcEpwi2+uI0=
-		</data>
-		<key>LaunchImage-700@2x.png</key>
-		<data>
-		OTT0tGCs2idHinxSPbbrBr1DGjM=
-		</data>
-		<key>LaunchImage-800-667h@2x.png</key>
-		<data>
-		8BnuB/6quc7aHk8YE+9OgxDPgII=
-		</data>
-		<key>LaunchImage-800-Portrait-736h@3x.png</key>
-		<data>
-		pJr89Z7lNMrp7Fd7zrUVPNtC1hM=
-		</data>
-		<key>LaunchImage-Landscape@2x~ipad.png</key>
-		<data>
-		ccQyMkbmtYdCtyIHhokJhYy40m0=
-		</data>
-		<key>LaunchImage-Landscape~ipad.png</key>
-		<data>
-		0BkkShrcPYBINEBY6oZUKfuyHZ4=
-		</data>
-		<key>LaunchImage-Portrait@2x~ipad.png</key>
-		<data>
-		lRmfefF/vW9vel/bUeFZCVq2KQo=
-		</data>
-		<key>LaunchImage-Portrait~ipad.png</key>
-		<data>
-		kNL6D+i3ZOA98739NcEpwi2+uI0=
-		</data>
-		<key>LaunchImage.png</key>
-		<data>
-		I+XLMgf2OYCJwwAh25kYU0E3ewc=
-		</data>
-		<key>LaunchImage@2x.png</key>
-		<data>
-		OTT0tGCs2idHinxSPbbrBr1DGjM=
-		</data>
-		<key>LaunchScreen_iPad.nib</key>
-		<data>
-		Q5zDSOSb4Me4wei2GQa002m/k8Y=
-		</data>
-		<key>LaunchScreen_iPhone.nib</key>
-		<data>
-		OR04JbmxWWYCeTERyDP7yvfT7vY=
+		fzrhIxPLf/c32k27hKRZ7W+i2Ao=
 		</data>
 		<key>Localizable.strings</key>
 		<data>
 		zmV6UqBSo6r1NOz798vd5O4zTBA=
 		</data>
-		<key>MainAppViewController_iPad.nib</key>
+		<key>MainAppViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		QwDenfgVp0ByKCFOANXGYRQEWUo=
+		FrrUwWuMO6BziPGtXtmfkCjWie8=
 		</data>
-		<key>MainAppViewController_iPhone.nib</key>
+		<key>MainAppViewController_iPad.nib/runtime.nib</key>
 		<data>
-		shi3WZA+2IYfP+NFH/QFivjvcBs=
+		qjW/YjKSWQTvz5Ewg5iRFf2grIE=
 		</data>
-		<key>MainViewController_iPad.nib</key>
+		<key>MainAppViewController_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		ctQLo62EVrPCaA4CHdIh8liSd/Q=
+		jr4r1mxL1ccbFs8ZdCAa2FYUehY=
 		</data>
-		<key>MainViewController_iPhone.nib</key>
+		<key>MainAppViewController_iPhone.nib/runtime.nib</key>
 		<data>
-		TXoa3G1+8eD5SIwFAhxoZHcsM4w=
+		tXAJlc6jIxVzndP9uW20oy75ET4=
 		</data>
-		<key>MainWindow_iPad.nib</key>
+		<key>MainViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		IWbNR9J0V3e1hNfvhXBux5GFuKQ=
+		damBmD+PhzQgVatJGcKIJBtww7U=
 		</data>
-		<key>MainWindow_iPhone.nib</key>
+		<key>MainViewController_iPad.nib/runtime.nib</key>
 		<data>
-		V0agzinPO1lq3dcMDfmYIua7Sp0=
+		2iuzN7MUDz15phI9sKovpVhzvhs=
 		</data>
-		<key>MarkTableViewCell_iPad.nib</key>
+		<key>MainViewController_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		plyao49DflTsHxNo5Mun8aM4GZ4=
+		fNFnalr0FH4BckJ/eOjtJ1KhpG4=
 		</data>
-		<key>MarkTableViewCell_iPhone.nib</key>
+		<key>MainViewController_iPhone.nib/runtime.nib</key>
 		<data>
-		F9BemEjgPjfcgBDydC2r5FDg8VY=
+		6YE6uvPAQDOcDi3Ws1LNtWa/5do=
 		</data>
-		<key>MarkTableViewHeader_iPad.nib</key>
+		<key>MainWindow_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		nklBZ9qcQqJq0vvHuaQKzK33qJc=
+		qfcQPSk/EohyT+yGGcpJPXf0Ooc=
 		</data>
-		<key>MarkTableViewHeader_iPhone.nib</key>
+		<key>MainWindow_iPad.nib/runtime.nib</key>
 		<data>
-		DxUNSxjwRCoMJskCkuzmPbZsyuY=
+		UsBGcY6t8Kk3fT57ACrwQ7U40Us=
 		</data>
-		<key>MemoView_iPad.nib</key>
+		<key>MainWindow_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		sNXV6gwgN4AGLpXBZYwHxau8AbE=
+		5t1GgI+Bv7BGKF12q4QAtDYvT50=
 		</data>
-		<key>MemoView_iPhone.nib</key>
+		<key>MainWindow_iPhone.nib/runtime.nib</key>
 		<data>
-		5xmgtcTtty1vYLuKAP65Nuxb1n8=
+		Y69ZnQlfsLURxddIYyn0yfnM0Pc=
 		</data>
-		<key>MyBooksViewController_iPad.nib</key>
+		<key>MarkTableViewCell_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		b45xDEi26iRDuazcyI8qYAVnUzw=
+		f5D8the+qym5WSDFsiugohHJo4c=
 		</data>
-		<key>MyBooksViewController_iPhone.nib</key>
+		<key>MarkTableViewCell_iPad.nib/runtime.nib</key>
 		<data>
-		oXLiIi+j75MTkxBhhQ0wWPctUiA=
+		AUx+KcbQv/ieRf6TV71+OJPVNdk=
 		</data>
-		<key>NoticeViewController_iPad.nib</key>
+		<key>MarkTableViewCell_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		sQle2gDVJSD5eEEwBXSXoVWF0vY=
+		3/ll2iXdZsS7B20bzLFUmWFs7Xk=
 		</data>
-		<key>NoticeViewController_iPhone.nib</key>
+		<key>MarkTableViewCell_iPhone.nib/runtime.nib</key>
 		<data>
-		wmHtmgsUya4/o4cB/lYFx2asXLY=
+		TMP+jix5mXHvcS3cK4SW6HkJmMc=
+		</data>
+		<key>MarkTableViewHeader_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		h41GzD7VUYtBkWx9ioeDUPT3aDk=
+		</data>
+		<key>MarkTableViewHeader_iPad.nib/runtime.nib</key>
+		<data>
+		jsm+hKJtTS2XLsHo72Nl97ebblk=
+		</data>
+		<key>MarkTableViewHeader_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		sLMyXznXvoAecr8pn1ex/ABZSq4=
+		</data>
+		<key>MarkTableViewHeader_iPhone.nib/runtime.nib</key>
+		<data>
+		0270Mo3s9DR0MfF5JzLA+xqp2Fg=
+		</data>
+		<key>MemoView_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		Gjw7E6pMzHCsE8mTclcoGhCAeiM=
+		</data>
+		<key>MemoView_iPad.nib/runtime.nib</key>
+		<data>
+		RMsXfNoZdD4MXX7yh/bZIxNGrl8=
+		</data>
+		<key>MemoView_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		v2Gw/O/QzjEH83TJeX/uwi3kD/w=
+		</data>
+		<key>MemoView_iPhone.nib/runtime.nib</key>
+		<data>
+		RHbl0WNhOBo3rbWcX26fUXaqmYc=
+		</data>
+		<key>MyBooksViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		XT4MzJyB4N7NaoGS12Tn5MyTw34=
+		</data>
+		<key>MyBooksViewController_iPad.nib/runtime.nib</key>
+		<data>
+		WsmkpsZEEG4EdnC2EyOHrkkggtM=
+		</data>
+		<key>MyBooksViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		VOHes5X17DO8IZ76Ugogv1JFELs=
+		</data>
+		<key>MyBooksViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		xl+HPN4glEx+MH/DCv4o6zGIh7g=
+		</data>
+		<key>NoticeViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		2QqBg+sdwT51XIKsgr4ZbTqizqU=
+		</data>
+		<key>NoticeViewController_iPad.nib/runtime.nib</key>
+		<data>
+		9tOmc6T/DZGixR3Cq9JbsK07RLI=
+		</data>
+		<key>NoticeViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		uyl0lJF/ksDGjnde0MQBOqDTNp0=
+		</data>
+		<key>NoticeViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		N9UrjGY2mOn6gmI1RImyHvfuSyg=
 		</data>
 		<key>NotoSans-Black.ttf</key>
 		<data>
@@ -872,157 +1076,301 @@
 		<data>
 		Mgz6S7wpFaVdoaFNTqPF+yw6dXk=
 		</data>
-		<key>PasscodeViewController_iPad.nib</key>
+		<key>PasscodeViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		ixMLyst8XD0yC08r2XX/UprGtC4=
+		3lwprRJbdmpks4bGjAuGtVzLE0s=
 		</data>
-		<key>PasscodeViewController_iPhone.nib</key>
+		<key>PasscodeViewController_iPad.nib/runtime.nib</key>
 		<data>
-		Y0sBIqfffXtxRVLOtBHF3deN1Ps=
+		njVu2hTdZ6J/+1p8ZygMhfHXzxM=
 		</data>
-		<key>PaymentProcessView_iPad.nib</key>
+		<key>PasscodeViewController_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		NkvoKPkSlyrqK0VSWx4EKxwl5Aw=
+		hosD1pHBIxj/VbIWCU53OAdJdIQ=
 		</data>
-		<key>PaymentProcessView_iPhone.nib</key>
+		<key>PasscodeViewController_iPhone.nib/runtime.nib</key>
 		<data>
-		++CHizVRKxXIT5v2OnwgZXZyark=
+		PTllNH8oMqbfWFppNuRilJycgJ0=
 		</data>
-		<key>PaymentViewController_iPad.nib</key>
+		<key>PaymentProcessView_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		n6SE5lm7l3DjrGVfQR3qGnRzKy0=
+		V7OOr/5760BBfBG9VZfAwBUi/D8=
 		</data>
-		<key>PaymentViewController_iPhone.nib</key>
+		<key>PaymentProcessView_iPad.nib/runtime.nib</key>
 		<data>
-		VgY60r0PFbY8ogl9GxMqZXJox/g=
+		GLQJTG6RJEbj0QOECOtnKC+y6Ps=
+		</data>
+		<key>PaymentProcessView_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		fIOkm0Dno4aW+e7Vz5wY8KRYJto=
+		</data>
+		<key>PaymentProcessView_iPhone.nib/runtime.nib</key>
+		<data>
+		TQJY5/xaCVpbBt8VzEW91PfyX7M=
+		</data>
+		<key>PaymentViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		HawX1xz2NuQSj71gG8hHDUmmIsk=
+		</data>
+		<key>PaymentViewController_iPad.nib/runtime.nib</key>
+		<data>
+		Czl/q+7DQu5U0M9IEHwON2HTqAA=
+		</data>
+		<key>PaymentViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		0n0d8qsdsNK1Uk4hZUtAh5GD3W0=
+		</data>
+		<key>PaymentViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		7sedRj14nUM9S+Ao3sVrKObQMW0=
 		</data>
 		<key>PkgInfo</key>
 		<data>
 		n57qDP4tZfLD1rCS43W0B4LQjzE=
 		</data>
-		<key>PrivacyViewController_iPad.nib</key>
+		<key>PrivacyViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		qNdpFcN6WyLJ6PxCTiHi/IqUHmE=
+		AGFHcll2VzVmz0947g0PosmvVDA=
 		</data>
-		<key>PrivacyViewController_iPhone.nib</key>
+		<key>PrivacyViewController_iPad.nib/runtime.nib</key>
 		<data>
-		1P4sO53qs+SYm4K7X5N5iIcUrUE=
+		AXcmjaE+T7Q++vFvxYoIn+OUQVg=
 		</data>
-		<key>PurchasesViewController_iPad.nib</key>
+		<key>PrivacyViewController_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		fQzH/1dZP8YNfb0Fy2jqkAsyoAg=
+		LQ5BNrjULVa9oz99e7i3E1dbDhA=
 		</data>
-		<key>PurchasesViewController_iPhone.nib</key>
+		<key>PrivacyViewController_iPhone.nib/runtime.nib</key>
 		<data>
-		fPiiipyC1uVSKKk6BN5rruXSnXY=
+		PP3JJn57GqhVk7FaZixqoTZd1CU=
 		</data>
-		<key>QuizDetailView_iPad.nib</key>
+		<key>PurchasesViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		C/x4reLdwm0nXrY23v+WQzLsDWs=
+		q6Ixo41ZLQI2eZ2jBGZSn1dioNQ=
 		</data>
-		<key>QuizDetailView_iPhone.nib</key>
+		<key>PurchasesViewController_iPad.nib/runtime.nib</key>
 		<data>
-		TZaD1xHWSLLaggyD+dvEArl7KWo=
+		/Zp/+WCYAZ+ASHH013b11hc+yp8=
 		</data>
-		<key>QuizPageView_iPad.nib</key>
+		<key>PurchasesViewController_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		Z1QFGIPb5AJdWuMu8WpUOgPD7WU=
+		0b6CdxXNphFhA+GgUoNIJPhJMqg=
 		</data>
-		<key>QuizPageView_iPhone.nib</key>
+		<key>PurchasesViewController_iPhone.nib/runtime.nib</key>
 		<data>
-		MMPf6ssYU2bU7q8IHi0ohzkudSk=
+		DeIPs0HG3gymn1OZlSr8UCeFCUE=
 		</data>
-		<key>QuizPopupView_iPad.nib</key>
+		<key>QuizDetailView_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		+gH2D4QJjTuMSL9xeeFhhUSoYDg=
+		3HIFwbd0mh16CvsekTx/CcM+1Tk=
 		</data>
-		<key>QuizPopupView_iPhone.nib</key>
+		<key>QuizDetailView_iPad.nib/runtime.nib</key>
 		<data>
-		Gnwu5yF6U0t2HZMTtCsOx2Tkn1k=
+		+Y8t3JrPpp/Nlc3QdXVk982w7U0=
 		</data>
-		<key>QuizViewController_iPad.nib</key>
+		<key>QuizDetailView_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		kKMZOboWFHdJOQSeRF2ttJNvIRc=
+		KyVlxaLECl9O/+zGirYM4G4rybg=
 		</data>
-		<key>QuizViewController_iPhone.nib</key>
+		<key>QuizDetailView_iPhone.nib/runtime.nib</key>
 		<data>
-		dJHwWec17Uzw54q04WYhFYafdhc=
+		yCQG7JlrBkNBVyiqyUYJbpKO1gs=
 		</data>
-		<key>ReadingsViewController_iPad.nib</key>
+		<key>QuizPageView_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		e7RlVoxJeNg+afMRWBb2LqtbvvQ=
+		EhTA+OmKiR2OL8rAL/VJDTBi3ts=
 		</data>
-		<key>ReadingsViewController_iPhone.nib</key>
+		<key>QuizPageView_iPad.nib/runtime.nib</key>
 		<data>
-		F9/Cll+opVhzH+NNqKT3noG4HP4=
+		/cbavzQ5S5C+UxKyXsUk5k5ADsw=
 		</data>
-		<key>RechargerViewController_iPad.nib</key>
+		<key>QuizPageView_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		CEpfIqr1bU40TCg/q+/ULbZMVmk=
+		kWhYoStFnbxKEYMelvdqwtWsbmQ=
 		</data>
-		<key>RechargerViewController_iPhone.nib</key>
+		<key>QuizPageView_iPhone.nib/runtime.nib</key>
 		<data>
-		eNJFqsXVnwuVPmgJHIuQ6Xl3n8o=
+		LLVyJHIThDHdYa26IBeoY79qKgE=
 		</data>
-		<key>SbmlPopupView_iPad.nib</key>
+		<key>QuizPopupView_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		f2Eug7jHpuYa324I0pkdEMO06bU=
+		BptI36+925Sel2aCoGS7IBupI7k=
 		</data>
-		<key>SbmlPopupView_iPhone.nib</key>
+		<key>QuizPopupView_iPad.nib/runtime.nib</key>
 		<data>
-		gPVVVc1djR99hy9tBj1lLSiI0YI=
+		j/gWEJKoB4+hBUMUnC2Psn+o8LE=
 		</data>
-		<key>SearchResultTableViewCell_iPad.nib</key>
+		<key>QuizPopupView_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		YL21VDUe6W+5oVh/pVD0B7DLAjs=
+		5tuvmJBOKUMa7ySWCIxUT1LG1eY=
 		</data>
-		<key>SearchResultTableViewCell_iPhone.nib</key>
+		<key>QuizPopupView_iPhone.nib/runtime.nib</key>
 		<data>
-		PeFwpUtxCkyw0K0Z+cAYsBouobo=
+		ai9HN9UjBRlZDpW8xqlpwZUqy3U=
 		</data>
-		<key>SelectionMenu_iPad.nib</key>
+		<key>QuizViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		EMzeyT119LLDpYx4XVyHxfhNUck=
+		r3ZM8JfgWE63dzkExvUJZD4yBnE=
 		</data>
-		<key>SelectionMenu_iPhone.nib</key>
+		<key>QuizViewController_iPad.nib/runtime.nib</key>
 		<data>
-		A4CM310sCYm/RkbynBOkRclaHf4=
+		y9RGegpM+1KIqGAW+o/kzrs3nEs=
 		</data>
-		<key>SensorViewController_iPad.nib</key>
+		<key>QuizViewController_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		oNVUfKkvLqOO8B+tlVug8dp4PD0=
+		UwN3Q3wSd4VPKxi588QbtxdyylI=
 		</data>
-		<key>SensorViewController_iPhone.nib</key>
+		<key>QuizViewController_iPhone.nib/runtime.nib</key>
 		<data>
-		Dh2YOYZ6RdgFd3vWPjDQsjQ4yrM=
+		1ndv/MB5SUk23DLXrwnSqVLIAMM=
+		</data>
+		<key>ReadingsViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		hTD6LkqOb9hqEn/oaLErnL42K+E=
+		</data>
+		<key>ReadingsViewController_iPad.nib/runtime.nib</key>
+		<data>
+		RALKMPpXMEG61EF5ZlcUy6QQ6xw=
+		</data>
+		<key>ReadingsViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		LOL/UJ0mi8jwOQzPX9Qpsb2coYw=
+		</data>
+		<key>ReadingsViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		uXnsfPTMKTptNdGsiaEM8wHaZmY=
+		</data>
+		<key>RechargerViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		k76mbQ8LJTn+Sgw79xznyIFS8fU=
+		</data>
+		<key>RechargerViewController_iPad.nib/runtime.nib</key>
+		<data>
+		ICKVCsCakKSSm3SgN8VFstfRJqg=
+		</data>
+		<key>RechargerViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		9iKrbINPyycYk3QLv/SqGwQ4+gY=
+		</data>
+		<key>RechargerViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		f4ou7jOgk8/P2FGVPnQfP5ceJe0=
+		</data>
+		<key>SbmlPopupView_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		HFvsZDZbiHCybqPzKr1a3A/a/H0=
+		</data>
+		<key>SbmlPopupView_iPad.nib/runtime.nib</key>
+		<data>
+		M++1JPaJFfoqealiZzt90Fl31P8=
+		</data>
+		<key>SbmlPopupView_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		eEhbi+j7xTCuiVFh2RzsLFSq5vo=
+		</data>
+		<key>SbmlPopupView_iPhone.nib/runtime.nib</key>
+		<data>
+		Yr5a8hgtwTeBoHJGTV5YU1yswUs=
+		</data>
+		<key>SearchResultTableViewCell_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		RAsxX4lPJSEiFNfTn94X/5Wvru4=
+		</data>
+		<key>SearchResultTableViewCell_iPad.nib/runtime.nib</key>
+		<data>
+		RuRRNx3BQOMkwpjOyEKkmfgBqYE=
+		</data>
+		<key>SearchResultTableViewCell_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		7TlKnGObPfli0kGk5i2/yQ/wgdw=
+		</data>
+		<key>SearchResultTableViewCell_iPhone.nib/runtime.nib</key>
+		<data>
+		oScCJitzxr0Ud2IMjiLBioeIMqQ=
+		</data>
+		<key>SelectionMenu_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		pBt0rLOq8TvrdwmlB7nc2uLE1VY=
+		</data>
+		<key>SelectionMenu_iPad.nib/runtime.nib</key>
+		<data>
+		vATTYerL6G8KMeOkP+mm0gFySXw=
+		</data>
+		<key>SelectionMenu_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		mitxOVn+MCBilHDlRJVX3/oM8B4=
+		</data>
+		<key>SelectionMenu_iPhone.nib/runtime.nib</key>
+		<data>
+		SdyPjlF5pISHY9AY3F7FFHeazsE=
+		</data>
+		<key>SensorViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		H99M3PhzRGcazcSh0lpq9u0QTSM=
+		</data>
+		<key>SensorViewController_iPad.nib/runtime.nib</key>
+		<data>
+		IimFILvUTZCsFAvOmoq5AMaNtQk=
+		</data>
+		<key>SensorViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		w6A/7PYoPMUWfflvGRRVlDb0+jM=
+		</data>
+		<key>SensorViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		gUiLBc73L9sUXu8TJ2wCLlLtjAM=
 		</data>
 		<key>Settings.plist</key>
 		<data>
-		6Pn8Hbm4BcZj4sGU9ln/P3QjYcQ=
+		pvpZXDm5Kh/4vB1JFCfdnklLPYk=
 		</data>
-		<key>SettingsViewController_iPad.nib</key>
+		<key>SettingsViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		myGfHXx9ERzC5HGILSVKHqx6APk=
+		amaGLM4uwX7zgQ4jI278umBlluo=
 		</data>
-		<key>SettingsViewController_iPhone.nib</key>
+		<key>SettingsViewController_iPad.nib/runtime.nib</key>
 		<data>
-		4C1OYAcyT+pgcBRcadytMAmd1rE=
+		aTitbS8a44bh7T0pk5vKVRELhSI=
 		</data>
-		<key>ShareView_iPad.nib</key>
+		<key>SettingsViewController_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		sDjZ9G65MK9EzDgAO79iS/b2o28=
+		/BpXED81KlxIB9Z3VS6lRs84xA0=
 		</data>
-		<key>ShareView_iPhone.nib</key>
+		<key>SettingsViewController_iPhone.nib/runtime.nib</key>
 		<data>
-		PnBc3dgqz4NzJk/DWmTif3H9UKQ=
+		4d5TkoOeU0TzjV/X68KrYYwYM64=
 		</data>
-		<key>SidebarViewController_iPad.nib</key>
+		<key>ShareView_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		3h6VvbbblOl2g27LAhP/iLlTEUM=
+		6ov1dIwPEEKcdeDS05Kh2u78b+U=
 		</data>
-		<key>SidebarViewController_iPhone.nib</key>
+		<key>ShareView_iPad.nib/runtime.nib</key>
 		<data>
-		16iAYCMBHEH9T1CAMPIRVlBzEHs=
+		HeAzZPrjTuqHVcBQEjLQh40UM5o=
+		</data>
+		<key>ShareView_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		JTaJwGCPloxEGD6GNJFCLeA2H+Q=
+		</data>
+		<key>ShareView_iPhone.nib/runtime.nib</key>
+		<data>
+		HoChddjVCu6RXmkArUrwf0zr0jk=
+		</data>
+		<key>SidebarViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		M9h0DAwTdfpCJOrSDu7IC8jFqQo=
+		</data>
+		<key>SidebarViewController_iPad.nib/runtime.nib</key>
+		<data>
+		c+4rESuJHuS5iau4HvRKbbaPnAg=
+		</data>
+		<key>SidebarViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		/yTpBNwhlByTFKCTYWxMoOrYmoU=
+		</data>
+		<key>SidebarViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		ET7ysrOJfN3t+LPpgexhs6RLLDM=
 		</data>
 		<key>StoreBase.bundle/en.lproj/Localizable.strings</key>
 		<dict>
@@ -1082,69 +1430,133 @@
 		<data>
 		1Y5OUl6O/X/uYkjFDJx+tM8pqdE=
 		</data>
-		<key>StoreCatalogView_iPad.nib</key>
+		<key>StoreCatalogView_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		oHsQA/GngG4IvptkByYO8Do2XV4=
+		9v6gm6BSdEwm5FcmIZ92Cg6dtrE=
 		</data>
-		<key>StoreCatalogView_iPhone.nib</key>
+		<key>StoreCatalogView_iPad.nib/runtime.nib</key>
 		<data>
-		FZFQZsbK9gy23gXFVQRkkPRviJw=
+		PkfD9hnglEIb8Q3Sx4IHgbrtKnQ=
 		</data>
-		<key>StoreDetailView_iPad.nib</key>
+		<key>StoreCatalogView_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		yS6NqAV9VzzRQa+uPBn3WdJUDOw=
+		95bbHOoeBxIXBV6U4t8Qic2h6ac=
 		</data>
-		<key>StoreDetailView_iPhone.nib</key>
+		<key>StoreCatalogView_iPhone.nib/runtime.nib</key>
 		<data>
-		aTBvjM5RPP7SDJlIDF7wLfRT41k=
+		bZRXzdCrEi5jdsNpkNecaikMIuE=
 		</data>
-		<key>StoreMultiPageView_iPad.nib</key>
+		<key>StoreDetailView_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		1xNmf7exKrfIdWH/iqcFWlARSgI=
+		dXhQeLCZQ+7lcGkiJc21PLhiqeU=
 		</data>
-		<key>StoreMultiPageView_iPhone.nib</key>
+		<key>StoreDetailView_iPad.nib/runtime.nib</key>
 		<data>
-		5HvXoXiwnR096/jg/+8EnPCXfy0=
+		jvATX2b6FF7bX87DZzVbB9Nup1o=
 		</data>
-		<key>StorePageView_iPad.nib</key>
+		<key>StoreDetailView_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		O9l3E5OSyd/yFQCP+lDwUSOi7GQ=
+		SrmrA2vjiYRjZPlMTx2MlMIQDNU=
 		</data>
-		<key>StorePageView_iPhone.nib</key>
+		<key>StoreDetailView_iPhone.nib/runtime.nib</key>
 		<data>
-		rmsReQ8lpS14kqsgrr6SlVJd1AE=
+		zgi9lysj09eXdQxbwDOio0EPlbk=
 		</data>
-		<key>StorePopupView_iPad.nib</key>
+		<key>StoreMultiPageView_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		T30C9eAhPPG7RtledZPeRn3Cxng=
+		BvVe5qA/2sBcsATAYVjTJ0URmVo=
 		</data>
-		<key>StorePopupView_iPhone.nib</key>
+		<key>StoreMultiPageView_iPad.nib/runtime.nib</key>
 		<data>
-		sAbxj/664duMF9v47og/iDAghrg=
+		D7BcyujwfdGdIKHKk6V8xeKXUlk=
 		</data>
-		<key>StoreViewController_iPad.nib</key>
+		<key>StoreMultiPageView_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		3/Bvgsfi1/SvYDN1Rnbb06v0aBA=
+		UXAzS6HPj9ob7YZkoeWryGtmbV4=
 		</data>
-		<key>StoreViewController_iPhone.nib</key>
+		<key>StoreMultiPageView_iPhone.nib/runtime.nib</key>
 		<data>
-		RKjvISmoxZs9r3V2vyoLyaoyJqc=
+		S7B0kbVAIXVhrRY5x8bPD1wrgwM=
 		</data>
-		<key>StoryViewController_iPad.nib</key>
+		<key>StorePageView_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		A7SRSrpl0N6D2qavXxvaEhrXvmI=
+		jUqfOTxhxnT9PXa/mhgih1upHok=
 		</data>
-		<key>StoryViewController_iPhone.nib</key>
+		<key>StorePageView_iPad.nib/runtime.nib</key>
 		<data>
-		u2p4wAF5pC8KqiryJRUrvoiQC7A=
+		PdNfHspkyHaiY6XFDg9gRgWfP5w=
 		</data>
-		<key>SupportViewController_iPad.nib</key>
+		<key>StorePageView_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		wsXHeWzmNUBrIZ/iN66K+4CpqMA=
+		6LPffeUdpeH9IPUwJOxqiTTvi7g=
 		</data>
-		<key>SupportViewController_iPhone.nib</key>
+		<key>StorePageView_iPhone.nib/runtime.nib</key>
 		<data>
-		iOsQbVbZnSqfXnjLf8oy5eRtYkk=
+		WmcQAeHN6KvLPTyVAmgznymMkaU=
+		</data>
+		<key>StorePopupView_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		fr6j4zK7NLu/MrH8CBlYv0myETQ=
+		</data>
+		<key>StorePopupView_iPad.nib/runtime.nib</key>
+		<data>
+		G0iNkCd4tNxZfg7DF1Gg4I388oM=
+		</data>
+		<key>StorePopupView_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		xs3YRwUl8hBsesbGMT5SXSm1MFk=
+		</data>
+		<key>StorePopupView_iPhone.nib/runtime.nib</key>
+		<data>
+		ufdPk4IS4RYD7Bpi6nc2aJTKeNE=
+		</data>
+		<key>StoreViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		lcQ1Na8YuiyiLVxn5MfO4lgZEB4=
+		</data>
+		<key>StoreViewController_iPad.nib/runtime.nib</key>
+		<data>
+		vHFD0tP/7XqkEJMpM1IHzOF2NUY=
+		</data>
+		<key>StoreViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		V06ibwQ1teQyxZGUJSdQhtDEURc=
+		</data>
+		<key>StoreViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		IWq8CYKpB+rDtsxPhK3kEsufRgM=
+		</data>
+		<key>StoryViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		F62o0o9F4luLidj+KwPtWxkRLNM=
+		</data>
+		<key>StoryViewController_iPad.nib/runtime.nib</key>
+		<data>
+		pLMIdpQ3/BdJdj+axDEY2hROe+w=
+		</data>
+		<key>StoryViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		mI31BK8uQAbHRJ4IFqshQXnIgQM=
+		</data>
+		<key>StoryViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		0WVlDaMkWDIJ9HYXBSVeAOwUcgw=
+		</data>
+		<key>SupportViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		IHNQOiTDBfO+6mGo1lpviTQ/ZLE=
+		</data>
+		<key>SupportViewController_iPad.nib/runtime.nib</key>
+		<data>
+		BWzwcPQ9mONGuo+NqWGFyeC3Ic8=
+		</data>
+		<key>SupportViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		kYuLT0ttIx1ZVE+zQoZcCEPzjnY=
+		</data>
+		<key>SupportViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		jauiUS2muRv2+b53Qo0j3XG1q0Y=
 		</data>
 		<key>Themes.bundle/Audio/BookView/bookview_mediabar_btn_fast_forward@m.png</key>
 		<data>
@@ -2506,97 +2918,352 @@
 		<data>
 		07zFmjdHQTV0+2wfjAI6FwFWjzk=
 		</data>
-		<key>UserViewController_iPad.nib</key>
+		<key>UserViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		z3LUfQz4VUeQZPsWSug939q89cg=
+		YdHmYPw0jviubqcoRYB4jeqFpG4=
 		</data>
-		<key>UserViewController_iPhone.nib</key>
+		<key>UserViewController_iPad.nib/runtime.nib</key>
 		<data>
-		0xHuTuoPyJvMLolmmbd2pfngvNM=
+		3JIM48c6x8O6O0h/midW/F7yGuo=
 		</data>
-		<key>WebViewController_iPad.nib</key>
+		<key>UserViewController_iPhone.nib/objects-13.0+.nib</key>
 		<data>
-		fyfy1xvu+wMawmXOzD0QFyiJLVg=
+		MWInCeJW5ZWrtgs62DGeve/rsMk=
 		</data>
-		<key>WebViewController_iPhone.nib</key>
+		<key>UserViewController_iPhone.nib/runtime.nib</key>
 		<data>
-		doDcEDOWhPaL9OKvPAPYOXmt3JE=
+		x2ZfWTGx64Esfld1LnhBOmc6TrU=
 		</data>
-		<key>WebtoonViewController_iPad.nib</key>
+		<key>WebViewController_iPad.nib/objects-13.0+.nib</key>
 		<data>
-		NpFxeQ3eY/z0r20Vs9gCJWH23mE=
+		DUOLX2OyczExCw7S8g2C+8aV34w=
 		</data>
-		<key>WebtoonViewController_iPhone.nib</key>
+		<key>WebViewController_iPad.nib/runtime.nib</key>
 		<data>
-		rNNXPpCDR/tsQG/6V7G7b85kMfw=
+		HB/0ylBIB2uUgX64vqJRW+iyA5Q=
+		</data>
+		<key>WebViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		4S6/1egAKIFxZZogeKXrVFB6SBs=
+		</data>
+		<key>WebViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		uW5by7kMyTGEQwLOex/IF7Jlk/4=
+		</data>
+		<key>WebtoonViewController_iPad.nib/objects-13.0+.nib</key>
+		<data>
+		tGRQoC6ytosbh0xFrrUm2NLsrRU=
+		</data>
+		<key>WebtoonViewController_iPad.nib/runtime.nib</key>
+		<data>
+		fCuFkFmvyKi7ZfOJL/GFIEJfkbU=
+		</data>
+		<key>WebtoonViewController_iPhone.nib/objects-13.0+.nib</key>
+		<data>
+		xxgCR7Ri6WajfbASdId2w2GvEqI=
+		</data>
+		<key>WebtoonViewController_iPhone.nib/runtime.nib</key>
+		<data>
+		Wa8fjUrKAk5+aJjya3fn4Xz6Usg=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>AboutViewController_iPad.nib</key>
+		<key>AboutViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			41HCU+pwBzWGpWEm9vIULwGPKqY=
+			n0EB6dlXohckC55ROC4r3gmfPjY=
 			</data>
 			<key>hash2</key>
 			<data>
-			W176LTdT6WpC2XbWe1W41gTnx3zi+MYLczPDPFcjotU=
+			5eq/2FW7dU9GcVMATe9ve2WhzT9+ztUC0Q9yzhMe634=
 			</data>
 		</dict>
-		<key>AboutViewController_iPhone.nib</key>
+		<key>AboutViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			byNvx1XB8yOliuFoYpCHgxYYH0Q=
+			9KTtAb51i0L8dzt6/hDSWbgLvuE=
 			</data>
 			<key>hash2</key>
 			<data>
-			//URFtaF49sKcm6MYV/et17UIfvFFvLXUtZT2VpNY7Y=
+			2Ntkp6U61UvPYUJRl3+2NeqSAOXNZcgRnyi6kquaDsU=
 			</data>
 		</dict>
-		<key>AdultVerifyView_iPad.nib</key>
+		<key>AboutViewController_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Yt9vS670Ha7G51xBFqedYZ/TTiI=
+			EZkbWnbi0Z1EEqgwcFIqkmq+N7g=
 			</data>
 			<key>hash2</key>
 			<data>
-			hTo2np5Nn5EkI5mqwHKPB56mfUACLGW0YdTI5XnkTsU=
+			Y+3fElIYfOUgKTQiqNLPmbQCiV7VhXI+g6JyxfkxnXo=
 			</data>
 		</dict>
-		<key>AdultVerifyView_iPhone.nib</key>
+		<key>AboutViewController_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			6WDk+4B0R8m/w2fecPzymUYtQns=
+			YKz4vojqQBw3vPy8tEw77pDNapA=
 			</data>
 			<key>hash2</key>
 			<data>
-			dodHafnC+jTSB3Q5idrvSlvawwpMbgDYWO9NKP5IB5w=
+			wXLEY8Vwgc/RjukEhjno9qJ1WgscmlOJusGY0RbgHKs=
 			</data>
 		</dict>
-		<key>AdultViewController_iPad.nib</key>
+		<key>AdultVerifyView_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			rI2mDzNQxWwNq2BczmnzQKDCyyU=
+			u5YmZw6WcgIYX1f5EOZVZoNp9iE=
 			</data>
 			<key>hash2</key>
 			<data>
-			tWL2ZO1F6Iv8VidcUtzCBkGAfuDIWZD01YHZbHX9kJo=
+			A8oRlJb400Fqg+Te1x3+I1Z012EtMctjXOFlXO9+VpY=
 			</data>
 		</dict>
-		<key>AdultViewController_iPhone.nib</key>
+		<key>AdultVerifyView_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			sFYSLl9RhyFvJDECKIbykHTcivk=
+			G2kiS8HQ+cwsm7QZJt+XsWgOtq8=
 			</data>
 			<key>hash2</key>
 			<data>
-			TrFKDOT3X1Qu/s+ZyRHJ5pJvGZjA7KD1NGWC/BG4gf4=
+			rfxDCA8tvx73M5Vp9Z9SqF6Arr7nBwcg1eMxAgvYfIU=
+			</data>
+		</dict>
+		<key>AdultVerifyView_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			tquBNVT+Isr+SENbJIX88odH9K8=
+			</data>
+			<key>hash2</key>
+			<data>
+			dVzk721kv9C5vSN19eCyVYYpoUutdWgADR2Xoca5FGk=
+			</data>
+		</dict>
+		<key>AdultVerifyView_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			v4/amZqXthisn8RBkWRe81XUKM4=
+			</data>
+			<key>hash2</key>
+			<data>
+			hFczIMgq449M3AQ/BBW85juOrZ5IdzaOfrbXQHr9Wpc=
+			</data>
+		</dict>
+		<key>AdultViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Ih4YXBJ+17xDKlZX4kbKBn96ljM=
+			</data>
+			<key>hash2</key>
+			<data>
+			hPYvb0e5chVYBzV5yUsX+h28G6RG16EoBtNAOrbBwIY=
+			</data>
+		</dict>
+		<key>AdultViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			dD4/yXcbtVUVqm3fQjfe0kJY4kM=
+			</data>
+			<key>hash2</key>
+			<data>
+			I5tzLfLd2FlXD67wwpEW8wWkySOmjmstXQPPznPi3QU=
+			</data>
+		</dict>
+		<key>AdultViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			sfRvmEy9AnQ3Srm8+FdCtrWFw9M=
+			</data>
+			<key>hash2</key>
+			<data>
+			QzxNjccgz0QQnXpKaYtYcUNwp5MADDye/N6O8hUSE+g=
+			</data>
+		</dict>
+		<key>AdultViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			926Iu5FJ+X/+D+2aren58/f5tzg=
+			</data>
+			<key>hash2</key>
+			<data>
+			2AtxOp87FB9I1pH3SaBGxByWlggISQR5OjOxqqeG+XU=
+			</data>
+		</dict>
+		<key>AppIcon20x20@2x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			J+PjjFj7LtHP4vbNpYH47jBnMmc=
+			</data>
+			<key>hash2</key>
+			<data>
+			1h69XUirIjPT8Ezx8rg4X8uwYGfYD53iSWORTU8FLXA=
+			</data>
+		</dict>
+		<key>AppIcon20x20@2x~ipad.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			J+PjjFj7LtHP4vbNpYH47jBnMmc=
+			</data>
+			<key>hash2</key>
+			<data>
+			1h69XUirIjPT8Ezx8rg4X8uwYGfYD53iSWORTU8FLXA=
+			</data>
+		</dict>
+		<key>AppIcon20x20@3x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			V4GN49zOwppkgT8bWhkMuhBAoTs=
+			</data>
+			<key>hash2</key>
+			<data>
+			7e2HUSpSjO6xmwEnK9E1Kjd7yP2K4H0keXw9qzkArG4=
+			</data>
+		</dict>
+		<key>AppIcon20x20~ipad.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			JMJN3ptOPMMHsH2Ir7B4fc92Syo=
+			</data>
+			<key>hash2</key>
+			<data>
+			wBc3ArFsmpjka6cnXANV+1Hm5q2jY1ZlxthSWAXWWrk=
+			</data>
+		</dict>
+		<key>AppIcon29x29.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			R3QMOiDAsxuFB+L3Pz7yXUD5dg0=
+			</data>
+			<key>hash2</key>
+			<data>
+			lR/f6iNLB2PZU6Du5PDjMBiuo2fHhi65Zmk+28rGWz4=
+			</data>
+		</dict>
+		<key>AppIcon29x29@2x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			2dKQiFrVNdCsZmTuDDw0vhEkOMY=
+			</data>
+			<key>hash2</key>
+			<data>
+			sE++eF3Fsq/XqJI9ZgVB2Tg0w02pWx0NAI8tOmtBIjE=
+			</data>
+		</dict>
+		<key>AppIcon29x29@2x~ipad.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			2dKQiFrVNdCsZmTuDDw0vhEkOMY=
+			</data>
+			<key>hash2</key>
+			<data>
+			sE++eF3Fsq/XqJI9ZgVB2Tg0w02pWx0NAI8tOmtBIjE=
+			</data>
+		</dict>
+		<key>AppIcon29x29@3x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			idn3s2QAQB/cMt6qqhI5rgACCpg=
+			</data>
+			<key>hash2</key>
+			<data>
+			BC9tO8uhkV5EeJBJWy0og+Mkuv38UQVSL30xeXRZfcA=
+			</data>
+		</dict>
+		<key>AppIcon29x29~ipad.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			R3QMOiDAsxuFB+L3Pz7yXUD5dg0=
+			</data>
+			<key>hash2</key>
+			<data>
+			lR/f6iNLB2PZU6Du5PDjMBiuo2fHhi65Zmk+28rGWz4=
+			</data>
+		</dict>
+		<key>AppIcon40x40@2x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			tF00H0NmWmkYhZnBaSHuWn6dVro=
+			</data>
+			<key>hash2</key>
+			<data>
+			mY6JY+3+vM4fSQeKm2P5w322h5kq2vxhErVa/hnAOYA=
+			</data>
+		</dict>
+		<key>AppIcon40x40@2x~ipad.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			tF00H0NmWmkYhZnBaSHuWn6dVro=
+			</data>
+			<key>hash2</key>
+			<data>
+			mY6JY+3+vM4fSQeKm2P5w322h5kq2vxhErVa/hnAOYA=
+			</data>
+		</dict>
+		<key>AppIcon40x40@3x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			KxOgAkdYXi4UW0FaF+CbxRIi8KU=
+			</data>
+			<key>hash2</key>
+			<data>
+			Xx9CXbPDz+lo6hznX4QdY4Eu0XhLR/jCIlwmFJrnrG8=
+			</data>
+		</dict>
+		<key>AppIcon40x40~ipad.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			J+PjjFj7LtHP4vbNpYH47jBnMmc=
+			</data>
+			<key>hash2</key>
+			<data>
+			1h69XUirIjPT8Ezx8rg4X8uwYGfYD53iSWORTU8FLXA=
+			</data>
+		</dict>
+		<key>AppIcon50x50@2x~ipad.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			y+u6JsrlB4s3TLSXg4GRE4bPJS4=
+			</data>
+			<key>hash2</key>
+			<data>
+			Uvdfjc9fgys7GX7LRYBRi4M1bSeA4krKI1s/WZnRFZk=
+			</data>
+		</dict>
+		<key>AppIcon50x50~ipad.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			k2DJDM0o4e3FDED5P9squGG6C6g=
+			</data>
+			<key>hash2</key>
+			<data>
+			RBNM8pyf6M9jxC666ThDW0+n1Q+zi6OIT+IQNypbzgw=
 			</data>
 		</dict>
 		<key>AppIcon57x57.png</key>
@@ -2643,6 +3310,17 @@
 			tavD0euSpszqv0Vy8CTT2OOtA7sU+RzWafx4XPNKBkU=
 			</data>
 		</dict>
+		<key>AppIcon72x72@2x~ipad.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			lYFnm22EoDDAf4DU1FnUV8H1IKc=
+			</data>
+			<key>hash2</key>
+			<data>
+			6l+3uU2DcvI3aRuRxRrkesa8s2+nSn+vWVkAySuBZnw=
+			</data>
+		</dict>
 		<key>AppIcon72x72~ipad.png</key>
 		<dict>
 			<key>hash</key>
@@ -2676,6 +3354,17 @@
 			gONbu8ge1zst6nUlQpbu6UFnIdV956m+jTMtzSNJx+I=
 			</data>
 		</dict>
+		<key>AppIcon83.5x83.5@2x~ipad.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Wsc2IrxW9K1SibbFRwjZyqM6/VE=
+			</data>
+			<key>hash2</key>
+			<data>
+			Jfk9EcR2j1T9Ny+UohYwa0TH1ear/+PiZMlSi1qlSvc=
+			</data>
+		</dict>
 		<key>AppInfo.plist</key>
 		<dict>
 			<key>hash</key>
@@ -2687,191 +3376,367 @@
 			vrPDM8n4vyM60Tvx/hqM/ZQCK4TDiqn8UPE3REa1dQ8=
 			</data>
 		</dict>
-		<key>AppViewController_iPad.nib</key>
+		<key>AppViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			oY49+i7NOqtZxUA50+5f7QDr5sY=
+			uFhnQBDl94XniPPCLG9g13Nv0zA=
 			</data>
 			<key>hash2</key>
 			<data>
-			AS2XHM/KqHc/tvLjENXpOEp5mKqNlGPwzmJIHyJAhPI=
+			nbDsO6bmDeUyD+JI12yLZ5uC6Tq/fdgac6xLbdkJw0E=
 			</data>
 		</dict>
-		<key>AppViewController_iPhone.nib</key>
+		<key>AppViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			8/XjSvS2caXaLL5GxbRb8obkfWE=
+			baCIle5HIP61EHqchxPom0xN7Bg=
 			</data>
 			<key>hash2</key>
 			<data>
-			jRVjvPv19SAnAnmD2JYnj89W/qu3XubwW8Hmk/N3Fto=
+			kYYxgMui7cE6s9KvNa1eoe2OF69TMfHcpFG/6OsImGU=
 			</data>
 		</dict>
-		<key>ArticleViewController_iPad.nib</key>
+		<key>AppViewController_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			LuLMd5lW6HW6J9fBkUavQdGRjn8=
+			MLloAjz67CeFy7skdX4E+79Nn0Y=
 			</data>
 			<key>hash2</key>
 			<data>
-			OyPWVwQQD/2Ofvt3hFnNaPZzkucXZD9ZUl4EGINEqs0=
+			2ACQVzYg+uKhi3PTS2ZjMeFBxzlfroWp0dlWv3EZFIw=
 			</data>
 		</dict>
-		<key>ArticleViewController_iPhone.nib</key>
+		<key>AppViewController_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			L8hawZ0XDEOcxtmHTecJ6nwmRP0=
+			ZDjESrvUzIVYAYLUKjlyxIxoHUo=
 			</data>
 			<key>hash2</key>
 			<data>
-			fIGU9Tn+hwVC1K8Y5GkhTPiKvP+aPn9mgnil6/Zc6Tw=
+			6jsvpP7+1+LA8Ekw0AyEjHXq9UB1bL+cyDttGNtnAzM=
+			</data>
+		</dict>
+		<key>ArticleViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			YGvV/BFujGek3KRNxxTmtuqJO0E=
+			</data>
+			<key>hash2</key>
+			<data>
+			tMytAzHMY+30gnMC2XInu4dROErND74WBLZKP7f7RwU=
+			</data>
+		</dict>
+		<key>ArticleViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			BXZGo4VrSe5nacYKixVc9u9ctoY=
+			</data>
+			<key>hash2</key>
+			<data>
+			MYil3l/aMJpf5j5Z4zheXfgoL16fzF200a95siQNwTk=
+			</data>
+		</dict>
+		<key>ArticleViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Qu8Xa+Mqy+fI4n2gsS5FTrSQoZU=
+			</data>
+			<key>hash2</key>
+			<data>
+			HypD1OzOj9mNd/8M/C02H2QnvtjSD+LnqTYwKL0h7NY=
+			</data>
+		</dict>
+		<key>ArticleViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			3DGvzfKIBe9E7mwfFuPe7CaIKuE=
+			</data>
+			<key>hash2</key>
+			<data>
+			5GvyYx/DOAoi2aIwoVPrvVGByFDF4CrDfHXCYO/w4Rc=
 			</data>
 		</dict>
 		<key>Assets.car</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			1CS3zLAK2TlwBNy6T38MrptmIN4=
+			Z5Gnx64sox0c/ThDqnSHifkyTGQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			fh0sVHoRtNyzt7oPO9lC2M5j9VxXOGF0WEZUY9emoIg=
+			sK3GqSgJeqmroxzoqXFK6JoHFT/X1Ynp5OGmoECM1eg=
 			</data>
 		</dict>
-		<key>AudioBookViewController_iPad.nib</key>
+		<key>AudioBookViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			fq+Cr14u7rKhpLknQ2Fb44p685g=
+			/QskcT0uZcXXojeEBWaCTbR/nOI=
 			</data>
 			<key>hash2</key>
 			<data>
-			d/ny3sSeChbJp4ubmFdWATvNAFC1Evp8dZKJ/tjytGU=
+			tGYp6vZhMz0jeDQYO+MTs+WSyNFfi+4efdwh9GjmZPs=
 			</data>
 		</dict>
-		<key>AudioBookViewController_iPhone.nib</key>
+		<key>AudioBookViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			8NdaMNRTi1kICXg+xxKe1cuYyUU=
+			2wapzTshPcc2AEK17GOyKKd8xE8=
 			</data>
 			<key>hash2</key>
 			<data>
-			k6JS3qTJ5Cc8H8J6Mf7lhWVLCKyzW5mftjxwZj6jckI=
+			Cblq3QSQfWaUegu6eFsFSuD9ZmO+NPq2FQXpba//y+k=
 			</data>
 		</dict>
-		<key>AudioMarkAddView_iPad.nib</key>
+		<key>AudioBookViewController_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			MnvTVm6+Pc3jSwaya+27AGXmqHs=
+			+HuiELLibkKHkIaGd8jQcVpaLwI=
 			</data>
 			<key>hash2</key>
 			<data>
-			nJBZlSZH6CnR3SlBLphhArsKVqgp6uMoqGm0CbxpfDY=
+			X42Qbiw6KRqtcRuBjKC1KBBUKnq3cLVuPgpQ7OQzw4s=
 			</data>
 		</dict>
-		<key>AudioMarkAddView_iPhone.nib</key>
+		<key>AudioBookViewController_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			qzfGlGgZjK9YX/NkRxdTaZ1sqj0=
+			5Qu9YCPbXnZaqGz4FtxpARkFMO8=
 			</data>
 			<key>hash2</key>
 			<data>
-			3iMbAI+bqxjFyKcqeattMMYq1LNH/WscfKkAfQaLDhE=
+			kbqZBs60/U2AOFDExP/ZiOFizxae6HF9vCFAgs36ARQ=
 			</data>
 		</dict>
-		<key>AudioMarkTableViewCell_iPad.nib</key>
+		<key>AudioMarkAddView_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			gFAXOq+WyEkeUlQYknR9txnXllE=
+			H8LkHLkDD1TbqhE3oPCBCTBc5OE=
 			</data>
 			<key>hash2</key>
 			<data>
-			rhEMLJMXgDpCIK3qQOMMuob7jLvbSe+FaZza47nWiNc=
+			ljJja6gU5FAr+cqhEpnjtZUqWdEx6i3RgouoSbU6wp8=
 			</data>
 		</dict>
-		<key>AudioMarkTableViewCell_iPhone.nib</key>
+		<key>AudioMarkAddView_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			p3msnscbAXQEDeWervLbZrum5Hc=
+			S2Bs9tLIKSe0bHk0UwlMd4gFsXg=
 			</data>
 			<key>hash2</key>
 			<data>
-			dSJ5K9J3xLL1r4c/j0vlihan7HNGFAyj6JlqNo4VQnM=
+			3U3wWPtERJVyAjxhMF934TMlFWMDgf4ibo9ViMfxbVI=
 			</data>
 		</dict>
-		<key>AudioPlayerView_iPad.nib</key>
+		<key>AudioMarkAddView_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			WqmitG1g4az7OEG/HGEr1inkjvE=
+			xNW68e9U572rumyLGMS77Qk1+3U=
 			</data>
 			<key>hash2</key>
 			<data>
-			fj5OZEhSE572YyNAobLH32SpW+/wiY09yr5cC8skI0A=
+			bNRDg28qbcRX6rJcto8V9Cao01Rrtq3AEVBghF2aEeE=
 			</data>
 		</dict>
-		<key>AudioPlayerView_iPhone.nib</key>
+		<key>AudioMarkAddView_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			kvE1nUGWwcFS+Wq5H3e7jg7VwV0=
+			zvEr4TlhRBjSsWUp90tBF88werU=
 			</data>
 			<key>hash2</key>
 			<data>
-			KCPfD9rWtFRJLqJu+2ra1qfvm4JBLBdhRUvslMFi7Yk=
+			V2w49bSXrPRYUXLRF4+h0rSwuCOytzKo30x5eNOLJgs=
 			</data>
 		</dict>
-		<key>AudioRateView_iPad.nib</key>
+		<key>AudioMarkTableViewCell_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			JUffMDH78hs246R1Z072tS4bP6g=
+			q5iWlJH98SWwVuu2gbicWHyT9TM=
 			</data>
 			<key>hash2</key>
 			<data>
-			W5CZgVva9RoROk0dkJQ6y+txGsxuLsaJRavwKmbZIhE=
+			W3Y73pSP5GsR6zm3EIWVAo8MtAWnHVAuxEVuY3qcpfU=
 			</data>
 		</dict>
-		<key>AudioRateView_iPhone.nib</key>
+		<key>AudioMarkTableViewCell_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			nkwuDse7qu5w9WQHJqzD8HjwNnQ=
+			hFiLERYlnbMs0KdFneOXuxsQhLc=
 			</data>
 			<key>hash2</key>
 			<data>
-			Lnrr4KhApf1Fpk2kDeIKSqSWAJnlbB6NDXmUTbGWRUI=
+			a/Nsfllvx/wYrm0RwqdCzTYEWZge/mJkIo+ijF9wtBM=
 			</data>
 		</dict>
-		<key>AudioRecorderView_iPad.nib</key>
+		<key>AudioMarkTableViewCell_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			u97uOkZSvGajISSois5FE/+z4bc=
+			LsGtrqgR9xxK5A495RoiXJ14tdk=
 			</data>
 			<key>hash2</key>
 			<data>
-			bD6QKE1nyX1Vlg4o9FnjXVHQVXwSTJVNDZ9GSqMUFc4=
+			vDozuWO31sbHDz+UkaWP3eA2jtRliT3BdN5OETMDdog=
 			</data>
 		</dict>
-		<key>AudioRecorderView_iPhone.nib</key>
+		<key>AudioMarkTableViewCell_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			hPBu9Bn91mY1oG+xLIgQ9N3bIyA=
+			9XwN7TavtKXLdb0c4GSW8EN3HLI=
 			</data>
 			<key>hash2</key>
 			<data>
-			uHdtZ8cgB0XbrRtTf0LdWrGXoFfTp6i0+yXxynRcBkw=
+			cQJ9WFN1cJW16O29zCEsqi1Aiaz00endZTTbROb2Zos=
+			</data>
+		</dict>
+		<key>AudioPlayerView_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			HTW4ZP39GV489ZBjsQBFBvTZbC4=
+			</data>
+			<key>hash2</key>
+			<data>
+			KCkyuNbAfngbWevdD7FA/T2xHQ3vMvBSXrqjOuL3zCQ=
+			</data>
+		</dict>
+		<key>AudioPlayerView_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			8MiykjyB2aeAvNbMjYC7oEmNbVg=
+			</data>
+			<key>hash2</key>
+			<data>
+			7WiGBHJExrfZ1f/6CI1I1AArIebIKlFLINki4OMmTWE=
+			</data>
+		</dict>
+		<key>AudioPlayerView_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			EFQROpzUiNBzTz6thpmo/fzXH04=
+			</data>
+			<key>hash2</key>
+			<data>
+			0/2AD44B9MAuBN/m84zcT++Qn4GmhKOAbHgX/Uh/cRo=
+			</data>
+		</dict>
+		<key>AudioPlayerView_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			SMJGB2erdIdI7PmMD8Q8rGo7ghw=
+			</data>
+			<key>hash2</key>
+			<data>
+			fY09271Dqv/g/ybS8xUEVdhUHkuQ0RTwQ4QlN9qlzG0=
+			</data>
+		</dict>
+		<key>AudioRateView_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Maxau6w94y5Ya9xExLIQEyl7sAY=
+			</data>
+			<key>hash2</key>
+			<data>
+			JYuQKlp8XVsCq1wgcfkMVQhm7k5E/500u4lCEA9oA3s=
+			</data>
+		</dict>
+		<key>AudioRateView_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			rDAAnVPKdePO0JVi2+VjXuZOPUA=
+			</data>
+			<key>hash2</key>
+			<data>
+			UBeeCTgdUUl47VGYGNbQtbPeLJvuVriQJEM46D7uwmA=
+			</data>
+		</dict>
+		<key>AudioRateView_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			lOGfHFxvtDj5DHBTJqxEYnVUoT8=
+			</data>
+			<key>hash2</key>
+			<data>
+			/Kz4PPvquWxV8QDgOuPjuRI2Dg+QcTkpy4JF2f+b7gk=
+			</data>
+		</dict>
+		<key>AudioRateView_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ValGApW1iblNzT7oemv5YVtXb4E=
+			</data>
+			<key>hash2</key>
+			<data>
+			DxUbK1+Zn5wpmw/+LO1qSKvpiu4R4Xbb8cH6UIki32M=
+			</data>
+		</dict>
+		<key>AudioRecorderView_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7FPdMRzNl2BpAMOrpo+b4E7m8+M=
+			</data>
+			<key>hash2</key>
+			<data>
+			4q58iUqS5L7rEmyzCAkvG/cERcdT+897QxrDyYyeKz0=
+			</data>
+		</dict>
+		<key>AudioRecorderView_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			C3QpuF5Tm3X4PrpX3AioHM7Ly1w=
+			</data>
+			<key>hash2</key>
+			<data>
+			NxaxTlhl7q+hXb1fBLVev3DmhCxJzzXBhmXPgzrMmAg=
+			</data>
+		</dict>
+		<key>AudioRecorderView_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			gzZsWZG4talEwCCDiJN3O/oBkNI=
+			</data>
+			<key>hash2</key>
+			<data>
+			YKkbMSIDiGY2R6joqq2tSWMeBKME4XvGfa77ePmT8rg=
+			</data>
+		</dict>
+		<key>AudioRecorderView_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			pwNPHJ2GUhL3E87V8EANdW/ag8Y=
+			</data>
+			<key>hash2</key>
+			<data>
+			xOZJOT+bX9lh2Ky8cIX5ZyX4V8wCjDLPyAqrc+YWm1Y=
 			</data>
 		</dict>
 		<key>BaseKit.bundle/chart.html</key>
@@ -2955,11 +3820,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			c55UrxYPMJaPeBWtAZ0t04OW+0Q=
+			wgThLiVwCFBAbKIq7GcIzVFjdQY=
 			</data>
 			<key>hash2</key>
 			<data>
-			aNMbPpCTY/3gQAuqatsXWDzTqmP23yXoYS44OwbGLg4=
+			ecyCfZDUf/RT3T7dQGgGeX+ButMX54hDBG8DdCJ32oc=
 			</data>
 		</dict>
 		<key>BaseKit.bundle/webview_helper.js</key>
@@ -2988,11 +3853,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			kLQzB7EpY9CzGIrC5g20VZrPu/k=
+			AEGEVz5PkU5LzpBP6Qlv8Vb3xhU=
 			</data>
 			<key>hash2</key>
 			<data>
-			KUpTmy9a58WTY8EfZFPlRCGA7yw2O9D/haO496rubpU=
+			C0lb0d8HVxqNws6cloyyFnToiocKFVM1slwR0Tyo9KA=
 			</data>
 		</dict>
 		<key>BaseKit.bundle/youtube_hiding_ads.js</key>
@@ -3017,114 +3882,224 @@
 			3GnLCXT0axH51B9x765GTP29ALYKm31DZXislvyg6P0=
 			</data>
 		</dict>
-		<key>BookViewController_iPad.nib</key>
+		<key>BookViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			E4TCMgwL6UZqADrETZbrH2Pnsjk=
+			90fxDl1ntq2Vzn5M44fiYVlB5X4=
 			</data>
 			<key>hash2</key>
 			<data>
-			WaPdmUo88X4qMSTL/k/02b4p+L+fs0bvKbP38CMdrGU=
+			+NmswpC6eaklwBO33G/pClLFlM+xXNolscF3eMOGKdo=
 			</data>
 		</dict>
-		<key>BookViewController_iPhone.nib</key>
+		<key>BookViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			XCSJ/OPtEulBIQXT4SEPZ7t9OMs=
+			9L1mtS/oirEQLn3lovQ4BM8+P6c=
 			</data>
 			<key>hash2</key>
 			<data>
-			9C4CqAIAy01AZd0+XMIZ7dmP0R9EoQzO3z2VmqtdX1A=
+			r5pMnmwYnMQhV4WdM5YfFiIh20dpto7IKciisVUIpIc=
 			</data>
 		</dict>
-		<key>CloudAuthView_iPad.nib</key>
+		<key>BookViewController_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			HzaVWqyFBGA1uTTkFoFVQpXhDOc=
+			7m7jsAqd4S1VFWngwCV5aydqkgc=
 			</data>
 			<key>hash2</key>
 			<data>
-			2KNLX9fNm+VOMJRYjcawsu9fGD+Cbb2XnBvSlgujbqU=
+			oZG3Nft+vnLWFoA+71Jt9uTsmoPdW05/Bjda4N44E3Q=
 			</data>
 		</dict>
-		<key>CloudAuthView_iPhone.nib</key>
+		<key>BookViewController_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			eTFFxbuhpY8WMRhVz4J6o9TDlZo=
+			KyQQ43wRlL09ma5dYu4EDWCYl/A=
 			</data>
 			<key>hash2</key>
 			<data>
-			VPHaYqHiOVnmwQmSCF6YQZ+dB91XT2Jndof5ge1N+Qs=
+			4srRvehSyOLAIFTWg5e5w3PXBI/tkChR96wqTZ7j3TU=
 			</data>
 		</dict>
-		<key>CloudViewController_iPad.nib</key>
+		<key>CloudAuthView_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			fGPsAStmQFs9wr/TuUDrZvlRfjs=
+			I3HEqyhzWoN0NfznAlmM5s2arnY=
 			</data>
 			<key>hash2</key>
 			<data>
-			4JkDW+ga1Iy03JhHKlWtMx4VKNg1L2lueWvJ314ZS8Y=
+			5Q9i1LtXKjVu8yKZU3znAIiqQl27FIpZBpTj+TJLYQE=
 			</data>
 		</dict>
-		<key>CloudViewController_iPhone.nib</key>
+		<key>CloudAuthView_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			9Q6ZriNmRRB2f6NIpt3IQgRiC+s=
+			Ecdz6VxiawyN5Bf5EHkF5GsR5EE=
 			</data>
 			<key>hash2</key>
 			<data>
-			SO6ZTzwpyQuuZIY/taq2L9hjcx4riTq2wyUfDQFaguM=
+			7MTrvkbcIKlqv+yzLf7kvld99xGRoUecWjS7rve4Yck=
 			</data>
 		</dict>
-		<key>ComicViewController_iPad.nib</key>
+		<key>CloudAuthView_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ApBgbsxN2IxDgGx+GihmaUGOba4=
+			fLFMsLy0TqAQBcpp5yN6OMMpMkA=
 			</data>
 			<key>hash2</key>
 			<data>
-			rIDj9sNC6r92rJ6RZ541i3c5iQ4kTfAaBNTDrrjYr+A=
+			4lpG1L3Y+xS/tHHbzAkEt0SkKXS1x5RbnUPii1lPHog=
 			</data>
 		</dict>
-		<key>ComicViewController_iPhone.nib</key>
+		<key>CloudAuthView_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			GgThC3ATQGoB0BhTLGk+XON0gJo=
+			MGzQ6h1ZpG5PhE69aAuoR23D7AM=
 			</data>
 			<key>hash2</key>
 			<data>
-			joZgPw44PgbvtxKQrDSVPhrwPARHPGGlTdDEgelna3s=
+			Eq8wage7zazd4JPWvlS3cHPPqaWO7sOACUr0c26rM9I=
 			</data>
 		</dict>
-		<key>CouponsViewController_iPad.nib</key>
+		<key>CloudViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			wWarJBKDnEbRg3HKjBDL9LX6AnA=
+			+++OK7uDM2pfeZpJP8ykRv5O3hU=
 			</data>
 			<key>hash2</key>
 			<data>
-			UXUoyhaZLvIlbIT4dTYubOr9wJ31QI1yC4FP/soShBs=
+			XJ7n3ddylDM0S/8JOaUnmOIHYSucSoqljMt92EjBxWg=
 			</data>
 		</dict>
-		<key>CouponsViewController_iPhone.nib</key>
+		<key>CloudViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			+2xKaC4a7liYNmGru0YzRXzppY8=
+			1HRSNYo7TeLCsrdJRt+Q2AJWrxc=
 			</data>
 			<key>hash2</key>
 			<data>
-			keUaiqpMD09iY+NEZmEl0FcnMmJZdfh6Ql8T+nk0ZW0=
+			QUYZJjlg9aFiIRjSd4c/njRLgyC5p5UvajitCh/SxFs=
+			</data>
+		</dict>
+		<key>CloudViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			rHhVdnFbn41BJ9C28FlngSYCHsw=
+			</data>
+			<key>hash2</key>
+			<data>
+			xga3D9zySTnnimDipRdeAuR6vvCrCMaqticwu+3qduk=
+			</data>
+		</dict>
+		<key>CloudViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			mFmQEoMelIayNNXxfnnZsyf00QU=
+			</data>
+			<key>hash2</key>
+			<data>
+			48ll72uXOLgl1RISyRLosCvH1AlHa++bYVV6SKVKtyc=
+			</data>
+		</dict>
+		<key>ComicViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			3zhz05CQOIjgxcNe2gTuAqVk9rU=
+			</data>
+			<key>hash2</key>
+			<data>
+			ZOQdZEzx7n3eAfSDfmJEkP9HHp6AS8M+C5UBs8H/GpM=
+			</data>
+		</dict>
+		<key>ComicViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			e2mlVlKUWy0wTG1RTeemp9U3hb0=
+			</data>
+			<key>hash2</key>
+			<data>
+			mYyKTW6E3uwGjauVVNJxef+Yzd1mKFt6EcWZVCD8d3g=
+			</data>
+		</dict>
+		<key>ComicViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			mdYB44SDXk9id0baktZD3rOtfBw=
+			</data>
+			<key>hash2</key>
+			<data>
+			PkZxVWej4M+sb92XN36/NLh406ZrFKV7P2n3KTodOKI=
+			</data>
+		</dict>
+		<key>ComicViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Rx8rfdBKW5lABFApQ7TLt+oeAQg=
+			</data>
+			<key>hash2</key>
+			<data>
+			q5vBpcRdWrCzPA6UkkBQ4U3nCPU/j1yEFFVTMmW37qQ=
+			</data>
+		</dict>
+		<key>CouponsViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			MZUylWGDX8hYWc9wMo53XOIlZ0k=
+			</data>
+			<key>hash2</key>
+			<data>
+			nYPJ30APvtkK33DuHn4pH6Bfhm+ru2rcCLlRAYVx/V8=
+			</data>
+		</dict>
+		<key>CouponsViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			gZOR001g5rV/oCNZcwmucBTTMdQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			eLAXIX+QPceYleo8hK1cS4jTPRx6gFHONZVjoz0Myg0=
+			</data>
+		</dict>
+		<key>CouponsViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ssJJP+uor/nHTxYVruozAZTNoAo=
+			</data>
+			<key>hash2</key>
+			<data>
+			99ueJFJhInIzaM/SWHsVLb7VuHH4SLFD3ggjXsB9PB4=
+			</data>
+		</dict>
+		<key>CouponsViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			xVT29wUnGzvPLOOjSi56LnSSfXU=
+			</data>
+			<key>hash2</key>
+			<data>
+			43wUmMxEsiRegeSVLiiKU/vWzr84Hcu+gCdL4RJRWXY=
 			</data>
 		</dict>
 		<key>Fonts.plist</key>
@@ -3142,33 +4117,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JvWpAgpnofULFoMSYIIvkGlkPvc=
+			nAvI1ajNoEgfSkDhr1sMYE+4WC8=
 			</data>
 			<key>hash2</key>
 			<data>
-			pjmEsQHE5Q4e1yeqvNNIsi0tn6aEdx68K+SomZTJ91c=
+			ZufxF2zXMmirOtKfxfQQdDhmSTboHaUaSJzdHBkEh0k=
 			</data>
 		</dict>
 		<key>Frameworks/Lottie.framework/Lottie</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			69CmZxFQ571oN9BAUB9nPjUctiI=
+			YrJrRyTl6aREO15bi8V8E7B88Pc=
 			</data>
 			<key>hash2</key>
 			<data>
-			sEVAUHm+kECUQMlRf7vhiA4k+MjOK4K6bXL12tfBKG4=
+			A1FVMhIUuQWkqhOjHGoXOwk7R2L1Hzw9bOiBsjl2awA=
 			</data>
 		</dict>
 		<key>Frameworks/Lottie.framework/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7eyM7YfYzrinJIcxqKncHv40ylc=
+			2onYVBhdQhLvuBkAtkqZZ6RrQxM=
 			</data>
 			<key>hash2</key>
 			<data>
-			j3ParemR06Bj16u7UFErwKAf16vBifJk/3leA6Ta2Fw=
+			aqt7NKU3tU57Ew9GHcYqqqCIsfIN5YuCsm6pN4b6xCw=
 			</data>
 		</dict>
 		<key>GoogleService-Info.plist</key>
@@ -3248,202 +4223,48 @@
 			zkSQK5b/kFbDcYxvUyTqZxlAmIbPGzBBPqiWBEkEukA=
 			</data>
 		</dict>
-		<key>LaunchImage-1100-Portrait-2436h@3x.png</key>
+		<key>LaunchScreen_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			JbE/OGbDNjHieYN0YdlRXwHYGJM=
+			3dWXr2jjh8+oCeAba94f9REgkSE=
 			</data>
 			<key>hash2</key>
 			<data>
-			ngkbeytg8EngCOZ3OTXoQmHQAWEPqLJBf9eu1B3Kn98=
+			1oa1TcFK7rjiBweOkMHhvIam2+GhWtkXq1ADOI20RxY=
 			</data>
 		</dict>
-		<key>LaunchImage-568h@2x.png</key>
+		<key>LaunchScreen_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			m+F6jvW2hRkWvd+zeA8FQP8PIhM=
+			WQPpLf9ccK1ZaluCEoj89wJetA0=
 			</data>
 			<key>hash2</key>
 			<data>
-			zSdU3sa6x7ZCNosEB6jVLuucCpCz2QZLy9yi9vnSHV8=
+			C5Kpvazl/J9XnzAetLdOgXZgbryg1PAh9qtR7PXtPRE=
 			</data>
 		</dict>
-		<key>LaunchImage-700-568h@2x.png</key>
+		<key>LaunchScreen_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			m+F6jvW2hRkWvd+zeA8FQP8PIhM=
+			LgnjlcasmHA0+MS52SUaALXV6HA=
 			</data>
 			<key>hash2</key>
 			<data>
-			zSdU3sa6x7ZCNosEB6jVLuucCpCz2QZLy9yi9vnSHV8=
+			7aDEeA7UhJyZI0w0rmJbonYHoVxg5+yA2rxgOWUGp6c=
 			</data>
 		</dict>
-		<key>LaunchImage-700-Landscape@2x~ipad.png</key>
+		<key>LaunchScreen_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ccQyMkbmtYdCtyIHhokJhYy40m0=
+			fzrhIxPLf/c32k27hKRZ7W+i2Ao=
 			</data>
 			<key>hash2</key>
 			<data>
-			zBSod4Eo1zDey6OmuVzPoBxT40UtkIrHaLl6j3VXjdU=
-			</data>
-		</dict>
-		<key>LaunchImage-700-Landscape~ipad.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			0BkkShrcPYBINEBY6oZUKfuyHZ4=
-			</data>
-			<key>hash2</key>
-			<data>
-			VbAhoJLiuy1ep5ZYDak0gGf2tohdBfohu98QJ7e7zA4=
-			</data>
-		</dict>
-		<key>LaunchImage-700-Portrait@2x~ipad.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			lRmfefF/vW9vel/bUeFZCVq2KQo=
-			</data>
-			<key>hash2</key>
-			<data>
-			2bQZu2tg63sN7Dv9J2uas3ZaeS1Bx/QMqviUytOn9UQ=
-			</data>
-		</dict>
-		<key>LaunchImage-700-Portrait~ipad.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			kNL6D+i3ZOA98739NcEpwi2+uI0=
-			</data>
-			<key>hash2</key>
-			<data>
-			dIyoc/hwfCIaXFwCti24dSgQH/b3hN1x1afUIa3s24o=
-			</data>
-		</dict>
-		<key>LaunchImage-700@2x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			OTT0tGCs2idHinxSPbbrBr1DGjM=
-			</data>
-			<key>hash2</key>
-			<data>
-			lMRPFNRjvu07N/XFSjKaF4+Tnf/Pps2tuo9wRPh6WHg=
-			</data>
-		</dict>
-		<key>LaunchImage-800-667h@2x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			8BnuB/6quc7aHk8YE+9OgxDPgII=
-			</data>
-			<key>hash2</key>
-			<data>
-			PsR8bRPUhHMozpFQ0e1r8RIMcKHN1JroLdZ8YsuD3Oc=
-			</data>
-		</dict>
-		<key>LaunchImage-800-Portrait-736h@3x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			pJr89Z7lNMrp7Fd7zrUVPNtC1hM=
-			</data>
-			<key>hash2</key>
-			<data>
-			HNuZnpv1gEVHowFjSlY+hYVuhv6Kyjn3JFyduX4OZuE=
-			</data>
-		</dict>
-		<key>LaunchImage-Landscape@2x~ipad.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			ccQyMkbmtYdCtyIHhokJhYy40m0=
-			</data>
-			<key>hash2</key>
-			<data>
-			zBSod4Eo1zDey6OmuVzPoBxT40UtkIrHaLl6j3VXjdU=
-			</data>
-		</dict>
-		<key>LaunchImage-Landscape~ipad.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			0BkkShrcPYBINEBY6oZUKfuyHZ4=
-			</data>
-			<key>hash2</key>
-			<data>
-			VbAhoJLiuy1ep5ZYDak0gGf2tohdBfohu98QJ7e7zA4=
-			</data>
-		</dict>
-		<key>LaunchImage-Portrait@2x~ipad.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			lRmfefF/vW9vel/bUeFZCVq2KQo=
-			</data>
-			<key>hash2</key>
-			<data>
-			2bQZu2tg63sN7Dv9J2uas3ZaeS1Bx/QMqviUytOn9UQ=
-			</data>
-		</dict>
-		<key>LaunchImage-Portrait~ipad.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			kNL6D+i3ZOA98739NcEpwi2+uI0=
-			</data>
-			<key>hash2</key>
-			<data>
-			dIyoc/hwfCIaXFwCti24dSgQH/b3hN1x1afUIa3s24o=
-			</data>
-		</dict>
-		<key>LaunchImage.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			I+XLMgf2OYCJwwAh25kYU0E3ewc=
-			</data>
-			<key>hash2</key>
-			<data>
-			D8mL0shrBEZCm9nIpbOssdHeU+wbIY6WAI3QaKyHJaw=
-			</data>
-		</dict>
-		<key>LaunchImage@2x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			OTT0tGCs2idHinxSPbbrBr1DGjM=
-			</data>
-			<key>hash2</key>
-			<data>
-			lMRPFNRjvu07N/XFSjKaF4+Tnf/Pps2tuo9wRPh6WHg=
-			</data>
-		</dict>
-		<key>LaunchScreen_iPad.nib</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Q5zDSOSb4Me4wei2GQa002m/k8Y=
-			</data>
-			<key>hash2</key>
-			<data>
-			wUsYkBfAneCckfH3GkhvVKgEOw8u2RI98EymiGf1ze8=
-			</data>
-		</dict>
-		<key>LaunchScreen_iPhone.nib</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			OR04JbmxWWYCeTERyDP7yvfT7vY=
-			</data>
-			<key>hash2</key>
-			<data>
-			8V1jvNW9eb7LmseF89791Zh6E/3huojolC9/oz0AbP0=
+			sBamgA+DGL19uqOu4ksXVgptyMMvWNsRGHfr5WIiG/Q=
 			</data>
 		</dict>
 		<key>Localizable.strings</key>
@@ -3457,180 +4278,356 @@
 			kmHsztpgjvF0JW5f3HdMHm49z1M0CcG8OT1JDQHHE/E=
 			</data>
 		</dict>
-		<key>MainAppViewController_iPad.nib</key>
+		<key>MainAppViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			QwDenfgVp0ByKCFOANXGYRQEWUo=
+			FrrUwWuMO6BziPGtXtmfkCjWie8=
 			</data>
 			<key>hash2</key>
 			<data>
-			tnGPcPOn+PJJMUGyyk+0wZtODqIkY6KvtGhSrKjV+/g=
+			hwASDmUvOE7SIIK2Z7/KkYIGLY9zlcoYvtiDmm9oxzM=
 			</data>
 		</dict>
-		<key>MainAppViewController_iPhone.nib</key>
+		<key>MainAppViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			shi3WZA+2IYfP+NFH/QFivjvcBs=
+			qjW/YjKSWQTvz5Ewg5iRFf2grIE=
 			</data>
 			<key>hash2</key>
 			<data>
-			FW1WDHK0wlw9GtUwBJyed0XeJTqDacyvpXIhDYjqHhM=
+			ZxKeTibyobgDrxWnI4MaY6HnBGd8U+JFpjvk2hdASxU=
 			</data>
 		</dict>
-		<key>MainViewController_iPad.nib</key>
+		<key>MainAppViewController_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ctQLo62EVrPCaA4CHdIh8liSd/Q=
+			jr4r1mxL1ccbFs8ZdCAa2FYUehY=
 			</data>
 			<key>hash2</key>
 			<data>
-			qwdaWZM8lox+DLyjLdI5+WqFWQgK0wXSnhnNEJ5Lqso=
+			gdLws3jI7DUIZfCGud5jkyGuEdUIcxXVq2erv4Qdfvk=
 			</data>
 		</dict>
-		<key>MainViewController_iPhone.nib</key>
+		<key>MainAppViewController_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			TXoa3G1+8eD5SIwFAhxoZHcsM4w=
+			tXAJlc6jIxVzndP9uW20oy75ET4=
 			</data>
 			<key>hash2</key>
 			<data>
-			/k575S+3jNCs1qYIISJBnfWkNMJ1I9rtGA30s5wO0jY=
+			QH6qR87C/Ode0uOJl9eG/KCSOkzZCbSIqyhfPYjQmZw=
 			</data>
 		</dict>
-		<key>MainWindow_iPad.nib</key>
+		<key>MainViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			IWbNR9J0V3e1hNfvhXBux5GFuKQ=
+			damBmD+PhzQgVatJGcKIJBtww7U=
 			</data>
 			<key>hash2</key>
 			<data>
-			jfuqr578L8I/h4Jc3k4vbK2/lWPIAS1+BlvGc8xuoFk=
+			HCL6UKmVfcGLYRjHL4inXKFbeWbshHDVZPAMm/xLRtY=
 			</data>
 		</dict>
-		<key>MainWindow_iPhone.nib</key>
+		<key>MainViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			V0agzinPO1lq3dcMDfmYIua7Sp0=
+			2iuzN7MUDz15phI9sKovpVhzvhs=
 			</data>
 			<key>hash2</key>
 			<data>
-			cStUoRuV1otBw8AvRbW7XVPtyDsB6GoVi3hNsJLY/Z0=
+			bkDGkPqifEtDLDO7xlF7yz1k+wIMuukoTEtkDxnH+Ms=
 			</data>
 		</dict>
-		<key>MarkTableViewCell_iPad.nib</key>
+		<key>MainViewController_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			plyao49DflTsHxNo5Mun8aM4GZ4=
+			fNFnalr0FH4BckJ/eOjtJ1KhpG4=
 			</data>
 			<key>hash2</key>
 			<data>
-			poMMBaBdOgPJ98+0vsDmbcUnLpY55LScvoyOlV4FJMc=
+			qn6cRbMGd+w6NiMvI078dPjriiALVEZATlZNgTHOFZg=
 			</data>
 		</dict>
-		<key>MarkTableViewCell_iPhone.nib</key>
+		<key>MainViewController_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			F9BemEjgPjfcgBDydC2r5FDg8VY=
+			6YE6uvPAQDOcDi3Ws1LNtWa/5do=
 			</data>
 			<key>hash2</key>
 			<data>
-			a6q//J/B/iwa4OPjA0U/W5bICwZQq8noJnYEmQXH9vM=
+			PfcJbyq59txp1oUfhzUnDMXY1pRc7KCKSA0PNhQ9ulQ=
 			</data>
 		</dict>
-		<key>MarkTableViewHeader_iPad.nib</key>
+		<key>MainWindow_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			nklBZ9qcQqJq0vvHuaQKzK33qJc=
+			qfcQPSk/EohyT+yGGcpJPXf0Ooc=
 			</data>
 			<key>hash2</key>
 			<data>
-			dI0LWqSaH39RqKBrPEhfS5FxhK312RH681SejWyufPM=
+			+4Zamg9UlN2SkkRha1AnbvvzIOJ4inM9RHQKvyuXsmA=
 			</data>
 		</dict>
-		<key>MarkTableViewHeader_iPhone.nib</key>
+		<key>MainWindow_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			DxUNSxjwRCoMJskCkuzmPbZsyuY=
+			UsBGcY6t8Kk3fT57ACrwQ7U40Us=
 			</data>
 			<key>hash2</key>
 			<data>
-			WdkBjWLjk7ScvVfXwisAfDRIGm4hGcf4Efjf/aQL7zQ=
+			gLmERPIflmOUUVVdCoajwPdIHyvkDOSFa31zP85QfBk=
 			</data>
 		</dict>
-		<key>MemoView_iPad.nib</key>
+		<key>MainWindow_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			sNXV6gwgN4AGLpXBZYwHxau8AbE=
+			5t1GgI+Bv7BGKF12q4QAtDYvT50=
 			</data>
 			<key>hash2</key>
 			<data>
-			1Ol8nhOe/9S706WCLjMn9Sd4tiZUmwJnBHYKsB81D5c=
+			16LD1ywuugRP4sz3WVxSFrkwuz11RILV0OLS5Vsyjp0=
 			</data>
 		</dict>
-		<key>MemoView_iPhone.nib</key>
+		<key>MainWindow_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			5xmgtcTtty1vYLuKAP65Nuxb1n8=
+			Y69ZnQlfsLURxddIYyn0yfnM0Pc=
 			</data>
 			<key>hash2</key>
 			<data>
-			RL2zL44B+npl8DCKk7ISqqxKTSeCNeGP85ufePjfTsY=
+			ZYzUQMagmbBygvwzPzTCWjtNu61lHBACMoh+yuIt2fU=
 			</data>
 		</dict>
-		<key>MyBooksViewController_iPad.nib</key>
+		<key>MarkTableViewCell_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			b45xDEi26iRDuazcyI8qYAVnUzw=
+			f5D8the+qym5WSDFsiugohHJo4c=
 			</data>
 			<key>hash2</key>
 			<data>
-			N/8DL5N+wOuaWOCPloSQTUxXbiheKpn8TJpm+dNRWlw=
+			s7aEADClBoRcXPKzn+Vp2oVQ8jg7CODHtGuT/G+qPik=
 			</data>
 		</dict>
-		<key>MyBooksViewController_iPhone.nib</key>
+		<key>MarkTableViewCell_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			oXLiIi+j75MTkxBhhQ0wWPctUiA=
+			AUx+KcbQv/ieRf6TV71+OJPVNdk=
 			</data>
 			<key>hash2</key>
 			<data>
-			dT07HV5HubLDlUSS9PxSpdDczJeYm0Sj4CrVz3IJ2RQ=
+			RlbNKCa80I8U0ZB0v481yeJhrRnldLqiJ/t2dFFetdQ=
 			</data>
 		</dict>
-		<key>NoticeViewController_iPad.nib</key>
+		<key>MarkTableViewCell_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			sQle2gDVJSD5eEEwBXSXoVWF0vY=
+			3/ll2iXdZsS7B20bzLFUmWFs7Xk=
 			</data>
 			<key>hash2</key>
 			<data>
-			P6v21wOgRV9x+kW/G8JGyiML+Oocf0MqGQOTkIJKLrE=
+			lKaqgsRIx7B3pCAw/gKz/zUCIF96CnaBFTaL/LRbOWU=
 			</data>
 		</dict>
-		<key>NoticeViewController_iPhone.nib</key>
+		<key>MarkTableViewCell_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			wmHtmgsUya4/o4cB/lYFx2asXLY=
+			TMP+jix5mXHvcS3cK4SW6HkJmMc=
 			</data>
 			<key>hash2</key>
 			<data>
-			W7k+qn9XcMraNfTlAmLC0VKyDUVdY5L2ShEL4UsRuGw=
+			NPxQzha0ToPuhaXC/JSnRXf63EAmv51zG123B24eSs0=
+			</data>
+		</dict>
+		<key>MarkTableViewHeader_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			h41GzD7VUYtBkWx9ioeDUPT3aDk=
+			</data>
+			<key>hash2</key>
+			<data>
+			DbwVwh/VgZLv2JWQ9MeSbxU8F8n4lF+juz3jKil3pQM=
+			</data>
+		</dict>
+		<key>MarkTableViewHeader_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			jsm+hKJtTS2XLsHo72Nl97ebblk=
+			</data>
+			<key>hash2</key>
+			<data>
+			IdZpDEBDg/lnco3KSUH6YbArNJctBxdm+mgaFGsHt+4=
+			</data>
+		</dict>
+		<key>MarkTableViewHeader_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			sLMyXznXvoAecr8pn1ex/ABZSq4=
+			</data>
+			<key>hash2</key>
+			<data>
+			JtnH0bUFRu7rcPeAq34UbIub9+zg5ekGf0dgrjaPUFY=
+			</data>
+		</dict>
+		<key>MarkTableViewHeader_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			0270Mo3s9DR0MfF5JzLA+xqp2Fg=
+			</data>
+			<key>hash2</key>
+			<data>
+			gRoNqoXwj65XPFhLguHUF3JES3l0XfdjYpoZyrNk0PY=
+			</data>
+		</dict>
+		<key>MemoView_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Gjw7E6pMzHCsE8mTclcoGhCAeiM=
+			</data>
+			<key>hash2</key>
+			<data>
+			+KcXOf6nD6vAGPx1lk9CTSw9Z4gVzdF+JEEX0WOi5E4=
+			</data>
+		</dict>
+		<key>MemoView_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RMsXfNoZdD4MXX7yh/bZIxNGrl8=
+			</data>
+			<key>hash2</key>
+			<data>
+			i6J7ifrShCotALtYDfu+dpyu3U8vyGkCjO4FR4OiOSc=
+			</data>
+		</dict>
+		<key>MemoView_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			v2Gw/O/QzjEH83TJeX/uwi3kD/w=
+			</data>
+			<key>hash2</key>
+			<data>
+			E4J5d7HCSfrdGjUc0Kujs9cF5LQU2sNecTJjYwE/dzM=
+			</data>
+		</dict>
+		<key>MemoView_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RHbl0WNhOBo3rbWcX26fUXaqmYc=
+			</data>
+			<key>hash2</key>
+			<data>
+			b+qv4Jthnr5IwFnM6dZ9st5/8PikZuUOyi0IY05M+Uw=
+			</data>
+		</dict>
+		<key>MyBooksViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			XT4MzJyB4N7NaoGS12Tn5MyTw34=
+			</data>
+			<key>hash2</key>
+			<data>
+			tUcT0y53SduWnxlKq7k5v/YdRSAMw9FF6WnNrSNKjN0=
+			</data>
+		</dict>
+		<key>MyBooksViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			WsmkpsZEEG4EdnC2EyOHrkkggtM=
+			</data>
+			<key>hash2</key>
+			<data>
+			eQ1NUcD2sEIE+S723ZqMSZXpl2kQVsE8D9OkQ6xouG0=
+			</data>
+		</dict>
+		<key>MyBooksViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			VOHes5X17DO8IZ76Ugogv1JFELs=
+			</data>
+			<key>hash2</key>
+			<data>
+			HGG4O0cXCqAUjYbIYfDnRQu+r4xTO4qTyf/3C38rCS8=
+			</data>
+		</dict>
+		<key>MyBooksViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			xl+HPN4glEx+MH/DCv4o6zGIh7g=
+			</data>
+			<key>hash2</key>
+			<data>
+			UVbBQGCwy55J8469LJjsWGfTvS/+1LqKUg95Jj2QoPU=
+			</data>
+		</dict>
+		<key>NoticeViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			2QqBg+sdwT51XIKsgr4ZbTqizqU=
+			</data>
+			<key>hash2</key>
+			<data>
+			vvEZHTtgGehkVGCRw2jdlRJ5PqNsIQsPK7pzriX9/Wg=
+			</data>
+		</dict>
+		<key>NoticeViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			9tOmc6T/DZGixR3Cq9JbsK07RLI=
+			</data>
+			<key>hash2</key>
+			<data>
+			rkFlDaqkNpX4ld2/4d32FSiHcoXhpe3ZU3c9cO0AsL4=
+			</data>
+		</dict>
+		<key>NoticeViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			uyl0lJF/ksDGjnde0MQBOqDTNp0=
+			</data>
+			<key>hash2</key>
+			<data>
+			BxoOK09vJ3o4m+EQUxxO+nEeG/OoJ4iMm1URH4qlBaA=
+			</data>
+		</dict>
+		<key>NoticeViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			N9UrjGY2mOn6gmI1RImyHvfuSyg=
+			</data>
+			<key>hash2</key>
+			<data>
+			PIKizz5ZvhhXCrvEc6YeoOQwyFARj1GbUhCH9pKXqVM=
 			</data>
 		</dict>
 		<key>NotoSans-Black.ttf</key>
@@ -4909,411 +5906,807 @@
 			xKMqGyytCbXab0itE/KQZQTDEugZvJBoff6+DKVZq9s=
 			</data>
 		</dict>
-		<key>PasscodeViewController_iPad.nib</key>
+		<key>PasscodeViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ixMLyst8XD0yC08r2XX/UprGtC4=
+			3lwprRJbdmpks4bGjAuGtVzLE0s=
 			</data>
 			<key>hash2</key>
 			<data>
-			FZjTMup361g48L5SFvu7Q788fg+twjD0f6UFBiXTsYI=
+			KRAdePvqglybWbVLTy3K3FAHC+zW/XenF1mvCQxh9zA=
 			</data>
 		</dict>
-		<key>PasscodeViewController_iPhone.nib</key>
+		<key>PasscodeViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Y0sBIqfffXtxRVLOtBHF3deN1Ps=
+			njVu2hTdZ6J/+1p8ZygMhfHXzxM=
 			</data>
 			<key>hash2</key>
 			<data>
-			IGUcdStixIsM7In7gBRkbQbDC1Pv8KHvz4n5SdaVMZI=
+			dN6YAPvabK4guYvBSW7PYcc4dBMIPc7tBInXlcW0dXY=
 			</data>
 		</dict>
-		<key>PaymentProcessView_iPad.nib</key>
+		<key>PasscodeViewController_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			NkvoKPkSlyrqK0VSWx4EKxwl5Aw=
+			hosD1pHBIxj/VbIWCU53OAdJdIQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			zfLAH8GaeqezUCTmKYFXe+v8Q5cg+22R151f6YVDixk=
+			+PKG/PL04kimuXnV/lQimor1JkGHOjCje0dgIOH/mcs=
 			</data>
 		</dict>
-		<key>PaymentProcessView_iPhone.nib</key>
+		<key>PasscodeViewController_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			++CHizVRKxXIT5v2OnwgZXZyark=
+			PTllNH8oMqbfWFppNuRilJycgJ0=
 			</data>
 			<key>hash2</key>
 			<data>
-			bvlSP+uW6lHjASLYYKR7SqPihnzzivaeCfUdSPs8vL8=
+			HUAwUGH0fLh8kKOeTvD0uu+opbhsyKVJSlLD7NGxmWY=
 			</data>
 		</dict>
-		<key>PaymentViewController_iPad.nib</key>
+		<key>PaymentProcessView_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			n6SE5lm7l3DjrGVfQR3qGnRzKy0=
+			V7OOr/5760BBfBG9VZfAwBUi/D8=
 			</data>
 			<key>hash2</key>
 			<data>
-			Ek4oxnm73ofeUeJaMdA7byzSq4q7YkgIXNj5ekZ4328=
+			y1PaIfdN4iGIjHFbZgK/0z9a756hfhkag1RIgL3ZwAk=
 			</data>
 		</dict>
-		<key>PaymentViewController_iPhone.nib</key>
+		<key>PaymentProcessView_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			VgY60r0PFbY8ogl9GxMqZXJox/g=
+			GLQJTG6RJEbj0QOECOtnKC+y6Ps=
 			</data>
 			<key>hash2</key>
 			<data>
-			gV9vo3LmEKlEBKM2Zg0eZVEL0gy9Bd/+jTLijBrmp1E=
+			Me4391i2smPx//V5O8QXF3YEWrQNulrGSgLbU9l7hqM=
 			</data>
 		</dict>
-		<key>PrivacyViewController_iPad.nib</key>
+		<key>PaymentProcessView_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			qNdpFcN6WyLJ6PxCTiHi/IqUHmE=
+			fIOkm0Dno4aW+e7Vz5wY8KRYJto=
 			</data>
 			<key>hash2</key>
 			<data>
-			qR2L4zeqhmxn6RdoLPNaReCXlyjpjTPrip/4nXZr/SM=
+			oy6W0vOB96guo3ygfHDXdgcWhw3Lf8Jp/utALPRvs/8=
 			</data>
 		</dict>
-		<key>PrivacyViewController_iPhone.nib</key>
+		<key>PaymentProcessView_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			1P4sO53qs+SYm4K7X5N5iIcUrUE=
+			TQJY5/xaCVpbBt8VzEW91PfyX7M=
 			</data>
 			<key>hash2</key>
 			<data>
-			q9oPvdHNagSC6inRWq6A1TZELwl8knvZa4b3Lj57vfM=
+			iXUkaYFV8oLYMcDrY/EXoq9HdNqWajeyHw7aCN9ksSo=
 			</data>
 		</dict>
-		<key>PurchasesViewController_iPad.nib</key>
+		<key>PaymentViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			fQzH/1dZP8YNfb0Fy2jqkAsyoAg=
+			HawX1xz2NuQSj71gG8hHDUmmIsk=
 			</data>
 			<key>hash2</key>
 			<data>
-			07I7MW2WeK2rfPn0NS/N2RdBpqybP6KNvEoJ/Blp+N8=
+			3eo3bhlPdZwMN+KBi06b/je5YZ2CIjh76uM7ijsPv+k=
 			</data>
 		</dict>
-		<key>PurchasesViewController_iPhone.nib</key>
+		<key>PaymentViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			fPiiipyC1uVSKKk6BN5rruXSnXY=
+			Czl/q+7DQu5U0M9IEHwON2HTqAA=
 			</data>
 			<key>hash2</key>
 			<data>
-			W9C7qEHMlyyM28nUAixNc/M+FpAUWPvp8T5MR1cNbGA=
+			3FmBrOmGKe++er9DzjKCTxNOF+MKjrpZIecjKxctk8w=
 			</data>
 		</dict>
-		<key>QuizDetailView_iPad.nib</key>
+		<key>PaymentViewController_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			C/x4reLdwm0nXrY23v+WQzLsDWs=
+			0n0d8qsdsNK1Uk4hZUtAh5GD3W0=
 			</data>
 			<key>hash2</key>
 			<data>
-			iraVwe3oL9ySpMosio0a0il5n/Kn3ez6XUR6Pen744o=
+			XeqaetAZkyePuZW5A98RispRIOKQ88KEPzFZidVbdRU=
 			</data>
 		</dict>
-		<key>QuizDetailView_iPhone.nib</key>
+		<key>PaymentViewController_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			TZaD1xHWSLLaggyD+dvEArl7KWo=
+			7sedRj14nUM9S+Ao3sVrKObQMW0=
 			</data>
 			<key>hash2</key>
 			<data>
-			GcZraL5Y51VhThva5Bu+ctQ4m4T3hr8ZdYgtVFbX0To=
+			4uDZpYKkmcTrVlsEWdreESz7dgualz176KnjUOsxuvA=
 			</data>
 		</dict>
-		<key>QuizPageView_iPad.nib</key>
+		<key>PrivacyViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Z1QFGIPb5AJdWuMu8WpUOgPD7WU=
+			AGFHcll2VzVmz0947g0PosmvVDA=
 			</data>
 			<key>hash2</key>
 			<data>
-			zFrQqUZ8e2vmpcrdJjmOlZa8pfsMpNfDiUIFEUmC4/o=
+			g525Do1zOC932RT7x+hhRBRoaO9k3AuU2gp4o7t8ucs=
 			</data>
 		</dict>
-		<key>QuizPageView_iPhone.nib</key>
+		<key>PrivacyViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			MMPf6ssYU2bU7q8IHi0ohzkudSk=
+			AXcmjaE+T7Q++vFvxYoIn+OUQVg=
 			</data>
 			<key>hash2</key>
 			<data>
-			vaE674u/ocQN6c8Z6t8NPyn5h1S1FCXGy2uoUECyd9k=
+			UtUitwFItT+UdTCAhwj4PKex8NW56u9kS0iFZV4RSwI=
 			</data>
 		</dict>
-		<key>QuizPopupView_iPad.nib</key>
+		<key>PrivacyViewController_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			+gH2D4QJjTuMSL9xeeFhhUSoYDg=
+			LQ5BNrjULVa9oz99e7i3E1dbDhA=
 			</data>
 			<key>hash2</key>
 			<data>
-			+79iR0keiOfvo7adwluTEZMSpiN120YRLMBHNmSpL9o=
+			2gNF0k+z+pjr5O/7tpOVKKpEa6ARLSOxHQdQj+3CEO0=
 			</data>
 		</dict>
-		<key>QuizPopupView_iPhone.nib</key>
+		<key>PrivacyViewController_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Gnwu5yF6U0t2HZMTtCsOx2Tkn1k=
+			PP3JJn57GqhVk7FaZixqoTZd1CU=
 			</data>
 			<key>hash2</key>
 			<data>
-			VpJETeXGSdfnXoIERnfsMtgxdiKQa9ZD65JWDFGqWrM=
+			pTfVcV9vQo77+VdGKzOCXijkgPLdU11R2Ixvzw1s9UE=
 			</data>
 		</dict>
-		<key>QuizViewController_iPad.nib</key>
+		<key>PurchasesViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			kKMZOboWFHdJOQSeRF2ttJNvIRc=
+			q6Ixo41ZLQI2eZ2jBGZSn1dioNQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			H+JixQ4wlDDBuF5n0MnNa5l5Co+rZBeIF9LTzxNorGc=
+			rw8taiyrUqdrJHQOuRQNbfxMcVpk8SHtGSrDy7jYM24=
 			</data>
 		</dict>
-		<key>QuizViewController_iPhone.nib</key>
+		<key>PurchasesViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			dJHwWec17Uzw54q04WYhFYafdhc=
+			/Zp/+WCYAZ+ASHH013b11hc+yp8=
 			</data>
 			<key>hash2</key>
 			<data>
-			wBmCjRffCacvHmCamLmW1cYp/b2h14n4Wq1PWAnbNP8=
+			CFZGRZxLhBCrFRSjoVCl4j98PI+rCW4XzXaBQqKmJ/U=
 			</data>
 		</dict>
-		<key>ReadingsViewController_iPad.nib</key>
+		<key>PurchasesViewController_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			e7RlVoxJeNg+afMRWBb2LqtbvvQ=
+			0b6CdxXNphFhA+GgUoNIJPhJMqg=
 			</data>
 			<key>hash2</key>
 			<data>
-			lRlo0tYGTufiutD9MZC28SYihOmq0FCPs2heNZGxSpE=
+			YrGLA69bWd2YRQrFAXq6ULbxzPEJ94uBuEIHR0eYopg=
 			</data>
 		</dict>
-		<key>ReadingsViewController_iPhone.nib</key>
+		<key>PurchasesViewController_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			F9/Cll+opVhzH+NNqKT3noG4HP4=
+			DeIPs0HG3gymn1OZlSr8UCeFCUE=
 			</data>
 			<key>hash2</key>
 			<data>
-			Fc5d7T4arH1MdpPAS3ZKImlNptMWc6ucjvuuCMCaL58=
+			rrSviRA8xRq49PSrv9piolk1ZMxqzfILO+0IiNEfr8s=
 			</data>
 		</dict>
-		<key>RechargerViewController_iPad.nib</key>
+		<key>QuizDetailView_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			CEpfIqr1bU40TCg/q+/ULbZMVmk=
+			3HIFwbd0mh16CvsekTx/CcM+1Tk=
 			</data>
 			<key>hash2</key>
 			<data>
-			F/YVuhUajkq20QPBIKzGcUanb7GRiSAheaHdmRb0erg=
+			Po9RFF6vLG8bHU1aIYrh2smwCoo/rCGCp2kcG2LQq3o=
 			</data>
 		</dict>
-		<key>RechargerViewController_iPhone.nib</key>
+		<key>QuizDetailView_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			eNJFqsXVnwuVPmgJHIuQ6Xl3n8o=
+			+Y8t3JrPpp/Nlc3QdXVk982w7U0=
 			</data>
 			<key>hash2</key>
 			<data>
-			3m5ftP6p8ucIGIY3ndw1vBRzt3cmT3KQBX0Y3vWX4Ts=
+			HRmE3tipr2sDYehexQqGbhJ0crX/2yCQhf+xEVcSyZU=
 			</data>
 		</dict>
-		<key>SbmlPopupView_iPad.nib</key>
+		<key>QuizDetailView_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			f2Eug7jHpuYa324I0pkdEMO06bU=
+			KyVlxaLECl9O/+zGirYM4G4rybg=
 			</data>
 			<key>hash2</key>
 			<data>
-			7TzPbsH12JUlzWc5J51DQVK1ES0sd0fOo72p/+Qvekg=
+			D8D2gAyX7XC9fFkgImN/eydPyxJ0ROYxOfkK+0ukXpY=
 			</data>
 		</dict>
-		<key>SbmlPopupView_iPhone.nib</key>
+		<key>QuizDetailView_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			gPVVVc1djR99hy9tBj1lLSiI0YI=
+			yCQG7JlrBkNBVyiqyUYJbpKO1gs=
 			</data>
 			<key>hash2</key>
 			<data>
-			PhSW7E2qD0TvZaA58Chgkgn4fYSgXvYR1BzcyB7i5lM=
+			3gvHuD0qL8EDUzdpf+sJlUi2i7NjpaDjF7DsmY6DDCg=
 			</data>
 		</dict>
-		<key>SearchResultTableViewCell_iPad.nib</key>
+		<key>QuizPageView_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			YL21VDUe6W+5oVh/pVD0B7DLAjs=
+			EhTA+OmKiR2OL8rAL/VJDTBi3ts=
 			</data>
 			<key>hash2</key>
 			<data>
-			ukiDVrRJ7Mpl57gSvyEPoNkAF7jiKAbEo+8BxBya3J8=
+			BPmE+IdmwPvB7Fi2UheYnvIFgGsO9Bol4gOprsTto+s=
 			</data>
 		</dict>
-		<key>SearchResultTableViewCell_iPhone.nib</key>
+		<key>QuizPageView_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			PeFwpUtxCkyw0K0Z+cAYsBouobo=
+			/cbavzQ5S5C+UxKyXsUk5k5ADsw=
 			</data>
 			<key>hash2</key>
 			<data>
-			MeCeGTWIG2Her0vIHQvWkffYEwkTXP6xU7sYbjFvF5o=
+			cvXMmwtUNxYs+ftMh8kmzXnnCso13uX0P4oisP90oWY=
 			</data>
 		</dict>
-		<key>SelectionMenu_iPad.nib</key>
+		<key>QuizPageView_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			EMzeyT119LLDpYx4XVyHxfhNUck=
+			kWhYoStFnbxKEYMelvdqwtWsbmQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			dDJ1Cr/+W/Drplq1hZU7BBzdjmH+wVwS8IKdYNzPwnY=
+			VO7+0QMQ0zuIXtMVsNEhKkCMnXjihwcR3bjPl4fx5PQ=
 			</data>
 		</dict>
-		<key>SelectionMenu_iPhone.nib</key>
+		<key>QuizPageView_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			A4CM310sCYm/RkbynBOkRclaHf4=
+			LLVyJHIThDHdYa26IBeoY79qKgE=
 			</data>
 			<key>hash2</key>
 			<data>
-			jYmD5PIOkgiF/SeP4jrNYjNcEUhcAO0I1PCwJAsDlvo=
+			XxXtBOuhucffFB+eEqETbCb2ENmrnoWM99AZa8O1lV0=
 			</data>
 		</dict>
-		<key>SensorViewController_iPad.nib</key>
+		<key>QuizPopupView_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			oNVUfKkvLqOO8B+tlVug8dp4PD0=
+			BptI36+925Sel2aCoGS7IBupI7k=
 			</data>
 			<key>hash2</key>
 			<data>
-			L/zYt3GiDNPBu9p3eHHWCWs8Sq+y34ED0Lv9Js1mUeM=
+			4jo1Rar7cuCs8ykVjDWerOoU7ssdQabEqDgtlguAPeU=
 			</data>
 		</dict>
-		<key>SensorViewController_iPhone.nib</key>
+		<key>QuizPopupView_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Dh2YOYZ6RdgFd3vWPjDQsjQ4yrM=
+			j/gWEJKoB4+hBUMUnC2Psn+o8LE=
 			</data>
 			<key>hash2</key>
 			<data>
-			632qceV03ZZx+pr8kc+e2c0SpeJ3/YEFsuVL9Ru++vs=
+			yrrohCqKxxuiem7OzRYsoCKgpT6FvKTHzImyXQq9yFU=
+			</data>
+		</dict>
+		<key>QuizPopupView_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			5tuvmJBOKUMa7ySWCIxUT1LG1eY=
+			</data>
+			<key>hash2</key>
+			<data>
+			bZT4ElS0ByxpTlntXh2BNh8+/QOSJMu0j3gaC/rmuN0=
+			</data>
+		</dict>
+		<key>QuizPopupView_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ai9HN9UjBRlZDpW8xqlpwZUqy3U=
+			</data>
+			<key>hash2</key>
+			<data>
+			5ITt+gP1R20qmWS4MnVkRzehbeqpSMBQUKRuffAwzP8=
+			</data>
+		</dict>
+		<key>QuizViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			r3ZM8JfgWE63dzkExvUJZD4yBnE=
+			</data>
+			<key>hash2</key>
+			<data>
+			xBhVd5LooLLOKEum3mKO4dtEktAS9dhsCR3tAiGj3nI=
+			</data>
+		</dict>
+		<key>QuizViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			y9RGegpM+1KIqGAW+o/kzrs3nEs=
+			</data>
+			<key>hash2</key>
+			<data>
+			SZdUD4dKvtsYfmEz+x2UzLbjUxgM8/D9NQBESl/Xprs=
+			</data>
+		</dict>
+		<key>QuizViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			UwN3Q3wSd4VPKxi588QbtxdyylI=
+			</data>
+			<key>hash2</key>
+			<data>
+			ExBwjGm2Jc04Xv2aIMLYY54jRMrEbsEwrssuFq8qOdQ=
+			</data>
+		</dict>
+		<key>QuizViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			1ndv/MB5SUk23DLXrwnSqVLIAMM=
+			</data>
+			<key>hash2</key>
+			<data>
+			eCHS8uQsnvxwd/UNV18kRxv7FjE9uc5/gPu7TqAxIEM=
+			</data>
+		</dict>
+		<key>ReadingsViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			hTD6LkqOb9hqEn/oaLErnL42K+E=
+			</data>
+			<key>hash2</key>
+			<data>
+			IBK7CYirTS5puVOCL6j0/2q2q6ORHXNlgS0NLqNXmFw=
+			</data>
+		</dict>
+		<key>ReadingsViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RALKMPpXMEG61EF5ZlcUy6QQ6xw=
+			</data>
+			<key>hash2</key>
+			<data>
+			5xmibIGIKK0zpMnDM6ip1pjI0W4IzXLrmRm352usjZo=
+			</data>
+		</dict>
+		<key>ReadingsViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			LOL/UJ0mi8jwOQzPX9Qpsb2coYw=
+			</data>
+			<key>hash2</key>
+			<data>
+			4dAKDt9mh20D8LoJmNZWxhzMwXnzdr9q+f30dC3s2qA=
+			</data>
+		</dict>
+		<key>ReadingsViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			uXnsfPTMKTptNdGsiaEM8wHaZmY=
+			</data>
+			<key>hash2</key>
+			<data>
+			JA5Drxe8QKNNgNc8Au3K/H3UPCQBqEU1svqvKNu7TZQ=
+			</data>
+		</dict>
+		<key>RechargerViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			k76mbQ8LJTn+Sgw79xznyIFS8fU=
+			</data>
+			<key>hash2</key>
+			<data>
+			xGgxMXT+5LCz2yXKC4p7AoY7wIzzt1U2wmpa8PjY/lY=
+			</data>
+		</dict>
+		<key>RechargerViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ICKVCsCakKSSm3SgN8VFstfRJqg=
+			</data>
+			<key>hash2</key>
+			<data>
+			PlJO5nCBKvR4hHTOo5gwxkeVInQwTLMk/5kVCVN+HNI=
+			</data>
+		</dict>
+		<key>RechargerViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			9iKrbINPyycYk3QLv/SqGwQ4+gY=
+			</data>
+			<key>hash2</key>
+			<data>
+			Gycq/d3vbXFQMi/m4CJB/kPSL4oo9rLDfV5TKmfFsdc=
+			</data>
+		</dict>
+		<key>RechargerViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			f4ou7jOgk8/P2FGVPnQfP5ceJe0=
+			</data>
+			<key>hash2</key>
+			<data>
+			EmjYKhks7QvKRmeiA8IALfFioXF4PYyF7UDTEdgFUKI=
+			</data>
+		</dict>
+		<key>SbmlPopupView_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			HFvsZDZbiHCybqPzKr1a3A/a/H0=
+			</data>
+			<key>hash2</key>
+			<data>
+			n1onjwmNiwi3nGnXEpyqqnwqOuq1glemesNv4/RTz50=
+			</data>
+		</dict>
+		<key>SbmlPopupView_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			M++1JPaJFfoqealiZzt90Fl31P8=
+			</data>
+			<key>hash2</key>
+			<data>
+			bNbIJNtm6OqYcwJ3bLGFItpJmMCuBs0U+/Tg1cq3VQ0=
+			</data>
+		</dict>
+		<key>SbmlPopupView_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			eEhbi+j7xTCuiVFh2RzsLFSq5vo=
+			</data>
+			<key>hash2</key>
+			<data>
+			lIXFJnL2Zjq2+FPghjcFMlJ4NTRA1P05ZS1fXU8mQWU=
+			</data>
+		</dict>
+		<key>SbmlPopupView_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Yr5a8hgtwTeBoHJGTV5YU1yswUs=
+			</data>
+			<key>hash2</key>
+			<data>
+			7uKAN6W5S5GzBSC/P2pba5L8eRg1rKpFUiWzel4fVwE=
+			</data>
+		</dict>
+		<key>SearchResultTableViewCell_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RAsxX4lPJSEiFNfTn94X/5Wvru4=
+			</data>
+			<key>hash2</key>
+			<data>
+			c/Q9GqP9+VqLnkwVgRGWtjON9EuHSusPBlcfqAh1xFY=
+			</data>
+		</dict>
+		<key>SearchResultTableViewCell_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RuRRNx3BQOMkwpjOyEKkmfgBqYE=
+			</data>
+			<key>hash2</key>
+			<data>
+			LavNZH528l27fnyhYX9b84HA0OpxViGKd9jdADmHrxM=
+			</data>
+		</dict>
+		<key>SearchResultTableViewCell_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7TlKnGObPfli0kGk5i2/yQ/wgdw=
+			</data>
+			<key>hash2</key>
+			<data>
+			h4IjMxT9kdsNENKIrBghIwT0GgXjgGCzfxNu7EbUUmI=
+			</data>
+		</dict>
+		<key>SearchResultTableViewCell_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			oScCJitzxr0Ud2IMjiLBioeIMqQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			t4JumMV7PN+NbsItjxd/2H3MBUQFjcggtaLbPTiMa58=
+			</data>
+		</dict>
+		<key>SelectionMenu_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			pBt0rLOq8TvrdwmlB7nc2uLE1VY=
+			</data>
+			<key>hash2</key>
+			<data>
+			i/Aq6f2CNt1wZ6xROozdeIoEIwv/obeKe7KO9Bf0xpM=
+			</data>
+		</dict>
+		<key>SelectionMenu_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			vATTYerL6G8KMeOkP+mm0gFySXw=
+			</data>
+			<key>hash2</key>
+			<data>
+			MpKCo5XxCrIEoZbjVN0GrSNFHYLMbHXVfr+oqhXF3XY=
+			</data>
+		</dict>
+		<key>SelectionMenu_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			mitxOVn+MCBilHDlRJVX3/oM8B4=
+			</data>
+			<key>hash2</key>
+			<data>
+			GGLvuUBwbk9Ej36VMXwvBfbNeHubbflOUumrXY5iVuo=
+			</data>
+		</dict>
+		<key>SelectionMenu_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			SdyPjlF5pISHY9AY3F7FFHeazsE=
+			</data>
+			<key>hash2</key>
+			<data>
+			4rUxfzpgFdJhWJTvf+l9BscXaWgOvmXZw1ISEnKwGqE=
+			</data>
+		</dict>
+		<key>SensorViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			H99M3PhzRGcazcSh0lpq9u0QTSM=
+			</data>
+			<key>hash2</key>
+			<data>
+			V2GcU0LsdLRutT5BxAfv9gE6IcHN8s2Eqre1Qh6QTnQ=
+			</data>
+		</dict>
+		<key>SensorViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			IimFILvUTZCsFAvOmoq5AMaNtQk=
+			</data>
+			<key>hash2</key>
+			<data>
+			xzigrpkUS7h8zBhM7IaTsjelWZ4LXJldODvjnDcYdqw=
+			</data>
+		</dict>
+		<key>SensorViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			w6A/7PYoPMUWfflvGRRVlDb0+jM=
+			</data>
+			<key>hash2</key>
+			<data>
+			NJCsFfYcWe2Oz1S/6GX5KddESYo6qptYu2ii4DZa/gA=
+			</data>
+		</dict>
+		<key>SensorViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			gUiLBc73L9sUXu8TJ2wCLlLtjAM=
+			</data>
+			<key>hash2</key>
+			<data>
+			hl9wlX4QA9+OkrVAF2VH341ctoKBaVdEO3h9eHwnRK0=
 			</data>
 		</dict>
 		<key>Settings.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			6Pn8Hbm4BcZj4sGU9ln/P3QjYcQ=
+			pvpZXDm5Kh/4vB1JFCfdnklLPYk=
 			</data>
 			<key>hash2</key>
 			<data>
-			PxZ6oOQNiY69qil9kyGzMp+5RBQt8zrQTD94Dgf6eZE=
+			BZSbRGiz/aoTGNZ2MfnOM9q3Zi3Fc8QLm1UXgzXnauU=
 			</data>
 		</dict>
-		<key>SettingsViewController_iPad.nib</key>
+		<key>SettingsViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			myGfHXx9ERzC5HGILSVKHqx6APk=
+			amaGLM4uwX7zgQ4jI278umBlluo=
 			</data>
 			<key>hash2</key>
 			<data>
-			r8VEeaQPuspWEYqTyhQrmgFOkmZvVm29vtp7rzqBsdY=
+			7XcqmAL2xPlu8Zh6kzZjQXB3HAtmVuh8o6fK7TfiuI4=
 			</data>
 		</dict>
-		<key>SettingsViewController_iPhone.nib</key>
+		<key>SettingsViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			4C1OYAcyT+pgcBRcadytMAmd1rE=
+			aTitbS8a44bh7T0pk5vKVRELhSI=
 			</data>
 			<key>hash2</key>
 			<data>
-			KMy4f33h8Lf7sj6Ot9PBKh0MwIyraLwAH/27snHw2SY=
+			nuMAeVecE0dfyv+o8AHahLGIsqH16zCy0SJP5FaTHq4=
 			</data>
 		</dict>
-		<key>ShareView_iPad.nib</key>
+		<key>SettingsViewController_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			sDjZ9G65MK9EzDgAO79iS/b2o28=
+			/BpXED81KlxIB9Z3VS6lRs84xA0=
 			</data>
 			<key>hash2</key>
 			<data>
-			TgZizTXneC/RXBu5OOUz0M/GqZPtfTk2MEcmSiQIqWU=
+			zKHNRE/o2MDaYt4u98bIdtXT9e3tRsysXx529+YdBao=
 			</data>
 		</dict>
-		<key>ShareView_iPhone.nib</key>
+		<key>SettingsViewController_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			PnBc3dgqz4NzJk/DWmTif3H9UKQ=
+			4d5TkoOeU0TzjV/X68KrYYwYM64=
 			</data>
 			<key>hash2</key>
 			<data>
-			wBf8ghTlvuifAL5iYzcY6ZKt/NyVTGSgn8bwBg+rTxI=
+			GuOQkRvJetfKye1DYUewHgi7GBD1az/AaO1mDPHD5pU=
 			</data>
 		</dict>
-		<key>SidebarViewController_iPad.nib</key>
+		<key>ShareView_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			3h6VvbbblOl2g27LAhP/iLlTEUM=
+			6ov1dIwPEEKcdeDS05Kh2u78b+U=
 			</data>
 			<key>hash2</key>
 			<data>
-			dK6ofU6rP3FW6Q0rC1gxugm9GkDX5aI7msximLd7tAo=
+			HtWlWVD8ivaHWFLkHtxTjUr7ipJQrDZi6kAXPkqyO3I=
 			</data>
 		</dict>
-		<key>SidebarViewController_iPhone.nib</key>
+		<key>ShareView_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			16iAYCMBHEH9T1CAMPIRVlBzEHs=
+			HeAzZPrjTuqHVcBQEjLQh40UM5o=
 			</data>
 			<key>hash2</key>
 			<data>
-			9fXKEU/MHDcsnpr85ofHam9wgCQUGg4AFefT+csxtfc=
+			hXI6VFbf+Nxh9vgucBp+O4kq658shWRrE9ZVlIcqHaQ=
+			</data>
+		</dict>
+		<key>ShareView_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			JTaJwGCPloxEGD6GNJFCLeA2H+Q=
+			</data>
+			<key>hash2</key>
+			<data>
+			GCUorKttv2wCb4SHU5K46Tdka2kr/xv8MUycONycIIY=
+			</data>
+		</dict>
+		<key>ShareView_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			HoChddjVCu6RXmkArUrwf0zr0jk=
+			</data>
+			<key>hash2</key>
+			<data>
+			Zk0e2BgqT5vvQiFVYPZYY96Nggnnz0mS8cdzCGr2FM4=
+			</data>
+		</dict>
+		<key>SidebarViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			M9h0DAwTdfpCJOrSDu7IC8jFqQo=
+			</data>
+			<key>hash2</key>
+			<data>
+			CjIcxN4NpxKHkblfRt/lrn36H3vjRatFqDGRuZ6m0WE=
+			</data>
+		</dict>
+		<key>SidebarViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			c+4rESuJHuS5iau4HvRKbbaPnAg=
+			</data>
+			<key>hash2</key>
+			<data>
+			GW5oH+4vjIHAQGmXGVJK49QGR3yaEfW3hrM+Ebt1Xek=
+			</data>
+		</dict>
+		<key>SidebarViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			/yTpBNwhlByTFKCTYWxMoOrYmoU=
+			</data>
+			<key>hash2</key>
+			<data>
+			kR+pPvwFjo4Z10+jq5cf6vaMxoAJyahCdTuC113CgHk=
+			</data>
+		</dict>
+		<key>SidebarViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ET7ysrOJfN3t+LPpgexhs6RLLDM=
+			</data>
+			<key>hash2</key>
+			<data>
+			/VVBAJ4TW0HFgo27IwuSvIa4RfeySZF0f3QkCJu6VCA=
 			</data>
 		</dict>
 		<key>StoreBase.bundle/en.lproj/Localizable.strings</key>
@@ -5405,180 +6798,356 @@
 			CC0bwjcAIcLd3BQoNkSj6KpHMUbikDaHJLxvwL1Ql/w=
 			</data>
 		</dict>
-		<key>StoreCatalogView_iPad.nib</key>
+		<key>StoreCatalogView_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			oHsQA/GngG4IvptkByYO8Do2XV4=
+			9v6gm6BSdEwm5FcmIZ92Cg6dtrE=
 			</data>
 			<key>hash2</key>
 			<data>
-			TpnPd85U6MQBwcDUfjepAMdrcAJxz69v//9w1g8577Q=
+			8kid16vXW578UYW4wbhzyjLpJOKm9Mstu9h8CJ7UuVI=
 			</data>
 		</dict>
-		<key>StoreCatalogView_iPhone.nib</key>
+		<key>StoreCatalogView_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			FZFQZsbK9gy23gXFVQRkkPRviJw=
+			PkfD9hnglEIb8Q3Sx4IHgbrtKnQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			VZQCMgNP6VG1cgj9b3pi5AtKqMFvLd4vV07T0yYDGN4=
+			0RulzenlRK0NukqpMW8q47gcPsAX+74rjjmJGnZhl34=
 			</data>
 		</dict>
-		<key>StoreDetailView_iPad.nib</key>
+		<key>StoreCatalogView_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			yS6NqAV9VzzRQa+uPBn3WdJUDOw=
+			95bbHOoeBxIXBV6U4t8Qic2h6ac=
 			</data>
 			<key>hash2</key>
 			<data>
-			OsAGRH4+YM/r3tKjmSFSIAFgOqVRUaeKhwVnBz3zci0=
+			iKE0FPbrmTcyInhpLd4JsI526GtRv+LyllEJWeBruvo=
 			</data>
 		</dict>
-		<key>StoreDetailView_iPhone.nib</key>
+		<key>StoreCatalogView_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			aTBvjM5RPP7SDJlIDF7wLfRT41k=
+			bZRXzdCrEi5jdsNpkNecaikMIuE=
 			</data>
 			<key>hash2</key>
 			<data>
-			X/RE2sO1J9SF7NHywzXXoenzmbh5RLds6e044lsz4gA=
+			CdywOO8rWW8JO9Vskn7+6ttrdxhbaDnuJj8Ttz56XZQ=
 			</data>
 		</dict>
-		<key>StoreMultiPageView_iPad.nib</key>
+		<key>StoreDetailView_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			1xNmf7exKrfIdWH/iqcFWlARSgI=
+			dXhQeLCZQ+7lcGkiJc21PLhiqeU=
 			</data>
 			<key>hash2</key>
 			<data>
-			lQP3/UKzAIcH7Uq+JjeklnVJyfB7oSffJlOPdQq/4ik=
+			4TGtmDTm3n0Ixb1YNjX1ZaJnxQ3uW7MSxEqerHaHQkA=
 			</data>
 		</dict>
-		<key>StoreMultiPageView_iPhone.nib</key>
+		<key>StoreDetailView_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			5HvXoXiwnR096/jg/+8EnPCXfy0=
+			jvATX2b6FF7bX87DZzVbB9Nup1o=
 			</data>
 			<key>hash2</key>
 			<data>
-			2l+XvL59wypTTIK5cVVBi6sKCMNwi15whcmAy4DqDys=
+			gIPtjnPqFL1b/4PKuW/VaXte61Tjrm6lwwVGRkp9QmA=
 			</data>
 		</dict>
-		<key>StorePageView_iPad.nib</key>
+		<key>StoreDetailView_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			O9l3E5OSyd/yFQCP+lDwUSOi7GQ=
+			SrmrA2vjiYRjZPlMTx2MlMIQDNU=
 			</data>
 			<key>hash2</key>
 			<data>
-			fbsoklj+x0TkcZtdbH0ShAvyQDl40FWdeM6YPhWnm5A=
+			Ppg9H3qsqhZwJkGyCDxbpVL51l/ZCo2s85RNyhIituY=
 			</data>
 		</dict>
-		<key>StorePageView_iPhone.nib</key>
+		<key>StoreDetailView_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			rmsReQ8lpS14kqsgrr6SlVJd1AE=
+			zgi9lysj09eXdQxbwDOio0EPlbk=
 			</data>
 			<key>hash2</key>
 			<data>
-			iK0UrjgNCaHlnjdFKCBIQ1OS8ixU9xMCdMeYLUPpNCI=
+			JUt1z80UCKSKYtiTo8rezsVDXOOAzayBkSUiyOmIcVs=
 			</data>
 		</dict>
-		<key>StorePopupView_iPad.nib</key>
+		<key>StoreMultiPageView_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			T30C9eAhPPG7RtledZPeRn3Cxng=
+			BvVe5qA/2sBcsATAYVjTJ0URmVo=
 			</data>
 			<key>hash2</key>
 			<data>
-			IOjIaTeHL9Dt0avuCTKvjfTEhaQ9Erl/26dPHC2wZE0=
+			Fsi9txyPEJo985RknN60NFwp6jgvJyz3Gk+9ho2xpKA=
 			</data>
 		</dict>
-		<key>StorePopupView_iPhone.nib</key>
+		<key>StoreMultiPageView_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			sAbxj/664duMF9v47og/iDAghrg=
+			D7BcyujwfdGdIKHKk6V8xeKXUlk=
 			</data>
 			<key>hash2</key>
 			<data>
-			vNqiyrfF8xZQzJbdDcrJQ6qoQBqbowF1Q0anwrtuxpU=
+			Fbu5dcL3Z6/qUMUBMAsq6sISBQdqq5SmyDBAEnkQ5ic=
 			</data>
 		</dict>
-		<key>StoreViewController_iPad.nib</key>
+		<key>StoreMultiPageView_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			3/Bvgsfi1/SvYDN1Rnbb06v0aBA=
+			UXAzS6HPj9ob7YZkoeWryGtmbV4=
 			</data>
 			<key>hash2</key>
 			<data>
-			qwtqxruQ1bEqhqx2u4PfSZuro4Be7sCID4c2aiQlbfo=
+			q7yfLxnQOq8/WI6aDO6X4vaUwl3bQupKYDketPH8ZEY=
 			</data>
 		</dict>
-		<key>StoreViewController_iPhone.nib</key>
+		<key>StoreMultiPageView_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			RKjvISmoxZs9r3V2vyoLyaoyJqc=
+			S7B0kbVAIXVhrRY5x8bPD1wrgwM=
 			</data>
 			<key>hash2</key>
 			<data>
-			oZE3y7i4+1HxtdoMqfjwGFRgsOH3TiAD48OHmvi5hNs=
+			d84bCeMIuVyvvl6NXYfN6HhYtM1Neh42RbEYp1kxF6c=
 			</data>
 		</dict>
-		<key>StoryViewController_iPad.nib</key>
+		<key>StorePageView_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			A7SRSrpl0N6D2qavXxvaEhrXvmI=
+			jUqfOTxhxnT9PXa/mhgih1upHok=
 			</data>
 			<key>hash2</key>
 			<data>
-			EsAiUdSV5TQUKUXXgX8zP4BmcuEur9ZPb8U3Mndsv4o=
+			Dp9Zj2mheenYXr46YXEiDqQG8n+iuq2VHKCSowkMA6w=
 			</data>
 		</dict>
-		<key>StoryViewController_iPhone.nib</key>
+		<key>StorePageView_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			u2p4wAF5pC8KqiryJRUrvoiQC7A=
+			PdNfHspkyHaiY6XFDg9gRgWfP5w=
 			</data>
 			<key>hash2</key>
 			<data>
-			aeQPXIcdxboyZVqnViQ2vyceboiSjDBHhs3QvrQV/U0=
+			WOAnyIuhdkaZOAQlcj8tYfQFsQzjs0IkdT96zwB4AQY=
 			</data>
 		</dict>
-		<key>SupportViewController_iPad.nib</key>
+		<key>StorePageView_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			wsXHeWzmNUBrIZ/iN66K+4CpqMA=
+			6LPffeUdpeH9IPUwJOxqiTTvi7g=
 			</data>
 			<key>hash2</key>
 			<data>
-			4S8FSky4UlV1Jtr5tCqg3MMOcb8WH+GWPFMXyV2ksEA=
+			aUZoQUgQzHL3J7zTDMTs3q13CClsipJl4VT8xwS1WVM=
 			</data>
 		</dict>
-		<key>SupportViewController_iPhone.nib</key>
+		<key>StorePageView_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			iOsQbVbZnSqfXnjLf8oy5eRtYkk=
+			WmcQAeHN6KvLPTyVAmgznymMkaU=
 			</data>
 			<key>hash2</key>
 			<data>
-			tkaew+kZROT2YgeWrUlJmwg7DyvKcE5IJNgSNobi5rg=
+			WDzrVZ6BwgP6wN5OH8lVl2Ln9bY8pnF1D61miQ5n7vM=
+			</data>
+		</dict>
+		<key>StorePopupView_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			fr6j4zK7NLu/MrH8CBlYv0myETQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			JukRlaRvdoQWfyZ0QztfTOW8RdD+77+NsFXG79VD1nY=
+			</data>
+		</dict>
+		<key>StorePopupView_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			G0iNkCd4tNxZfg7DF1Gg4I388oM=
+			</data>
+			<key>hash2</key>
+			<data>
+			VNUm/tYoLFFWgyWD15hZkG82se2Wr/LyXV1OGE9bVk4=
+			</data>
+		</dict>
+		<key>StorePopupView_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			xs3YRwUl8hBsesbGMT5SXSm1MFk=
+			</data>
+			<key>hash2</key>
+			<data>
+			4QFy6VjH/LcH8KYpzKzR6FV0pVn6rNTjhskVj3neeLo=
+			</data>
+		</dict>
+		<key>StorePopupView_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ufdPk4IS4RYD7Bpi6nc2aJTKeNE=
+			</data>
+			<key>hash2</key>
+			<data>
+			wpn7ICO52f2Cirem4jjI8CbQZEocPSZKoj14FOW0ZdI=
+			</data>
+		</dict>
+		<key>StoreViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			lcQ1Na8YuiyiLVxn5MfO4lgZEB4=
+			</data>
+			<key>hash2</key>
+			<data>
+			y7YS3UdrHgSPzTqPcYzeP71dOkbLmkeVFshLBFEjWS4=
+			</data>
+		</dict>
+		<key>StoreViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			vHFD0tP/7XqkEJMpM1IHzOF2NUY=
+			</data>
+			<key>hash2</key>
+			<data>
+			f6YZ8FXpXAvTzFF5LEcks57yXooaTp2MJpsWRqFcqaA=
+			</data>
+		</dict>
+		<key>StoreViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			V06ibwQ1teQyxZGUJSdQhtDEURc=
+			</data>
+			<key>hash2</key>
+			<data>
+			kVo/dmIObc4ot3QM6MvBqlUdM6sq7B/Jhu9CfvPqou0=
+			</data>
+		</dict>
+		<key>StoreViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			IWq8CYKpB+rDtsxPhK3kEsufRgM=
+			</data>
+			<key>hash2</key>
+			<data>
+			7rWf2m2KfLNUaaqBNdTnf8VNmHUV621t7BiuKOpweX4=
+			</data>
+		</dict>
+		<key>StoryViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			F62o0o9F4luLidj+KwPtWxkRLNM=
+			</data>
+			<key>hash2</key>
+			<data>
+			Z5Hjz4EHKI+W5IBjsJ5nQoVM13XPx0Pum76jkDBLEE4=
+			</data>
+		</dict>
+		<key>StoryViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			pLMIdpQ3/BdJdj+axDEY2hROe+w=
+			</data>
+			<key>hash2</key>
+			<data>
+			3SchsdSmspDMsQ2pYuW6vkOKH2GJ6qDu493kdzJg/Ds=
+			</data>
+		</dict>
+		<key>StoryViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			mI31BK8uQAbHRJ4IFqshQXnIgQM=
+			</data>
+			<key>hash2</key>
+			<data>
+			xnWsYultguxn84MI3TSrbtMi5uYu6knaOQvsXj93zF8=
+			</data>
+		</dict>
+		<key>StoryViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			0WVlDaMkWDIJ9HYXBSVeAOwUcgw=
+			</data>
+			<key>hash2</key>
+			<data>
+			Jo7NngfaZQ6EuAM8Pje7qqgN5k3G9BGcSNmA3iqtT9s=
+			</data>
+		</dict>
+		<key>SupportViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			IHNQOiTDBfO+6mGo1lpviTQ/ZLE=
+			</data>
+			<key>hash2</key>
+			<data>
+			Bwr/3sltdmuXa9iudZ2c3jK/BKOZQCwtNSKDLSvShOk=
+			</data>
+		</dict>
+		<key>SupportViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			BWzwcPQ9mONGuo+NqWGFyeC3Ic8=
+			</data>
+			<key>hash2</key>
+			<data>
+			KZFmeh00d/ArSs5PUCVuC9Oj5AcrxO/oswWrLkBVLO4=
+			</data>
+		</dict>
+		<key>SupportViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			kYuLT0ttIx1ZVE+zQoZcCEPzjnY=
+			</data>
+			<key>hash2</key>
+			<data>
+			KAQlNXGB9BaTqdKbx1Urvzq5tY2F9Sz7DcXEt026GQs=
+			</data>
+		</dict>
+		<key>SupportViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			jauiUS2muRv2+b53Qo0j3XG1q0Y=
+			</data>
+			<key>hash2</key>
+			<data>
+			/zppm9Vi4DOb3OhoHYgQDP+l1ii6wmSt3Xju/rJRn40=
 			</data>
 		</dict>
 		<key>Themes.bundle/Audio/BookView/bookview_mediabar_btn_fast_forward@m.png</key>
@@ -9321,76 +10890,142 @@
 			onQ+VJqnpUOSERiciyfjpv6qBxKm7Ih+EVywKAIva68=
 			</data>
 		</dict>
-		<key>UserViewController_iPad.nib</key>
+		<key>UserViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			z3LUfQz4VUeQZPsWSug939q89cg=
+			YdHmYPw0jviubqcoRYB4jeqFpG4=
 			</data>
 			<key>hash2</key>
 			<data>
-			1UywOdRZaKtHWMV2LyrZqrT7wThagObD3LJ2xNcAkqc=
+			1A0C5ob4Jv/Epqz5gg24ROAgdL12yTEoFweN0iZqAxE=
 			</data>
 		</dict>
-		<key>UserViewController_iPhone.nib</key>
+		<key>UserViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			0xHuTuoPyJvMLolmmbd2pfngvNM=
+			3JIM48c6x8O6O0h/midW/F7yGuo=
 			</data>
 			<key>hash2</key>
 			<data>
-			qIE8B1fXRYKT/uM3ZYka72gTc5KgvD3rl/R+Uw6W19g=
+			EnFQaG1eXoQqY0wP5SRWZ/ukTZAgponGY753iciEZXg=
 			</data>
 		</dict>
-		<key>WebViewController_iPad.nib</key>
+		<key>UserViewController_iPhone.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			fyfy1xvu+wMawmXOzD0QFyiJLVg=
+			MWInCeJW5ZWrtgs62DGeve/rsMk=
 			</data>
 			<key>hash2</key>
 			<data>
-			GPJxDU64pjMyR+tTWfuuBsnviiGPMUt0iI/vhm3LME4=
+			/5+2XGsSArFkGR9TFU/z0vFpiMx5ebvoARJCfhayEhs=
 			</data>
 		</dict>
-		<key>WebViewController_iPhone.nib</key>
+		<key>UserViewController_iPhone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			doDcEDOWhPaL9OKvPAPYOXmt3JE=
+			x2ZfWTGx64Esfld1LnhBOmc6TrU=
 			</data>
 			<key>hash2</key>
 			<data>
-			8lehPoo4DMCtSvHYONT3Dae5sW/vveNXOjnwq3bqYjI=
+			dLx0hW0APKAZYtxYxYy0Q2zqOkBKKmSOIPg86SY9rzc=
 			</data>
 		</dict>
-		<key>WebtoonViewController_iPad.nib</key>
+		<key>WebViewController_iPad.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			NpFxeQ3eY/z0r20Vs9gCJWH23mE=
+			DUOLX2OyczExCw7S8g2C+8aV34w=
 			</data>
 			<key>hash2</key>
 			<data>
-			laGPXnN237bzrQdmIx1GRGXqfWc+4W5Tjw2Nkt7yF18=
+			hQQWBG8hg6jmjF7SEolnDdvgFEWYELMnJd10d2hRIfs=
 			</data>
 		</dict>
-		<key>WebtoonViewController_iPhone.nib</key>
+		<key>WebViewController_iPad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			rNNXPpCDR/tsQG/6V7G7b85kMfw=
+			HB/0ylBIB2uUgX64vqJRW+iyA5Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			cLrVFfAHdaS15pnnPGdojlVO4TcSBjs3EeXRnVlcs9w=
+			fc6fTntlYGDYqo31eLsTXCBbsbkIuI+FsF7X35BBbvw=
+			</data>
+		</dict>
+		<key>WebViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			4S6/1egAKIFxZZogeKXrVFB6SBs=
+			</data>
+			<key>hash2</key>
+			<data>
+			NLpoQ0KZijFKHkkiTnFOvitcSqFGY098ChYjRzXR1C8=
+			</data>
+		</dict>
+		<key>WebViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			uW5by7kMyTGEQwLOex/IF7Jlk/4=
+			</data>
+			<key>hash2</key>
+			<data>
+			+tl9wE45Xrji6S6KdKpcVGB/wNpGZvr+qOi10JS1hpY=
+			</data>
+		</dict>
+		<key>WebtoonViewController_iPad.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			tGRQoC6ytosbh0xFrrUm2NLsrRU=
+			</data>
+			<key>hash2</key>
+			<data>
+			MiPwE/indOOkMlUy+hLHPyeKyFC5BMmRsg17SSjONa0=
+			</data>
+		</dict>
+		<key>WebtoonViewController_iPad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			fCuFkFmvyKi7ZfOJL/GFIEJfkbU=
+			</data>
+			<key>hash2</key>
+			<data>
+			ENPNexH41I8TAV6iyWyoKfvX6j5Z/4TjrXtfy5AD+s0=
+			</data>
+		</dict>
+		<key>WebtoonViewController_iPhone.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			xxgCR7Ri6WajfbASdId2w2GvEqI=
+			</data>
+			<key>hash2</key>
+			<data>
+			hVzcQg8lbbqu0/jBGdLQEUcULGakvlAVtIP6ki6Kd0c=
+			</data>
+		</dict>
+		<key>WebtoonViewController_iPhone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Wa8fjUrKAk5+aJjya3fn4Xz6Usg=
+			</data>
+			<key>hash2</key>
+			<data>
+			GxUJYo6inc7eNku4cw10J0KVILO5hQKmSKfeATq6L/4=
 			</data>
 		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
-		<key>^</key>
+		<key>^.*</key>
 		<true/>
 		<key>^.*\.lproj/</key>
 		<dict>
@@ -9421,24 +11056,12 @@
 			<key>weight</key>
 			<real>11</real>
 		</dict>
-		<key>^</key>
-		<dict>
-			<key>weight</key>
-			<real>20</real>
-		</dict>
 		<key>^(.*/)?\.DS_Store$</key>
 		<dict>
 			<key>omit</key>
 			<true/>
 			<key>weight</key>
 			<real>2000</real>
-		</dict>
-		<key>^(Frameworks|SharedFrameworks|PlugIns|Plug-ins|XPCServices|Helpers|MacOS|Library/(Automator|Spotlight|LoginItems))/</key>
-		<dict>
-			<key>nested</key>
-			<true/>
-			<key>weight</key>
-			<real>10</real>
 		</dict>
 		<key>^.*</key>
 		<true/>
@@ -9474,13 +11097,6 @@
 			<true/>
 			<key>weight</key>
 			<real>20</real>
-		</dict>
-		<key>^[^/]+$</key>
-		<dict>
-			<key>nested</key>
-			<true/>
-			<key>weight</key>
-			<real>10</real>
 		</dict>
 		<key>^embedded\.provisionprofile$</key>
 		<dict>

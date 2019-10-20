@@ -70,6 +70,13 @@ function getDuration() {
     return player.duration;
 }
 
+function setRate(rate) {
+}
+
+function getRate() {
+    return 1.0;
+}
+
 function enterFullscreen() {
 }
 

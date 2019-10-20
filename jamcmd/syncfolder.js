@@ -62,7 +62,7 @@ module.exports = {
             .on('add', function(file) {
                 if (is_ready) {
 					var subpath = path.relative(src, file).replace(/\\/g, '/');
-					
+
                     __impl[platform].copy(app_id, file, dest + "/" + subpath);
 
                     handler();
@@ -70,7 +70,7 @@ module.exports = {
             })
             .on('addDir', function(dir) {
                 if (is_ready) {
-					var subpath = path.relative(src, file).replace(/\\/g, '/');
+					var subpath = path.relative(src, dir).replace(/\\/g, '/');
 					
                     __impl[platform].copy(app_id, dir, dest + "/" + subpath);
 
@@ -97,7 +97,7 @@ module.exports = {
             })
             .on('unlinkDir', function(dir) {
                 if (is_ready) {
-					var subpath = path.relative(src, file).replace(/\\/g, '/');
+					var subpath = path.relative(src, dir).replace(/\\/g, '/');
 
                     __impl[platform].remove(app_id, dest + "/" + subpath); 
 
@@ -105,6 +105,6 @@ module.exports = {
                 }
             });
         
-        process.stdout.write("Copying files to the browser. It may takes long time... ");
+        process.stdout.write("Copying files to the browser. It may takes several minutes... ");
     }
 };

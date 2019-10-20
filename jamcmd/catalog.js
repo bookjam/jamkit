@@ -12,7 +12,7 @@ const __KEYS_IN_DATABASE = [
     'panes', 'banners', 'showcases', 'showcase', 'collections', 
     'purchases', 'promos', 'readings', 'auxiliary', 
     'series', 'items', 'products', 'memberships', 
-    'points', 'events', 'notifications'
+    'points', 'events', 'notifications', 'strings'
 ]
 
 function __load_spreadsheet_data(path) {
@@ -84,6 +84,26 @@ function __rows_to_dict(rows, store, skip_key) {
     });
 
     return [ dict, sortkeys ];
+}
+
+function __rows_to_raw_list(rows) {
+    var raw_list = [];
+
+    (rows || []).forEach(function(row) {
+        var data = {};
+
+        Object.keys(row).forEach(function(header) {
+			var value = row[header].toString();
+
+            if (value) {
+                data[header] = value;
+            }
+        });
+
+        raw_list.push(data);
+    });
+
+    return raw_list;
 }
 
 function __rows_to_list(rows, store, skip_key) {
@@ -217,38 +237,38 @@ function __save_table_to_database(database, table, columns, indexes, rows) {
 function __merge_sortkeys(sortkeys) {
     var merged_sortkeys = [];
 
-    Object.keys(sortkeys).forEach(function(name) {
-        merged_sortkeys = array.union(merged_sortkeys, sortkeys[name]);
+    Object.keys(sortkeys).forEach(function(sortkey) {
+        merged_sortkeys = array.union(merged_sortkeys, sortkeys[sortkey]);
     });
 
     return array.unique(merged_sortkeys);
 }
 
-function __columns_for_sortkeys(sortkeys) {
+function __columns_for_headers(headers) {
     var columns = [];
 
-    sortkeys.forEach(function(sortkey) {
-        columns.push([sortkey,'TEXT']);
+    headers.forEach(function(header) {
+        columns.push([header,'TEXT']);
     });
 
     return columns;
 }
 
-function __indexes_for_sortkeys(dataset, sortkeys) {
+function __indexes_for_headers(dataset, headers) {
     var indexes = [];
 
-    sortkeys.forEach(function(sortkey) {
-        indexes.push([dataset,sortkey]);
+    headers.forEach(function(header) {
+        indexes.push([dataset,header]);
     });
 
     return indexes;
 }
 
-function __values_for_sortkeys(dict, sortkeys) {
+function __values_for_headers(dict, headers) {
     var values = {};
 
-    sortkeys.forEach(function(sortkey) {
-        values[sortkey.replace('-', '_')] = __value_for_key(dict, sortkey, '');
+    headers.forEach(function(header) {
+        values[header.replace('-', '_')] = __value_for_key(dict, header, '');
     });
 
     return values;
@@ -386,6 +406,11 @@ module.exports = {
             }
         });
        
+        var strings_list = __rows_to_raw_list(source['strings']);
+        if (!is_empty_object(strings_list)) {
+            data['strings'] = strings_list;
+        }
+
         return [ data, sortkeys ];
     },
 
@@ -518,7 +543,7 @@ module.exports = {
                             'id': dataset_dict['id'],
                             [singular_key]: name,
                             'attr': __stringify_value(dataset_dict)
-                        }, __values_for_sortkeys(dataset_dict, datasets_sortkeys)));
+                        }, __values_for_headers(dataset_dict, datasets_sortkeys)));
                     });
                 });
     
@@ -544,8 +569,8 @@ module.exports = {
                 __save_table_to_database(
                     database,
                     dataset, 
-                    array.union(columns, __columns_for_sortkeys(unique_sortkeys)), 
-                    array.union([['id'],[singular_key],['series'],['item']], __indexes_for_sortkeys(singular_key, unique_sortkeys)),
+                    array.union(columns, __columns_for_headers(unique_sortkeys)), 
+                    array.union([['id'],[singular_key],['series'],['item']], __indexes_for_headers(singular_key, unique_sortkeys)),
                     datasets_rows
                 );
             }
@@ -689,6 +714,28 @@ module.exports = {
                 );
             }
         });
+
+        if ('strings' in data) {
+            var strings_rows = [], languages = [];
+
+            data['strings'].forEach(function(dataset) {
+                Object.keys(dataset).forEach(function(header) {
+                    if (header !== 'key' && !languages.includes(header)) {
+                        languages.push(header);
+                    }
+                });
+
+                strings_rows.push(dataset);
+            }); 
+            
+            __save_table_to_database(
+                database,
+                'strings',
+                array.union([['key','TEXT']], __columns_for_headers(languages)),
+                [['key']],
+                strings_rows
+            );
+        }
 
         sqlite.close_database(database);
     }

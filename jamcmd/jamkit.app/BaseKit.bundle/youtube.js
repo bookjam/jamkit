@@ -132,6 +132,18 @@ function stopVideo() {
     player.stopVideo();
 }
 
+function getVideoID() {
+    return current_video_id;
+}
+
+function getTitle() {
+    return player.getVideoData().title;
+}
+
+function getAuthor() {
+    return player.getVideoData().author;
+}
+
 function seekTo(time) {
     player.seekTo(time, true);
 }
@@ -144,16 +156,12 @@ function getDuration() {
     return player.getDuration();
 }
 
-function getVideoID() {
-    return current_video_id;
+function setRate(rate) {
+    player.setPlaybackRate(rate);
 }
 
-function getTitle() {
-    return player.getVideoData().title;
-}
-
-function getAuthor() {
-    return player.getVideoData().author;
+function getRate() {
+    return player.getPlaybackRate();
 }
 
 function mute() {
