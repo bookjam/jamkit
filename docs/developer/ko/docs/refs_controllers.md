@@ -1,8 +1,0 @@
-## StoreView
-
-## CloudView
-
-## MyBooksView
-
-## PurchasesView
-

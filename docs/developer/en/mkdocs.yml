@@ -1,7 +1,0 @@
-site_name: Jamkit for Developer
-pages:
-- Home: index.md
-- Getting started: starts.md
-- Tutorials: tutorials.md
-- References: references.md
-theme: flatly
