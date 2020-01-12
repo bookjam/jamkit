@@ -19,5 +19,3 @@ var __getAbsoluteUrl = (function() {
     return a.href;
   };
 })();
-
-window.location = "web://body?length=" + document.body.innerText.length;
