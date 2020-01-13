@@ -1,6 +1,6 @@
 {
   "name": "jamkit",
-  "version": "0.95.5",
+  "version": "0.95.6",
   "description": "A simple native app framework",
   "main": "index.js",
   "bin": {
