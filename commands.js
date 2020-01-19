@@ -7,7 +7,8 @@ const fs          = require('fs-extra'),
       catalog     = require('./catalog'),
       simulator   = require('./simulator'),
       shell       = require('./shell'),
-      syncfolder  = require('./syncfolder');
+      syncfolder  = require('./syncfolder'),
+      urlencode   = require('urlencode');
 
 const connect_base_url = "https://jamkit.io";
 
@@ -116,7 +117,7 @@ module.exports = {
         })
     },
 
-    publishApp : function(host_app, ipfs_options, install_urls) {
+    publishApp : function(host_app, options, ipfs_options, install_urls) {
         var self = this;
 
         if (!fs.existsSync('./package.bon')) {
@@ -142,14 +143,18 @@ module.exports = {
             fs.moveSync(tempfile, jamfile);
 
             self.__publishFile(jamfile, ipfs_options, function(hash) {
+                var title = options["title"] || appinfo.title
                 var url = connect_base_url + "/connect/app/?"
                         + "app=" + appinfo.id + "&"
-                        + "url=" + "ipfs://hash/" + hash + "&" 
+                        + "url=" + urlencode("ipfs://hash/" + hash) + "&" 
+                        + (title ? "title=" + urlencode(title) + "&" : "")
+                        + (appinfo.version ? "version=" + appinfo.version + "&" : "")
+                        + (options["image-url"] ? "image=" + urlencode(options["image-url"]) + "&" : "")
                         + "host-app=" + host_app;
 
                 Object.keys(install_urls).forEach(function(platform) {
                     if (install_urls[platform] !== 'auto') {
-                        url = url + "&" + platform + "-install-url=" + install_urls[platform];
+                        url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
                     }
                 });
 
@@ -228,11 +233,18 @@ module.exports = {
         })
     },
 
-    publishBook : function(host_app, ipfs_options, install_urls) {
+    publishBook : function(host_app, options, ipfs_options, install_urls) {
         var self = this;
 
         if (!fs.existsSync('./book.bon')) {
             console.log('ERROR: book.bon not found!');
+            return;
+        }
+
+        var bookinfo = JSON.parse(fs.readFileSync('./book.bon', 'utf8'));
+
+        if (!bookinfo) {
+            console.log('ERROR: book.bon is malformed.');
             return;
         }
 
@@ -247,13 +259,17 @@ module.exports = {
             fs.renameSync(tempfile, bxpfile);
 
             self.__publishFile(bxpfile, ipfs_options, function(hash) {
+                var title = options["title"] || bookinfo.title
                 var url = connect_base_url + "/connect/book/?"
-                        + "url=" + "ipfs://hash/" + hash + "&" 
+                        + "url=" + urlencode("ipfs://hash/" + hash) + "&" 
+                        + (title ? "title=" + urlencode(title) + "&" : "")
+                        + (bookinfo.version ? "version=" + bookinfo.version + "&" : "")
+                        + (options["image-url"] ? "image=" + urlencode(options["image-url"]) + "&" : "")
                         + "host-app=" + host_app;
 
                 Object.keys(install_urls).forEach(function(platform) {
                     if (install_urls[platform] !== 'auto') {
-                        url = url + "&" + platform + "-install-url=" + install_urls[platform];
+                        url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
                     }
                 });
         

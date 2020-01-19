@@ -196,6 +196,14 @@ if (command === 'publish') {
                 default: 'jamkit',
                 describe: 'Specify the custom url scheme that host app uses.'
             })
+            .option('title', {
+                default: '',
+                describe: 'Specify the title of the app.'
+            })
+            .option('image-url', {
+                default: '',
+                describe: 'Specify the image url of the app.'
+            })
             .option('apple-install-url', {
                 default: 'auto',
                 describe: 'Specify the install url for iOS.'
@@ -208,6 +216,9 @@ if (command === 'publish') {
             .argv
 
         commands.publishApp(argv['host-app'], {
+            "title":argv['title'],
+            "image-url":argv['image-url']
+        }, {
             'host': argv['ipfs-host'], 
             'port': argv['ipfs-port'], 
             'protocol': argv['ipfs-protocol']
@@ -239,6 +250,14 @@ if (command === 'publish') {
                 default: 'jamkit',
                 describe: 'Specify the custom url scheme that host app uses.'
             })
+            .option('title', {
+                default: '',
+                describe: 'Specify the title of the book.'
+            })
+            .option('image-url', {
+                default: '',
+                describe: 'Specify the image url of the book.'
+            })
             .option('apple-install-url', {
                 default: 'auto',
                 describe: 'Specify the install url for iOS.'
@@ -251,6 +270,9 @@ if (command === 'publish') {
             .argv
 
         commands.publishBook(argv['host-app'], {
+            "title":argv['title'],
+            "image-url":argv['image-url']
+        }, {
             'host': argv['ipfs-host'], 
             'port': argv['ipfs-port'], 
             'protocol': argv['ipfs-protocol']
