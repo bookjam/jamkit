@@ -7,9 +7,9 @@
     brew update
     brew install node
 
-### Install jamcmd with npm
+### Install jamkit with npm
 
-    npm install -g jamcmd
+    npm install -g jamkit
 
 ### Install Xcode from the Mac App Store
 
