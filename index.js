@@ -25,7 +25,7 @@ if (command === 'create') {
             .example('$0 create HelloWorld', 'Create an app named HelloWorld')
             .demand(2, 'Name should be specified.')
             .option('app-id', { 
-                default:'io.jamkit.Sample',
+                default:'auto',
                 describe: 'Specify an app identifier.'
             })
             .option('version', { 
@@ -48,11 +48,11 @@ if (command === 'create') {
             .argv
 
         commands.createApp(argv._[1], {
-            app_id:     argv['app-id'],
-            version:    argv['version'],
-            template:   argv['template'],
-            repository: argv['repository'],
-            language:   argv['language']
+            'app-id':     argv['app-id'],
+            'version':    argv['version'],
+            'template':   argv['template'],
+            'repository': argv['repository'],
+            'language':   argv['language']
         });
 
         return;
@@ -83,10 +83,10 @@ if (command === 'create') {
             .argv
 
         commands.createBook(argv._[1], {
-            version:    argv['version'],
-            template:   argv['template'],
-            repository: argv['repository'],
-            language:   argv['language']
+            'version':    argv['version'],
+            'template':   argv['template'],
+            'repository': argv['repository'],
+            'language':   argv['language']
         });
 
         return;
@@ -216,8 +216,8 @@ if (command === 'publish') {
             .argv
 
         commands.publishApp(argv['host-app'], {
-            "title":argv['title'],
-            "image-url":argv['image-url']
+            'title':argv['title'],
+            'image-url':argv['image-url']
         }, {
             'host': argv['ipfs-host'], 
             'port': argv['ipfs-port'], 
@@ -270,8 +270,8 @@ if (command === 'publish') {
             .argv
 
         commands.publishBook(argv['host-app'], {
-            "title":argv['title'],
-            "image-url":argv['image-url']
+            'title':argv['title'],
+            'image-url':argv['image-url']
         }, {
             'host': argv['ipfs-host'], 
             'port': argv['ipfs-port'], 

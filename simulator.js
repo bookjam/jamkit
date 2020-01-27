@@ -298,4 +298,4 @@ module.exports = {
     start : function(platform) {
         return __impl[platform].start();
     }
-};
+}

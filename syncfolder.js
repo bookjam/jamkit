@@ -111,4 +111,4 @@ module.exports = {
         
         process.stdout.write("Copying files to the browser. It may takes several minutes... ");
     }
-};
+}

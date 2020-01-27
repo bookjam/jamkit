@@ -1,6 +1,6 @@
 {
   "name": "jamkit",
-  "version": "0.95.7",
+  "version": "0.95.8",
   "description": "A simple native app framework",
   "main": "index.js",
   "bin": {
@@ -37,7 +37,9 @@
     "sqlite3": "^4.0.6",
     "system-sleep": "^1.3.6",
     "tmp": "^0.0.28",
+    "uglify-js": "^3.7.5",
     "urlencode": "^1.1.0",
+    "uuid": "^3.4.0",
     "xlsx": "^0.14.1",
     "yargs": "^4.7.1",
     "zip-dir": "^1.0.2"

@@ -8,18 +8,21 @@ const fs          = require('fs-extra'),
       simulator   = require('./simulator'),
       shell       = require('./shell'),
       syncfolder  = require('./syncfolder'),
-      urlencode   = require('urlencode');
+      urlencode   = require('urlencode'),
+      uuid        = require('uuid/v4');
 
 const connect_base_url = "https://jamkit.io";
 
 module.exports = {
     createApp : function(name, options) {
+        var self = this;
+
         if (fs.existsSync(name)) {
             console.log('ERROR: ' + name + ' already exists!');
             return;
         }
 
-        template.copy('apps', options.repository, options.template, options.language, name);    
+        template.copy('apps', name, options);
 
         if (!fs.existsSync(name)) {
             console.log('ERROR: template may not exists.');
@@ -29,8 +32,8 @@ module.exports = {
         var bon_path = path.resolve(name, 'package.bon');
         var appinfo = JSON.parse(fs.readFileSync(bon_path, 'utf8'));
 
-        appinfo.id = options.app_id;
-        appinfo.version = options.version;
+        appinfo['id'] = self.__generateAppID(options['app-id']);
+        appinfo['version'] = options['version'];
         
         fs.writeFileSync(bon_path, JSON.stringify(appinfo, null, 4));
     },
@@ -43,7 +46,7 @@ module.exports = {
         
         var appinfo = JSON.parse(fs.readFileSync('./package.bon', 'utf8'));
 
-        if (!appinfo || !appinfo.id) {
+        if (!appinfo || !appinfo['id']) {
             console.log('ERROR: package.bon is malformed.');
             return;
         }
@@ -56,12 +59,12 @@ module.exports = {
                 if (mode === 'jam') {
                     return shell.execute('app id'); // dummy command for promise
                 } else {
-                    return shell.execute('app id ' + appinfo.id);
+                    return shell.execute('app id ' + appinfo['id']);
                 }
             })
             .then(function() {
                 if (mode === 'jam') {
-                    return shell.execute('catalog path resource ' + appinfo.id);
+                    return shell.execute('catalog path resource ' + appinfo['id']);
                 } else {
                     return shell.execute('catalog path resource');
                 }
@@ -71,14 +74,14 @@ module.exports = {
                 syncfolder.start(platform, app_id, './catalogs', resource_path, function() {
                     if (needs_reset) {
                         if (mode === 'jam') {
-                            shell.execute('catalog reset ' + appinfo.id);
+                            shell.execute('catalog reset ' + appinfo['id']);
                         } else {
                             shell.execute('catalog reset');
                         }
                         needs_reset = false;
                     } else {
                         if (mode === 'jam') {
-                            shell.execute('catalog reload ' + appinfo.id);
+                            shell.execute('catalog reload ' + appinfo['id']);
                         } else {
                             shell.execute('catalog reload');
                         }
@@ -100,7 +103,7 @@ module.exports = {
 
         var appinfo = JSON.parse(fs.readFileSync('./package.bon', 'utf8'));
 
-        if (!appinfo || !appinfo.id) {
+        if (!appinfo || !appinfo['id']) {
             console.log('ERROR: package.bon is malformed.');
             return;
         }
@@ -127,7 +130,7 @@ module.exports = {
 
         var appinfo = JSON.parse(fs.readFileSync('./package.bon', 'utf8'));
 
-        if (!appinfo || !appinfo.id) {
+        if (!appinfo || !appinfo['id']) {
             console.log('ERROR: package.bon is malformed.');
             return;
         }
@@ -143,13 +146,13 @@ module.exports = {
             fs.moveSync(tempfile, jamfile);
 
             self.__publishFile(jamfile, ipfs_options, function(hash) {
-                var title = options["title"] || appinfo.title
+                var title = options['title'] || appinfo['title']
                 var url = connect_base_url + "/connect/app/?"
-                        + "app=" + appinfo.id + "&"
+                        + "app=" + appinfo['id'] + "&"
                         + "url=" + urlencode("ipfs://hash/" + hash) + "&" 
                         + (title ? "title=" + urlencode(title) + "&" : "")
-                        + (appinfo.version ? "version=" + appinfo.version + "&" : "")
-                        + (options["image-url"] ? "image=" + urlencode(options["image-url"]) + "&" : "")
+                        + (appinfo['version'] ? "version=" + appinfo['version'] + "&" : "")
+                        + (options['image-url'] ? "image=" + urlencode(options['image-url']) + "&" : "")
                         + "host-app=" + host_app;
 
                 Object.keys(install_urls).forEach(function(platform) {
@@ -169,7 +172,7 @@ module.exports = {
             return;
         }
 
-        template.copy('books', options.repository, options.template, options.language, name);    
+        template.copy('books', name, options);
 
         if (!fs.existsSync(name)) {
             console.log('ERROR: template may not exists.');
@@ -179,7 +182,7 @@ module.exports = {
         var bon_path = path.resolve(name, 'book.bon');
         var bookinfo = JSON.parse(fs.readFileSync(bon_path, 'utf8'));
 
-        bookinfo.version = options.version;
+        bookinfo['version'] = options['version'];
 
         fs.writeFileSync(bon_path, JSON.stringify(bookinfo, null, 4));
     },
@@ -259,12 +262,12 @@ module.exports = {
             fs.renameSync(tempfile, bxpfile);
 
             self.__publishFile(bxpfile, ipfs_options, function(hash) {
-                var title = options["title"] || bookinfo.title
+                var title = options['title'] || bookinfo['title']
                 var url = connect_base_url + "/connect/book/?"
                         + "url=" + urlencode("ipfs://hash/" + hash) + "&" 
                         + (title ? "title=" + urlencode(title) + "&" : "")
-                        + (bookinfo.version ? "version=" + bookinfo.version + "&" : "")
-                        + (options["image-url"] ? "image=" + urlencode(options["image-url"]) + "&" : "")
+                        + (bookinfo['version'] ? "version=" + bookinfo['version'] + "&" : "")
+                        + (options['image-url'] ? "image=" + urlencode(options['image-url']) + "&" : "")
                         + "host-app=" + host_app;
 
                 Object.keys(install_urls).forEach(function(platform) {
@@ -284,6 +287,14 @@ module.exports = {
 
         catalog.save_to_file(data[0], path.join(basedir, 'catalog.bon'));
         catalog.save_to_database(data[0], data[1], path.join(basedir, 'catalog.sqlite'));
+    },
+
+    __generateAppID : function(wanted_app_id) {
+        if (wanted_app_id === 'auto') {
+            return 'com.yourdomain.' + uuid()
+        }
+
+        return wanted_app_id;
     },
 
     __compressFolder : function(zipPath, callback) {
@@ -315,4 +326,4 @@ module.exports = {
             callback(result[0]['hash']);
         });
     } 
-};
+}
