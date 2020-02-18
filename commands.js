@@ -291,7 +291,7 @@ module.exports = {
 
     __generateAppID : function(wanted_app_id) {
         if (wanted_app_id === 'auto') {
-            return 'com.yourdomain.' + uuid()
+            return 'com.yourdomain.' + uuid();
         }
 
         return wanted_app_id;
@@ -302,6 +302,10 @@ module.exports = {
             saveTo: zipPath,
             filter: function(fullPath, stat) {
                 if (path.basename(fullPath).startsWith(".")) {
+                    return false;
+                }
+
+                if (['.jam','.bxp'].includes(path.extname(fullPath)) {
                     return false;
                 }
 
