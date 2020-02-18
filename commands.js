@@ -305,7 +305,7 @@ module.exports = {
                     return false;
                 }
 
-                if (['.jam','.bxp'].includes(path.extname(fullPath)) {
+                if (['.jam','.bxp'].includes(path.extname(fullPath))) {
                     return false;
                 }
 
