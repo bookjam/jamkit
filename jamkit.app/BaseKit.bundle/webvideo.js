@@ -1,73 +1,70 @@
-var player = null;
+var __$_ = (function() {
+    return {
+        player: null
+    }
+})()
 
 function configureVideo(element, url, options) {
-    player = element;
+    __$_.player = element;
 
-    __configureOptions(player, options);
-    __configureEvents(player);
-    
-    player.src = url;
-}
-
-function __configureOptions(player, options) {
     if (options.autoplay === "1") {
-        player.autoplay = true;
+        __$_.player.autoplay = true;
     }
-    
-    if (options.loop === "1") {
-        player.loop = true;
-    }
-    
-    if (options.playsinline === "1") {
-        player.setAttribute('playsinline', '');
-        player.setAttribute('webkit-playsinline', '');
-    }
-    
-    if (options.controls === "0") {
-        player.controls = false;
-    }
-}
 
-function __configureEvents(player) {
-    player.onloadstart = function(event) {
+    if (options.loop === "1") {
+        __$_.player.loop = true;
+    }
+
+    if (options.playsinline === "1") {
+        __$_.player.setAttribute('playsinline', '');
+        __$_.player.setAttribute('webkit-playsinline', '');
+    }
+
+    if (options.controls === "0") {
+        __$_.player.controls = false;
+    }
+
+    __$_.player.onloadstart = function(event) {
         window.location = "video://ready";
     }
-    
-    player.onplay = function(event) {
+
+    __$_.player.onplay = function(event) {
         window.location = "video://playing";
     }
-    
-    player.onpause = function(event) {
+
+    __$_.player.onpause = function(event) {
         window.location = "video://paused";
     }
-    
-    player.onended = function(event) {
+
+    __$_.player.onended = function(event) {
         window.location = "video://finished";
     }
+
+    __$_.player.src = url;
 }
 
 function playVideo() {
-    player.play();
+    __$_.player.play();
 }
 
 function pauseVideo() {
-    player.pause();
+    __$_.player.pause();
 }
 
 function stopVideo() {
-    player.stop();
+    __$_.player.stop();
 }
 
 function seekTo(time) {
-    player.currentTime = time;
+    __$_.player.currentTime = time;
 }
 
 function getCurrentTime() {
-    return player.currentTime;
+    return __$_.player.currentTime;
 }
 
 function getDuration() {
-    return player.duration;
+    return __$_.player.duration;
 }
 
 function setRate(rate) {
@@ -75,6 +72,12 @@ function setRate(rate) {
 
 function getRate() {
     return 1.0;
+}
+
+function mute() {
+}
+
+function unmute() {
 }
 
 function enterFullscreen() {

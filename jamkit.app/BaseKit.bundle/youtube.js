@@ -1,43 +1,44 @@
-var player = null;
-var iframe = null;
-var current_video_id = null;
-var suggested_quality = 'default'
-var plays_when_ready = false;
-var turns_off_captions = false;
-var buffering_video = false;
+var __$_ = (function() {
+    return {
+        player: null,
+        current_video_id: null,
+        suggested_quality: 'default',
+        plays_when_ready: false,
+        turns_off_captions: false,
+        buffering_video: false
+    }
+})()
 
 function configureVideo(element, video_id, quality, options) {
-    player = new YT.Player(element, {
+    __$_.player = new YT.Player(element, {
         width: '100%',
         height: '100%',
         playerVars: options,
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange,
-            'onError': onError
+            'onError': onPlayerError
         }
     });
 
-    iframe = document.getElementById(element);
-
-    current_video_id = video_id;
-    suggested_quality = quality;
-    buffering_video = false;
+    __$_.current_video_id = video_id;
+    __$_.suggested_quality = quality;
+    __$_.buffering_video = false;
 
     if (options.autoplay === "1") {
-        plays_when_ready = true;
+        __$_.plays_when_ready = true;
     }
     
     if (options.captions === "0") {
-        turns_off_captions = true;
+        __$_.turns_off_captions = true;
     }
 }
 
 function onPlayerReady(event) {
-    player.cueVideoById(current_video_id, 0, suggested_quality);
+    __$_.player.cueVideoById(__$_.current_video_id, 0, __$_.suggested_quality);
 
-    if (plays_when_ready) {
-        player.playVideo();
+    if (__$_.plays_when_ready) {
+        __$_.player.playVideo();
     }
 }
 
@@ -45,8 +46,8 @@ function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.CUED) {
         window.location = "video://ready";
 
-        if (turns_off_captions) {
-            player.unloadModule("captions");
+        if (__$_.turns_off_captions) {
+            __$_.player.unloadModule("captions");
         }
 
         return;
@@ -55,8 +56,8 @@ function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.PLAYING) {
         window.location = "video://playing";
 
-        if (turns_off_captions) {
-            player.unloadModule("captions");
+        if (__$_.turns_off_captions) {
+            __$_.player.unloadModule("captions");
         }
 
         return;
@@ -75,19 +76,19 @@ function onPlayerStateChange(event) {
     }
 
     if (event.data === YT.PlayerState.BUFFERING) {
-        buffering_video = true;
+        __$_.buffering_video = true;
 
         return;
     }
 
     if (event.data === -1 && buffering_video) {
-        buffering_video = false;
+        __$_.buffering_video = false;
 
         return;
     }
 }
 
-function onError(event) {
+function onPlayerError(event) {
     if (event.data == 2) {
         window.location = "video://error/invalid";
 
@@ -114,62 +115,62 @@ function onError(event) {
 }
 
 function loadVideo(video_id) {
-    player.cueVideoById(video_id, 0, suggested_quality);
+    __$_.player.cueVideoById(video_id, 0, suggested_quality);
 
-    current_video_id = video_id;
-    buffering_video = false;
+    __$_.current_video_id = video_id;
+    __$_.buffering_video = false;
 }
 
 function playVideo() {
-    player.playVideo();
+    __$_.player.playVideo();
 }
 
 function pauseVideo() {
-    player.pauseVideo();
+    __$_.player.pauseVideo();
 }
 
 function stopVideo() {
-    player.stopVideo();
+    __$_.player.stopVideo();
 }
 
 function getVideoID() {
-    return current_video_id;
+    return __$_.current_video_id;
 }
 
 function getTitle() {
-    return player.getVideoData().title;
+    return __$_.player.getVideoData().title;
 }
 
 function getAuthor() {
-    return player.getVideoData().author;
+    return __$_.player.getVideoData().author;
 }
 
 function seekTo(time) {
-    player.seekTo(time, true);
+    __$_.player.seekTo(time, true);
 }
 
 function getCurrentTime() {
-    return player.getCurrentTime();
+    return __$_.player.getCurrentTime();
 }
 
 function getDuration() {
-    return player.getDuration();
+    return __$_.player.getDuration();
 }
 
 function setRate(rate) {
-    player.setPlaybackRate(rate);
+    __$_.player.setPlaybackRate(rate);
 }
 
 function getRate() {
-    return player.getPlaybackRate();
+    return __$_.player.getPlaybackRate();
 }
 
 function mute() {
-    player.mute();
+    __$_.player.mute();
 }
 
 function unmute() {
-    player.unMute();
+    __$_.player.unMute();
 }
 
 function enterFullscreen() {
