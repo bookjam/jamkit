@@ -120,7 +120,7 @@ module.exports = {
         })
     },
 
-    publishApp : function(host_app, options, ipfs_options, install_urls) {
+    publishApp : function(host, options, ipfs_options, install_urls) {
         var self = this;
 
         if (!fs.existsSync('./package.bon')) {
@@ -147,13 +147,12 @@ module.exports = {
 
             self.__publishFile(jamfile, ipfs_options, function(hash) {
                 var title = options['title'] || appinfo['title']
-                var url = connect_base_url + "/connect/app/?"
-                        + "app=" + appinfo['id'] + "&"
-                        + "url=" + urlencode("ipfs://hash/" + hash) + "&" 
-                        + (title ? "title=" + urlencode(title) + "&" : "")
-                        + (appinfo['version'] ? "version=" + appinfo['version'] + "&" : "")
-                        + (options['image-url'] ? "image=" + urlencode(options['image-url']) + "&" : "")
-                        + "host-app=" + host_app;
+                var url = (host['url'] || connect_base_url) + "/connect/app/?"
+                        + "app=" + appinfo['id'] + "&" + "url=" + urlencode("ipfs://hash/" + hash)
+                        + (title ? "&" + "title=" + urlencode(title) : "")
+                        + (appinfo['version'] ? "&" + "version=" + appinfo['version'] : "")
+                        + (options['image-url'] ? "&" + "image=" + urlencode(options['image-url']) : "")
+                        + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme'])
 
                 Object.keys(install_urls).forEach(function(platform) {
                     if (install_urls[platform] !== 'auto') {
@@ -236,7 +235,7 @@ module.exports = {
         })
     },
 
-    publishBook : function(host_app, options, ipfs_options, install_urls) {
+    publishBook : function(host, options, ipfs_options, install_urls) {
         var self = this;
 
         if (!fs.existsSync('./book.bon')) {
@@ -263,12 +262,12 @@ module.exports = {
 
             self.__publishFile(bxpfile, ipfs_options, function(hash) {
                 var title = options['title'] || bookinfo['title']
-                var url = connect_base_url + "/connect/book/?"
-                        + "url=" + urlencode("ipfs://hash/" + hash) + "&" 
-                        + (title ? "title=" + urlencode(title) + "&" : "")
-                        + (bookinfo['version'] ? "version=" + bookinfo['version'] + "&" : "")
-                        + (options['image-url'] ? "image=" + urlencode(options['image-url']) + "&" : "")
-                        + "host-app=" + host_app;
+                var url = (host['url'] || connect_base_url) + "/connect/book/?"
+                        + "url=" + urlencode("ipfs://hash/" + hash)
+                        + (title ? "&" + "title=" + urlencode(title) : "")
+                        + (bookinfo['version'] ? "&" + "version=" + bookinfo['version'] : "")
+                        + (options['image-url'] ? "&" + "image=" + urlencode(options['image-url']) : "")
+                        + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme'])
 
                 Object.keys(install_urls).forEach(function(platform) {
                     if (install_urls[platform] !== 'auto') {

@@ -192,9 +192,13 @@ if (command === 'publish') {
                 default: 'https',
                 describe: 'Specify the ipfs protocol, https or http.'
             })
-            .option('host-app', {
+            .option('host-scheme', {
                 default: 'jamkit',
-                describe: 'Specify the custom url scheme that host app uses.'
+                describe: 'Specify the custom scheme that the host app uses.'
+            })
+            .option('host-url', {
+                default: '',
+                describe: 'Specify the url that run the host app automatically.'
             })
             .option('title', {
                 default: '',
@@ -215,7 +219,10 @@ if (command === 'publish') {
             .help('help')
             .argv
 
-        commands.publishApp(argv['host-app'], {
+        commands.publishApp({
+            'scheme':argv['host-scheme'],
+            'url':argv['host-url']
+        }, {
             'title':argv['title'],
             'image-url':argv['image-url']
         }, {
@@ -246,9 +253,13 @@ if (command === 'publish') {
                 default: 'https',
                 describe: 'Specify the ipfs protocol, https or http.'
             })
-            .option('host-app', {
+            .option('host-scheme', {
                 default: 'jamkit',
-                describe: 'Specify the custom url scheme that host app uses.'
+                describe: 'Specify the custom scheme that the host app uses.'
+            })
+            .option('host-url', {
+                default: '',
+                describe: 'Specify the url that run the host app automatically.'
             })
             .option('title', {
                 default: '',
@@ -269,7 +280,10 @@ if (command === 'publish') {
             .help('help')
             .argv
 
-        commands.publishBook(argv['host-app'], {
+        commands.publishBook({
+            'scheme':argv['host-scheme'],
+            'url':argv['host-url']
+        }, {
             'title':argv['title'],
             'image-url':argv['image-url']
         }, {
