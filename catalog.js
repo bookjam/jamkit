@@ -196,10 +196,10 @@ function __unfold_items(values) {
     var unfolded_values = [];
     
     values.forEach(function(item) {
-        var m = /([A-Z]{2}_[A-Z]{3}_[0-9]+)_([0-9]+)-([0-9]+)/.exec(item);
+        var match = /([A-Z]{2}_[A-Z]{3}_[0-9]+)_([0-9]+)-([0-9]+)/.exec(item);
 
-        if (m) {
-            var prefix = m.group(1), first = m.group(2), last = m.group(3);
+        if (match) {
+            var prefix = match[1], first = match[2], last = match[3];
 
             for (var number = parseInt(first); number < parseInt(last) + 1; number++) {
                 unfolded_values.push(vsprintf('%s_%06d', [ prefix, number ]))
@@ -383,10 +383,10 @@ module.exports = {
         });
 
         var products_dict = __rows_to_dict(source['products'], store, 'not-for-sale-(x)');
-        [ 'items', 'stores', 'points', 'required-products', 'required-events', 'required-memberships' ].forEach(function(key) {
+        [ 'stores', 'points', 'required-products', 'required-events', 'required-memberships' ].forEach(function(key) {
             __unfold_list(Object.values(products_dict[0] || {}), key);
         });
-        __unfold_list(Object.values(products_dict[0]), 'items', __unfold_items);
+        __unfold_list(Object.values(products_dict[0] || {}), 'items', __unfold_items);
         if (!is_empty_object(products_dict[0])) {
             data['products'] = products_dict[0];
         }
