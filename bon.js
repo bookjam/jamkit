@@ -336,6 +336,7 @@ BonStringifier.prototype.__stringify_string = function(string) {
 
     if (quote_str) {
         text += '"';
+
         for (var ch of string) {
             if (__REVERSE_ESCAPE_TABLE.hasOwnProperty(ch)) {
                 text += __REVERSE_ESCAPE_TABLE[ch];
@@ -343,6 +344,7 @@ BonStringifier.prototype.__stringify_string = function(string) {
                 text += ch;
             }
         }
+        
         text += '"';
     } else {
         text += string;
