@@ -81,7 +81,7 @@ BonParser.prototype.__read_array = function() {
             }
         }
 
-        throw 'malformed array';
+        throw 'BonParser: ' + 'malformed array';
     }
 }
 
@@ -129,7 +129,7 @@ BonParser.prototype.__read_object = function() {
             }
         }
 
-        throw 'malformed object';
+        throw 'BonParser: ' + 'malformed object';
     }
 }
 
@@ -172,7 +172,7 @@ BonParser.prototype.__read_string = function() {
                 string = string + ch;
             }
 
-            throw 'wrong quoted string';
+            throw 'BonParser: ' + 'wrong quoted string';
         } else {
             while (true) {
                 var ch = this.__peek_char();
@@ -257,7 +257,7 @@ BonStringifier.prototype.__stringify_value = function(value) {
         return this.__stringify_string(value);
     }
 
-    throw 'Unsupported type'
+    throw 'BonStringifier: ' + 'Unsupported type'
 }
 
 BonStringifier.prototype.__stringify_array = function(array) {
@@ -344,7 +344,7 @@ BonStringifier.prototype.__stringify_string = function(string) {
                 text += ch;
             }
         }
-        
+
         text += '"';
     } else {
         text += string;
