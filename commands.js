@@ -8,6 +8,7 @@ const fs          = require('fs-extra'),
       simulator   = require('./simulator'),
       shell       = require('./shell'),
       syncfolder  = require('./syncfolder'),
+      bon         = require('./bon'),
       urlencode   = require('urlencode'),
       uuid        = require('uuid/v4');
 
@@ -30,12 +31,12 @@ module.exports = {
         }
 
         var bon_path = path.resolve(name, 'package.bon');
-        var appinfo = JSON.parse(fs.readFileSync(bon_path, 'utf8'));
+        var appinfo = bon.parse(fs.readFileSync(bon_path, 'utf8'));
 
         appinfo['id'] = self.__generateAppID(options['app-id']);
         appinfo['version'] = options['version'];
         
-        fs.writeFileSync(bon_path, JSON.stringify(appinfo, null, 4));
+        fs.writeFileSync(bon_path, bon.stringify(appinfo));
     },
 
     runApp : function(platform, mode) {
@@ -44,7 +45,7 @@ module.exports = {
             return;
         }
         
-        var appinfo = JSON.parse(fs.readFileSync('./package.bon', 'utf8'));
+        var appinfo = bon.parse(fs.readFileSync('./package.bon', 'utf8'));
 
         if (!appinfo || !appinfo['id']) {
             console.log('ERROR: package.bon is malformed.');
@@ -101,14 +102,15 @@ module.exports = {
             return;
         }
 
-        var appinfo = JSON.parse(fs.readFileSync('./package.bon', 'utf8'));
+        var appinfo = bon.parse(fs.readFileSync('./package.bon', 'utf8'));
 
         if (!appinfo || !appinfo['id']) {
             console.log('ERROR: package.bon is malformed.');
             return;
         }
 
-        var jamfile = path.basename(path.resolve('.')) + '.jam';
+        var basename = path.basename(path.resolve('.'))
+        var jamfile = basename + '.jam';
 
         if (fs.existsSync(jamfile)) {
             fs.unlinkSync(jamfile);
@@ -128,14 +130,15 @@ module.exports = {
             return;
         }
 
-        var appinfo = JSON.parse(fs.readFileSync('./package.bon', 'utf8'));
+        var appinfo = bon.parse(fs.readFileSync('./package.bon', 'utf8'));
 
         if (!appinfo || !appinfo['id']) {
             console.log('ERROR: package.bon is malformed.');
             return;
         }
 
-        var jamfile = path.basename(path.resolve('.')) + '.jam';
+        var basename = path.basename(path.resolve('.'))
+        var jamfile = basename + '.jam';
 
         if (fs.existsSync(jamfile)) {
             fs.unlinkSync(jamfile);
@@ -179,11 +182,11 @@ module.exports = {
         }
 
         var bon_path = path.resolve(name, 'book.bon');
-        var bookinfo = JSON.parse(fs.readFileSync(bon_path, 'utf8'));
+        var bookinfo = bon.parse(fs.readFileSync(bon_path, 'utf8'));
 
         bookinfo['version'] = options['version'];
 
-        fs.writeFileSync(bon_path, JSON.stringify(bookinfo, null, 4));
+        fs.writeFileSync(bon_path, bon.stringify(bookinfo));
     },
 
     runBook : function(platform) {
@@ -223,7 +226,8 @@ module.exports = {
             return;
         }
 
-        var bxpfile = path.basename(path.resolve('.')) + '.bxp';
+        var basename = path.basename(path.resolve('.'))
+        var bxpfile = basename + '.bxp';
 
         if (fs.existsSync(bxpfile)) {
             fs.unlinkSync(bxpfile);
@@ -243,14 +247,15 @@ module.exports = {
             return;
         }
 
-        var bookinfo = JSON.parse(fs.readFileSync('./book.bon', 'utf8'));
+        var bookinfo = bon.parse(fs.readFileSync('./book.bon', 'utf8'));
 
         if (!bookinfo) {
             console.log('ERROR: book.bon is malformed.');
             return;
         }
 
-        var bxpfile = path.basename(path.resolve('.')) + '.bxp';
+        var basename = path.basename(path.resolve('.'))
+        var bxpfile = basename + '.bxp';
         
         if (fs.existsSync(bxpfile)) {
             fs.unlinkSync(bxpfile);
@@ -263,7 +268,7 @@ module.exports = {
             self.__publishFile(bxpfile, ipfs_options, function(hash) {
                 var title = options['title'] || bookinfo['title']
                 var url = (host['url'] || connect_base_url) + "/connect/book/?"
-                        + "url=" + urlencode("ipfs://hash/" + hash)
+                        + "book=" + basename + "&" + "url=" + urlencode("ipfs://hash/" + hash)
                         + (title ? "&" + "title=" + urlencode(title) : "")
                         + (bookinfo['version'] ? "&" + "version=" + bookinfo['version'] : "")
                         + (options['image-url'] ? "&" + "image=" + urlencode(options['image-url']) : "")
