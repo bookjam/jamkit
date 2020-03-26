@@ -28,7 +28,9 @@ BonParser.prototype.parse = function(text) {
 
     try {
         var value = this.__read_value();
+
         this.__skip_spaces();
+        
         if (!this.__peek_char()) {
             return value;
         }
