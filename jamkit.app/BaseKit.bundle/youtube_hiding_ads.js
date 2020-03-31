@@ -3,17 +3,18 @@
     var hiding_ads_style = iframe.createElement('style');
 
     hiding_ads_style.innerHTML = `
-        #watch7-sidebar-ads,
-        .video-ads,
-        .ytp-ad-progress-list,
-        #watch-channel-brand-div,
         .ad-container,
-        #ad_creative_3,
-        #footer-ads,
         .ad-div,
         .masthead-ad-control,
+        .video-ads,
+        .ytp-ad-progress-list,
+        #ad_creative_3,
+        #footer-ads,
         #masthead-ad,
-        #player-ads {
+        #player-ads,
+        .ytd-mealbar-promo-renderer,
+        #watch-channel-brand-div,
+        #watch7-sidebar-ads {
             display: none !important;
         }
     `;
