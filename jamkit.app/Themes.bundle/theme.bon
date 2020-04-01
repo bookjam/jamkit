@@ -1,0 +1,90 @@
+{
+    "White":{
+        "statusbar-style":"Default",
+        "text-color":#000000,
+        "background-color":#ffffff,
+        "label-colors":[
+            #232323, #545454, #737373
+        ],
+        "menu-colors":[
+            #e5e5e5, #f6f6f6, #ffffff
+        ]
+    },
+    "Sepia":{
+        "statusbar-style":"Default",
+        "text-color":#5f4b32,
+        "background-color":#fcf1d9,
+        "label-colors":[
+            #232323, #545454, #737373
+        ],
+        "menu-colors":[
+            #eedebd, #f3e6cb, #fcf1d9
+        ]
+    },
+    "Gray":{
+        "statusbar-style":"Default",
+        "text-color":#000000,
+        "background-color":#d5d5d5,
+        "label-colors":[
+            #232323, #545454, #737373
+        ],
+        "menu-colors":[
+            #e5e5e5, #f6f6f6, #ffffff
+        ]
+    },
+	"Paper":{
+        "statusbar-style":"Default",
+        "text-color":#000000,
+        "background-color":#ffffff,
+        "label-colors":[
+            #232323, #545454, #737373
+        ],
+        "menu-colors":[
+            #e5e5e5, #f6f6f6, #ffffff
+        ]
+	},
+    "Night":{
+        "statusbar-style":"LightContent",
+        "text-color":#bbbbbb,
+        "background-color":#000000,
+        "label-colors":[
+            #d1d1d1, #969696, #7b7b7b
+        ],
+        "menu-colors":[
+            #272727, #161616, #0d0d0d
+        ]
+    },
+    "Comic":{
+        "statusbar-style":"Default",
+        "text-color":#000000,
+        "background-color":#ffffff,
+        "label-colors":[
+            #232323, #545454, #737373
+        ],
+        "menu-colors":[
+            #e5e5e5, #f6f6f6, #ffffff
+        ]
+    },
+    "Webtoon":{
+        "statusbar-style":"Default",
+        "text-color":#000000,
+        "background-color":#ffffff,
+        "label-colors":[
+            #232323, #545454, #737373
+        ],
+        "menu-colors":[
+            #e5e5e5, #f6f6f6, #ffffff
+        ]
+    },
+    "Audio":{
+        "statusbar-style":"Default",
+        "text-color":#000000,
+        "background-color":#ffffff,
+        "label-colors":[
+            #232323, #545454, #737373
+        ],
+        "menu-colors":[
+            #e5e5e5, #f6f6f6, #ffffff
+        ]
+    }
+}
