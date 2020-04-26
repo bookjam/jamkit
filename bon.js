@@ -112,13 +112,7 @@ BonParser.prototype.__read_object = function() {
 
             this.__skip_spaces();
 
-            var value = this.__read_value();
-
-            if (!value) {
-                break;
-            }
-
-            object[key] = value;
+            object[key] = this.__read_value();
 
             this.__skip_spaces();
 
