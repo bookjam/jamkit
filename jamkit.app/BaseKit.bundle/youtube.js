@@ -81,7 +81,7 @@ function onPlayerStateChange(event) {
         return;
     }
 
-    if (event.data === -1 && buffering_video) {
+    if (event.data === -1 && __$_.buffering_video) {
         __$_.buffering_video = false;
 
         return;
