@@ -1,11 +1,9 @@
 const net   = require('net'),
-      utils = require('./utils'),
-      host  = '127.0.0.1',
-      port  = 8888;
+      utils = require('./utils');
 
 var client, callbacks, lines;
 
-function __connect_to_host(timeout, callback) {
+function __connect_to_host(host, port, timeout, callback) {
     var started_time = new Date().getTime();
 
     client = net.connect({ host:host, port:port }, function() {
@@ -17,7 +15,7 @@ function __connect_to_host(timeout, callback) {
 
         if (timeout > 0) {
             setTimeout(function() {
-                __connect_to_host(timeout - 100, callback);
+                __connect_to_host(host, port, timeout - 100, callback);
             }, 100);
         } else {
             console.log("ERROR: Failed to establish connection!");
@@ -26,9 +24,9 @@ function __connect_to_host(timeout, callback) {
 };
 
 module.exports = {
-    ready : function(timeout) {
+    ready : function(host, port, timeout) {
         return new Promise(function(resolve, reject) {
-            __connect_to_host(timeout, function() {
+            __connect_to_host(host, port, timeout, function() {
                 resolve();
             });
         });
@@ -78,9 +76,5 @@ module.exports = {
 
     close : function() {
         client.end();
-    }, 
-
-    port : function() {
-        return port;
     }
 }

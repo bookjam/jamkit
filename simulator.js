@@ -170,11 +170,11 @@ var __impl = {
     },
 
     "android": {
-        start : function() {
+        start : function(port) {
             var self = this;
 
             return new Promise(function(resolve, reject) {
-                if (self.__start_device() && self.__forward_port()) {
+                if (self.__start_device() && self.__forward_port(port)) {
                     self.__launch_app(function(app_id) {
                         if (app_id) {
                             resolve(app_id);
@@ -212,9 +212,7 @@ var __impl = {
             return false;
         },
 
-        __forward_port : function() {
-            var port = shell.port();
-
+        __forward_port : function(port) {
             if (avdctl.forward("tcp:" + port, "tcp:" + port)) {
                 return true;
             }
@@ -295,7 +293,7 @@ var __impl = {
 };
 
 module.exports = {
-    start : function(platform) {
-        return __impl[platform].start();
+    start : function(platform, port) {
+        return __impl[platform].start(port);
     }
 }

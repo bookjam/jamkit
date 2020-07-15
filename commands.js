@@ -39,7 +39,7 @@ module.exports = {
         fs.writeFileSync(bon_path, bon.stringify(appinfo));
     },
 
-    runApp : function(platform, mode) {
+    runApp : function(platform, mode, shell_options) {
         if (!fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found.');
             return;
@@ -52,8 +52,8 @@ module.exports = {
             return;
         }
 
-        simulator.start(platform).then(function(app_id) {
-            shell.ready(60 * 1000).then(function() {  // 1 minute
+        simulator.start(platform, shell_options['port']).then(function(app_id) {
+            shell.ready(shell_options['host'], shell_options['port'], 60 * 1000).then(function() {  // 1 minute
                 return shell.open();
             })
             .then(function() {
@@ -137,35 +137,53 @@ module.exports = {
             return;
         }
 
-        var basename = path.basename(path.resolve('.'))
-        var jamfile = basename + '.jam';
-
-        if (fs.existsSync(jamfile)) {
-            fs.unlinkSync(jamfile);
-        }
-
-        var tempfile = tmp.tmpNameSync();
-        self.__compressFolder(tempfile, function() {
-            fs.moveSync(tempfile, jamfile);
-
-            self.__publishFile(jamfile, ipfs_options, function(hash) {
-                var title = options['title'] || appinfo['title']
-                var url = (host['url'] || connect_base_url) + "/connect/app/?"
-                        + "app=" + appinfo['id'] + "&" + "url=" + urlencode("ipfs://hash/" + hash)
-                        + (title ? "&" + "title=" + urlencode(title) : "")
-                        + (appinfo['version'] ? "&" + "version=" + appinfo['version'] : "")
-                        + (options['image-url'] ? "&" + "image=" + urlencode(options['image-url']) : "")
-                        + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme'])
-
-                Object.keys(install_urls).forEach(function(platform) {
-                    if (install_urls[platform] !== 'auto') {
-                        url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
-                    }
+        if (!options['app-url']) {
+            var basename = path.basename(path.resolve('.'))
+            var jamfile = basename + '.jam';
+    
+            if (fs.existsSync(jamfile)) {
+                fs.unlinkSync(jamfile);
+            }
+    
+            var tempfile = tmp.tmpNameSync();
+            self.__compressFolder(tempfile, function() {
+                fs.moveSync(tempfile, jamfile);
+    
+                self.__publishFile(jamfile, ipfs_options, function(hash) {
+                    var title = options['title'] || appinfo['title']
+                    var url = (host['url'] || connect_base_url) + "/connect/app/?"
+                            + "app=" + appinfo['id'] + "&" + "url=" + urlencode("ipfs://hash/" + hash)
+                            + (title ? "&" + "title=" + urlencode(title) : "")
+                            + (appinfo['version'] ? "&" + "version=" + appinfo['version'] : "")
+                            + (options['image-url'] ? "&" + "image=" + urlencode(options['image-url']) : "")
+                            + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme'])
+    
+                    Object.keys(install_urls).forEach(function(platform) {
+                        if (install_urls[platform] !== 'auto') {
+                            url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
+                        }
+                    });
+    
+                    console.log(url);
                 });
-
-                console.log(url);
             });
-        })
+        } else {
+            var title = options['title'] || appinfo['title']
+            var url = (host['url'] || connect_base_url) + "/connect/app/?"
+                    + "app=" + appinfo['id'] + "&" + "url=" + urlencode(options['app-url'])
+                    + (title ? "&" + "title=" + urlencode(title) : "")
+                    + (appinfo['version'] ? "&" + "version=" + appinfo['version'] : "")
+                    + (options['image-url'] ? "&" + "image=" + urlencode(options['image-url']) : "")
+                    + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme'])
+
+            Object.keys(install_urls).forEach(function(platform) {
+                if (install_urls[platform] !== 'auto') {
+                    url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
+                }
+            });
+
+            console.log(url);
+        }
     },
 
     createBook : function(name, options) {
@@ -189,14 +207,14 @@ module.exports = {
         fs.writeFileSync(bon_path, bon.stringify(bookinfo));
     },
 
-    runBook : function(platform) {
+    runBook : function(platform, shell_options) {
         if (!fs.existsSync('./book.bon')) {
             console.log('ERROR: book.bon not found!');
             return;
         }
 
-        simulator.start(platform).then(function(app_id) {
-            shell.ready(60 * 1000).then(function() { // 1 minute
+        simulator.start(platform, shell_options['port']).then(function(app_id) {
+            shell.ready(shell_options['host'], shell_options['port'], 60 * 1000).then(function() { // 1 minute
                 return shell.open();
             })
             .then(function() {
@@ -254,35 +272,54 @@ module.exports = {
             return;
         }
 
-        var basename = path.basename(path.resolve('.'))
-        var bxpfile = basename + '.bxp';
-        
-        if (fs.existsSync(bxpfile)) {
-            fs.unlinkSync(bxpfile);
+        if (!options['app-url']) {
+            var basename = path.basename(path.resolve('.'))
+            var bxpfile = basename + '.bxp';
+            
+            if (fs.existsSync(bxpfile)) {
+                fs.unlinkSync(bxpfile);
+            }
+    
+            var tempfile = tmp.tmpNameSync();
+            self.__compressFolder(tempfile, function() {
+                fs.renameSync(tempfile, bxpfile);
+    
+                self.__publishFile(bxpfile, ipfs_options, function(hash) {
+                    var title = options['title'] || bookinfo['title']
+                    var url = (host['url'] || connect_base_url) + "/connect/book/?"
+                            + "book=" + basename + "&" + "url=" + urlencode("ipfs://hash/" + hash)
+                            + (title ? "&" + "title=" + urlencode(title) : "")
+                            + (bookinfo['version'] ? "&" + "version=" + bookinfo['version'] : "")
+                            + (options['image-url'] ? "&" + "image=" + urlencode(options['image-url']) : "")
+                            + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme'])
+    
+                    Object.keys(install_urls).forEach(function(platform) {
+                        if (install_urls[platform] !== 'auto') {
+                            url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
+                        }
+                    });
+            
+                    console.log(url);
+                });
+            });
+        } else {
+            var title = options['title'] || bookinfo['title']
+            var url = (host['url'] || connect_base_url) + "/connect/book/?"
+                    + "book=" + basename + "&" + "url=" + urlencode(options['app-url'])
+                    + (title ? "&" + "title=" + urlencode(title) : "")
+                    + (bookinfo['version'] ? "&" + "version=" + bookinfo['version'] : "")
+                    + (options['image-url'] ? "&" + "image=" + urlencode(options['image-url']) : "")
+                    + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme'])
+
+            Object.keys(install_urls).forEach(function(platform) {
+                if (install_urls[platform] !== 'auto') {
+                    url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
+                }
+            });
+    
+            console.log(url);
         }
 
-        var tempfile = tmp.tmpNameSync();
-        self.__compressFolder(tempfile, function() {
-            fs.renameSync(tempfile, bxpfile);
-
-            self.__publishFile(bxpfile, ipfs_options, function(hash) {
-                var title = options['title'] || bookinfo['title']
-                var url = (host['url'] || connect_base_url) + "/connect/book/?"
-                        + "book=" + basename + "&" + "url=" + urlencode("ipfs://hash/" + hash)
-                        + (title ? "&" + "title=" + urlencode(title) : "")
-                        + (bookinfo['version'] ? "&" + "version=" + bookinfo['version'] : "")
-                        + (options['image-url'] ? "&" + "image=" + urlencode(options['image-url']) : "")
-                        + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme'])
-
-                Object.keys(install_urls).forEach(function(platform) {
-                    if (install_urls[platform] !== 'auto') {
-                        url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
-                    }
-                });
-        
-                console.log(url);
-            });
-        });
     },
 
     generateDatabase : function(target, store, file) {

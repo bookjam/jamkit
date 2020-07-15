@@ -108,10 +108,21 @@ if (command === 'run') {
                 default: 'main',
                 describe: 'Specify the run mode, main or jam'
             })
+            .option('shell-host', { 
+                default: '127.0.0.1',
+                describe: 'Specify the shell host.'
+            })
+            .option('shell-port', { 
+                default: '8888',
+                describe: 'Specify the shell port.'
+            })
             .help('help')
             .argv
 
-        commands.runApp(argv['platform'], argv['mode']);
+        commands.runApp(argv['platform'], argv['mode'], {
+            'host': argv['shell-host'], 
+            'port': argv['shell-port']
+        });
     
         return;
     }
@@ -124,10 +135,21 @@ if (command === 'run') {
                 default: (process.platform === 'win32') ? 'android' : 'ios',
                 describe: 'Specify the platform, ios or android'
             })
+            .option('shell-host', { 
+                default: '127.0.0.1',
+                describe: 'Specify the shell host.'
+            })
+            .option('shell-port', { 
+                default: '8888',
+                describe: 'Specify the shell port.'
+            })
             .help('help')
             .argv
 
-        commands.runBook(argv['platform']);
+        commands.runBook(argv['platform'], {
+            'host': argv['shell-host'], 
+            'port': argv['shell-port']
+        });
     
         return;
     }
@@ -180,18 +202,6 @@ if (command === 'publish') {
         argv = options.reset()
             .usage('Usage: $0 publish [option, ...]')
             .example('$0 publish', 'Publish a package to IPFS. App must be in the current working directory.')
-            .option('ipfs-host', { 
-                default: 'ipfs.infura.io',
-                describe: 'Specify the ipfs host.'
-            })
-            .option('ipfs-port', { 
-                default: '5001',
-                describe: 'Specify the ipfs port.'
-            })
-            .option('ipfs-protocol', { 
-                default: 'https',
-                describe: 'Specify the ipfs protocol, https or http.'
-            })
             .option('host-scheme', {
                 default: 'jamkit',
                 describe: 'Specify the custom scheme that the host app uses.'
@@ -207,6 +217,22 @@ if (command === 'publish') {
             .option('image-url', {
                 default: '',
                 describe: 'Specify the image url of the app.'
+            })
+            .option('app-url', {
+                default: '',
+                describe: 'Specify the url of the app.'
+            })
+            .option('ipfs-host', { 
+                default: 'ipfs.infura.io',
+                describe: 'Specify the ipfs host.'
+            })
+            .option('ipfs-port', { 
+                default: '5001',
+                describe: 'Specify the ipfs port.'
+            })
+            .option('ipfs-protocol', { 
+                default: 'https',
+                describe: 'Specify the ipfs protocol, https or http.'
             })
             .option('apple-install-url', {
                 default: 'auto',
@@ -224,7 +250,8 @@ if (command === 'publish') {
             'url':argv['host-url']
         }, {
             'title':argv['title'],
-            'image-url':argv['image-url']
+            'image-url':argv['image-url'],
+            'app-url':argv['app-url']
         }, {
             'host': argv['ipfs-host'], 
             'port': argv['ipfs-port'], 
@@ -241,18 +268,6 @@ if (command === 'publish') {
         argv = options.reset()
             .usage('Usage: $0 publish [option, ...]')
             .example('$0 publish', 'Publish a package to IPFS. Book must be in the current working directory.')
-            .option('ipfs-host', { 
-                default: 'ipfs.infura.io',
-                describe: 'Specify the ipfs host.'
-            })
-            .option('ipfs-port', { 
-                default: '5001',
-                describe: 'Specify the ipfs port.'
-            })
-            .option('ipfs-protocol', { 
-                default: 'https',
-                describe: 'Specify the ipfs protocol, https or http.'
-            })
             .option('host-scheme', {
                 default: 'jamkit',
                 describe: 'Specify the custom scheme that the host app uses.'
@@ -268,6 +283,22 @@ if (command === 'publish') {
             .option('image-url', {
                 default: '',
                 describe: 'Specify the image url of the book.'
+            })
+            .option('app-url', {
+                default: '',
+                describe: 'Specify the url of the app.'
+            })
+            .option('ipfs-host', { 
+                default: 'ipfs.infura.io',
+                describe: 'Specify the ipfs host.'
+            })
+            .option('ipfs-port', { 
+                default: '5001',
+                describe: 'Specify the ipfs port.'
+            })
+            .option('ipfs-protocol', { 
+                default: 'https',
+                describe: 'Specify the ipfs protocol, https or http.'
             })
             .option('apple-install-url', {
                 default: 'auto',
@@ -285,7 +316,8 @@ if (command === 'publish') {
             'url':argv['host-url']
         }, {
             'title':argv['title'],
-            'image-url':argv['image-url']
+            'image-url':argv['image-url'],
+            'app-url':argv['app-url']
         }, {
             'host': argv['ipfs-host'], 
             'port': argv['ipfs-port'], 
