@@ -1,6 +1,6 @@
 const shell = require('shelljs'),
       child_process = require('child_process'),
-      sleep = require('system-sleep')
+      sleep = require('sleep')
 
 module.exports = {
     start : function(device_name) {
@@ -54,7 +54,7 @@ module.exports = {
 
         if (result.code === 0) {
             if (!result.stderr) {
-                sleep(3000);
+                sleep.sleep(3);
             }
 
             return true;
