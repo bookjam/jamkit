@@ -44,6 +44,10 @@ if (command === 'create') {
                 default: 'en',
                 describe: 'Specify a language.' 
             })
+            .option('theme', { 
+                default: '',
+                describe: 'Specify a theme.' 
+            })
             .help('help')
             .argv
 
@@ -52,7 +56,8 @@ if (command === 'create') {
             'version':    argv['version'],
             'template':   argv['template'],
             'repository': argv['repository'],
-            'language':   argv['language']
+            'language':   argv['language'],
+            'theme':      argv['theme']
         });
 
         return;
@@ -79,6 +84,10 @@ if (command === 'create') {
                 default: 'en',
                 describe: 'Specify a language.' 
             })
+            .option('theme', { 
+                default: '',
+                describe: 'Specify a theme.' 
+            })
             .help('help')
             .argv
 
@@ -86,7 +95,8 @@ if (command === 'create') {
             'version':    argv['version'],
             'template':   argv['template'],
             'repository': argv['repository'],
-            'language':   argv['language']
+            'language':   argv['language'],
+            'theme':      argv['theme']
         });
 
         return;
