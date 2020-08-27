@@ -33,7 +33,7 @@ module.exports = {
         var bon_path = path.resolve(name, 'package.bon');
         var appinfo = bon.parse(fs.readFileSync(bon_path, 'utf8'));
 
-        appinfo['id'] = self.__generateAppID(options['app-id']);
+        appinfo['id'] = self.__generateAppID(options['app-id'], appinfo['id']);
         appinfo['version'] = options['version'];
         
         fs.writeFileSync(bon_path, bon.stringify(appinfo));
@@ -330,9 +330,13 @@ module.exports = {
         catalog.save_to_database(data[0], data[1], path.join(basedir, 'catalog.sqlite'));
     },
 
-    __generateAppID : function(wanted_app_id) {
+    __generateAppID : function(wanted_app_id, template_app_id) {
         if (wanted_app_id === 'auto') {
             return 'com.yourdomain.' + uuid();
+        }
+
+        if (wanted_app_id === 'manual') {
+            return template_app_id;
         }
 
         return wanted_app_id;

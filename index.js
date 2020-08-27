@@ -26,7 +26,7 @@ if (command === 'create') {
             .demand(2, 'Name should be specified.')
             .option('app-id', { 
                 default:'auto',
-                describe: 'Specify an app identifier.'
+                describe: 'Specify an app identifier or `manual`'
             })
             .option('version', { 
                 default: '1.0',
