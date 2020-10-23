@@ -2,10 +2,21 @@ const shell = require('shelljs'),
       child_process = require('child_process'),
       sleep = require('sleep')
 
+function _emulator_path() {
+    var command = (process.platform === 'win32') ? 'where emulator' : 'which emulator';
+    var result = shell.exec(command, { silent:true });
+        
+    if (result.code === 0) {
+        return result.stdout.trim();
+    }
+
+    return 'emulator';
+}
+
 module.exports = {
     start : function(device_name) {
         var args = [ '-avd', device_name ];
-        var subprocess = child_process.spawn(this.__emulator_path(), args, { 
+        var subprocess = child_process.spawn(_emulator_path(), args, { 
             detached: true,
             stdio: 'ignore'
         });
@@ -16,7 +27,7 @@ module.exports = {
     },
 
     list : function() {
-        var command = this.__emulator_path() + ' -list-avds';
+        var command = _emulator_path() + ' -list-avds';
         var result = shell.exec(command, { silent:true });
 
         if (result.code === 0) {
@@ -120,16 +131,5 @@ module.exports = {
         }
 
         return false;
-    },
-
-    __emulator_path : function() {
-        var command = (process.platform === 'win32') ? 'where emulator' : 'which emulator';
-        var result = shell.exec(command, { silent:true });
-        
-        if (result.code === 0) {
-            return result.stdout.trim();
-        }
-
-        return 'emulator';
     }
 }

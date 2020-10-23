@@ -3,7 +3,7 @@ const chokidar = require('chokidar'),
       fs       = require('fs-extra'),
       avdctl   = require('./avdctl-helper')
 
-var __impl = {
+var _impl = {
     "ios" : {
         sync : function(app_id, src, dest) {
             if (fs.existsSync(dest)) {
@@ -56,7 +56,7 @@ module.exports = {
         
         watcher
             .on('ready', function() {
-                __impl[platform].sync(app_id, src, dest);
+                _impl[platform].sync(app_id, src, dest);
                 is_ready = true;
 
                 console.log("Done");
@@ -67,7 +67,7 @@ module.exports = {
                 if (is_ready) {
 					var subpath = path.relative(src, file).replace(/\\/g, '/');
 
-                    __impl[platform].copy(app_id, file, dest + "/" + subpath);
+                    _impl[platform].copy(app_id, file, dest + "/" + subpath);
 
                     handler();
                 }
@@ -76,7 +76,7 @@ module.exports = {
                 if (is_ready) {
 					var subpath = path.relative(src, dir).replace(/\\/g, '/');
 					
-                    __impl[platform].copy(app_id, dir, dest + "/" + subpath);
+                    _impl[platform].copy(app_id, dir, dest + "/" + subpath);
 
                     handler();
                 }
@@ -85,7 +85,7 @@ module.exports = {
                 if (is_ready) {
 					var subpath = path.relative(src, file).replace(/\\/g, '/');
 					
-                    __impl[platform].copy(app_id, file, dest + "/" + subpath);
+                    _impl[platform].copy(app_id, file, dest + "/" + subpath);
 
                     handler();
                 }
@@ -94,7 +94,7 @@ module.exports = {
                 if (is_ready) {
 					var subpath = path.relative(src, file).replace(/\\/g, '/');
 
-                    __impl[platform].remove(app_id, dest + "/" + subpath); 
+                    _impl[platform].remove(app_id, dest + "/" + subpath); 
 
                     handler();
                 }
@@ -103,7 +103,7 @@ module.exports = {
                 if (is_ready) {
 					var subpath = path.relative(src, dir).replace(/\\/g, '/');
 
-                    __impl[platform].remove(app_id, dest + "/" + subpath); 
+                    _impl[platform].remove(app_id, dest + "/" + subpath); 
 
                     handler();
                 }

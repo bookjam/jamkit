@@ -6,8 +6,8 @@ const xlsx            = require('xlsx'),
       is_empty_object = require('is-empty-object'),
       array           = require('array-extended')
 
-const __SEPERATORS = [ '\n', '\\n', ',' ];
-const __KEYS_IN_DATABASE = [ 
+const _SEPERATORS = [ '\n', '\\n', ',' ];
+const _KEYS_IN_DATABASE = [ 
     'subviews', 'subcatalogs', 'categories', 
     'panes', 'banners', 'showcases', 'showcase', 'collections', 
     'purchases', 'promos', 'readings', 'auxiliary', 
@@ -15,7 +15,7 @@ const __KEYS_IN_DATABASE = [
     'points', 'events', 'ads', 'notifications', 'strings'
 ]
 
-function __load_spreadsheet_data(path) {
+function _load_spreadsheet_data(path) {
     var sheets = xlsx.readFile(path).Sheets;
     var data = {};
     
@@ -26,11 +26,11 @@ function __load_spreadsheet_data(path) {
     return data;
 }
 
-function __rows_to_main_dict(rows, store) {
+function _rows_to_main_dict(rows, store) {
     var main_dict = {}, group = main_dict;
 
     (rows || []).forEach(function(row) {
-        if (__should_skip_row(row, store)) {
+        if (_should_skip_row(row, store)) {
             return;
         }
 
@@ -46,11 +46,11 @@ function __rows_to_main_dict(rows, store) {
     return main_dict;
 }
 
-function __rows_to_dict(rows, store, skip_key) {
+function _rows_to_dict(rows, store, skip_key) {
     var dict = {}, sortkeys = [];
 
     (rows || []).forEach(function(row) {
-        if (__should_skip_row(row, store, skip_key)) {
+        if (_should_skip_row(row, store, skip_key)) {
             return;
         }
 
@@ -86,7 +86,7 @@ function __rows_to_dict(rows, store, skip_key) {
     return [ dict, sortkeys ];
 }
 
-function __rows_to_raw_list(rows) {
+function _rows_to_raw_list(rows) {
     var raw_list = [];
 
     (rows || []).forEach(function(row) {
@@ -106,11 +106,11 @@ function __rows_to_raw_list(rows) {
     return raw_list;
 }
 
-function __rows_to_list(rows, store, skip_key) {
+function _rows_to_list(rows, store, skip_key) {
     var list = [], sortkeys = [];
 
     (rows || []).forEach(function(row) {
-        if (__should_skip_row(row, store, skip_key)) {
+        if (_should_skip_row(row, store, skip_key)) {
             return;
         }
 
@@ -150,17 +150,17 @@ function __rows_to_list(rows, store, skip_key) {
     return [ list, sortkeys ];
 }
 
-function __should_skip_row(row, store, skip_key) {
+function _should_skip_row(row, store, skip_key) {
     if (skip_key && skip_key in row && row[skip_key] == 'yes') {
         return true;
     }
 
-    var available_stores = __unfold_value(row['available-stores-(x)']);
+    var available_stores = _unfold_value(row['available-stores-(x)']);
     if (available_stores.length && !(store in available_stores)) {
         return true;
     }
 
-    var avoid_stores = __unfold_value(row['avoid-stores-(x)']);
+    var avoid_stores = _unfold_value(row['avoid-stores-(x)']);
     if (avoid_stores.length && (store in avoid_stores)) {
         return true;
     }
@@ -168,22 +168,22 @@ function __should_skip_row(row, store, skip_key) {
     return false;
 }
 
-function __unfold_list(list, key, unfold_func) {
+function _unfold_list(list, key, unfold_func) {
     list.forEach(function(data) {
         if (key in data) {
             if (unfold_func) {
-                data[key] = unfold_func(__unfold_value(data[key]));
+                data[key] = unfold_func(_unfold_value(data[key]));
             } else {
-                data[key] = __unfold_value(data[key]);
+                data[key] = _unfold_value(data[key]);
             }
         }
     });
 }
 
-function __unfold_value(value) {
+function _unfold_value(value) {
     var values = [];
     
-    (value || '').split(new RegExp(__SEPERATORS.join('|'))).forEach(function(element) {
+    (value || '').split(new RegExp(_SEPERATORS.join('|'))).forEach(function(element) {
         if (element) {
             values.push(element.trim());
         }
@@ -192,7 +192,7 @@ function __unfold_value(value) {
     return values;
 }
 
-function __unfold_items(values) {
+function _unfold_items(values) {
     var unfolded_values = [];
     
     values.forEach(function(item) {
@@ -212,7 +212,7 @@ function __unfold_items(values) {
     return unfolded_values;
 }
 
-function __keys_starts_with(dict, prefix) {
+function _keys_starts_with(dict, prefix) {
     var keys = [];
 
     Object.keys(dict).forEach(function(key) {
@@ -224,7 +224,7 @@ function __keys_starts_with(dict, prefix) {
     return keys;
 }
 
-function __save_table_to_database(database, table, columns, indexes, rows) {
+function _save_table_to_database(database, table, columns, indexes, rows) {
     database.serialize(function() {
         sqlite.create_table(database, table, columns);
         if (indexes) {
@@ -234,7 +234,7 @@ function __save_table_to_database(database, table, columns, indexes, rows) {
     });
 }
 
-function __merge_sortkeys(sortkeys) {
+function _merge_sortkeys(sortkeys) {
     var merged_sortkeys = [];
 
     Object.keys(sortkeys).forEach(function(sortkey) {
@@ -244,7 +244,7 @@ function __merge_sortkeys(sortkeys) {
     return array.unique(merged_sortkeys);
 }
 
-function __columns_for_headers(headers) {
+function _columns_for_headers(headers) {
     var columns = [];
 
     headers.forEach(function(header) {
@@ -254,7 +254,7 @@ function __columns_for_headers(headers) {
     return columns;
 }
 
-function __indexes_for_headers(dataset, headers) {
+function _indexes_for_headers(dataset, headers) {
     var indexes = [];
 
     headers.forEach(function(header) {
@@ -264,18 +264,18 @@ function __indexes_for_headers(dataset, headers) {
     return indexes;
 }
 
-function __values_for_headers(dict, headers) {
+function _values_for_headers(dict, headers) {
     var values = {};
 
     headers.forEach(function(header) {
-        values[header.replace('-', '_')] = __value_for_key(dict, header, '');
+        values[header.replace('-', '_')] = _value_for_key(dict, header, '');
     });
 
     return values;
 }
 
-function __bool_for_key(dict, key) {
-    var value = __value_for_key(dict, key);
+function _bool_for_key(dict, key) {
+    var value = _value_for_key(dict, key);
 
     if (value === 'yes') {
         return true;
@@ -284,7 +284,7 @@ function __bool_for_key(dict, key) {
     return false;
 }
 
-function __value_for_key(dict, key, default_value) {
+function _value_for_key(dict, key, default_value) {
     if (key in dict) {
         return dict[key];
     }
@@ -292,7 +292,7 @@ function __value_for_key(dict, key, default_value) {
     return default_value;
 }
 
-function __stringify_value(value) {
+function _stringify_value(value) {
     if (Array.isArray(value) || is_object(value)) {
         return JSON.stringify(value, null, 4);
     }
@@ -302,32 +302,32 @@ function __stringify_value(value) {
 
 module.exports = {
     load_from_spreadsheet : function(path, store) {
-        var source = __load_spreadsheet_data(path);
+        var source = _load_spreadsheet_data(path);
         var data = {}, sortkeys = {};
 
-        var main_dict = __rows_to_main_dict(source['main'], store);
+        var main_dict = _rows_to_main_dict(source['main'], store);
         if (!is_empty_object(main_dict)) {
             [ 'related-catalogs' ].forEach(function(key) {
-                __unfold_list([ main_dict ], key);
+                _unfold_list([ main_dict ], key);
             });
             Object.assign(data, main_dict);
         }
 
-        var subviews_list = __rows_to_list(source['subviews'], store, 'do-not-display-(x)');
+        var subviews_list = _rows_to_list(source['subviews'], store, 'do-not-display-(x)');
         if (subviews_list[0].length) {
             data['subviews'] = subviews_list[0];
         }
 
-        var subcatalogs_dict = __rows_to_dict(source['subcatalogs'], store, 'do-not-display-(x)');
+        var subcatalogs_dict = _rows_to_dict(source['subcatalogs'], store, 'do-not-display-(x)');
         if (!is_empty_object(subcatalogs_dict[0])) {
             data['subcatalogs'] = subcatalogs_dict[0];
         }
 
-        var categories_sheets = __keys_starts_with(source, 'categories.');
+        var categories_sheets = _keys_starts_with(source, 'categories.');
         if (categories_sheets.length) {
             var categories_dict = {};
             categories_sheets.forEach(function(sheet) {
-                var category_list = __rows_to_list(source[sheet], store, 'do-not-display-(x)');
+                var category_list = _rows_to_list(source[sheet], store, 'do-not-display-(x)');
 
                 if (categories_list[0].length) {
                     categories_dict[sheet.substring('categories.'.length)] = category_list[0];
@@ -337,7 +337,7 @@ module.exports = {
                 data['categories'] = categories_dict;
             }
         } else {
-            var categories_list = __rows_to_list(source['categories'], store, 'do-not-display-(x)');
+            var categories_list = _rows_to_list(source['categories'], store, 'do-not-display-(x)');
             if (categories_list[0].length) {
                 data['categories'] = categories_list[0];
             }
@@ -346,15 +346,15 @@ module.exports = {
         [ 'panes', 'banners', 'showcases', 'collections' ].forEach(function(dataset) {
             var singular_keys = { 'banners': 'banner', 'showcases': 'showcase', 'collections': 'collection' };
             var dataset_prefix = ((dataset in singular_keys) ? singular_keys[dataset] : dataset) + '.';
-            var dataset_sheets = __keys_starts_with(source, dataset_prefix);
+            var dataset_sheets = _keys_starts_with(source, dataset_prefix);
             var datasets_dict = {}, datasets_sortkeys = {};
 
             dataset_sheets.forEach(function(sheet) {
-                var dataset_list = __rows_to_list(source[sheet], store, 'do-not-display-(x)');
+                var dataset_list = _rows_to_list(source[sheet], store, 'do-not-display-(x)');
 
                 if (dataset_list[0].length) {
                     [ 'categories', 'memberships' ].forEach(function(key) {
-                        __unfold_list(dataset_list[0], key);
+                        _unfold_list(dataset_list[0], key);
                     });
                     datasets_dict[sheet.substring(dataset_prefix.length)] = dataset_list[0];
                     datasets_sortkeys[sheet.substring(dataset_prefix.length)] = dataset_list[1];
@@ -367,11 +367,11 @@ module.exports = {
 
         [ 'purchases', 'promos', 'readings', 'auxiliary' ].forEach(function(dataset) {
             var dataset_prefix = dataset + '.';
-            var dataset_sheets = __keys_starts_with(source, dataset_prefix);
+            var dataset_sheets = _keys_starts_with(source, dataset_prefix);
             var datasets_dict = {};
 
             dataset_sheets.forEach(function(sheet) {
-                var dataset_dict = __rows_to_dict(source[sheet], store, 'do-not-display-(x)');
+                var dataset_dict = _rows_to_dict(source[sheet], store, 'do-not-display-(x)');
 
                 if (!is_empty_object(dataset_dict[0])) {
                     datasets_dict[sheet.substring(dataset_prefix.length)] = dataset_dict[0];
@@ -382,31 +382,31 @@ module.exports = {
             }
         });
 
-        var products_dict = __rows_to_dict(source['products'], store, 'not-for-sale-(x)');
+        var products_dict = _rows_to_dict(source['products'], store, 'not-for-sale-(x)');
         [ 'stores', 'points', 'required-products', 'required-events', 'required-memberships' ].forEach(function(key) {
-            __unfold_list(Object.values(products_dict[0] || {}), key);
+            _unfold_list(Object.values(products_dict[0] || {}), key);
         });
-        __unfold_list(Object.values(products_dict[0] || {}), 'items', __unfold_items);
+        _unfold_list(Object.values(products_dict[0] || {}), 'items', _unfold_items);
         if (!is_empty_object(products_dict[0])) {
             data['products'] = products_dict[0];
         }
 
-        var items_dict = __rows_to_dict(source['items'], store, 'not-for-sale-(x)');
+        var items_dict = _rows_to_dict(source['items'], store, 'not-for-sale-(x)');
         [ 'series' ].forEach(function(key) {
-            __unfold_list(Object.values(items_dict[0] || {}), key);
+            _unfold_list(Object.values(items_dict[0] || {}), key);
         });
         if (!is_empty_object(items_dict[0])) {
             data['items'] = items_dict[0];
         }
 
         [ 'series', 'memberships', 'points', 'events', 'ads', 'notifications' ].forEach(function(dataset) {
-            var dataset_dict = __rows_to_dict(source[dataset], store, 'not-for-sale-(x)');
+            var dataset_dict = _rows_to_dict(source[dataset], store, 'not-for-sale-(x)');
             if (!is_empty_object(dataset_dict[0])) {
                 data[dataset] = dataset_dict[0];
             }
         });
        
-        var strings_list = __rows_to_raw_list(source['strings']);
+        var strings_list = _rows_to_raw_list(source['strings']);
         if (!is_empty_object(strings_list)) {
             data['strings'] = strings_list;
         }
@@ -415,7 +415,7 @@ module.exports = {
     },
 
     save_to_file : function(data, path, include_all_data) {
-        var keys_to_skip = __bool_for_key(data, 'uses-database') ? __KEYS_IN_DATABASE : [];
+        var keys_to_skip = _bool_for_key(data, 'uses-database') ? _KEYS_IN_DATABASE : [];
         var catalog_dict = {};
 
         Object.keys(data).forEach(function(key) {
@@ -441,11 +441,11 @@ module.exports = {
                 subviews_rows.push({
                     'id': subview_dict['id'],
                     'type': subview_dict['type'],
-                    'attr': __stringify_value(subview_dict)
+                    'attr': _stringify_value(subview_dict)
                 });
             });
 
-            __save_table_to_database(
+            _save_table_to_database(
                 database,
                 'subviews', 
                 [['id','TEXT'],['type','TEXT'],['attr','TEXT']], 
@@ -461,11 +461,11 @@ module.exports = {
                 var subcatalog_dict = data['subcatalogs'][identifier];
                 subcatalogs_rows.push({
                     'id': identifier,
-                    'attr': __stringify_value(subcatalog_dict)
+                    'attr': _stringify_value(subcatalog_dict)
                 });
             });
 
-            __save_table_to_database(
+            _save_table_to_database(
                 database,
                 'subcatalogs', 
                 [['id','TEXT'],['attr','TEXT']], 
@@ -482,7 +482,7 @@ module.exports = {
                     categories_rows.push({
                         'id': category_dict['id'],
                         'subcatalog': '__DEFAULT__',
-                        'attr': __stringify_value(category_dict)
+                        'attr': _stringify_value(category_dict)
                     });
                 });
             } else {
@@ -492,13 +492,13 @@ module.exports = {
                         categories_rows.push({
                             'id': category_dict['id'],
                             'subcatalog': name,
-                            'attr': __stringify_value(category_dict)
+                            'attr': _stringify_value(category_dict)
                         });
                     });
                 });
             }
 
-            __save_table_to_database(
+            _save_table_to_database(
                 database,
                 'categories', 
                 [['id','TEXT'],['subcatalog','TEXT'],['attr','TEXT']], 
@@ -512,7 +512,7 @@ module.exports = {
                 var singular_keys = { 'banners': 'banner', 'showcases': 'showcase', 'collections': 'collection' };
                 var singular_key = (dataset in singular_keys) ? singular_keys[dataset] : dataset;
                 var datasets_rows = [], dataset_to_category = [], dataset_to_membership = [];
-                var datasets_sortkeys = __merge_sortkeys(sortkeys[dataset] || {});
+                var datasets_sortkeys = _merge_sortkeys(sortkeys[dataset] || {});
     
                 Object.keys(data[dataset]).forEach(function(name) {
                     var dataset_list = data[dataset][name];
@@ -542,19 +542,19 @@ module.exports = {
                         datasets_rows.push(Object.assign({
                             'id': dataset_dict['id'],
                             [singular_key]: name,
-                            'attr': __stringify_value(dataset_dict)
-                        }, __values_for_headers(dataset_dict, datasets_sortkeys)));
+                            'attr': _stringify_value(dataset_dict)
+                        }, _values_for_headers(dataset_dict, datasets_sortkeys)));
                     });
                 });
     
-                __save_table_to_database(
+                _save_table_to_database(
                     database,
                     singular_key + '_to_category', 
                     [['id','TEXT'],[singular_key,'TEXT'],['category','TEXT']], 
                     [[singular_key,'category']],
                     dataset_to_category
                 );
-                __save_table_to_database(
+                _save_table_to_database(
                     database,
                     singular_key + '_to_membership', 
                     [['id','TEXT'],[singular_key,'TEXT'],['membership','TEXT']], 
@@ -566,11 +566,11 @@ module.exports = {
                 var unique_sortkeys = datasets_sortkeys.filter(function(value, index, self) {
                     return !['id',singular_key,'series','item'].includes(value);
                 });
-                __save_table_to_database(
+                _save_table_to_database(
                     database,
                     dataset, 
-                    array.union(columns, __columns_for_headers(unique_sortkeys)), 
-                    array.union([['id'],[singular_key],['series'],['item']], __indexes_for_headers(singular_key, unique_sortkeys)),
+                    array.union(columns, _columns_for_headers(unique_sortkeys)), 
+                    array.union([['id'],[singular_key],['series'],['item']], _indexes_for_headers(singular_key, unique_sortkeys)),
                     datasets_rows
                 );
             }
@@ -586,12 +586,12 @@ module.exports = {
                         datasets_rows.push({
                             'id': identifier,
                             [dataset]: name,
-                            'attr': __stringify_value(datasets_dict[identifier])
+                            'attr': _stringify_value(datasets_dict[identifier])
                         });
                     });
                 }); 
                 
-                __save_table_to_database(
+                _save_table_to_database(
                     database,
                     dataset,
                     [['id','TEXT'],[dataset,'TEXT'],['attr','TEXT']],
@@ -618,18 +618,18 @@ module.exports = {
                 }
                 items_rows.push({
                     'id': identifier,
-                    'attr': __stringify_value(item_dict)
+                    'attr': _stringify_value(item_dict)
                 });
             });
 
-            __save_table_to_database(
+            _save_table_to_database(
                 database,
                 'item_to_series',
                 [['item','TEXT'],['series','TEXT']],
                 [['item'],['series']],
                 item_to_series
             );
-            __save_table_to_database(
+            _save_table_to_database(
                 database,
                 'items',
                 [['id','TEXT'],['attr','TEXT']],
@@ -644,7 +644,7 @@ module.exports = {
 
             Object.keys(data['products']).forEach(function(identifier) {
                 var product_dict = data['products'][identifier];
-                var free_of_charge = __bool_for_key(product_dict, 'free-of-charge');
+                var free_of_charge = _bool_for_key(product_dict, 'free-of-charge');
                 if ('items' in product_dict) {
                     product_dict['items'].forEach(function(item) {
                         product_to_item.push({
@@ -666,25 +666,25 @@ module.exports = {
                 products_rows.push({
                     'id': identifier,
                     'free_of_charge': free_of_charge ? 1 : 0,
-                    'attr': __stringify_value(product_dict)
+                    'attr': _stringify_value(product_dict)
                 });
             });
 
-            __save_table_to_database(
+            _save_table_to_database(
                 database,
                 'product_to_item',
                 [['product','TEXT'],['item','TEXT']],
                 [['product'],['item']],
                 product_to_item
             );
-            __save_table_to_database(
+            _save_table_to_database(
                 database,
                 'product_to_store',
                 [['product','TEXT'],['store','TEXT']],
                 [['product'],['store']],
                 product_to_store
             );
-            __save_table_to_database(
+            _save_table_to_database(
                 database,
                 'products',
                 [['id','TEXT'],['free_of_charge','INTEGER'],['attr','TEXT']],
@@ -701,11 +701,11 @@ module.exports = {
                     var dataset_dict = data[dataset][identifier];
                     datasets_rows.push({
                         'id': identifier,
-                        'attr': __stringify_value(dataset_dict)
+                        'attr': _stringify_value(dataset_dict)
                     });
                 });
     
-                __save_table_to_database(
+                _save_table_to_database(
                     database,
                     dataset,
                     [['id','TEXT'],['attr','TEXT']],
@@ -728,10 +728,10 @@ module.exports = {
                 strings_rows.push(dataset);
             }); 
             
-            __save_table_to_database(
+            _save_table_to_database(
                 database,
                 'strings',
-                array.union([['key','TEXT']], __columns_for_headers(languages)),
+                array.union([['key','TEXT']], _columns_for_headers(languages)),
                 [['key']],
                 strings_rows
             );

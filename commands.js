@@ -14,10 +14,54 @@ const fs          = require('fs-extra'),
 
 const connect_base_url = "https://jamkit.io";
 
+function _generateAppID(wanted_app_id, template_app_id) {
+    if (wanted_app_id === 'auto') {
+        return 'com.yourdomain.' + uuid();
+    }
+
+    if (wanted_app_id === 'manual') {
+        return template_app_id;
+    }
+
+    return wanted_app_id;
+}
+
+function _compressFolder(zipPath, callback) {
+    zipdir('.', { 
+        saveTo: zipPath,
+        filter: function(fullPath, stat) {
+            if (path.basename(fullPath).startsWith(".")) {
+                return false;
+            }
+
+            if (['.jam','.bxp'].includes(path.extname(fullPath))) {
+                return false;
+            }
+
+            return true;
+        }
+     }, 
+     function(err, buffer) {
+        if (err) {
+            throw err;
+        }
+
+        callback();
+    });
+}
+
+function _publishFile(zipPath, options, callback) {
+    ipfs(options).addFromFs(zipPath, {}, function(err, result) {
+        if (err) {
+            throw err;
+        }
+
+        callback(result[0]['hash']);
+    });
+} 
+
 module.exports = {
     createApp : function(name, options) {
-        var self = this;
-
         if (fs.existsSync(name)) {
             console.log('ERROR: ' + name + ' already exists!');
             return;
@@ -33,7 +77,7 @@ module.exports = {
         var bon_path = path.resolve(name, 'package.bon');
         var appinfo = bon.parse(fs.readFileSync(bon_path, 'utf8'));
 
-        appinfo['id'] = self.__generateAppID(options['app-id'], appinfo['id']);
+        appinfo['id'] = _generateAppID(options['app-id'], appinfo['id']);
         appinfo['version'] = options['version'];
         
         fs.writeFileSync(bon_path, bon.stringify(appinfo));
@@ -95,8 +139,6 @@ module.exports = {
     },
 
     buildApp : function() {
-        var self = this;
-
         if (!fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found!');
             return;
@@ -117,14 +159,12 @@ module.exports = {
         }
 
         var tempfile = tmp.tmpNameSync();
-        self.__compressFolder(tempfile, function() {
+        _compressFolder(tempfile, function() {
             fs.moveSync(tempfile, jamfile);
         })
     },
 
     publishApp : function(host, options, ipfs_options, install_urls) {
-        var self = this;
-
         if (!fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found!');
             return;
@@ -146,10 +186,10 @@ module.exports = {
             }
     
             var tempfile = tmp.tmpNameSync();
-            self.__compressFolder(tempfile, function() {
+            _compressFolder(tempfile, function() {
                 fs.moveSync(tempfile, jamfile);
     
-                self.__publishFile(jamfile, ipfs_options, function(hash) {
+                _publishFile(jamfile, ipfs_options, function(hash) {
                     var title = options['title'] || appinfo['title']
                     var url = (host['url'] || connect_base_url) + "/connect/app/?"
                             + "app=" + appinfo['id'] + "&" + "url=" + urlencode("ipfs://hash/" + hash)
@@ -237,8 +277,6 @@ module.exports = {
     },
 
     buildBook : function() {
-        var self = this;
-
         if (!fs.existsSync('./book.bon')) {
             console.log('ERROR: book.bon not found!');
             return;
@@ -252,14 +290,12 @@ module.exports = {
         }
 
         var tempfile = tmp.tmpNameSync();
-        self.__compressFolder(tempfile, function() {
+        _compressFolder(tempfile, function() {
             fs.renameSync(tempfile, bxpfile);
         })
     },
 
     publishBook : function(host, options, ipfs_options, install_urls) {
-        var self = this;
-
         if (!fs.existsSync('./book.bon')) {
             console.log('ERROR: book.bon not found!');
             return;
@@ -281,10 +317,10 @@ module.exports = {
             }
     
             var tempfile = tmp.tmpNameSync();
-            self.__compressFolder(tempfile, function() {
+            _compressFolder(tempfile, function() {
                 fs.renameSync(tempfile, bxpfile);
     
-                self.__publishFile(bxpfile, ipfs_options, function(hash) {
+                _publishFile(bxpfile, ipfs_options, function(hash) {
                     var title = options['title'] || bookinfo['title']
                     var url = (host['url'] || connect_base_url) + "/connect/book/?"
                             + "book=" + basename + "&" + "url=" + urlencode("ipfs://hash/" + hash)
@@ -328,51 +364,5 @@ module.exports = {
 
         catalog.save_to_file(data[0], path.join(basedir, 'catalog.bon'));
         catalog.save_to_database(data[0], data[1], path.join(basedir, 'catalog.sqlite'));
-    },
-
-    __generateAppID : function(wanted_app_id, template_app_id) {
-        if (wanted_app_id === 'auto') {
-            return 'com.yourdomain.' + uuid();
-        }
-
-        if (wanted_app_id === 'manual') {
-            return template_app_id;
-        }
-
-        return wanted_app_id;
-    },
-
-    __compressFolder : function(zipPath, callback) {
-        zipdir('.', { 
-            saveTo: zipPath,
-            filter: function(fullPath, stat) {
-                if (path.basename(fullPath).startsWith(".")) {
-                    return false;
-                }
-
-                if (['.jam','.bxp'].includes(path.extname(fullPath))) {
-                    return false;
-                }
-
-                return true;
-            }
-         }, 
-         function(err, buffer) {
-            if (err) {
-                throw err;
-            }
-
-            callback();
-        });
-    },
-
-    __publishFile : function(zipPath, options, callback) {
-        ipfs(options).addFromFs(zipPath, {}, function(err, result) {
-            if (err) {
-                throw err;
-            }
-
-            callback(result[0]['hash']);
-        });
-    } 
+    }
 }

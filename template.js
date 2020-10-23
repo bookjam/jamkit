@@ -2,8 +2,11 @@ const shell = require('shelljs')
     
 module.exports = {
     copy : function(type, path, options) {
-        var github_url = 'https://github.com/' + (options['repository'] || 'bookjam/jamkit-templates') + '.git';
-        var github_path = type + '/' + (options['template'] || 'hello-world') + '/' + (options['language'] || 'en')
+        var repository = options['repository'] || 'bookjam/jamkit-templates';
+        var template = options['template'] || 'hello-world';
+        var language = options['language'] || 'en';
+        var github_url = 'https://github.com/' + repository + '.git';
+        var github_path = type + '/' + template + '/' + language
 
         if (options['theme']) {
             github_path += '/' + options['theme'];

@@ -1,13 +1,13 @@
-const __WHITESPACES = [ ' ', '\t', '\n', '\r', '\f', '\v' ],
-      __SYNTAXCHARS = [ '[', ']', '{', '}', ',', ':' ]
+const _WHITESPACES = [ ' ', '\t', '\n', '\r', '\f', '\v' ],
+      _SYNTAXCHARS = [ '[', ']', '{', '}', ',', ':' ]
 
-const __ESCAPE_TABLE = {
+const _ESCAPE_TABLE = {
     '"': '"', '\\': '\\', '/': '/',
     'b': '\b', 'f': '\f', 'n': '\n',
     'r': '\r', 't': '\t', 'v': '\v'
 }
 
-const __REVERSE_ESCAPE_TABLE = {
+const _REVERSE_ESCAPE_TABLE = {
     '"': '\\"', '\\': '\\\\', '/': '\\/',
     '\b': '\\b', '\f': '\\f', '\n': '\\n',
     '\r': '\\r', '\t': '\\t', '\v': '\\v'
@@ -16,22 +16,22 @@ const __REVERSE_ESCAPE_TABLE = {
 // BonParser class
 
 function BonParser() {
-    this.__text = '';
-    this.__index = 0;
+    this._text = '';
+    this._index = 0;
 }
 
 BonParser.prototype.parse = function(text) {
-    this.__text = text;
-    this.__index = 0;
+    this._text = text;
+    this._index = 0;
 
-    this.__skip_spaces();
+    this._skip_spaces();
 
     try {
-        var value = this.__read_value();
+        var value = this._read_value();
 
-        this.__skip_spaces();
+        this._skip_spaces();
         
-        if (!this.__peek_char()) {
+        if (!this._peek_char()) {
             return value;
         }
     } catch (e) {
@@ -39,32 +39,32 @@ BonParser.prototype.parse = function(text) {
     }
 }
 
-BonParser.prototype.__read_value = function() {
-    var value = this.__read_array();
+BonParser.prototype._read_value = function() {
+    var value = this._read_array();
 
     if (!value) {
-        value = this.__read_object();
+        value = this._read_object();
 
         if (!value) {
-            value = this.__read_string();
+            value = this._read_string();
         }
     }
 
     return value;
 }
 
-BonParser.prototype.__read_array = function() {
-    if (this.__match_char('[')) {
-        this.__skip_spaces();
+BonParser.prototype._read_array = function() {
+    if (this._match_char('[')) {
+        this._skip_spaces();
 
         var array = [];
 
         while (true) {
-            if (this.__match_char(']')) {
+            if (this._match_char(']')) {
                 return array;
             }
 
-            var value = this.__read_value();
+            var value = this._read_value();
 
             if (!value) {
                 break;
@@ -72,11 +72,11 @@ BonParser.prototype.__read_array = function() {
             
             array.push(value);
 
-            this.__skip_spaces();
+            this._skip_spaces();
 
-            if (this.__match_char(',')) {
-                this.__skip_spaces();
-            } else if (this.__match_char(']')) {
+            if (this._match_char(',')) {
+                this._skip_spaces();
+            } else if (this._match_char(']')) {
                 return array;
             } else {
                 break;
@@ -87,38 +87,38 @@ BonParser.prototype.__read_array = function() {
     }
 }
 
-BonParser.prototype.__read_object = function() {
-    if (this.__match_char('{')) {
-        this.__skip_spaces();
+BonParser.prototype._read_object = function() {
+    if (this._match_char('{')) {
+        this._skip_spaces();
 
         var object = {}
 
         while (true) {
-            if (this.__match_char('}')) {
+            if (this._match_char('}')) {
                 return object;
             }
 
-            var key = this.__read_string();
+            var key = this._read_string();
 
             if (!key) {
                 break;
             }
 
-            this.__skip_spaces();
+            this._skip_spaces();
 
-            if (!this.__match_char(':')) {
+            if (!this._match_char(':')) {
                 break;
             }
 
-            this.__skip_spaces();
+            this._skip_spaces();
 
-            object[key] = this.__read_value();
+            object[key] = this._read_value();
 
-            this.__skip_spaces();
+            this._skip_spaces();
 
-            if (this.__match_char(',')) {
-                this.__skip_spaces();
-            } else if (this.__match_char('}')) {
+            if (this._match_char(',')) {
+                this._skip_spaces();
+            } else if (this._match_char('}')) {
                 return object;
             } else {
                 break;
@@ -129,40 +129,40 @@ BonParser.prototype.__read_object = function() {
     }
 }
 
-BonParser.prototype.__read_string = function() {
-    var ch = this.__peek_char();
+BonParser.prototype._read_string = function() {
+    var ch = this._peek_char();
 
-    if (!__SYNTAXCHARS.includes(ch)) {
+    if (!_SYNTAXCHARS.includes(ch)) {
         var string = '';
 
         if (ch === '"') {
-            this.__consume_char();
+            this._consume_char();
 
             while (true) {
-                ch = this.__peek_char();
+                ch = this._peek_char();
 
                 if (!ch) {
                     break;
                 }
 
-                this.__consume_char();
+                this._consume_char();
 
                 if (ch === '"') {
                     return string;
                 }
 
                 if (ch === '\\') {
-                    ch = this.__peek_char();
+                    ch = this._peek_char();
 
                     if (!ch) {
                         break;
                     }
 
-                    if (__ESCAPE_TABLE.hasOwnProperty(ch)) {
-                        ch = __ESCAPE_TABLE[ch];
+                    if (_ESCAPE_TABLE.hasOwnProperty(ch)) {
+                        ch = _ESCAPE_TABLE[ch];
                     }
 
-                    this.__consume_char();
+                    this._consume_char();
                 }
 
                 string = string + ch;
@@ -171,19 +171,19 @@ BonParser.prototype.__read_string = function() {
             throw 'BonParser: ' + 'wrong quoted string';
         } else {
             while (true) {
-                var ch = this.__peek_char();
+                var ch = this._peek_char();
 
                 if (!ch) {
                     break;
                 }
 
-                if (__WHITESPACES.includes(ch) || __SYNTAXCHARS.includes(ch)) {
+                if (_WHITESPACES.includes(ch) || _SYNTAXCHARS.includes(ch)) {
                     break;
                 }
 
                 string = string + ch;
 
-                this.__consume_char();
+                this._consume_char();
             }
 
             return string;
@@ -191,19 +191,19 @@ BonParser.prototype.__read_string = function() {
     }
 }
 
-BonParser.prototype.__peek_char = function() {
-    if (this.__index < this.__text.length) {
-        return this.__text.charAt(this.__index);
+BonParser.prototype._peek_char = function() {
+    if (this._index < this._text.length) {
+        return this._text.charAt(this._index);
     }
 }
 
-BonParser.prototype.__consume_char = function() {
-    this.__index += 1;
+BonParser.prototype._consume_char = function() {
+    this._index += 1;
 }
 
-BonParser.prototype.__match_char = function(ch) {
-    if (this.__peek_char() == ch) {
-        this.__consume_char();
+BonParser.prototype._match_char = function(ch) {
+    if (this._peek_char() == ch) {
+        this._consume_char();
 
         return true;
     }
@@ -211,56 +211,56 @@ BonParser.prototype.__match_char = function(ch) {
     return false;
 }
 
-BonParser.prototype.__skip_spaces = function() {
+BonParser.prototype._skip_spaces = function() {
     while (true) {
-        var ch = this.__peek_char();
+        var ch = this._peek_char();
 
-        if (!__WHITESPACES.includes(ch)) {
+        if (!_WHITESPACES.includes(ch)) {
             break;
         }
 
-        this.__consume_char();
+        this._consume_char();
     }
 }
 
 // BonStringifier class
 
 function BonStringifier(use_indent) {
-    this.__use_indent = use_indent;
-    this.__indent = 0;
+    this._use_indent = use_indent;
+    this._indent = 0;
 }
 
 BonStringifier.prototype.stringify = function(value) {
-    this.__indent = 0;
+    this._indent = 0;
 
     try {
-        return this.__stringify_value(value);
+        return this._stringify_value(value);
     } catch (e) {
         console.log(e);
     }
 }
 
-BonStringifier.prototype.__stringify_value = function(value) {
+BonStringifier.prototype._stringify_value = function(value) {
     if (Array.isArray(value)) {
-        return this.__stringify_array(value);
+        return this._stringify_array(value);
     }
 
     if (typeof(value) === 'object') {
-        return this.__stringify_object(value);
+        return this._stringify_object(value);
     }
 
     if (typeof(value) === 'string') {
-        return this.__stringify_string(value);
+        return this._stringify_string(value);
     }
 
     throw 'BonStringifier: ' + 'Unsupported type'
 }
 
-BonStringifier.prototype.__stringify_array = function(array) {
+BonStringifier.prototype._stringify_array = function(array) {
     var text = '[';
 
-    text += this.__append_newline();
-    this.__increment_indent();
+    text += this._append_newline();
+    this._increment_indent();
 
     var once = true;
     for (var v in array) {
@@ -268,27 +268,27 @@ BonStringifier.prototype.__stringify_array = function(array) {
             once = false;
         } else {
             text += ',';
-            text += this.__append_newline();
+            text += this._append_newline();
         }
 
-        text += this.__append_indent();
-        text += this.__stringify_value(v);
+        text += this._append_indent();
+        text += this._stringify_value(v);
     }
 
-    text += this.__append_newline();
-    this.__decrement_indent();
-    text += this.__append_indent();
+    text += this._append_newline();
+    this._decrement_indent();
+    text += this._append_indent();
     
     text += ']';
 
     return text;
 }
 
-BonStringifier.prototype.__stringify_object = function(object) {
+BonStringifier.prototype._stringify_object = function(object) {
     var text = '{';
 
-    text += this.__append_newline();
-    this.__increment_indent();
+    text += this._append_newline();
+    this._increment_indent();
 
     var once = true;
     for (var [ k, v ] of Object.entries(object)) {
@@ -296,31 +296,31 @@ BonStringifier.prototype.__stringify_object = function(object) {
             once = false;
         } else {
             text += ',';
-            text += this.__append_newline();
+            text += this._append_newline();
         }
 
-        text += this.__append_indent();
-        text += k + ':' + (this.__use_indent ? ' ' : '');
-        text += this.__stringify_value(v);
+        text += this._append_indent();
+        text += k + ':' + (this._use_indent ? ' ' : '');
+        text += this._stringify_value(v);
     }
 
-    text += this.__append_newline();
-    this.__decrement_indent();
-    text += this.__append_indent();
+    text += this._append_newline();
+    this._decrement_indent();
+    text += this._append_indent();
 
     text += '}';
 
     return text;
 }
 
-BonStringifier.prototype.__stringify_string = function(string) {
+BonStringifier.prototype._stringify_string = function(string) {
     var text = '';
     var quote_str = false;
 
     for (var ch of string) {
-        if (__SYNTAXCHARS.includes(ch) || 
-            __WHITESPACES.includes(ch) || 
-            __REVERSE_ESCAPE_TABLE.hasOwnProperty(ch)) {
+        if (_SYNTAXCHARS.includes(ch) || 
+            _WHITESPACES.includes(ch) || 
+            _REVERSE_ESCAPE_TABLE.hasOwnProperty(ch)) {
             quote_str = true;
             break;
         }
@@ -334,8 +334,8 @@ BonStringifier.prototype.__stringify_string = function(string) {
         text += '"';
 
         for (var ch of string) {
-            if (__REVERSE_ESCAPE_TABLE.hasOwnProperty(ch)) {
-                text += __REVERSE_ESCAPE_TABLE[ch];
+            if (_REVERSE_ESCAPE_TABLE.hasOwnProperty(ch)) {
+                text += _REVERSE_ESCAPE_TABLE[ch];
             } else {
                 text += ch;
             }
@@ -349,23 +349,23 @@ BonStringifier.prototype.__stringify_string = function(string) {
     return text;
 }
 
-BonStringifier.prototype.__increment_indent = function() {
-    if (this.__use_indent) {
-        this.__indent += 4;
+BonStringifier.prototype._increment_indent = function() {
+    if (this._use_indent) {
+        this._indent += 4;
     }
 }
 
-BonStringifier.prototype.__decrement_indent = function() {
-    if (this.__use_indent) {
-        this.__indent -= 4;
+BonStringifier.prototype._decrement_indent = function() {
+    if (this._use_indent) {
+        this._indent -= 4;
     }
 }
 
-BonStringifier.prototype.__append_indent = function() {
+BonStringifier.prototype._append_indent = function() {
     var text = '';
 
-    if (this.__use_indent) {
-        for (var i = 0; i < this.__indent; ++i) {
+    if (this._use_indent) {
+        for (var i = 0; i < this._indent; ++i) {
             text += ' ';
         }
     }
@@ -373,8 +373,8 @@ BonStringifier.prototype.__append_indent = function() {
     return text;
 }
 
-BonStringifier.prototype.__append_newline = function() {
-    if (this.__use_indent) {
+BonStringifier.prototype._append_newline = function() {
+    if (this._use_indent) {
         return '\n';
     }
 
