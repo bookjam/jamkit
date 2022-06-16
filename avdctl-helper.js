@@ -2,6 +2,8 @@ const fs     = require('fs'),
       path   = require('path'),
       avdctl = require('./avdctl')
 
+var _sdk_version = parseInt(avdctl.property('ro.build.version.sdk'));
+
 function _walk_dir(root, dir, handler) {
     fs.readdirSync(path.join(root, dir)).forEach(function(file) {
         var subpath = path.join(dir, file);
@@ -16,7 +18,7 @@ function _walk_dir(root, dir, handler) {
 }
 
 module.exports = {
-    push : function(src, dest) {
+    push: function(src, dest) {
         var stats = fs.statSync(src);
 
         if (stats.isDirectory()) {
@@ -36,7 +38,15 @@ module.exports = {
         }
     }, 
 
-    shell : function(cmd) {
+    intent: function(action, url) {
+        avdctl.intent(action, url);
+    },
+
+    shell: function(cmd) {
         avdctl.shell(cmd);
+    },
+
+    get_sdk_version: function() {
+        return _sdk_version;
     }
 }

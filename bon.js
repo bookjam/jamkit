@@ -253,6 +253,8 @@ BonStringifier.prototype._stringify_value = function(value) {
         return this._stringify_string(value);
     }
 
+    console.log(typeof(value));
+
     throw 'BonStringifier: ' + 'Unsupported type'
 }
 
@@ -382,11 +384,11 @@ BonStringifier.prototype._append_newline = function() {
 }
 
 module.exports = {
-    parse : function(text) {
+    parse: function(text) {
         return new BonParser().parse(text);
     },
 
-    stringify : function(value) {
+    stringify: function(value) {
         return new BonStringifier(true).stringify(value);
     }
 }

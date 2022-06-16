@@ -1,10 +1,10 @@
 const shell = require('shelljs'),
       child_process = require('child_process'),
-      sleep = require('sleep')
+      sleep = require('sleep');
 
 function _emulator_path() {
     var command = (process.platform === 'win32') ? 'where emulator' : 'which emulator';
-    var result = shell.exec(command, { silent:true });
+    var result = shell.exec(command, { silent: true });
         
     if (result.code === 0) {
         return result.stdout.trim();
@@ -14,7 +14,7 @@ function _emulator_path() {
 }
 
 module.exports = {
-    start : function(device_name) {
+    start: function(device_name) {
         var args = [ '-avd', device_name ];
         var subprocess = child_process.spawn(_emulator_path(), args, { 
             detached: true,
@@ -26,9 +26,9 @@ module.exports = {
         return true;
     },
 
-    list : function() {
+    list: function() {
         var command = _emulator_path() + ' -list-avds';
-        var result = shell.exec(command, { silent:true });
+        var result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return result.stdout.trim().split(/\n/g);
@@ -37,9 +37,9 @@ module.exports = {
         return null;
     },
 
-    install : function(path) {
+    install: function(path) {
         var command = 'adb install ' + path;
-        var result = shell.exec(command, { silent:true });
+        var result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;
@@ -48,9 +48,9 @@ module.exports = {
         return false;
     },
 
-    uninstall : function(app_id) {
+    uninstall: function(app_id) {
         var command = 'adb uninstall ' + app_id;
-        var result = shell.exec(command, { silent:true });
+        var result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;
@@ -59,9 +59,9 @@ module.exports = {
         return false;
     },
 
-    launch : function(app_id) {
+    launch: function(app_id) {
         var command = 'adb shell am start -n ' + app_id + '/' + app_id + '.SplashActivity';
-        var result = shell.exec(command, { silent:true });
+        var result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             if (!result.stderr) {
@@ -74,9 +74,9 @@ module.exports = {
         return false;
     },
 
-    version : function(app_id) {
+    version: function(app_id) {
         var command = 'adb shell "dumpsys package ' + app_id + ' | grep versionName"';
-        var result = shell.exec(command, { silent:true });
+        var result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             var matched = result.stdout.match(/versionName=([0-9.]+)/);
@@ -89,9 +89,9 @@ module.exports = {
         return null;
     },
 
-    forward : function(src, dest) {
+    forward: function(src, dest) {
         var command = 'adb forward ' + src + ' ' + dest;
-        var result = shell.exec(command, { silent:true });
+        var result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;
@@ -100,20 +100,9 @@ module.exports = {
         return false;
     }, 
 
-    property : function(name) {
-        var command = 'adb shell getprop ' + name;
-        var result = shell.exec(command, { silent:true });
-
-        if (result.code === 0) {
-            return result.stdout.trim();
-        }
-
-        return null;
-    },
-
-    push : function(src, dest) {
+    push: function(src, dest) {
         var command = 'adb push \"' + src + '\" \"' + dest + '\"';
-        var result = shell.exec(command, { silent:true });
+        var result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;
@@ -122,9 +111,31 @@ module.exports = {
         return false;
     },
 
-    shell : function(cmd) {
+    intent: function(action, url) {
+        var command = 'adb shell am start -a ' + action + ' -d ' + url;
+        var result = shell.exec(command, { silent: true });
+
+        if (result.code === 0) {
+            return true;
+        }
+        
+        return false;
+    },
+
+    property: function(name) {
+        var command = 'adb shell getprop ' + name;
+        var result = shell.exec(command, { silent: true });
+
+        if (result.code === 0) {
+            return result.stdout.trim();
+        }
+
+        return null;
+    },
+    
+    shell: function(cmd) {
         var command = 'adb shell \"' + cmd + '\"';
-        var result = shell.exec(command, { silent:true });
+        var result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;

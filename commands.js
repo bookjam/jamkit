@@ -3,18 +3,21 @@ const fs          = require('fs-extra'),
       zipdir      = require('zip-dir'),
       tmp         = require('tmp'),
       ipfs        = require('ipfs-http-client'),
+      urlencode   = require('urlencode'),
+      uuid        = require('uuid/v4'),
       template    = require('./template'),
       catalog     = require('./catalog'),
       simulator   = require('./simulator'),
       shell       = require('./shell'),
       syncfolder  = require('./syncfolder'),
+      installer   = require('./installer'),
       bon         = require('./bon'),
-      urlencode   = require('urlencode'),
-      uuid        = require('uuid/v4');
+      leafly      = require('./leafly'),
+      utils       = require('./utils');
 
 const connect_base_url = "https://jamkit.io";
 
-function _generateAppID(wanted_app_id, template_app_id) {
+function _generate_app_id(wanted_app_id, template_app_id) {
     if (wanted_app_id === 'auto') {
         return 'com.yourdomain.' + uuid();
     }
@@ -26,9 +29,9 @@ function _generateAppID(wanted_app_id, template_app_id) {
     return wanted_app_id;
 }
 
-function _compressFolder(zipPath, callback) {
+function _compress_folder(zip_path, callback) {
     zipdir('.', { 
-        saveTo: zipPath,
+        saveTo: zip_path,
         filter: function(fullPath, stat) {
             if (path.basename(fullPath).startsWith(".")) {
                 return false;
@@ -50,8 +53,66 @@ function _compressFolder(zipPath, callback) {
     });
 }
 
-function _publishFile(zipPath, options, callback) {
-    ipfs(options).addFromFs(zipPath, {}, function(err, result) {
+function _publish_app(app_id, options, ipfs_options, callback) {
+    if (!options['app-url']) {
+        var basename = app_id.split(".").slice(-1);
+        var jamfile = basename + '.jam';
+
+        if (fs.existsSync(jamfile)) {
+            fs.unlinkSync(jamfile);
+        }
+
+        var tempfile = tmp.tmpNameSync();
+        _compress_folder(tempfile, function() {
+            fs.moveSync(tempfile, jamfile);
+
+            _publish_file(jamfile, ipfs_options, function(hash) {
+                callback("ipfs://hash/" + hash);
+            });
+        });
+    } else {
+        callback(options['app-url']);
+    }
+}
+
+function _publish_book(options, ipfs_options, callback) {
+    if (!options['book-url']) {
+        var basename = path.basename(path.resolve('.'))
+        var bxpfile = basename + '.bxp';
+
+        if (fs.existsSync(bxpfile)) {
+            fs.unlinkSync(bxpfile);
+        }
+
+        var tempfile = tmp.tmpNameSync();
+        _compress_folder(tempfile, function() {
+            fs.moveSync(tempfile, bxpfile);
+
+            _publish_file(bxpfile, ipfs_options, function(hash) {
+                callback("ipfs://hash/" + hash);
+            });
+        });
+    } else {
+        callback(options['book-url']);
+    }
+}
+
+function _publish_image(options, ipfs_options, callback) {
+    if (!options['image-url']) {
+        if (options['image-file']) {
+            _publish_file(options['image-file'], ipfs_options, function(hash) {
+                callback("https://ipfs.io/ipfs/" + hash);
+            });
+        } else {
+            callback();
+        }
+    } else {
+        callback(options['image-url']);
+    }
+}
+
+function _publish_file(path, options, callback) {
+    ipfs(options).addFromFs(path, {}, function(err, result) {
         if (err) {
             throw err;
         }
@@ -60,30 +121,39 @@ function _publishFile(zipPath, options, callback) {
     });
 } 
 
+function _shorten_url(url, callback) {
+    leafly.create_short_url(url)
+        .then(function({ url }) {
+            callback(url);
+        })
+        .catch(function(error) {
+            callback(url);
+        });
+}
+
 module.exports = {
-    createApp : function(name, options) {
+    create_app: function(name, options) {
         if (fs.existsSync(name)) {
             console.log('ERROR: ' + name + ' already exists!');
             return;
         }
 
-        template.copy('apps', name, options);
-
-        if (!fs.existsSync(name)) {
-            console.log('ERROR: template may not exists.');
-            return;
-        }
-
-        var bon_path = path.resolve(name, 'package.bon');
-        var appinfo = bon.parse(fs.readFileSync(bon_path, 'utf8'));
-
-        appinfo['id'] = _generateAppID(options['app-id'], appinfo['id']);
-        appinfo['version'] = options['version'];
+        template.copy('apps', name, options)
+            .then(function() {
+                var bon_path = path.resolve(name, 'package.bon');
+                var appinfo = bon.parse(fs.readFileSync(bon_path, 'utf8'));
         
-        fs.writeFileSync(bon_path, bon.stringify(appinfo));
+                appinfo['id'] = _generate_app_id(options['app-id'], appinfo['id']);
+                appinfo['version'] = options['version'];
+                
+                fs.writeFileSync(bon_path, bon.stringify(appinfo));        
+            })
+            .catch(function(error) {
+                console.log('ERROR: template may not exists.');
+            });
     },
 
-    runApp : function(platform, mode, shell_options) {
+    run_app: function(platform, mode, shell_options, options) {
         if (!fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found.');
             return;
@@ -96,49 +166,58 @@ module.exports = {
             return;
         }
 
-        simulator.start(platform, shell_options['port']).then(function(app_id) {
-            shell.ready(shell_options['host'], shell_options['port'], 60 * 1000).then(function() {  // 1 minute
-                return shell.open();
-            })
-            .then(function() {
-                if (mode === 'jam') {
-                    return shell.execute('app id'); // dummy command for promise
-                } else {
-                    return shell.execute('app id ' + appinfo['id']);
-                }
-            })
-            .then(function() {
-                if (mode === 'jam') {
-                    return shell.execute('catalog path resource ' + appinfo['id']);
-                } else {
-                    return shell.execute('catalog path resource');
-                }
-            })
-            .then(function(resource_path) {
-                var needs_reset = true;
-                syncfolder.start(platform, app_id, './catalogs', resource_path, function() {
-                    if (needs_reset) {
-                        if (mode === 'jam') {
-                            shell.execute('catalog reset ' + appinfo['id']);
+        simulator.start(platform, shell_options['port'])
+            .then(function(app_id) {
+                shell.ready(shell_options['host'], shell_options['port'], 60 * 1000) // 1 minute
+                    .then(function() {
+                        return shell.open();
+                    })
+                    .then(function() {
+                        if ([ 'jam', 'widget' ].includes(mode)) {
+                            return Promise.resolve(); // nothing to do
                         } else {
-                            shell.execute('catalog reset');
+                            return shell.execute('app id ' + appinfo['id']);
                         }
-                        needs_reset = false;
-                    } else {
-                        if (mode === 'jam') {
-                            shell.execute('catalog reload ' + appinfo['id']);
+                    })
+                    .then(function() {
+                        if ([ 'jam', 'widget' ].includes(mode)) {
+                            return shell.execute('catalog path resource ' + appinfo['id']);
                         } else {
-                            shell.execute('catalog reload');
+                            return shell.execute('catalog path resource');
                         }
-                    }
+                    })
+                    .then(function(resource_path) {
+                        var needs_reset = true;
+                        syncfolder.start(platform, app_id, './catalogs', resource_path, options, function() {
+                            if (needs_reset) {
+                                if ([ 'jam', 'widget' ].includes(mode)) {
+                                    shell.execute('app install ' + utils.dataToDataURL(appinfo));
+
+                                    if ([ 'jam' ].includes(mode)) {
+                                        shell.execute('catalog reset ' + appinfo['id']);
+                                    } else {
+                                        shell.execute('catalog reload');
+                                    }
+                                } else {
+                                    shell.execute('catalog reset');
+                                }
+                                needs_reset = false;
+                            } else {
+                                if ([ 'jam' ].includes(mode)) {
+                                    shell.execute('catalog reload ' + appinfo['id']);
+                                } else {
+                                    shell.execute('catalog reload');
+                                }
+                            }
+                        });
                 });
+            })
+            .catch(function() {
+                console.log('ERROR: could not start a simulator!');
             });
-        }, function() {
-            console.log('ERROR: could not start a simulator!');
-        });
     },
 
-    buildApp : function() {
+    build_app: function() {
         if (!fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found!');
             return;
@@ -151,7 +230,7 @@ module.exports = {
             return;
         }
 
-        var basename = path.basename(path.resolve('.'))
+        var basename = appinfo["id"].split(".").slice(-1);
         var jamfile = basename + '.jam';
 
         if (fs.existsSync(jamfile)) {
@@ -159,12 +238,12 @@ module.exports = {
         }
 
         var tempfile = tmp.tmpNameSync();
-        _compressFolder(tempfile, function() {
+        _compress_folder(tempfile, function() {
             fs.moveSync(tempfile, jamfile);
-        })
+        });
     },
 
-    publishApp : function(host, options, ipfs_options, install_urls) {
+    install_app: function(platform) {
         if (!fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found!');
             return;
@@ -177,106 +256,122 @@ module.exports = {
             return;
         }
 
-        if (!options['app-url']) {
-            var basename = path.basename(path.resolve('.'))
-            var jamfile = basename + '.jam';
-    
-            if (fs.existsSync(jamfile)) {
-                fs.unlinkSync(jamfile);
-            }
-    
-            var tempfile = tmp.tmpNameSync();
-            _compressFolder(tempfile, function() {
-                fs.moveSync(tempfile, jamfile);
-    
-                _publishFile(jamfile, ipfs_options, function(hash) {
-                    var title = options['title'] || appinfo['title']
-                    var url = (host['url'] || connect_base_url) + "/connect/app/?"
-                            + "app=" + appinfo['id'] + "&" + "url=" + urlencode("ipfs://hash/" + hash)
-                            + (title ? "&" + "title=" + urlencode(title) : "")
-                            + (appinfo['version'] ? "&" + "version=" + appinfo['version'] : "")
-                            + (options['image-url'] ? "&" + "image=" + urlencode(options['image-url']) : "")
-                            + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme'])
-    
-                    Object.keys(install_urls).forEach(function(platform) {
-                        if (install_urls[platform] !== 'auto') {
-                            url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
-                        }
-                    });
-    
-                    console.log(url);
-                });
-            });
-        } else {
-            var title = options['title'] || appinfo['title']
-            var url = (host['url'] || connect_base_url) + "/connect/app/?"
-                    + "app=" + appinfo['id'] + "&" + "url=" + urlencode(options['app-url'])
-                    + (title ? "&" + "title=" + urlencode(title) : "")
-                    + (appinfo['version'] ? "&" + "version=" + appinfo['version'] : "")
-                    + (options['image-url'] ? "&" + "image=" + urlencode(options['image-url']) : "")
-                    + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme'])
+        var basename = appinfo["id"].split(".").slice(-1);
+        var jamfile = basename + '.jam';
 
-            Object.keys(install_urls).forEach(function(platform) {
-                if (install_urls[platform] !== 'auto') {
-                    url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
-                }
-            });
-
-            console.log(url);
+        if (fs.existsSync(jamfile)) {
+            fs.unlinkSync(jamfile);
         }
+
+        var tempfile = tmp.tmpNameSync();
+        _compress_folder(tempfile, function() {
+            fs.moveSync(tempfile, jamfile);
+
+            installer.install(platform, jamfile);
+        });
     },
 
-    createBook : function(name, options) {
+    publish_app: function(host, options, ipfs_options, install_urls) {
+        if (!options['app-url'] && !fs.existsSync('./package.bon')) {
+            console.log('ERROR: package.bon not found!');
+            return;
+        }
+
+        var appinfo = bon.parse(fs.readFileSync('./package.bon', 'utf8')) || {};
+
+        if (!options['app-url'] && !appinfo) {
+            console.log('ERROR: package.bon is malformed.');
+            return;
+        }
+
+        if (options['language'] && appinfo['localization']) {
+            var localization = appinfo['localization'][options['language']] || {};
+
+            if (localization['title']) {
+                appinfo['title'] = localization['title'];
+            }
+        }
+
+        _publish_app(appinfo["id"], options, ipfs_options, function(app_url) {
+            _publish_image(options, ipfs_options, function(image_url) {
+                var title = options['title'] || appinfo['title'] || "";
+                var url = (host['url'] || connect_base_url) + "/connect/app/?"
+                        + "app=" + appinfo['id'] + "&" + "url=" + urlencode(app_url)
+                        + (title ? "&" + "title=" + urlencode(title) : "")
+                        + (appinfo['version'] ? "&" + "version=" + appinfo['version'] : "")
+                        + (image_url ? "&" + "image=" + urlencode(image_url) : "")
+                        + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme']);
+    
+                Object.keys(install_urls).forEach(function(platform) {
+                    if (install_urls[platform] !== 'auto') {
+                        url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
+                    }
+                });
+    
+                if (options['shorten-url']) {
+                    _shorten_url(url, function(url) {
+                        console.log(url);
+                    });
+                } else {
+                    console.log(url);
+                }
+            });
+        });
+    },
+
+    create_book: function(name, options) {
         if (fs.existsSync(name)) {
             console.log('ERROR: ' + name + ' already exists!');
             return;
         }
 
-        template.copy('books', name, options);
-
-        if (!fs.existsSync(name)) {
-            console.log('ERROR: template may not exists.');
-            return;
-        }
-
-        var bon_path = path.resolve(name, 'book.bon');
-        var bookinfo = bon.parse(fs.readFileSync(bon_path, 'utf8'));
-
-        bookinfo['version'] = options['version'];
-
-        fs.writeFileSync(bon_path, bon.stringify(bookinfo));
+        template.copy('books', name, options)
+            .then(function() {
+                var bon_path = path.resolve(name, 'book.bon');
+                var bookinfo = bon.parse(fs.readFileSync(bon_path, 'utf8'));
+        
+                bookinfo['version'] = options['version'];
+        
+                fs.writeFileSync(bon_path, bon.stringify(bookinfo));        
+            })
+            .catch(function(error) {
+                console.log('ERROR: template may not exists.');
+            });
     },
 
-    runBook : function(platform, shell_options) {
+    run_book: function(platform, shell_options, options) {
         if (!fs.existsSync('./book.bon')) {
             console.log('ERROR: book.bon not found!');
             return;
         }
 
-        simulator.start(platform, shell_options['port']).then(function(app_id) {
-            shell.ready(shell_options['host'], shell_options['port'], 60 * 1000).then(function() { // 1 minute
-                return shell.open();
-            })
-            .then(function() {
-                return shell.execute('book path resource');
-            })
-            .then(function(resource_path) {
-                var needs_open = true;
-                syncfolder.start(platform, app_id, '.', resource_path, function() {
-                    if (needs_open) {
-                        shell.execute('book open');
-                        needs_open = false;
-                    } else {
-                        shell.execute('book reload');
-                    }
-                });
-            });
-        }, function() {
+        simulator.start(platform, shell_options['port'])
+            .then(function(app_id) {
+                shell.ready(shell_options['host'], shell_options['port'], 60 * 1000) // 1 minute
+                    .then(function() { 
+                        return shell.open();
+                    })
+                    .then(function() {
+                        return shell.execute('book path resource');
+                    })
+                    .then(function(resource_path) {
+                        var needs_open = true;
+                        syncfolder.start(platform, app_id, '.', resource_path, options, function() {
+                            if (needs_open) {
+                                shell.execute('book open');
+                                needs_open = false;
+                            } else {
+                                shell.execute('book reload');
+                            }
+                        });
+                    });
+        })
+        .catch(function() {
             console.log('ERROR: could not start a simulator!');
         });
     },
 
-    buildBook : function() {
+    build_book: function() {
         if (!fs.existsSync('./book.bon')) {
             console.log('ERROR: book.bon not found!');
             return;
@@ -290,75 +385,73 @@ module.exports = {
         }
 
         var tempfile = tmp.tmpNameSync();
-        _compressFolder(tempfile, function() {
-            fs.renameSync(tempfile, bxpfile);
-        })
+        _compress_folder(tempfile, function() {
+            fs.moveSync(tempfile, bxpfile);
+        });
     },
 
-    publishBook : function(host, options, ipfs_options, install_urls) {
+    install_book: function(platform) {
         if (!fs.existsSync('./book.bon')) {
+            console.log('ERROR: book.bon not found!');
+            return;
+        }
+
+        var basename = path.basename(path.resolve('.'))
+        var bxpfile = basename + '.bxp';
+
+        if (fs.existsSync(bxpfile)) {
+            fs.unlinkSync(bxpfile);
+        }
+
+        var tempfile = tmp.tmpNameSync();
+        _compress_folder(tempfile, function() {
+            fs.moveSync(tempfile, bxpfile);
+
+            installer.install(platform, jamfile);
+        });
+    },
+
+    publish_book: function(host, options, ipfs_options, install_urls) {
+        if (!options['book-url'] && !fs.existsSync('./book.bon')) {
             console.log('ERROR: book.bon not found!');
             return;
         }
 
         var bookinfo = bon.parse(fs.readFileSync('./book.bon', 'utf8'));
 
-        if (!bookinfo) {
+        if (!options['book-url'] && !bookinfo) {
             console.log('ERROR: book.bon is malformed.');
             return;
         }
 
-        if (!options['app-url']) {
-            var basename = path.basename(path.resolve('.'))
-            var bxpfile = basename + '.bxp';
-            
-            if (fs.existsSync(bxpfile)) {
-                fs.unlinkSync(bxpfile);
-            }
+        _publish_book(options, function(book_url) {
+            _publish_image(options, ipfs_options, function(image_url) {
+                var title = options['title'] || appinfo['title'] || "";
+                var url = (host['url'] || connect_base_url) + "/connect/book/?"
+                        + "book=" + basename + "&" + "url=" + urlencode(book_url)
+                        + (title ? "&" + "title=" + urlencode(title) : "")
+                        + (bookinfo['version'] ? "&" + "version=" + bookinfo['version'] : "")
+                        + (image_url ? "&" + "image=" + urlencode(image_url) : "")
+                        + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme']);
     
-            var tempfile = tmp.tmpNameSync();
-            _compressFolder(tempfile, function() {
-                fs.renameSync(tempfile, bxpfile);
-    
-                _publishFile(bxpfile, ipfs_options, function(hash) {
-                    var title = options['title'] || bookinfo['title']
-                    var url = (host['url'] || connect_base_url) + "/connect/book/?"
-                            + "book=" + basename + "&" + "url=" + urlencode("ipfs://hash/" + hash)
-                            + (title ? "&" + "title=" + urlencode(title) : "")
-                            + (bookinfo['version'] ? "&" + "version=" + bookinfo['version'] : "")
-                            + (options['image-url'] ? "&" + "image=" + urlencode(options['image-url']) : "")
-                            + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme'])
-    
-                    Object.keys(install_urls).forEach(function(platform) {
-                        if (install_urls[platform] !== 'auto') {
-                            url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
-                        }
-                    });
-            
-                    console.log(url);
+                Object.keys(install_urls).forEach(function(platform) {
+                    if (install_urls[platform] !== 'auto') {
+                        url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
+                    }
                 });
-            });
-        } else {
-            var title = options['title'] || bookinfo['title']
-            var url = (host['url'] || connect_base_url) + "/connect/book/?"
-                    + "book=" + basename + "&" + "url=" + urlencode(options['app-url'])
-                    + (title ? "&" + "title=" + urlencode(title) : "")
-                    + (bookinfo['version'] ? "&" + "version=" + bookinfo['version'] : "")
-                    + (options['image-url'] ? "&" + "image=" + urlencode(options['image-url']) : "")
-                    + (host['url'] ? "" : "&" + "host-scheme=" + host['scheme'])
-
-            Object.keys(install_urls).forEach(function(platform) {
-                if (install_urls[platform] !== 'auto') {
-                    url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
+    
+                if (options['shorten-url']) {
+                    _shorten_url(url, function(url) {
+                        console.log(url);
+                    });
+                } else {
+                    console.log(url);
                 }
             });
-    
-            console.log(url);
-        }
-
+        });
     },
 
-    generateDatabase : function(target, store, file) {
+    generate_database: function(target, store, file) {
         var data = catalog.load_from_spreadsheet(file, store);
         var basedir = path.join('catalogs', target);
 

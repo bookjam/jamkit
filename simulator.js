@@ -9,7 +9,7 @@ const simctl = require('./simctl'),
 
 const _impl = {
     "ios": {
-        start : function() {
+        start: function() {
             var self = this;
 
             return new Promise(function(resolve, reject) {
@@ -27,7 +27,7 @@ const _impl = {
             });
         },
 
-        _start_device : function() {
+        _start_device: function() {
             var device = this._find_booted_device();
 
             if (device === null) {
@@ -48,7 +48,7 @@ const _impl = {
             return device;
         },
 
-        _launch_app : function(handler) {
+        _launch_app: function(handler) {
             var app_path = path.resolve(__dirname, 'jamkit.app');
             var app_info = plist.readFileSync(path.resolve(app_path, 'Info.plist'))
             var app_id = app_info.CFBundleIdentifier;
@@ -76,7 +76,7 @@ const _impl = {
             }
         },
 
-        _create_available_device : function(type) {
+        _create_available_device: function(type) {
             var siminfo = simctl.list();
 
             var devtypes = siminfo.devicetypes.filter(function(devtype) {
@@ -108,7 +108,7 @@ const _impl = {
             }
         },
 
-        _find_booted_device : function() {
+        _find_booted_device: function() {
             var siminfo = simctl.list();
             var device = null;
 
@@ -133,7 +133,7 @@ const _impl = {
             return device;
         },
 
-        _find_available_device : function() {
+        _find_available_device: function() {
             var siminfo = simctl.list();
             var device = null;
 
@@ -170,7 +170,7 @@ const _impl = {
     },
 
     "android": {
-        start : function(port) {
+        start: function(port) {
             var self = this;
 
             return new Promise(function(resolve, reject) {
@@ -186,11 +186,9 @@ const _impl = {
                     reject();
                 }
             });
-            
-            return false;            
         },
 
-        _start_device : function() {
+        _start_device: function() {
            if (!avdctl.property('sys.boot_completed')) {
                 var device = this._find_available_device();
 
@@ -212,7 +210,7 @@ const _impl = {
             return false;
         },
 
-        _forward_port : function(port) {
+        _forward_port: function(port) {
             if (avdctl.forward("tcp:" + port, "tcp:" + port)) {
                 return true;
             }
@@ -220,37 +218,39 @@ const _impl = {
             return false;
         },
 
-        _launch_app : function(handler) {
+        _launch_app: function(handler) {
             var app_path = path.resolve(__dirname, 'jamkit.apk');
 
-            this._read_manifest(app_path).then(function(manifest) {
-                var app_id = manifest['package'];
-                var app_version = manifest['versionName'];
-                var installed_version = avdctl.version(app_id);
+            this._read_manifest(app_path)
+                .then(function(manifest) {
+                    var app_id = manifest['package'];
+                    var app_version = manifest['versionName'];
+                    var installed_version = avdctl.version(app_id);
 
-                if (!installed_version || installed_version != app_version) {
-                    if (installed_version) {
-                        avdctl.uninstall(app_id);
-                    }
+                    if (!installed_version || installed_version != app_version) {
+                        if (installed_version) {
+                            avdctl.uninstall(app_id);
+                        }
                     
-                    avdctl.install(app_path);
-                }
+                        avdctl.install(app_path);
+                    }
 
-                if (avdctl.launch(app_id)) {
-                    console.log("Done");
+                    if (avdctl.launch(app_id)) {
+                        console.log("Done");
 
-                    handler(app_id);
-                } else {
+                        handler(app_id);
+                    } else {
+                        handler();
+                    }
+                })
+                .catch(function() {
                     handler();
-                }
-            }, function() {
-                handler();
-            });
+                });
 
             process.stdout.write("Launching the browser... ");
         }, 
 
-        _find_available_device : function() {
+        _find_available_device: function() {
             var devices = avdctl.list();
 
             if (devices) {
@@ -260,21 +260,22 @@ const _impl = {
             return null;
         }, 
 
-        _read_manifest : function(app_path) {
+        _read_manifest: function(app_path) {
             return new Promise(function(resolve, reject) {
-                apk.open(app_path).then(function(reader) {
-                    return reader.readManifest();
-                })
-                .then(function(manifest) {
-                    resolve(manifest);
-                })
-                .catch(function() {
-                    reject();
-                });              
+                apk.open(app_path)
+                    .then(function(reader) {
+                        return reader.readManifest();
+                    })
+                    .then(function(manifest) {
+                        resolve(manifest);
+                    })
+                    .catch(function() {
+                        reject();
+                    });       
             });
         },
 
-        _wait_until_device_booted : function() {
+        _wait_until_device_booted: function() {
             var timeout = 3000, sleeptime = 200;
 
             while (!avdctl.property('sys.boot_completed')) {
@@ -293,7 +294,7 @@ const _impl = {
 };
 
 module.exports = {
-    start : function(platform, port) {
+    start: function(platform, port) {
         return _impl[platform].start(port);
     }
 }

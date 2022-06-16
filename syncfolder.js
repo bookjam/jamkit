@@ -5,7 +5,7 @@ const chokidar = require('chokidar'),
 
 var _impl = {
     "ios" : {
-        sync : function(app_id, src, dest) {
+        sync: function(app_id, src, dest) {
             if (fs.existsSync(dest)) {
                 fs.removeSync(dest);
             }
@@ -13,7 +13,7 @@ var _impl = {
             fs.copySync(src, dest);
         },
 
-        copy : function(app_id, src, dest) {
+        copy: function(app_id, src, dest) {
             if (!fs.lstatSync(src).isDirectory) {
                 fs.writeFileSync(dest, fs.readFileSync(src));
             } else {
@@ -21,42 +21,63 @@ var _impl = {
             }
         },
     
-        remove : function(app_id, path) {
+        remove: function(app_id, path) {
             fs.removeSync(path);
         }
     },
 
     "android" : {
-        sync : function(app_id, src, dest) {
+        sync: function(app_id, src, dest) {
             var tmproot = '/data/local/tmp/jamkit';
 
             avdctl.shell('rm -rf ' + tmproot);
             avdctl.push(src, tmproot);
-            avdctl.shell('run-as ' + app_id + ' cp -rf ' + tmproot + '/* ' + dest);
+
+            if (avdctl.get_sdk_version() >= 30) {
+                avdctl.shell('rm -rf ' + dest);
+                avdctl.shell('mkdir ' + dest);
+                avdctl.shell('cp -rf ' + tmproot + '/* ' + dest);
+            } else {
+                avdctl.shell('run-as ' + app_id + ' rm -rf ' + dest);
+                avdctl.shell('run-as ' + app_id + ' mkdir ' + dest);
+                avdctl.shell('run-as ' + app_id + ' cp -rf ' + tmproot + '/* ' + dest);
+            }
         },
 
-        copy : function(app_id, src, dest) {
+        copy: function(app_id, src, dest) {
             var tmproot = '/data/local/tmp/jamkit';
             var tmppath = tmproot + "/" + path.basename(src);
 
             avdctl.push(src, tmppath);
-            avdctl.shell('run-as ' + app_id + ' cp -rf ' + tmppath + ' ' + dest);
+
+            if (avdctl.get_sdk_version() >= 30) {
+                avdctl.shell('cp -rf ' + tmppath + ' ' + dest);
+            } else {
+                avdctl.shell('run-as ' + app_id + ' cp -rf ' + tmppath + ' ' + dest);
+            }
         },
         
-        remove : function(app_id, path) {
-            avdctl.shell('run-as ' + app_id + ' rm -rf ' + path.replace(/\\/g, '/'));
+        remove: function(app_id, path) {
+            if (avdctl.get_sdk_version() >= 30) {
+                avdctl.shell('rm -rf ' + path.replace(/\\/g, '/'));
+            } else {
+                avdctl.shell('run-as ' + app_id + ' rm -rf ' + path.replace(/\\/g, '/'));
+            }
         }
     }
 }
 
 module.exports = {
-    start : function(platform, app_id, src, dest, handler) {
+    start: function(platform, app_id, src, dest, options, handler) {
         var watcher = chokidar.watch(src, { ignored: /[\/\\]\./, persistent: true });
         var is_ready = false;
         
         watcher
             .on('ready', function() {
-                _impl[platform].sync(app_id, src, dest);
+                if (!options['skip-sync']) {
+                    _impl[platform].sync(app_id, src, dest);
+                }
+
                 is_ready = true;
 
                 console.log("Done");

@@ -24,7 +24,7 @@ function _connect_to_host(host, port, timeout, callback) {
 };
 
 module.exports = {
-    ready : function(host, port, timeout) {
+    ready: function(host, port, timeout) {
         return new Promise(function(resolve, reject) {
             _connect_to_host(host, port, timeout, function() {
                 resolve();
@@ -32,7 +32,7 @@ module.exports = {
         });
     },
 
-    open : function() {
+    open: function() {
         return new Promise(function(resolve, reject) {
             callbacks = new Array();
             lines = '';
@@ -40,7 +40,7 @@ module.exports = {
             callbacks.push(resolve);
 
             client.on('data', function(data) {
-                lines += utils.bytesToString(data);
+                lines += data.toString('utf-8');
 
                 if (lines.match(/(.|\n)*\$ $/)) {
                     (lines.match(/(.|\n)*\$ ?/g)||[]).forEach(function(line) {
@@ -65,7 +65,7 @@ module.exports = {
         });
     },
 
-    execute : function(command) {
+    execute: function(command) {
         return new Promise(function(resolve, reject) {
             callbacks.push(resolve);
 
@@ -74,7 +74,7 @@ module.exports = {
         });
     },
 
-    close : function() {
+    close: function() {
         client.end();
     }
 }

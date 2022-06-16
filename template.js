@@ -1,21 +1,23 @@
-const shell = require('shelljs')
-    
+const download = require('fetch-repo-dir');
+
 module.exports = {
-    copy : function(type, path, options) {
-        var repository = options['repository'] || 'bookjam/jamkit-templates';
-        var template = options['template'] || 'hello-world';
-        var language = options['language'] || 'en';
-        var github_url = 'https://github.com/' + repository + '.git';
-        var github_path = type + '/' + template + '/' + language
+    copy: function(type, output, options) {
+        return new Promise(function(resolve, reject) {
+            var repository = options['repository'] || 'bookjam/jamkit-templates';
+            var template = options['template'] || 'hello-world';
+            var language = options['language'] || 'global';
+            var path = type + '/' + template + '/' + language;
 
-        if (options['theme']) {
-            github_path += '/' + options['theme'];
-        }
-
-        var svn_path = github_url + '/trunk/' + github_path;
-        var svn_options = '--non-interactive --trust-server-cert';
-        var command = 'svn export ' + svn_path + ' ' + path + ' ' + svn_options;
-
-        shell.exec(command, { silent:true });
+            download({
+                src: repository + '/' + path,
+                dir: output
+            })
+                .then(function() {
+                    resolve();
+                })
+                .catch(function(error) {
+                    reject(error);
+                }) 
+        });
     }
 }

@@ -95,7 +95,7 @@ function _rows_to_raw_list(rows) {
         Object.keys(row).forEach(function(header) {
 			var value = row[header].toString();
 
-            if (value) {
+            if (value && !header.endsWith('-(x)')) {
                 data[header] = value;
             }
         });
@@ -301,7 +301,7 @@ function _stringify_value(value) {
 }
 
 module.exports = {
-    load_from_spreadsheet : function(path, store) {
+    load_from_spreadsheet: function(path, store) {
         var source = _load_spreadsheet_data(path);
         var data = {}, sortkeys = {};
 
@@ -414,7 +414,7 @@ module.exports = {
         return [ data, sortkeys ];
     },
 
-    save_to_file : function(data, path, include_all_data) {
+    save_to_file: function(data, path, include_all_data) {
         var keys_to_skip = _bool_for_key(data, 'uses-database') ? _KEYS_IN_DATABASE : [];
         var catalog_dict = {};
 
@@ -427,7 +427,7 @@ module.exports = {
         fs.writeFileSync(path, JSON.stringify(catalog_dict, null, 4));
     },
 
-    save_to_database : function(data, sortkeys, path) {
+    save_to_database: function(data, sortkeys, path) {
         if (fs.existsSync(path)) {
             fs.unlinkSync(path);
         }
