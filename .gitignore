@@ -7,3 +7,9 @@ package-lock.json
 # OS X
 .DS_Store
 
+# App
+jamkit.apk
+jamkit.App
+
+# Tools
+.vscode
