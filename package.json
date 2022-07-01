@@ -35,7 +35,7 @@
     "node-fetch": "^2.6.7",
     "path": "^0.12.7",
     "shelljs": "^0.8.4",
-    "simctl": "^0.0.9",
+    "simctl": "^2.0.3",
     "simple-plist": "^1.0.0",
     "sleep": "^6.3.0",
     "sprintf-js": "^1.1.2",
