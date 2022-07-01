@@ -1,25 +1,25 @@
-const fs          = require('fs-extra'),
-      path        = require('path'),
-      zipdir      = require('zip-dir'),
-      tmp         = require('tmp'),
-      ipfs        = require('ipfs-http-client'),
-      urlencode   = require('urlencode'),
-      uuid        = require('uuid/v4'),
-      template    = require('./template'),
-      catalog     = require('./catalog'),
-      simulator   = require('./simulator'),
-      shell       = require('./shell'),
-      syncfolder  = require('./syncfolder'),
-      installer   = require('./installer'),
-      bon         = require('./bon'),
-      leafly      = require('./leafly'),
-      utils       = require('./utils');
+const fs             = require('fs-extra'),
+      path           = require('path'),
+      zipdir         = require('zip-dir'),
+      tmp            = require('tmp'),
+      ipfs           = require('ipfs-http-client'),
+      urlencode      = require('urlencode'),
+      { v4: uuidv4 } = require('uuid'),
+      template       = require('./template'),
+      catalog        = require('./catalog'),
+      simulator      = require('./simulator'),
+      shell          = require('./shell'),
+      syncfolder     = require('./syncfolder'),
+      installer      = require('./installer'),
+      bon            = require('./bon'),
+      leafly         = require('./leafly'),
+      utils          = require('./utils');
 
 const connect_base_url = "https://jamkit.io";
 
 function _generate_app_id(wanted_app_id, template_app_id) {
     if (wanted_app_id === 'auto') {
-        return 'com.yourdomain.' + uuid();
+        return 'com.yourdomain.' + uuidv4();
     }
 
     if (wanted_app_id === 'manual') {
