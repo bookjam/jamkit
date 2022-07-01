@@ -16,6 +16,9 @@
   ],
   "author": "Hanyeol Cho <hanyeol.cho@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": ">=10.0"
+  },
   "bugs": {
     "url": "https://github.com/bookjam/jamkit/issues"
   },
@@ -26,7 +29,7 @@
     "chokidar": "^3.4.3",
     "fetch-repo-dir": "^1.0.4",
     "fs-extra": "^8.1.0",
-    "ipfs-http-client": "^29.1.1",
+    "ipfs-http-client": "^56.0.3",
     "is-empty-object": "^1.1.1",
     "is-object": "^1.0.1",
     "node-fetch": "^2.6.7",
