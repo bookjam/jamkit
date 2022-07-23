@@ -16,6 +16,9 @@
   ],
   "author": "Hanyeol Cho <hanyeol.cho@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": ">=10.0"
+  },
   "bugs": {
     "url": "https://github.com/bookjam/jamkit/issues"
   },
@@ -26,13 +29,13 @@
     "chokidar": "^3.4.3",
     "fetch-repo-dir": "^1.0.4",
     "fs-extra": "^8.1.0",
-    "ipfs-http-client": "^29.1.1",
+    "ipfs-http-client": "^56.0.3",
     "is-empty-object": "^1.1.1",
     "is-object": "^1.0.1",
     "node-fetch": "^2.6.7",
     "path": "^0.12.7",
     "shelljs": "^0.8.4",
-    "simctl": "^0.0.9",
+    "simctl": "^2.0.3",
     "simple-plist": "^1.0.0",
     "sleep": "^6.3.0",
     "sprintf-js": "^1.1.2",
@@ -40,9 +43,9 @@
     "tmp": "^0.0.28",
     "uglify-js": "^3.7.5",
     "urlencode": "^1.1.0",
-    "uuid": "^3.4.0",
-    "xlsx": "^0.14.1",
+    "uuid": "^8.3.2",
+    "xlsx": "^0.18.5",
     "yargs": "^4.7.1",
-    "zip-dir": "^1.0.2"
+    "zip-dir": "^2.0.0"
   }
 }

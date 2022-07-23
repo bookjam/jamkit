@@ -1,25 +1,26 @@
-const fs          = require('fs-extra'),
-      path        = require('path'),
-      zipdir      = require('zip-dir'),
-      tmp         = require('tmp'),
-      ipfs        = require('ipfs-http-client'),
-      urlencode   = require('urlencode'),
-      uuid        = require('uuid/v4'),
-      template    = require('./template'),
-      catalog     = require('./catalog'),
-      simulator   = require('./simulator'),
-      shell       = require('./shell'),
-      syncfolder  = require('./syncfolder'),
-      installer   = require('./installer'),
-      bon         = require('./bon'),
-      leafly      = require('./leafly'),
-      utils       = require('./utils');
+const fs             = require('fs-extra'),
+      path           = require('path'),
+      zipdir         = require('zip-dir'),
+      tmp            = require('tmp'),
+      { create: ipfs,
+        globSource } = require('ipfs-http-client'),
+      urlencode      = require('urlencode'),
+      { v4: uuidv4 } = require('uuid'),
+      template       = require('./template'),
+      catalog        = require('./catalog'),
+      simulator      = require('./simulator'),
+      shell          = require('./shell'),
+      syncfolder     = require('./syncfolder'),
+      installer      = require('./installer'),
+      bon            = require('./bon'),
+      leafly         = require('./leafly'),
+      utils          = require('./utils');
 
 const connect_base_url = "https://jamkit.io";
 
 function _generate_app_id(wanted_app_id, template_app_id) {
     if (wanted_app_id === 'auto') {
-        return 'com.yourdomain.' + uuid();
+        return 'com.yourdomain.' + uuidv4();
     }
 
     if (wanted_app_id === 'manual') {
@@ -66,9 +67,13 @@ function _publish_app(app_id, options, ipfs_options, callback) {
         _compress_folder(tempfile, function() {
             fs.moveSync(tempfile, jamfile);
 
-            _publish_file(jamfile, ipfs_options, function(hash) {
-                callback("ipfs://hash/" + hash);
-            });
+            _publish_file(jamfile, ipfs_options)
+                .then(function(hash) {
+                    callback("ipfs://hash/" + hash);
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
         });
     } else {
         callback(options['app-url']);
@@ -88,9 +93,13 @@ function _publish_book(options, ipfs_options, callback) {
         _compress_folder(tempfile, function() {
             fs.moveSync(tempfile, bxpfile);
 
-            _publish_file(bxpfile, ipfs_options, function(hash) {
-                callback("ipfs://hash/" + hash);
-            });
+            _publish_file(bxpfile, ipfs_options)
+                .then(function(hash) {
+                    callback("ipfs://hash/" + hash);
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
         });
     } else {
         callback(options['book-url']);
@@ -100,9 +109,13 @@ function _publish_book(options, ipfs_options, callback) {
 function _publish_image(options, ipfs_options, callback) {
     if (!options['image-url']) {
         if (options['image-file']) {
-            _publish_file(options['image-file'], ipfs_options, function(hash) {
-                callback("https://ipfs.io/ipfs/" + hash);
-            });
+            _publish_file(options['image-file'], ipfs_options)
+                .then(function(hash) {
+                    callback("https://ipfs.io/ipfs/" + hash);
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
         } else {
             callback();
         }
@@ -111,15 +124,11 @@ function _publish_image(options, ipfs_options, callback) {
     }
 }
 
-function _publish_file(path, options, callback) {
-    ipfs(options).addFromFs(path, {}, function(err, result) {
-        if (err) {
-            throw err;
-        }
-
-        callback(result[0]['hash']);
-    });
-} 
+async function _publish_file(path, options, callback) {
+    for await (const file of ipfs(options).addAll(globSource('./', path))) {
+        callback(file["cid"]);
+    }
+}
 
 function _shorten_url(url, callback) {
     leafly.create_short_url(url)
