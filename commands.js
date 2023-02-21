@@ -15,7 +15,7 @@ const fs         = require('fs-extra'),
       leafly     = require('./leafly'),
       utils      = require('./utils');
 
-const connect_base_url = "https://jamkit.io";
+const CONNECT_BASE_URL = "https://jamkit.io";
 
 function _generate_app_id(wanted_app_id, template_app_id) {
     if (wanted_app_id === 'auto') {
@@ -37,7 +37,7 @@ function _compress_folder(zip_path, callback) {
                 return false;
             }
 
-            if (['.jam','.bxp'].includes(path.extname(fullPath))) {
+            if ([ '.jam', '.bxp' ].includes(path.extname(fullPath))) {
                 return false;
             }
 
@@ -54,7 +54,7 @@ function _compress_folder(zip_path, callback) {
 }
 
 function _publish_app(app_id, options, ipfs_options, callback) {
-    if (!options['app-url']) {
+    if (!options['file-url']) {
         var basename = app_id.split(".").slice(-1);
         var jamfile = basename + '.jam';
 
@@ -75,12 +75,12 @@ function _publish_app(app_id, options, ipfs_options, callback) {
                 });
         });
     } else {
-        callback(options['app-url']);
+        callback(options['file-url']);
     }
 }
 
 function _publish_book(options, ipfs_options, callback) {
-    if (!options['book-url']) {
+    if (!options['file-url']) {
         var basename = path.basename(path.resolve('.'))
         var bxpfile = basename + '.bxp';
 
@@ -101,7 +101,7 @@ function _publish_book(options, ipfs_options, callback) {
                 });
         });
     } else {
-        callback(options['book-url']);
+        callback(options['file-url']);
     }
 }
 
@@ -123,10 +123,11 @@ function _publish_image(options, ipfs_options, callback) {
     }
 }
 
-async function _publish_file(path, options, callback) {
-    for await (const file of ipfs.create(options).addAll(ipfs.globSource('./', path))) {
-        callback(file["cid"]);
-    }
+function _publish_file(path, options) {
+    return ipfs.create(options)
+        .then((client) => {
+            return Promise.all(client.addAll(ipfs.globSource('./', path)));
+        });
 }
 
 function _shorten_url(url, callback) {
@@ -140,15 +141,15 @@ function _shorten_url(url, callback) {
 }
 
 module.exports = {
-    create_app: function(name, options) {
-        if (fs.existsSync(name)) {
-            console.log('ERROR: ' + name + ' already exists!');
+    create_app: function(directory, options) {
+        if (fs.existsSync(directory)) {
+            console.log('ERROR: ' + directory + ' already exists!');
             return;
         }
 
-        template.copy('apps', name, options)
+        template.copy('apps', directory, options)
             .then(function() {
-                var bon_path = path.resolve(name, 'package.bon');
+                var bon_path = path.resolve(directory, 'package.bon');
                 var appinfo = bon.parse(fs.readFileSync(bon_path, 'utf8'));
         
                 appinfo['id'] = _generate_app_id(options['app-id'], appinfo['id']);
@@ -280,14 +281,14 @@ module.exports = {
     },
 
     publish_app: function(host, options, ipfs_options, install_urls) {
-        if (!options['app-url'] && !fs.existsSync('./package.bon')) {
+        if (!options['file-url'] && !fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found!');
             return;
         }
 
         var appinfo = bon.parse(fs.readFileSync('./package.bon', 'utf8')) || {};
 
-        if (!options['app-url'] && !appinfo) {
+        if (!options['file-url'] && !appinfo) {
             console.log('ERROR: package.bon is malformed.');
             return;
         }
@@ -303,7 +304,7 @@ module.exports = {
         _publish_app(appinfo["id"], options, ipfs_options, function(app_url) {
             _publish_image(options, ipfs_options, function(image_url) {
                 var title = options['title'] || appinfo['title'] || "";
-                var url = (host['url'] || connect_base_url) + "/connect/app/?"
+                var url = (host['url'] || CONNECT_BASE_URL) + "/connect/app/?"
                         + "app=" + appinfo['id'] + "&" + "url=" + urlencode(app_url)
                         + (title ? "&" + "title=" + urlencode(title) : "")
                         + (appinfo['version'] ? "&" + "version=" + appinfo['version'] : "")
@@ -327,15 +328,15 @@ module.exports = {
         });
     },
 
-    create_book: function(name, options) {
-        if (fs.existsSync(name)) {
-            console.log('ERROR: ' + name + ' already exists!');
+    create_book: function(directory, options) {
+        if (fs.existsSync(directory)) {
+            console.log('ERROR: ' + directory + ' already exists!');
             return;
         }
 
-        template.copy('books', name, options)
+        template.copy('books', directory, options)
             .then(function() {
-                var bon_path = path.resolve(name, 'book.bon');
+                var bon_path = path.resolve(directory, 'book.bon');
                 var bookinfo = bon.parse(fs.readFileSync(bon_path, 'utf8'));
         
                 bookinfo['version'] = options['version'];
@@ -420,14 +421,14 @@ module.exports = {
     },
 
     publish_book: function(host, options, ipfs_options, install_urls) {
-        if (!options['book-url'] && !fs.existsSync('./book.bon')) {
+        if (!options['file-url'] && !fs.existsSync('./book.bon')) {
             console.log('ERROR: book.bon not found!');
             return;
         }
 
         var bookinfo = bon.parse(fs.readFileSync('./book.bon', 'utf8'));
 
-        if (!options['book-url'] && !bookinfo) {
+        if (!options['file-url'] && !bookinfo) {
             console.log('ERROR: book.bon is malformed.');
             return;
         }
@@ -435,7 +436,7 @@ module.exports = {
         _publish_book(options, function(book_url) {
             _publish_image(options, ipfs_options, function(image_url) {
                 var title = options['title'] || appinfo['title'] || "";
-                var url = (host['url'] || connect_base_url) + "/connect/book/?"
+                var url = (host['url'] || CONNECT_BASE_URL) + "/connect/book/?"
                         + "book=" + basename + "&" + "url=" + urlencode(book_url)
                         + (title ? "&" + "title=" + urlencode(title) : "")
                         + (bookinfo['version'] ? "&" + "version=" + bookinfo['version'] : "")

@@ -1,6 +1,6 @@
 const shell = require('shelljs'),
       child_process = require('child_process'),
-      sleep = require('sleep');
+      sleep = require('system-sleep');
 
 function _emulator_path() {
     var command = (process.platform === 'win32') ? 'where emulator' : 'which emulator';
@@ -65,7 +65,7 @@ module.exports = {
 
         if (result.code === 0) {
             if (!result.stderr) {
-                sleep.sleep(3);
+                sleep(3000);
             }
 
             return true;
