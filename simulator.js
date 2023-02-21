@@ -29,7 +29,7 @@ const _impl = {
 
         _start_device: function() {
             var device = this._find_booted_device();
- console.log(device)
+
             if (device === null) {
                 device = this._find_available_device();
 
