@@ -4,7 +4,6 @@ const path   = require('path'),
       apk    = require('adbkit-apkreader'),
       simctl = require('./simctl'),
       avdctl = require('./avdctl'),
-      shell  = require('./shell'),
       sleep  = require('./sleep')
 
 const _impl = {
@@ -32,80 +31,69 @@ const _impl = {
 
             if (device === null) {
                 device = this._find_available_device();
-
-                if (device === null) {
-                    this._create_available_device('iPhone');
-                    this._create_available_device('iPad');
-
-                    device = this._find_available_device();
-                }    
         
-                if (device && device.id) {
-                    simctl.start(device.id);
+                if (device) {
+                    process.stdout.write("Starting an simulator... ");
+
+                    simctl.start(device.udid);
+                    
+                    if (this._wait_until_device_booted()) {
+                        console.log("Done");
+                        
+                        return true;
+                    }
                 }
+            } else {
+                return true;
             }
 
-            return device;
+            return false;
         },
 
         _launch_app: function(handler) {
             var app_path = path.resolve(__dirname, 'jamkit.app');
-            var app_info = plist.readFileSync(path.resolve(app_path, 'Info.plist'))
-            var app_id = app_info.CFBundleIdentifier;
-            var app_version = app_info.CFBundleVersion;
-            var container = simctl.container('booted', app_id);
+            var self = this;
 
-            if (container != null && fs.existsSync(container)) {
-                var installed_info = plist.readFileSync(path.resolve(container, 'Info.plist'));
-                var installed_version = installed_info.CFBundleVersion;
+            this._read_info_plist(app_path)
+                .then(function(info) {
+                    var app_id = info.CFBundleIdentifier;
+                    var app_version = info.CFBundleVersion;
+                    var container = simctl.container('booted', app_id);
+                    
+                    if (container) {
+                        return self._read_info_plist(container)
+                            .then(function(info) {
+                                var installed_version = info.CFBundleVersion;
+                                
+                                if (installed_version !== app_version) {
+                                    simctl.uninstall('booted', app_id);
+                                    container = null;
+                                }
 
-                if (installed_version !== app_version) {
-                    simctl.uninstall('booted', app_id);
-                    container = null;
-                }
-            }
+                                return Promise.resolve([ app_id, container ]);
+                            });
+                    } else {
+                        return Promise.resolve([ app_id ]);
+                    }
+                })
+                .then(function([ app_id, container ]) {
+                    if (!container || !fs.existsSync(container)) {
+                        simctl.install('booted', app_path);
+                    }
 
-            if (container == null || !fs.existsSync(container)) {
-                simctl.install('booted', app_path);
-            }
+                    if (simctl.launch('booted', app_id)) {
+                        console.log("Done");
+    
+                        handler(app_id);
+                    } else {
+                        handler();
+                    }
+                })
+                .catch(function() {
+                    handler();
+                });
 
-            if (simctl.launch('booted', app_id)) {
-                handler(app_id);
-            } else {
-                handler();
-            }
-        },
-
-        _create_available_device: function(type) {
-            var siminfo = simctl.list();
-
-            var devtypes = siminfo.devicetypes.filter(function(devtype) {
-                if (devtype.name.startsWith(type)) {
-                    return true;
-                }
-                return false;
-            }).sort(function(devtype1, devtype2) {
-                var version1 = parseFloat(devtype1.name.replace(type, ''));
-                var version2 = parseFloat(devtype2.name.replace(type, ''));
-            
-                return version2 - version1;
-            });
-
-            var runtimes = siminfo.runtimes.filter(function(runtime) {
-                if (runtime.name.startsWith('iOS')) {
-                    return true;
-                }
-                return false;
-            }).sort(function(runtime1, runtime2) {
-                var version1 = parseFloat(runtime1.name.replace('iOS', ''));
-                var version2 = parseFloat(runtime2.name.replace('iOS', ''));
-
-                return version2 - version1;
-            });
-
-            if (devtypes.length > 0 && runtimes.length > 0) {
-                simctl.create('Simulator for jamkit - ' + type, devtypes[0].id, runtimes[0].id);
-            }
+            process.stdout.write("Launching the browser... ");
         },
 
         _find_booted_device: function() {
@@ -136,35 +124,42 @@ const _impl = {
             var siminfo = simctl.list();
             var device = null;
 
-            var runtimes = siminfo.devices.filter(function(devinfo) {
-                if (devinfo.runtime.startsWith('iOS')) {
+            var runtimes = Object.keys(siminfo.devices).filter(function(runtime) {
+                if (runtime.includes('SimRuntime.iOS')) {
                     return true;
                 }
                 return false;
-            }).sort(function(devinfo1, devinfo2) {
-                var version1 = parseFloat(devinfo1.runtime.replace('iOS', ''));
-                var version2 = parseFloat(devinfo2.runtime.replace('iOS', ''));
-
-                return version2 - version1;
+            }).sort(function(runtime1, runtime2) {
+                return runtime2.localeCompare(runtime1);
             });
 
-            runtimes[0].devices.every(function(candidate, index) {
-                if (candidate.available && candidate.name.indexOf('iPhone') != -1) {
-                    if (device != null) {
-                        var candidate_version = parseFloat(candidate.name.replace('iPhone', ''));
-                        var device_version = parseFloat(device.name.replace('iPhone', ''));
-
-                        if (candidate_version > device_version) {
-                            device = candidate;
-                        }
-                    } else {
-                        device = candidate;
-                    }
+            siminfo.devices[runtimes[0]].every(function(devinfo) {
+                if (devinfo.isAvailable && devinfo.name.includes('iPhone')) {
+                    device = devinfo;
+                    return true;
                 }
                 return true;
             });
 
             return device;
+        },
+
+        _read_info_plist: function(app_path) {
+            return new Promise(function(resolve, reject) {
+                var info = plist.readFileSync(path.resolve(app_path, 'Info.plist'));
+
+                if (info.CFBundleIdentifier) {
+                    resolve(info);
+                } else {
+                    reject();
+                }
+            });
+        },
+
+        _wait_until_device_booted: function() {
+            sleep(3000);
+
+            return true;
         }
     },
 
@@ -260,18 +255,10 @@ const _impl = {
         }, 
 
         _read_manifest: function(app_path) {
-            return new Promise(function(resolve, reject) {
-                apk.open(app_path)
-                    .then(function(reader) {
-                        return reader.readManifest();
-                    })
-                    .then(function(manifest) {
-                        resolve(manifest);
-                    })
-                    .catch(function() {
-                        reject();
-                    });       
-            });
+            return apk.open(app_path)
+                .then(function(reader) {
+                    return reader.readManifest();
+                });
         },
 
         _wait_until_device_booted: function() {

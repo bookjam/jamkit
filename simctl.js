@@ -1,5 +1,6 @@
 const simctl = require('simctl'),
-      shell  = require('shelljs')
+      shell  = require('shelljs'),
+      sleep  = require('./sleep');
 
 module.exports = {
     start: function(device_id) {
@@ -46,6 +47,8 @@ module.exports = {
         var result = simctl.launch(false, device, app_id, {});
 
         if (result.code === 0) {
+            sleep(3000);
+
             return true;
         }
 
