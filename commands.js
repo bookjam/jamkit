@@ -189,7 +189,7 @@ module.exports = {
                         }
                     })
                     .then(function() {
-                        return shell.execute('app source ' + process.cwd());
+                        return shell.execute('app source ' + path.join(process.cwd(), 'catalogs'));
                     })
                     .then(function() {
                         if ([ 'jam', 'widget' ].includes(mode)) {
