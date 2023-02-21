@@ -3,456 +3,207 @@
 const commands = require('./commands'),
       fs       = require('fs-extra');
 
-var options = require('yargs')
-    .usage('Usage: $0 <command> [argument, ...]')
-    .command('create', 'Create a new project.')
-    .command('run', 'Run on simulator.')
-    .command('build', 'Build a package.')
-    .command('install', 'Install a package.')
-    .command('publish', 'Publish a package to IPFS.')
-    .command('generate', 'Generate a database with a spreadsheet file.')
-    .option('type', {
-        default:'auto',
-        describe: 'Specify a type of project: app or book.'
-    })
-    .demand(1, 'Command should be provided.')
-    .help('help'),
-    argv = options.argv,
-    command = argv._[0]
+const { Command } = require('commander');
+const program = new Command();
 
-function _handle_command(options, command, argv) {
-    if (command === 'create') {
-        if (argv['type'] === 'auto' || argv['type'] === 'app') {
-            argv = options.global()
-                .usage('Usage: $0 create <name> [option, ...]')
-                .example('$0 create HelloWorld', 'Create an app named HelloWorld')
-                .demand(2, 'Name should be specified.')
-                .option('app-id', { 
-                    default:'auto',
-                    describe: 'Specify an app identifier or `manual`'
-                })
-                .option('version', {
-                    default: '1.0',
-                    describe: 'Specify a version of app.'
-                })
-                .option('template', { 
-                    default: 'hello-world',
-                    describe: 'Specify a template type. See https://github.com/bookjam/jamkit-templates.' 
-                })
-                .option('repository', { 
-                    default: 'bookjam/jamkit-templates',
-                    describe: 'Specify a template repository.' 
-                })
-                .option('language', { 
-                    default: 'global',
-                    describe: 'Specify a language.' 
-                })
-                .option('theme', { 
-                    default: '',
-                    describe: 'Specify a theme.' 
-                })
-                .help('help')
-                .argv
-    
-            commands.create_app(argv._[1], {
-                'app-id':     argv['app-id'],
-                'version':    argv['version'],
-                'template':   argv['template'],
-                'repository': argv['repository'],
-                'language':   argv['language'],
-                'theme':      argv['theme']
-            });
-    
+program
+    .usage('<command> [argument, ...] [options]')
+    .helpOption('-h, --help', 'Show help for command')
+    .addHelpCommand(false)
+    .on('command:*', ([ command ]) => {
+        program.addHelpText('after', "\n" + "Command not found: " + command);
+        program.help();
+    });
+
+program
+    .command('create')
+    .description('Create a new project.')
+    .argument('<directory>', 'Directory to create a project in')
+    .option('-t, --type <type>', 'Type of project to create. `app` or `book`.', 'app')
+    .option('--app-id <app-id>', 'Identifier of the app. Specify `manual` to leave blank', 'auto')
+    .option('--version <version>', 'Version of the app or book', '1.0')
+    .option('--template <template>', 'Template to create from', 'hello-world')
+    .option('--repository <repository>', 'Template repository', 'bookjam/jamkit-templates')
+    .option('--language <language>', 'Language of the app or book', 'global')
+    .option('--theme <theme>', 'Theme for the app or book')
+    .action((directory, options) => {
+        if (options['type'] === 'app') {
+            commands.create_app(directory, {
+                'app-id':     options['app-id'],
+                'version':    options['version'],
+                'template':   options['template'],
+                'repository': options['repository'],
+                'language':   options['language'],
+                'theme':      options['theme']
+            }); 
+
             return;
         }
-    
-        if (argv['type'] === 'book') {
-            argv = options.global()
-                .usage('Usage: $0 create <name> [option, ...]')
-                .example('$0 create HelloWorld', 'Create a book named HelloWorld')
-                .demand(2, 'Name should be specified.')
-                .option('version', { 
-                    default: '1.0',
-                    describe: 'Specify a version of book.'
-                })
-                .option('template', { 
-                    default: 'hello-world',
-                    describe: 'Specify a template type. See https://github.com/bookjam/jamkit-templates.' 
-                })
-                .option('repository', { 
-                    default: 'bookjam/jamkit-templates',
-                    describe: 'Specify a template repository.' 
-                })
-                .option('language', { 
-                    default: 'global',
-                    describe: 'Specify a language.' 
-                })
-                .option('theme', { 
-                    default: '',
-                    describe: 'Specify a theme.' 
-                })
-                .help('help')
-                .argv
-    
-            commands.create_book(argv._[1], {
-                'version':    argv['version'],
-                'template':   argv['template'],
-                'repository': argv['repository'],
-                'language':   argv['language'],
-                'theme':      argv['theme']
-            });
-    
+
+        if (options['type'] === 'book') {
+            commands.create_book(directory, {
+                'version':    options['version'],
+                'template':   options['template'],
+                'repository': options['repository'],
+                'language':   options['language'],
+                'theme':      options['theme']
+            }); 
+
             return;
         }
-    
-        return;
-    }
-    
-    if (command === 'run') {
-        if ((argv['type'] === 'auto' && fs.existsSync('./package.bon')) || argv['type'] === 'app') {
-           argv = options.global()
-                .usage('Usage: $0 run [option, ...]')
-                .example('$0 run', 'Run on simulator. App must be in the current working directory.')
-                .option('platform', {
-                    default: (process.platform === 'win32') ? 'android' : 'ios',
-                    describe: 'Specify the platform, ios or android'
-                })
-                .option('mode', { 
-                    default: 'main',
-                    describe: 'Specify the run mode, main, jam or widget'
-                })
-                .option('shell-host', { 
-                    default: '127.0.0.1',
-                    describe: 'Specify the shell host.'
-                })
-                .option('shell-port', { 
-                    default: '8888',
-                    describe: 'Specify the shell port.'
-                })
-                .option('skip-sync', {
-                    default: false,
-                    describe: 'If set, do not copy files to simulator.'
-                })
-                .help('help')
-                .argv
-    
-            commands.run_app(argv['platform'], argv['mode'], {
-                'host': argv['shell-host'], 
-                'port': argv['shell-port']
+    });
+
+program
+    .command('run')
+    .description('Run on simulator.')
+    .option('-t, --type <type>', 'Type of project to run. `app`, `book` or `auto`.', 'auto')
+    .option('--platform <platform>', 'Platform on which to run the simulator. `ios` or `android`', (process.platform === 'darwin') ? 'ios' : 'android')
+    .option('--mode <mode>', 'Run mode. `main`, `jam` or `widget`', 'main')
+    .option('--shell-host <shell-host>', 'Host for the simulator shell', '127.0.0.1')
+    .option('--shell-port <shell-port>', 'Port for the simulator shell', '8888')
+    .option('--skip-sync', 'If set, do not copy files to the simulator', false)
+    .action((options) => {
+        if ((options['type'] === 'auto' && fs.existsSync('./package.bon')) || options['type'] === 'app') {
+            commands.run_app(options['platform'], options['mode'], {
+                'host': options['shell-host'], 
+                'port': options['shell-port']
             }, {
-                'skip-sync': argv['skip-sync']
+                'skip-sync': options['skip-sync']
             });
-    
+
             return;
         }
-    
-        if ((argv['type'] === 'auto' && fs.existsSync('./book.bon')) || argv['type'] === 'book') {
-           argv = options.global()
-                .usage('Usage: $0 run [option, ...]')
-                .example('$0 run', 'Run on simulator. Book must be in the current working directory.')
-                .option('platform', {
-                    default: (process.platform === 'win32') ? 'android' : 'ios',
-                    describe: 'Specify the platform, ios or android'
-                })
-                .option('shell-host', { 
-                    default: '127.0.0.1',
-                    describe: 'Specify the shell host.'
-                })
-                .option('shell-port', { 
-                    default: '8888',
-                    describe: 'Specify the shell port.'
-                })
-                .option('skip-sync', {
-                    default: false,
-                    describe: 'If set, do not copy files to simulator.'
-                })
-                .help('help')
-                .argv
-    
-            commands.run_book(argv['platform'], {
-                'host': argv['shell-host'], 
-                'port': argv['shell-port']
+
+        if ((options['type'] === 'auto' && fs.existsSync('./book.bon')) || options['type'] === 'book') {
+            commands.run_book(options['platform'], {
+                'host': options['shell-host'], 
+                'port': options['shell-port']
             }, {
-                'skip-sync': argv['skip-sync']
+                'skip-sync': options['skip-sync']
             });
-    
+
             return;
         }
-    
-        if (argv['type'] === 'auto') {
-            console.log('ERROR: package.bon or book.bon not found!');
-    
-            return;
-        }
-    
-        return;
-    }
-    
-    if (command === 'build') {
-        if ((argv['type'] === 'auto' && fs.existsSync('./package.bon')) || argv['type'] === 'app') {
-            argv = options.global()
-                .usage('Usage: $0 build')
-                .example('$0 build', 'Build a package. App must be in the current working directory.')
-                .help('help')
-                .argv
-    
+    });
+
+program
+    .command('build')
+    .description('Build a package.')
+    .option('-t, --type <type>', 'Type of project to build. `app`, `book` or `auto`.', 'auto')
+    .action((options) => {
+        if ((options['type'] === 'auto' && fs.existsSync('./package.bon')) || options['type'] === 'app') {
             commands.build_app();
-    
-            return;
-        }
-    
-        if ((argv['type'] === 'auto' && fs.existsSync('./book.bon')) || argv['type'] === 'book') {
-            argv = options.global()
-                .usage('Usage: $0 build')
-                .example('$0 build', 'Build a package. Book must be in the current working directory.')
-                .help('help')
-                .argv
-    
-            commands.build_book();
-    
-            return;
-        }
-    
-        if (argv['type'] === 'auto') {
-            console.log('ERROR: package.bon or book.bon not found!');
-    
-            return;
-        }
-    
-        return;
-    }
-    
-    if (command === 'install') {
-        if ((argv['type'] === 'auto' && fs.existsSync('./package.bon')) || argv['type'] === 'app') {
-           argv = options.global()
-                .usage('Usage: $0 install [option, ...]')
-                .example('$0 install', 'Install on simulator. App must be in the current working directory.')
-                .option('platform', {
-                    default: (process.platform === 'win32') ? 'android' : 'ios',
-                    describe: 'Specify the platform, ios or android'
-                })
-                .help('help')
-                .argv
-    
-            commands.install_app(argv['platform']);
-    
-            return;
-        }
-    
-        if ((argv['type'] === 'auto' && fs.existsSync('./book.bon')) || argv['type'] === 'book') {
-           argv = options.global()
-                .usage('Usage: $0 install [option, ...]')
-                .example('$0 install', 'Install on simulator. Book must be in the current working directory.')
-                .option('platform', {
-                    default: (process.platform === 'win32') ? 'android' : 'ios',
-                    describe: 'Specify the platform, ios or android'
-                })
-                .help('help')
-                .argv
-    
-            commands.install_book(argv['platform']);
-    
-            return;
-        }
-    
-        if (argv['type'] === 'auto') {
-            console.log('ERROR: package.bon or book.bon not found!');
-    
-            return;
-        }
-    
-        return;
-    }
-    
-    if (command === 'publish') {
-        if ((argv['type'] === 'auto' && fs.existsSync('./package.bon')) || argv['type'] === 'app') {
-            argv = options.global()
-                .usage('Usage: $0 publish [option, ...]')
-                .example('$0 publish', 'Publish a package to IPFS. App must be in the current working directory.')
-                .option('host-scheme', {
-                    default: 'jamkit',
-                    describe: 'Specify the custom scheme that the host app uses.'
-                })
-                .option('host-url', {
-                    default: '',
-                    describe: 'Specify the url that run the host app automatically.'
-                })
-                .option('title', {
-                    default: '',
-                    describe: 'Specify the title of the app.'
-                })
-                .option('app-url', {
-                    default: '',
-                    describe: 'Specify the url of the app.'
-                })
-                .option('image-url', {
-                    default: '',
-                    describe: 'Specify the url of the title image.'
-                })
-                .option('image-file', {
-                    default: '',
-                    describe: 'Specify the file path of the title image.'
-                })
-                .option('language', {
-                    default: '',
-                    describe: 'Specify the language.'
-                })
-                .option('shorten-url', {
-                    default: false,
-                    describe: 'If set, the url is shortened.'
-                })
-                .option('ipfs-host', { 
-                    default: 'ipfs.infura.io',
-                    describe: 'Specify the ipfs host.'
-                })
-                .option('ipfs-port', { 
-                    default: '5001',
-                    describe: 'Specify the ipfs port.'
-                })
-                .option('ipfs-protocol', { 
-                    default: 'https',
-                    describe: 'Specify the ipfs protocol, https or http.'
-                })
-                .option('apple-install-url', {
-                    default: 'auto',
-                    describe: 'Specify the install url for iOS.'
-                })
-                .option('google-install-url', {
-                    default: 'auto',
-                    describe: 'Specify the install url for Android.'
-                })
-                .help('help')
-                .argv
-    
-            commands.publish_app({
-                'scheme': argv['host-scheme'],
-                'url': argv['host-url']
-            }, {
-                'title': argv['title'],
-                'app-url': argv['app-url'],
-                'image-url': argv['image-url'],
-                'image-file': argv['image-file'],
-                'language': argv['language'],
-                'shorten-url': argv['shorten-url']
-            }, {
-                'host': argv['ipfs-host'], 
-                'port': argv['ipfs-port'], 
-                'protocol': argv['ipfs-protocol']
-            }, {
-                'apple': argv['apple-install-url'],
-                'google': argv['google-install-url']
-            });
-    
-            return;
-        }
-    
-        if ((argv['type'] === 'auto' && fs.existsSync('./book.bon')) || argv['type'] === 'book') {
-            argv = options.global()
-                .usage('Usage: $0 publish [option, ...]')
-                .example('$0 publish', 'Publish a package to IPFS. Book must be in the current working directory.')
-                .option('host-scheme', {
-                    default: 'jamkit',
-                    describe: 'Specify the custom scheme that the host app uses.'
-                })
-                .option('host-url', {
-                    default: '',
-                    describe: 'Specify the url that run the host app automatically.'
-                })
-                .option('title', {
-                    default: '',
-                    describe: 'Specify the title of the book.'
-                })
-                .option('book-url', {
-                    default: '',
-                    describe: 'Specify the url of the book.'
-                })
-                .option('image-url', {
-                    default: '',
-                    describe: 'Specify the url of the title image.'
-                })
-                .option('image-file', {
-                    default: '',
-                    describe: 'Specify the file path of the title image.'
-                })
-                .option('shorten-url', {
-                    default: false,
-                    describe: 'If set, the url is shortened.'
-                })
-                .option('ipfs-host', { 
-                    default: 'ipfs.infura.io',
-                    describe: 'Specify the ipfs host.'
-                })
-                .option('ipfs-port', { 
-                    default: '5001',
-                    describe: 'Specify the ipfs port.'
-                })
-                .option('ipfs-protocol', { 
-                    default: 'https',
-                    describe: 'Specify the ipfs protocol, https or http.'
-                })
-                .option('apple-install-url', {
-                    default: 'auto',
-                    describe: 'Specify the install url for iOS.'
-                })
-                .option('google-install-url', {
-                    default: 'auto',
-                    describe: 'Specify the install url for Android.'
-                })
-                .help('help')
-                .argv
-    
-            commands.publish_book({
-                'scheme': argv['host-scheme'],
-                'url': argv['host-url']
-            }, {
-                'title': argv['title'],
-                'book-url': argv['book-url'],
-                'image-url': argv['image-url'],
-                'image-file': argv['image-file'],
-                'shorten-url': argv['shorten-url']
-            }, {
-                'host': argv['ipfs-host'], 
-                'port': argv['ipfs-port'], 
-                'protocol': argv['ipfs-protocol']
-            }, {
-                'apple': argv['apple-install-url'],
-                'google': argv['google-install-url']
-            });
-    
-            return;
-        }
-    
-        if (argv['type'] === 'auto') {
-            console.log('ERROR: package.bon or book.bon not found!');
-    
-            return;
-        }
-    
-        return;
-    }
-    
-    if (command === 'generate') {
-        argv = options.global()
-            .usage('Usage: $0 generate <file> [option, ...]')
-            .example('$0 generate data.xlsx', 'Generate a database with a file named data.xlsx.')
-            .demand(2, 'File should be specified.')
-            .option('catalog', { 
-                default: 'MainApp',
-                describe: 'Specify the catalog in which the database will be generated.'
-            })
-            .option('store', { 
-                default: 'apple',
-                describe: 'Specify the target store.'
-            })
-            .help('help')
-            .argv
-    
-        commands.generate_database(argv['catalog'], argv['store'], argv._[1]);
-    
-        return;
-    }
-    
-    options.showHelp();    
-}
 
-_handle_command(options, command, argv);
+            return;
+        }
+
+        if ((options['type'] === 'auto' && fs.existsSync('./book.bon')) || options['type'] === 'book') {
+            commands.build_book();
+
+            return;
+        }
+    });
+
+program
+    .command('install')
+    .description('Install on simulator.')
+    .option('-t, --type <type>', 'Type of project to build. `app`, `book` or `auto`.', 'auto')
+    .option('--platform <platform>', 'Platform on which to run the simulator. `ios` or `android`', (process.platform === 'darwin') ? 'ios' : 'android')
+    .action((options) => {
+        if ((options['type'] === 'auto' && fs.existsSync('./package.bon')) || options['type'] === 'app') {
+            commands.install_app(options['platform']);
+
+            return;
+        }
+
+        if ((options['type'] === 'auto' && fs.existsSync('./book.bon')) || options['type'] === 'book') {
+            commands.install_book(options['platform']);
+
+            return;
+        }
+    });
+
+program
+    .command('publish')
+    .description('Publish a package to IPFS.')
+    .option('-t, --type <type>', 'Type of project to run. `app`, `book` or `auto`.', 'auto')
+    .option('--host-scheme <host-scheme>', 'Custom scheme that the host app uses', 'jamkit')
+    .option('--host-url <host-url>', 'URL that run the host app automatically', '')
+    .option('--file-url <file-url>', 'File URL of the app or book', '')
+    .option('--image-url <image-url>', 'Image URL of the app or book', '')
+    .option('--image-file <image-file>', 'File path of the image', '')
+    .option('--title <title>', 'Title of the app or book', '')
+    .option('--language <language>', 'Language to use', '')
+    .option('--ipfs-host <ipfs-host>', 'IPFS host to connect', 'ipfs.infura.io')
+    .option('--ipfs-port <ipfs-port>', 'IPFS port to connect', '5001')
+    .option('--ipfs-protocol <ipfs-protocol>', 'IPFS protocol to connect. , `https` or `http`', 'https')
+    .option('--shorten-url', 'If set, the url will be shortened', '')
+    .option('--apple-install-url <apple-install-url>', 'Installation URL of the host app for iOS', 'auto')
+    .option('--google-install-url <google-install-url>', 'Installation URL of the host app for Android', 'auto')
+    .action((options) => {
+        if ((options['type'] === 'auto' && fs.existsSync('./package.bon')) || options['type'] === 'app') {
+            commands.publish_app({
+                'scheme': options['host-scheme'],
+                'url': options['host-url']
+            }, {
+                'title': options['title'],
+                'file-url': options['file-url'],
+                'image-url': options['image-url'],
+                'image-file': options['image-file'],
+                'language': options['language'],
+                'shorten-url': options['shorten-url']
+            }, {
+                'host': options['ipfs-host'], 
+                'port': options['ipfs-port'], 
+                'protocol': options['ipfs-protocol']
+            }, {
+                'apple': options['apple-install-url'],
+                'google': options['google-install-url']
+            });
+
+            return;
+        }
+        
+        if ((options['type'] === 'auto' && fs.existsSync('./book.bon')) || options['type'] === 'book') {
+            commands.publish_book({
+                'scheme': options['host-scheme'],
+                'url': options['host-url']
+            }, {
+                'title': options['title'],
+                'file-url': options['file-url'],
+                'image-url': options['image-url'],
+                'image-file': options['image-file'],
+                'shorten-url': options['shorten-url']
+            }, {
+                'host': options['ipfs-host'], 
+                'port': options['ipfs-port'], 
+                'protocol': options['ipfs-protocol']
+            }, {
+                'apple': options['apple-install-url'],
+                'google': options['google-install-url']
+            });
+
+            return;
+        }
+    });
+
+program
+    .command('generate')
+    .description('Generate a database with a file named data.xlsx.')
+    .option('-t, --type <type>', 'Type of project to build. `app`, `book` or `auto`.', 'auto')
+    .option('--platform <platform>', 'Platform on which to run the simulator. `ios` or `android`', (process.platform === 'darwin') ? 'ios' : 'android')
+    .action((options) => {
+        if ((options['type'] === 'auto' && fs.existsSync('./package.bon')) || options['type'] === 'app') {
+            commands.install_app(options['platform']);
+
+            return;
+        }
+
+        if ((options['type'] === 'auto' && fs.existsSync('./book.bon')) || options['type'] === 'book') {
+            commands.install_book(options['platform']);
+
+            return;
+        }
+    });
+
+program.parse();
