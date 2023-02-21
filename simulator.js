@@ -1,11 +1,11 @@
-const simctl = require('./simctl'),
-      avdctl = require('./avdctl'),
-      shell  = require('./shell'),
-      path   = require('path'),
+const path   = require('path'),
       fs     = require('fs-extra'),
       plist  = require('simple-plist'),
       apk    = require('adbkit-apkreader'),
-      sleep  = require('system-sleep')
+      simctl = require('./simctl'),
+      avdctl = require('./avdctl'),
+      shell  = require('./shell'),
+      sleep  = require('./sleep')
 
 const _impl = {
     "ios": {
@@ -29,10 +29,10 @@ const _impl = {
 
         _start_device: function() {
             var device = this._find_booted_device();
-
+ console.log(device)
             if (device === null) {
                 device = this._find_available_device();
-            
+
                 if (device === null) {
                     this._create_available_device('iPhone');
                     this._create_available_device('iPad');
@@ -112,22 +112,21 @@ const _impl = {
             var siminfo = simctl.list();
             var device = null;
 
-            var devices = siminfo.devices.filter(function(devinfo) {
-                if (devinfo.runtime.startsWith('iOS')) {
-                    return true;
+            var devices = Object.keys(siminfo.devices).reduce(function(devices, runtime) {
+                if (runtime.includes('SimRuntime.iOS')) {
+                    siminfo.devices[runtime].forEach(function(devinfo) {
+                        devices.push(devinfo);
+                    });
                 }
-                return false;
-            });
+                return devices;
+            }, []);
 
-            devices.every(function(devinfo, index) {
-                devinfo.devices.every(function(candidate, index) {
-                    if (candidate.state === 'Booted') {
-                        device = candidate;
-                        return false;
-                    }
-                    return true;
-                });
-                return (device != null) ? false : true;
+            devices.every(function(devinfo) {
+                if (devinfo.state === 'Booted') {
+                    device = devinfo;
+                    return false;
+                }
+                return true;
             });
 
             return device;
@@ -189,7 +188,7 @@ const _impl = {
         },
 
         _start_device: function() {
-           if (!avdctl.property('sys.boot_completed')) {
+            if (!avdctl.property('sys.boot_completed')) {
                 var device = this._find_available_device();
 
                 if (device) {
@@ -276,16 +275,16 @@ const _impl = {
         },
 
         _wait_until_device_booted: function() {
-            var timeout = 3000, sleeptime = 200;
+            var timeout = 3000, interval = 200;
 
             while (!avdctl.property('sys.boot_completed')) {
-                sleep(sleeptime);
+                sleep(interval);
 
-                if (timeout < sleeptime) {
+                if (timeout < interval) {
                     return false;
                 }
 
-                timeout = timeout - sleeptime;
+                timeout = timeout - interval;
             }
 
             return true;
