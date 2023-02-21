@@ -51,6 +51,8 @@ program
 
             return;
         }
+
+        console.log('ERROR: invalid type: ' + options.type);
     });
 
 program
@@ -84,6 +86,8 @@ program
 
             return;
         }
+
+        console.log('ERROR: package.bon or book.bon not found.');
     });
 
 program
@@ -102,6 +106,8 @@ program
 
             return;
         }
+
+        console.log('ERROR: package.bon or book.bon not found.');
     });
 
 program
@@ -121,6 +127,8 @@ program
 
             return;
         }
+
+        console.log('ERROR: package.bon or book.bon not found.');
     });
 
 program
@@ -185,6 +193,8 @@ program
 
             return;
         }
+
+        console.log('ERROR: package.bon or book.bon not found.');
     });
 
 program
@@ -204,6 +214,8 @@ program
 
             return;
         }
+
+        console.log('ERROR: package.bon or book.bon not found.');
     });
 
 program.parse();
