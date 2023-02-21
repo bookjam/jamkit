@@ -182,14 +182,14 @@ module.exports = {
                         return shell.open();
                     })
                     .then(function() {
-                        return shell.execute('app source ' + process.cwd());
-                    })
-                    .then(function() {
                         if ([ 'jam', 'widget' ].includes(mode)) {
                             return Promise.resolve(); // nothing to do
                         } else {
                             return shell.execute('app id ' + appinfo['id']);
                         }
+                    })
+                    .then(function() {
+                        return shell.execute('app source ' + process.cwd());
                     })
                     .then(function() {
                         if ([ 'jam', 'widget' ].includes(mode)) {
