@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "lib": ["es6", "dom"],
+      "declaration": true,
+      "noImplicitAny": true,
+      "noImplicitReturns": true,
+      "strict": true,
+      "moduleResolution": "node",
+      "typeRoots": ["@types", "node_modules/@types"],
+      "inlineSourceMap": true
+    },
+    "include": ["*.ts"],
+    "exclude": ["node_modules"]
+  }
+  

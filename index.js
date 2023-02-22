@@ -6,6 +6,11 @@ const commands = require('./commands'),
 const { Command } = require('commander');
 const program = new Command();
 
+require('ts-node').register({
+    project: `${__dirname}/tsconfig.json`,
+    transpileOnly: true,
+});
+
 program
     .usage('<command> [argument, ...] [options]')
     .helpOption('-h, --help', 'Show help for command')
