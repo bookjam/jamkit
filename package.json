@@ -2,9 +2,9 @@
   "name": "jamkit",
   "version": "0.95.103",
   "description": "A simple native app framework",
-  "main": "index.js",
+  "main": "./src/index.js",
   "bin": {
-    "jamkit": "./index.js"
+    "jamkit": "./src/index.js"
   },
   "repository": {
     "type": "git",
