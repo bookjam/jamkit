@@ -11,7 +11,7 @@ export class DebuggingProxy {
     private wss: ws.Server;
     private serverPort: number;
     private adapter: IOSAdapter;
-    private targetFetchInterval: NodeJS.Timer;
+    private targetFetchTimer: NodeJS.Timer;
 
     public async run(serverPort: number): Promise<number> {
         this.serverPort = serverPort;
@@ -71,15 +71,15 @@ export class DebuggingProxy {
             );
         };
 
-        this.targetFetchInterval = setInterval(fetch, 5000);
+        this.targetFetchTimer = setInterval(fetch, 5000);
     }
 
     private stopTargetFetcher(): void {
         debug('server.stopTargetFetcher');
-        if (!this.targetFetchInterval) {
+        if (!this.targetFetchTimer) {
             return;
         }
-        clearInterval(this.targetFetchInterval);
+        clearInterval(this.targetFetchTimer);
     }
 
     private setupHttpHandlers(): void {
