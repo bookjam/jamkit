@@ -13,7 +13,7 @@ import { debug } from './logger';
 import { Adapter } from './adapter';
 import { IOSTarget } from './protocols/iosTarget';
 import { AdapterCollection } from './adapterCollection';
-import { ITarget, IDeviceTarget, IIOSProxySettings } from './adapterInterfaces';
+import { ITarget, IDeviceTarget, IAdapterOptions } from './adapterInterfaces';
 import { IOSProtocol } from './protocols/ios/ios';
 import { IOS8Protocol } from './protocols/ios/ios8';
 import { IOS9Protocol } from './protocols/ios/ios9';
@@ -26,16 +26,11 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
 
     constructor(port: number) {
         const simulatorSocketFinder = new SimulatorSocketFinder();
-        const proxySettings = getProxySettings(port + 100, simulatorSocketFinder);
 
         super(
             '/ios',
             `ws://localhost:${port}`,
-            {
-                port: proxySettings.proxyPort,
-                proxyExePath: proxySettings.proxyPath,
-                proxyExeArgsProvider: proxySettings.proxyExeArgsProvider,
-            },
+            getIOSAdapterOptions(port, simulatorSocketFinder),
             (targetId, targetData) => new IOSTarget(targetId, targetData),
         );
 
@@ -151,31 +146,30 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
     }
 }
 
-function getProxySettings(proxyPort: number, simulatorSocketFinder: SimulatorSocketFinder): IIOSProxySettings | undefined {
-    debug(`iOSAdapter.getProxySettings`);
+function getIOSAdapterOptions(port: number, simulatorSocketFinder: SimulatorSocketFinder): IAdapterOptions {
+    const proxyPort = port + 100;
+    const proxyExeArgsProvider = () => {
+        const proxyArgs = [
+            '--no-frontend',
+            '--config=null:' + proxyPort + ',:' + (proxyPort + 1) + '-' + (proxyPort + 101),
+        ];
 
+        const socketStrings = simulatorSocketFinder.listKnownSockets();
+        if (socketStrings.length > 0) {
+            const combinedSocketString = socketStrings.map(s => `unix:${s}`).join(',');
+            proxyArgs.push('-s');
+            proxyArgs.push(combinedSocketString);
+        }
+
+        return proxyArgs;
+    };
     const proxyPath = getProxyPath();
-    if (proxyPath) {
-        return {
-            proxyPath,
-            proxyPort,
-            proxyExeArgsProvider: () => {
-                const proxyArgs = [
-                    '--no-frontend',
-                    '--config=null:' + proxyPort + ',:' + (proxyPort + 1) + '-' + (proxyPort + 101),
-                ];
 
-                const socketStrings = simulatorSocketFinder.listKnownSockets();
-                if (socketStrings.length > 0) {
-                    const combinedSocketString = socketStrings.map(s => `unix:${s}`).join(',');
-                    proxyArgs.push('-s');
-                    proxyArgs.push(combinedSocketString);
-                }
-
-                return proxyArgs;
-            },
-        };
-    }
+    return {
+        port: proxyPort,
+        proxyExePath: proxyPath ?? undefined,
+        proxyExeArgsProvider: proxyExeArgsProvider,
+    };
 }
 
 function getProxyPath(): string | undefined {

@@ -31,9 +31,3 @@ export interface IAdapterOptions {
     proxyExePath?: string;
     proxyExeArgsProvider?: () => string[];
 }
-
-export interface IIOSProxySettings {
-    proxyPath: string;
-    proxyPort: number;
-    proxyExeArgsProvider: () => string[];
-}
