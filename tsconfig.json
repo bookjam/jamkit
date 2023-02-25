@@ -3,7 +3,8 @@
       "target": "es6",
       "module": "commonjs",
       "moduleResolution": "node",
-      "inlineSourceMap": true
+      "inlineSourceMap": true,
+      "strict": true
     },
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules"]

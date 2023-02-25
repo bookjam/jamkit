@@ -9,15 +9,15 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as WebSocket from 'ws';
 import * as which from 'which';
-import { debug } from './logger';
-import { Adapter } from './adapter';
-import { IOSTarget } from './protocols/iosTarget';
-import { AdapterCollection } from './adapterCollection';
-import { ITarget, IDeviceTarget, IAdapterOptions } from './adapterInterfaces';
-import { IOSProtocol } from './protocols/ios/ios';
-import { IOS8Protocol } from './protocols/ios/ios8';
-import { IOS9Protocol } from './protocols/ios/ios9';
-import { IOS12Protocol } from './protocols/ios/ios12';
+import { debug } from './remotedebug/logger';
+import { Adapter } from './remotedebug/adapter';
+import { IOSTarget } from './remotedebug/protocols/iosTarget';
+import { AdapterCollection } from './remotedebug/adapterCollection';
+import { ITarget, IDeviceTarget, IAdapterOptions } from './remotedebug/adapterInterfaces';
+import { IOSProtocol } from './remotedebug/protocols/ios/ios';
+import { IOS8Protocol } from './remotedebug/protocols/ios/ios8';
+import { IOS9Protocol } from './remotedebug/protocols/ios/ios9';
+import { IOS12Protocol } from './remotedebug/protocols/ios/ios12';
 import { exec } from 'child_process';
 
 export class IOSAdapter extends AdapterCollection<IOSTarget> {
@@ -55,18 +55,14 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
     public getTargets(): Promise<ITarget[]> {
         debug(`iOSAdapter.getTargets`);
 
-        return new Promise(resolve => {
-            request(this._url, (error: any, response: http.IncomingMessage, body: any) => {
+        return new Promise<ITarget[]>(resolve => {
+            request(this._url, (error: any, _res: http.IncomingMessage, body: any) => {
                 if (error) {
                     resolve([]);
                     return;
                 }
 
                 const devices: IDeviceTarget[] = JSON.parse(body);
-                resolve(devices);
-            });
-        })
-            .then((devices: IDeviceTarget[]) => {
                 devices.forEach(d => {
                     if (d.deviceId.startsWith('SIMULATOR')) {
                         d.version = '9.3.0'; // TODO: Find a way to auto detect version. Currently hardcoding it.
@@ -80,9 +76,7 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
                         d.version = '9.3.0';
                     }
                 });
-                return Promise.resolve(devices);
-            })
-            .then((devices: IDeviceTarget[]) => {
+
                 // Now start up all the adapters
                 devices.forEach(d => {
                     const adapterId = `${this._id}_${d.deviceId}`;
@@ -105,21 +99,15 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
                         }
                     }
                 });
-                return Promise.resolve(devices);
-            })
-            .then((devices: IDeviceTarget[]) => {
+
                 // Now get the targets for each device adapter in our list
-                return super.getTargets(devices);
+                super.getTargets(devices).then(targets => resolve(targets));
             });
+        });
     }
 
-    public connectTo(url: string, wsFrom: WebSocket): IOSTarget | undefined {
+    public connectTo(url: string, wsFrom: WebSocket): IOSTarget {
         const target = super.connectTo(url, wsFrom);
-
-        if (!target) {
-            return undefined;
-        }
-
         if (!this._protocolMap.has(target)) {
             const version = (target.data.metadata as IDeviceTarget).version;
             const protocol = this.getProtocolFor(version, target);
