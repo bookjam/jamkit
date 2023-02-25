@@ -55,7 +55,7 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
     public getTargets(): Promise<ITarget[]> {
         debug(`iOSAdapter.getTargets`);
 
-        return new Promise(resolve => {
+        return new Promise<IDeviceTarget[]>(resolve => {
             request(this._url, (error: any, response: http.IncomingMessage, body: any) => {
                 if (error) {
                     resolve([]);
@@ -66,7 +66,7 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
                 resolve(devices);
             });
         })
-            .then((devices: IDeviceTarget[]) => {
+            .then(devices => {
                 devices.forEach(d => {
                     if (d.deviceId.startsWith('SIMULATOR')) {
                         d.version = '9.3.0'; // TODO: Find a way to auto detect version. Currently hardcoding it.
@@ -82,7 +82,7 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
                 });
                 return Promise.resolve(devices);
             })
-            .then((devices: IDeviceTarget[]) => {
+            .then(devices => {
                 // Now start up all the adapters
                 devices.forEach(d => {
                     const adapterId = `${this._id}_${d.deviceId}`;
@@ -107,19 +107,14 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
                 });
                 return Promise.resolve(devices);
             })
-            .then((devices: IDeviceTarget[]) => {
+            .then(devices => {
                 // Now get the targets for each device adapter in our list
                 return super.getTargets(devices);
             });
     }
 
-    public connectTo(url: string, wsFrom: WebSocket): IOSTarget | undefined {
+    public connectTo(url: string, wsFrom: WebSocket): IOSTarget {
         const target = super.connectTo(url, wsFrom);
-
-        if (!target) {
-            return undefined;
-        }
-
         if (!this._protocolMap.has(target)) {
             const version = (target.data.metadata as IDeviceTarget).version;
             const protocol = this.getProtocolFor(version, target);

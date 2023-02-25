@@ -6,23 +6,22 @@ import { debug } from './remotedebug/logger';
 import { EventEmitter } from 'events';
 
 export class DebuggingProxy {
-    private https: http.Server;
-    private app: express.Application;
-    private wss: ws.Server;
-    private serverPort: number;
-    private adapter: IOSAdapter;
-    private targetFetchTimer: NodeJS.Timer;
+    private app;
+    private https: http.Server | null = null;
+    private wss: ws.Server | null = null;
+    private adapter: IOSAdapter | null = null;
+    private targetFetchTimer: NodeJS.Timer | null = null;
+
+    constructor() {
+        this.app = express();
+    }
 
     public async run(serverPort: number): Promise<number> {
-        this.serverPort = serverPort;
-
         debug('server.run, port=%s', serverPort);
 
-        this.app = express();
         this.https = http.createServer(this.app);
-        this.wss = new ws.Server({
-            server: this.https,
-        });
+
+        this.wss = new ws.Server({ server: this.https });
         this.wss.on('connection', (a, req) => {
             this.onWSSConnection(a, req);
         });
@@ -30,7 +29,7 @@ export class DebuggingProxy {
         this.setupHttpHandlers();
 
         // Start server and return the port number
-        this.https.listen(this.serverPort);
+        this.https.listen(serverPort);
         const port = (this.https.address() as ws.AddressInfo).port;
 
         this.adapter = new IOSAdapter(port);
@@ -39,8 +38,6 @@ export class DebuggingProxy {
             .start()
             .then(() => {
                 this.startTargetFetcher();
-            })
-            .then(() => {
                 return port;
             });
     }
@@ -54,14 +51,15 @@ export class DebuggingProxy {
         }
 
         this.stopTargetFetcher();
-        this.adapter.stop();
+        this.adapter?.stop();
+        this.adapter = null;
     }
 
     private startTargetFetcher(): void {
         debug('server.startTargetFetcher');
 
-        let fetch = () => {
-            this.adapter.getTargets().then(
+        const fetch = () => {
+            this.adapter?.getTargets().then(
                 targets => {
                     debug(`server.startTargetFetcher.fetched.${targets.length}`);
                 },
@@ -70,7 +68,6 @@ export class DebuggingProxy {
                 },
             );
         };
-
         this.targetFetchTimer = setInterval(fetch, 5000);
     }
 
@@ -80,41 +77,41 @@ export class DebuggingProxy {
             return;
         }
         clearInterval(this.targetFetchTimer);
+        this.targetFetchTimer = null;
     }
 
     private setupHttpHandlers(): void {
         debug('server.setupHttpHandlers');
 
-        this.app.get('/', (req, res) => {
+        this.app.get('/', (_req, res) => {
             debug('server.http.endpoint/');
             res.json({
                 msg: 'Hello from RemoteDebug iOS WebKit Adapter',
             });
         });
 
-        this.app.get('/refresh', (req, res) => {
-            this.adapter.forceRefresh();
-            //this.emit('forceRefresh');
+        this.app.get('/refresh', (_req, res) => {
+            this.adapter?.forceRefresh();
             res.json({
                 status: 'ok',
             });
         });
 
-        this.app.get('/json', (req, res) => {
+        this.app.get('/json', (_req, res) => {
             debug('server.http.endpoint/json');
-            this.adapter.getTargets().then(targets => {
+            this.adapter?.getTargets().then(targets => {
                 res.json(targets);
             });
         });
 
-        this.app.get('/json/list', (req, res) => {
+        this.app.get('/json/list', (_req, res) => {
             debug('server.http.endpoint/json/list');
-            this.adapter.getTargets().then(targets => {
+            this.adapter?.getTargets().then(targets => {
                 res.json(targets);
             });
         });
 
-        this.app.get('/json/version', (req, res) => {
+        this.app.get('/json/version', (_req, res) => {
             debug('server.http.endpoint/json/version');
             res.json({
                 Browser: 'Safari/RemoteDebug iOS Webkit Adapter',
@@ -125,28 +122,32 @@ export class DebuggingProxy {
             });
         });
 
-        this.app.get('/json/protocol', (req, res) => {
+        this.app.get('/json/protocol', (_req, res) => {
             debug('server.http.endpoint/json/protocol');
             res.json();
         });
     }
 
     private onWSSConnection(socket: ws.WebSocket, req: http.IncomingMessage): void {
-        const url = req.url;
+        debug('server.ws.onWSSConnection', req.url);
 
-        debug('server.ws.onWSSConnection', url);
+        const url = req.url;
+        if (!url) {
+            debug(`url cannot be found in req: ${req}`);
+            return;
+        }
 
         try {
-            this.adapter.on('socketClosed', id => {
+            this.adapter?.on('socketClosed', _id => {
                 socket.close();
             });
-            this.adapter.connectTo(url, socket);
+            this.adapter?.connectTo(url, socket);
         } catch (err) {
             debug(`server.onWSSConnection.connectTo.error.${err}`);
         }
 
         (socket as EventEmitter).on('message', msg => {
-            this.adapter.forwardTo(url, msg);
+            this.adapter?.forwardTo(url, msg);
         });
     }
 }

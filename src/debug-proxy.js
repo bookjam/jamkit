@@ -4,12 +4,13 @@ require('ts-node').register({
     transpileOnly: true,
 });
 
+const DEBUG_PROXY_PORT = 9010;
 const dp = require('./debug/debuggingProxy');
 
 module.exports = {
     start: function() {
         var debuggingProxy = new dp.DebuggingProxy();
-        debuggingProxy.run(9010).then((port) => {
+        debuggingProxy.run(DEBUG_PROXY_PORT).then((port) => {
             console.log(`Debugging Proxy is listening on ${port}...`)
         });
     }
