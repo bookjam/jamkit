@@ -2,7 +2,7 @@ import * as http from 'http';
 import * as ws from 'ws';
 import * as express from 'express';
 import { IOSAdapter } from './iosAdapter';
-import { debug } from './logger';
+import { debug } from './remotedebug/logger';
 import { EventEmitter } from 'events';
 
 export class DebuggingProxy {

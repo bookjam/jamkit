@@ -9,15 +9,15 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as WebSocket from 'ws';
 import * as which from 'which';
-import { debug } from './logger';
-import { Adapter } from './adapter';
-import { IOSTarget } from './protocols/iosTarget';
-import { AdapterCollection } from './adapterCollection';
-import { ITarget, IDeviceTarget, IAdapterOptions } from './adapterInterfaces';
-import { IOSProtocol } from './protocols/ios/ios';
-import { IOS8Protocol } from './protocols/ios/ios8';
-import { IOS9Protocol } from './protocols/ios/ios9';
-import { IOS12Protocol } from './protocols/ios/ios12';
+import { debug } from './remotedebug/logger';
+import { Adapter } from './remotedebug/adapter';
+import { IOSTarget } from './remotedebug/protocols/iosTarget';
+import { AdapterCollection } from './remotedebug/adapterCollection';
+import { ITarget, IDeviceTarget, IAdapterOptions } from './remotedebug/adapterInterfaces';
+import { IOSProtocol } from './remotedebug/protocols/ios/ios';
+import { IOS8Protocol } from './remotedebug/protocols/ios/ios8';
+import { IOS9Protocol } from './remotedebug/protocols/ios/ios9';
+import { IOS12Protocol } from './remotedebug/protocols/ios/ios12';
 import { exec } from 'child_process';
 
 export class IOSAdapter extends AdapterCollection<IOSTarget> {
