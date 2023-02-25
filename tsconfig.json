@@ -4,8 +4,7 @@
       "module": "commonjs",
       "moduleResolution": "node",
       "inlineSourceMap": true,
-      "strict": true,
-      "types": ["node", "express"]
+      "strict": true
     },
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules"]
