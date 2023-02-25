@@ -55,7 +55,7 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
     public getTargets(): Promise<ITarget[]> {
         debug(`iOSAdapter.getTargets`);
 
-        return new Promise<IDeviceTarget[]>(resolve => {
+        return new Promise<ITarget[]>(resolve => {
             request(this._url, (error: any, response: http.IncomingMessage, body: any) => {
                 if (error) {
                     resolve([]);
@@ -63,10 +63,6 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
                 }
 
                 const devices: IDeviceTarget[] = JSON.parse(body);
-                resolve(devices);
-            });
-        })
-            .then(devices => {
                 devices.forEach(d => {
                     if (d.deviceId.startsWith('SIMULATOR')) {
                         d.version = '9.3.0'; // TODO: Find a way to auto detect version. Currently hardcoding it.
@@ -80,9 +76,7 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
                         d.version = '9.3.0';
                     }
                 });
-                return Promise.resolve(devices);
-            })
-            .then(devices => {
+
                 // Now start up all the adapters
                 devices.forEach(d => {
                     const adapterId = `${this._id}_${d.deviceId}`;
@@ -105,12 +99,11 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
                         }
                     }
                 });
-                return Promise.resolve(devices);
-            })
-            .then(devices => {
+
                 // Now get the targets for each device adapter in our list
-                return super.getTargets(devices);
+                super.getTargets(devices).then(targets => resolve(targets));
             });
+        });
     }
 
     public connectTo(url: string, wsFrom: WebSocket): IOSTarget {
