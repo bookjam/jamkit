@@ -56,7 +56,7 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
         debug(`iOSAdapter.getTargets`);
 
         return new Promise<ITarget[]>(resolve => {
-            request(this._url, (error: any, response: http.IncomingMessage, body: any) => {
+            request(this._url, (error: any, _res: http.IncomingMessage, body: any) => {
                 if (error) {
                     resolve([]);
                     return;
