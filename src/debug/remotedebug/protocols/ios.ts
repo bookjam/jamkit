@@ -2,7 +2,7 @@
 // Copyright (C) Microsoft. All rights reserved.
 //
 
-import { Logger } from '../../logger';
+import { Logger } from '../logger';
 import { ScreencastSession } from './screencast';
 import { AdapterTarget } from '../target';
 

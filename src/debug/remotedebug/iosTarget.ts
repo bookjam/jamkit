@@ -4,8 +4,8 @@
 
 import * as WebSocket from 'ws';
 import { EventEmitter } from 'events';
-import { Logger, debug } from '../logger';
-import { ITarget } from '../adapterInterfaces';
+import { Logger, debug } from './logger';
+import { ITarget } from './adapterInterfaces';
 import { AdapterTarget } from './target';
 
 export class IOSTarget extends EventEmitter implements AdapterTarget {

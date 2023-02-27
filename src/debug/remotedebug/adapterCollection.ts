@@ -4,7 +4,7 @@
 
 import * as WebSocket from 'ws';
 import { debug } from './logger';
-import { AdapterTarget } from './protocols/target';
+import { AdapterTarget } from './target';
 import { Adapter } from './adapter';
 import { IAdapterOptions, ITarget } from './adapterInterfaces';
 

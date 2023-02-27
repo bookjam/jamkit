@@ -3,7 +3,6 @@
 //
 
 import { IOSProtocol } from './ios';
-import { IOSTarget } from '../iosTarget';
 import { AdapterTarget } from '../target';
 
 export class IOS9Protocol extends IOSProtocol {
@@ -12,7 +11,7 @@ export class IOS9Protocol extends IOSProtocol {
         super(target);
     }
 
-    protected mapSelectorList (selectorList): void {
+    protected mapSelectorList(selectorList): void {
         const range = selectorList.range;
 
         for (let i = 0; i < selectorList.selectors.length; i++) {

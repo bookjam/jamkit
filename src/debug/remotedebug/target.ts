@@ -4,7 +4,7 @@
 
 import * as WebSocket from 'ws';
 import { EventEmitter } from 'events';
-import { ITarget } from '../adapterInterfaces';
+import { ITarget } from './adapterInterfaces';
 
 export interface AdapterTarget extends EventEmitter {
     data: ITarget;
