@@ -11,13 +11,13 @@ import * as WebSocket from 'ws';
 import * as which from 'which';
 import { debug } from './remotedebug/logger';
 import { Adapter } from './remotedebug/adapter';
-import { IOSTarget } from './remotedebug/protocols/iosTarget';
+import { IOSTarget } from './remotedebug/iosTarget';
 import { AdapterCollection } from './remotedebug/adapterCollection';
 import { ITarget, IDeviceTarget, IAdapterOptions } from './remotedebug/adapterInterfaces';
-import { IOSProtocol } from './remotedebug/protocols/ios/ios';
-import { IOS8Protocol } from './remotedebug/protocols/ios/ios8';
-import { IOS9Protocol } from './remotedebug/protocols/ios/ios9';
-import { IOS12Protocol } from './remotedebug/protocols/ios/ios12';
+import { IOSProtocol } from './remotedebug/protocols/ios';
+import { IOS8Protocol } from './remotedebug/protocols/ios8';
+import { IOS9Protocol } from './remotedebug/protocols/ios9';
+import { IOS12Protocol } from './remotedebug/protocols/ios12';
 import { exec } from 'child_process';
 
 export class IOSAdapter extends AdapterCollection<IOSTarget> {

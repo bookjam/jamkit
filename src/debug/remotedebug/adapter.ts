@@ -9,7 +9,7 @@ import { EventEmitter } from 'events';
 import { spawn, ChildProcess } from 'child_process';
 import { ITarget, IAdapterOptions } from './adapterInterfaces';
 import { Logger, debug } from './logger';
-import { AdapterTarget } from './protocols/target';
+import { AdapterTarget } from './target';
 
 export class Adapter<TargetType extends AdapterTarget> extends EventEmitter {
     protected _id: string;

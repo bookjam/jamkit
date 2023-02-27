@@ -2,9 +2,9 @@
 // Copyright (C) Microsoft. All rights reserved.
 //
 
-import { IOSProtocol} from './ios';
+import { IOSProtocol } from './ios';
 import { IOSTarget } from '../iosTarget';
-import { Logger } from '../../logger';
+import { Logger } from '../logger';
 
 export class IOS8Protocol extends IOSProtocol {
 
@@ -22,11 +22,11 @@ export class IOS8Protocol extends IOSProtocol {
         });
     }
 
-    protected mapSelectorList (selectorList): void {
+    protected mapSelectorList(selectorList): void {
         const range = selectorList.range;
 
         for (let i = 0; i < selectorList.selectors.length; i++) {
-            selectorList.selectors[i] = {text: selectorList.selectors[i]};
+            selectorList.selectors[i] = { text: selectorList.selectors[i] };
 
             if (range !== undefined) {
                 selectorList.selectors[i].range = range;
