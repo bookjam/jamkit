@@ -1,9 +1,9 @@
 import { IOS9Protocol } from './ios9';
-import { IOSTarget } from '../iosTarget';
+import { Target } from '../target';
 
 export class IOS12Protocol extends IOS9Protocol {
 
-    constructor(target: IOSTarget) {
+    constructor(target: Target) {
         super(target);
         target.targetBased = true;
 

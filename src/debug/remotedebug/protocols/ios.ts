@@ -4,7 +4,7 @@
 
 import { Logger } from '../logger';
 import { ScreencastSession } from './screencast';
-import { AdapterTarget } from '../target';
+import { Target } from '../target';
 
 declare var document: any;
 declare var MouseEvent: any;
@@ -26,7 +26,7 @@ export abstract class IOSProtocol {
     public static END_COMMENT: string = ' */';
     public static SEPARATOR: string = ': ';
 
-    protected _target: AdapterTarget;
+    protected _target: Target;
 
     protected _styleMap: Map<string, any>;
     protected _isEvaluating: boolean;
@@ -39,7 +39,7 @@ export abstract class IOSProtocol {
     protected shouldDeferScriptParsed: boolean = true;
     protected deferredScriptParsedCalls: (() => void)[] = [];
 
-    constructor(target: AdapterTarget) {
+    constructor(target: Target) {
         this._target = target;
 
         this._styleMap = new Map<string, any>();

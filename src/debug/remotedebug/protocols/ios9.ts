@@ -3,11 +3,11 @@
 //
 
 import { IOSProtocol } from './ios';
-import { AdapterTarget } from '../target';
+import { Target } from '../target';
 
 export class IOS9Protocol extends IOSProtocol {
 
-    constructor(target: AdapterTarget) {
+    constructor(target: Target) {
         super(target);
     }
 

@@ -9,9 +9,9 @@ import { EventEmitter } from 'events';
 import { spawn, ChildProcess } from 'child_process';
 import { ITarget, IAdapterOptions } from './adapterInterfaces';
 import { Logger, debug } from './logger';
-import { AdapterTarget } from './target';
+import { Target } from './target';
 
-export class Adapter<TargetType extends AdapterTarget> extends EventEmitter {
+export class Adapter<TargetType extends Target> extends EventEmitter {
     protected _id: string;
     protected _adapterType: string;
     protected _proxyUrl: string;
