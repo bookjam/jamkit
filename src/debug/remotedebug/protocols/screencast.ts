@@ -2,10 +2,10 @@
 // Copyright (C) Microsoft. All rights reserved.
 //
 
-import { AdapterTarget } from '../target';
+import { Target } from '../target';
 
 export class ScreencastSession {
-    private _target: AdapterTarget;
+    private _target: Target;
     private _frameId: number;
     private _framesAcked: boolean[];
     private _frameInterval: number = 250; // 60 fps is 16ms
@@ -21,7 +21,7 @@ export class ScreencastSession {
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
 
-    constructor(target: AdapterTarget, format?: string, quality?: number, maxWidth?: number, maxHeight?: number) {
+    constructor(target: Target, format?: string, quality?: number, maxWidth?: number, maxHeight?: number) {
         this._target = target;
         this._format = format || 'jpg';
         this._quality = quality || 100;

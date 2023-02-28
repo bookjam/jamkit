@@ -4,11 +4,11 @@
 
 import * as WebSocket from 'ws';
 import { debug } from './logger';
-import { AdapterTarget } from './target';
+import { Target } from './target';
 import { Adapter } from './adapter';
 import { IAdapterOptions, ITarget } from './adapterInterfaces';
 
-export class AdapterCollection<TargetType extends AdapterTarget> extends Adapter<TargetType> {
+export class AdapterCollection<TargetType extends Target> extends Adapter<TargetType> {
     protected _adapters: Map<string, Adapter<TargetType>>;
 
     constructor(

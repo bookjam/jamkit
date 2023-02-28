@@ -11,7 +11,7 @@ import * as WebSocket from 'ws';
 import * as which from 'which';
 import { debug } from './remotedebug/logger';
 import { Adapter } from './remotedebug/adapter';
-import { IOSTarget } from './remotedebug/iosTarget';
+import { Target } from './remotedebug/target';
 import { AdapterCollection } from './remotedebug/adapterCollection';
 import { ITarget, IDeviceTarget, IAdapterOptions } from './remotedebug/adapterInterfaces';
 import { IOSProtocol } from './remotedebug/protocols/ios';
@@ -20,8 +20,8 @@ import { IOS9Protocol } from './remotedebug/protocols/ios9';
 import { IOS12Protocol } from './remotedebug/protocols/ios12';
 import { exec } from 'child_process';
 
-export class IOSAdapter extends AdapterCollection<IOSTarget> {
-    private _protocolMap: Map<IOSTarget, IOSProtocol>;
+export class IOSAdapter extends AdapterCollection<Target> {
+    private _protocolMap: Map<Target, IOSProtocol>;
     private _simulatorSocketFinder: SimulatorSocketFinder;
 
     constructor(port: number) {
@@ -31,10 +31,10 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
             '/ios',
             `ws://localhost:${port}`,
             getIOSAdapterOptions(port, simulatorSocketFinder),
-            (targetId, targetData) => new IOSTarget(targetId, targetData),
+            (targetId, targetData) => new Target(targetId, targetData),
         );
 
-        this._protocolMap = new Map<IOSTarget, IOSProtocol>();
+        this._protocolMap = new Map<Target, IOSProtocol>();
         this._simulatorSocketFinder = simulatorSocketFinder;
     }
 
@@ -106,7 +106,7 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
         });
     }
 
-    public connectTo(url: string, wsFrom: WebSocket): IOSTarget {
+    public connectTo(url: string, wsFrom: WebSocket): Target {
         const target = super.connectTo(url, wsFrom);
         if (!this._protocolMap.has(target)) {
             const version = (target.data.metadata as IDeviceTarget).version;
@@ -116,7 +116,7 @@ export class IOSAdapter extends AdapterCollection<IOSTarget> {
         return target;
     }
 
-    private getProtocolFor(version: string, target: IOSTarget): IOSProtocol {
+    private getProtocolFor(version: string, target: Target): IOSProtocol {
         debug(`iOSAdapter.getProtocolFor`);
         const parts = version.split('.');
         if (parts.length > 0) {
