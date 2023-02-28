@@ -8,18 +8,18 @@ import { Target } from './target';
 import { Adapter } from './adapter';
 import { IAdapterOptions, ITarget } from './adapterInterfaces';
 
-export class AdapterCollection<TargetType extends Target> extends Adapter<TargetType> {
-    protected _adapters: Map<string, Adapter<TargetType>>;
+export class AdapterCollection extends Adapter {
+    protected _adapters: Map<string, Adapter>;
 
     constructor(
         id: string,
         proxyUrl: string,
         options: IAdapterOptions,
-        targetFactory: (targetId, targetData) => TargetType,
+        targetFactory: (targetId, targetData) => Target,
     ) {
         super(id, proxyUrl, options, targetFactory);
 
-        this._adapters = new Map<string, Adapter<TargetType>>();
+        this._adapters = new Map<string, Adapter>();
     }
 
     public start(): Promise<any> {
@@ -74,11 +74,11 @@ export class AdapterCollection<TargetType extends Target> extends Adapter<Target
         });
     }
 
-    public connectTo(url: string, wsFrom: WebSocket): TargetType {
+    public connectTo(url: string, wsFrom: WebSocket): Target {
         debug(`adapterCollection.connectTo, url=${url}`);
         const id = this.getWebSocketId(url);
 
-        let target: TargetType = null;
+        let target: Target = null;
         if (this._adapters.has(id.adapterId)) {
             target = this._adapters.get(id.adapterId).connectTo(id.targetId, wsFrom);
         }

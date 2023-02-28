@@ -20,7 +20,7 @@ import { IOS9Protocol } from './remotedebug/protocols/ios9';
 import { IOS12Protocol } from './remotedebug/protocols/ios12';
 import { exec } from 'child_process';
 
-export class IOSAdapter extends AdapterCollection<Target> {
+export class IOSAdapter extends AdapterCollection {
     private _protocolMap: Map<Target, IOSProtocol>;
     private _simulatorSocketFinder: SimulatorSocketFinder;
 

@@ -11,28 +11,28 @@ import { ITarget, IAdapterOptions } from './adapterInterfaces';
 import { Logger, debug } from './logger';
 import { Target } from './target';
 
-export class Adapter<TargetType extends Target> extends EventEmitter {
+export class Adapter extends EventEmitter {
     protected _id: string;
     protected _adapterType: string;
     protected _proxyUrl: string;
     protected _options: IAdapterOptions;
     protected _url: string;
     protected _proxyProc: ChildProcess;
-    protected _targetMap: Map<string, TargetType>;
+    protected _targetMap: Map<string, Target>;
     protected _targetIdToTargetDataMap: Map<string, ITarget>;
 
     constructor(
         id: string,
         socket: string,
         options: IAdapterOptions,
-        protected targetFactory: (targetId: string, targetData: ITarget) => TargetType,
+        protected targetFactory: (targetId: string, targetData: ITarget) => Target,
         protected targetsDetailsOverride?: () => ITarget[],
     ) {
         super();
 
         this._id = id;
         this._proxyUrl = socket;
-        this._targetMap = new Map<string, TargetType>();
+        this._targetMap = new Map<string, Target>();
         this._targetIdToTargetDataMap = new Map<string, ITarget>();
 
         // Apply default options
@@ -118,7 +118,7 @@ export class Adapter<TargetType extends Target> extends EventEmitter {
         });
     }
 
-    public connectTo(targetId: string, wsFrom: WebSocket): TargetType {
+    public connectTo(targetId: string, wsFrom: WebSocket): Target {
         debug(`adapter.connectTo, targetId=${targetId}`);
         if (!this._targetIdToTargetDataMap.has(targetId)) {
             Logger.error(`No endpoint url found for id ${targetId}`);
