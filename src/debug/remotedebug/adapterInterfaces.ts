@@ -12,8 +12,6 @@ export interface IDeviceTarget {
 export interface ITarget {
     appId?: string;
     description: string;
-    devtoolsFrontendUrl: string;
-    faviconUrl: string;
     id: string;
     title: string;
     type: string;
