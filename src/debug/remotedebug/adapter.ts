@@ -110,7 +110,7 @@ export class Adapter extends EventEmitter {
         });
     }
 
-    public connectTo(targetId: string, wsFrom: WebSocket): Target {
+    public connectTo(targetId: string, wsFrom: WebSocket): Target | null {
         debug(`adapter.connectTo, targetId=${targetId}`);
         if (!this._targetIdToTargetDataMap.has(targetId)) {
             Logger.error(`No endpoint url found for id ${targetId}`);

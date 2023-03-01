@@ -141,7 +141,7 @@ export class DebugProxy {
             this.adapter?.on('socketClosed', _id => {
                 socket.close();
             });
-            this.adapter?.connectTo(url, socket);
+            this.adapter?.connectToTarget(url, socket);
         } catch (err) {
             debug(`server.onWSSConnection.connectTo.error.${err}`);
         }

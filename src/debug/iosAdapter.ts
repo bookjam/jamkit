@@ -12,7 +12,6 @@ import * as which from 'which';
 import { debug } from './remotedebug/logger';
 import { Adapter } from './remotedebug/adapter';
 import { Target } from './remotedebug/target';
-import { AdapterCollection } from './remotedebug/adapterCollection';
 import { ITarget, IDeviceTarget, IAdapterOptions } from './remotedebug/adapterInterfaces';
 import { IOSProtocol } from './remotedebug/protocols/ios';
 import { IOS8Protocol } from './remotedebug/protocols/ios8';
@@ -20,9 +19,10 @@ import { IOS9Protocol } from './remotedebug/protocols/ios9';
 import { IOS12Protocol } from './remotedebug/protocols/ios12';
 import { exec } from 'child_process';
 
-export class IOSAdapter extends AdapterCollection {
-    private _protocolMap: Map<Target, IOSProtocol>;
+export class IOSAdapter extends Adapter {
     private _simulatorSocketFinder: SimulatorSocketFinder;
+    private _protocolMap = new Map<Target, IOSProtocol>();
+    private _adapters = new Map<string, Adapter>();
 
     constructor(port: number) {
         const simulatorSocketFinder = new SimulatorSocketFinder();
@@ -33,9 +33,9 @@ export class IOSAdapter extends AdapterCollection {
             getIOSAdapterOptions(port, simulatorSocketFinder)
         );
 
-        this._protocolMap = new Map<Target, IOSProtocol>();
         this._simulatorSocketFinder = simulatorSocketFinder;
     }
+
 
     public start(): Promise<any> {
         debug(`iOSAdapter.start`);
@@ -43,14 +43,38 @@ export class IOSAdapter extends AdapterCollection {
         this._simulatorSocketFinder.start();
         this._simulatorSocketFinder.onSocketsChanged(() => this.forceRefresh());
 
-        return super.start();
+        const promises = [super.start()];
+        this._adapters.forEach(adapter => {
+            promises.push(adapter.start());
+        });
+        return Promise.all(promises);
     }
 
     public stop(): void {
         this._simulatorSocketFinder.stop();
+
         super.stop();
+        this._adapters.forEach(adapter => {
+            adapter.stop();
+        });
     }
 
+    public forceRefresh() {
+        debug(`adapterCollection.forceRefresh`);
+        super.forceRefresh();
+        this._adapters.forEach(adapter => {
+            adapter.forceRefresh();
+        });
+    }
+
+    /// getTargets - copied from AdapterCollection.ts
+    /*
+    public getTargets(metadata?: any): Promise<ITarget[]> {
+        
+    }
+    */
+
+    /// getTargets - original iosAdapter.ts
     public getTargets(): Promise<ITarget[]> {
         debug(`iOSAdapter.getTargets`);
 
@@ -65,7 +89,6 @@ export class IOSAdapter extends AdapterCollection {
                 devices.forEach(d => {
                     if (d.deviceId.startsWith('SIMULATOR')) {
                         d.version = '9.3.0'; // TODO: Find a way to auto detect version. Currently hardcoding it.
-                        //d.version = '13.0.0'; // TODO: Find a way to auto detect version. Currently hardcoding it.
                     } else if (d.deviceOSVersion) {
                         d.version = d.deviceOSVersion;
                     } else {
@@ -101,19 +124,60 @@ export class IOSAdapter extends AdapterCollection {
                 });
 
                 // Now get the targets for each device adapter in our list
-                super.getTargets(devices).then(targets => resolve(targets));
+                const promises: Promise<ITarget[]>[] = [];
+
+                let index = 0;
+                this._adapters.forEach(adapter => {
+                    promises.push(adapter.getTargets(devices[index++]));
+                });
+
+                Promise.all(promises).then((results: ITarget[][]) => {
+                    let allTargets: ITarget[] = [];
+                    results.forEach(targets => {
+                        allTargets = allTargets.concat(targets);
+                    });
+                    resolve(allTargets);
+                });
             });
         });
     }
 
-    public connectTo(url: string, wsFrom: WebSocket): Target {
-        const target = super.connectTo(url, wsFrom);
-        if (!this._protocolMap.has(target)) {
-            const version = (target.data.metadata as IDeviceTarget).version;
-            const protocol = this.getProtocolFor(version, target);
-            this._protocolMap.set(target, protocol);
+
+    public connectToTarget(url: string, wsFrom: WebSocket) {
+        debug(`iosAdapter.connectToTarget, url=${url}`);
+
+        const target = (() => {
+            const id = this.getWebSocketId(url);
+            let target: Target | null = null;
+            const adapter = this._adapters.get(id.adapterId);
+            if (adapter) {
+                target = adapter.connectTo(id.targetId, wsFrom);
+            }
+            return target;
+        })();
+
+        if (target) {
+            if (!this._protocolMap.has(target)) {
+                const version = (target.data.metadata as IDeviceTarget).version;
+                const protocol = this.getProtocolFor(version, target);
+                this._protocolMap.set(target, protocol);
+            }
         }
-        return target;
+    }
+
+    public forwardTo(url: string, message: string): void {
+        debug(`iosAdapter.forwardTo, url=${url}`);
+        const id = this.getWebSocketId(url);
+        this._adapters.get(id.adapterId)?.forwardTo(id.targetId, message);
+    }
+
+    private getWebSocketId(url: string): { adapterId: string; targetId: string; } {
+        debug(`iosAdapter.getWebSocketId, url=${url}`);
+        const index = url.indexOf('/', 1);
+        const adapterId = url.substr(0, index);
+        const targetId = url.substr(index + 1);
+
+        return { adapterId: adapterId, targetId: targetId };
     }
 
     private getProtocolFor(version: string, target: Target): IOSProtocol {
@@ -142,7 +206,7 @@ function getIOSAdapterOptions(port: number, simulatorSocketFinder: SimulatorSock
             '--config=null:' + proxyPort + ',:' + (proxyPort + 1) + '-' + (proxyPort + 101),
         ];
 
-        const socketStrings = simulatorSocketFinder.listKnownSockets();
+        const socketStrings = simulatorSocketFinder.getKnownSockets();
         if (socketStrings.length > 0) {
             const combinedSocketString = socketStrings.map(s => `unix:${s}`).join(',');
             proxyArgs.push('-s');
@@ -214,7 +278,7 @@ class SimulatorSocketFinder {
         this.timer = undefined;
     }
 
-    public listKnownSockets(): string[] {
+    public getKnownSockets(): string[] {
         return this.knownSockets;
     }
 
