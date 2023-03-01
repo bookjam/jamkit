@@ -88,7 +88,7 @@ export class IOSAdapter extends AdapterCollection {
                             const port = parseInt(parts[1], 10);
 
                             // Create a new adapter for this device and add it to our list
-                            const adapter = new Adapter(adapterId, this._proxyUrl, { port: port }, this.targetFactory);
+                            const adapter = new Adapter(adapterId, this._proxyUrl, { port: port });
                             adapter.start();
                             adapter.on('socketClosed', id => {
                                 this.emit('socketClosed', id);
