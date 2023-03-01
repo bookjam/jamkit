@@ -115,7 +115,9 @@ export class Adapter extends EventEmitter {
         if (!this._targetIdToTargetDataMap.has(targetId)) {
             Logger.error(`No endpoint url found for id ${targetId}`);
             return null;
-        } else if (this._targetMap.has(targetId)) {
+        }
+
+        if (this._targetMap.has(targetId)) {
             debug(`Existing target found for id ${targetId}`);
             const existingTarget = this._targetMap.get(targetId);
             existingTarget.updateClient(wsFrom);

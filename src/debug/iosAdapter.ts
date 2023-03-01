@@ -30,8 +30,7 @@ export class IOSAdapter extends AdapterCollection {
         super(
             '/ios',
             `ws://localhost:${port}`,
-            getIOSAdapterOptions(port, simulatorSocketFinder),
-            (targetId, targetData) => new Target(targetId, targetData),
+            getIOSAdapterOptions(port, simulatorSocketFinder)
         );
 
         this._protocolMap = new Map<Target, IOSProtocol>();
@@ -66,6 +65,7 @@ export class IOSAdapter extends AdapterCollection {
                 devices.forEach(d => {
                     if (d.deviceId.startsWith('SIMULATOR')) {
                         d.version = '9.3.0'; // TODO: Find a way to auto detect version. Currently hardcoding it.
+                        //d.version = '13.0.0'; // TODO: Find a way to auto detect version. Currently hardcoding it.
                     } else if (d.deviceOSVersion) {
                         d.version = d.deviceOSVersion;
                     } else {

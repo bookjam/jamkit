@@ -20,6 +20,6 @@ class LoggerUtil {
 
 //export const debug = createDebug('remotedebug');
 export function debug(message?: any, ...optionalParams: any[]) {
-    console.debug(message, ...optionalParams);
+    //console.debug(message, ...optionalParams);
 }
 export const Logger = new LoggerUtil();
