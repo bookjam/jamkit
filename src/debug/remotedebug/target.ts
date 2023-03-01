@@ -140,11 +140,6 @@ export class Target extends EventEmitter {
         this.sendToTools(JSON.stringify(response));
     }
 
-    public replyWithEmpty(msg: any): Promise<any> {
-        this.fireResultToTools(msg.id, {});
-        return Promise.resolve(null);
-    }
-
     private onMessageFromTools(rawMessage: string): void {
         if (!this._isConnected) {
             debug('Connection not yet open, buffering message.');
