@@ -5,7 +5,7 @@ import { IOSAdapter } from './iosAdapter';
 import { debug } from './remotedebug/logger';
 import { EventEmitter } from 'events';
 
-export class DebuggingProxy {
+export class DebugProxy {
     private app;
     private https: http.Server | null = null;
     private wss: ws.Server | null = null;
