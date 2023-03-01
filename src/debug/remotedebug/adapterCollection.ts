@@ -11,14 +11,8 @@ import { IAdapterOptions, ITarget } from './adapterInterfaces';
 export class AdapterCollection extends Adapter {
     protected _adapters: Map<string, Adapter>;
 
-    constructor(
-        id: string,
-        proxyUrl: string,
-        options: IAdapterOptions,
-        targetFactory: (targetId, targetData) => Target,
-    ) {
-        super(id, proxyUrl, options, targetFactory);
-
+    constructor(id: string, proxyUrl: string, options: IAdapterOptions) {
+        super(id, proxyUrl, options);
         this._adapters = new Map<string, Adapter>();
     }
 

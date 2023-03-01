@@ -24,9 +24,7 @@ export class Adapter extends EventEmitter {
     constructor(
         id: string,
         socket: string,
-        options: IAdapterOptions,
-        protected targetFactory: (targetId: string, targetData: ITarget) => Target,
-        protected targetsDetailsOverride?: () => ITarget[],
+        options: IAdapterOptions
     ) {
         super();
 
@@ -81,26 +79,20 @@ export class Adapter extends EventEmitter {
     public getTargets(metadata?: any): Promise<ITarget[]> {
         debug(`adapter.getTargets, metadata=${metadata}`);
         return new Promise((resolve, reject) => {
-            if (this.targetsDetailsOverride) {
-                const targets = this.targetsDetailsOverride();
-                const enhancedTargets = targets.map(t => this.setTargetInfo(t, metadata));
-                resolve(targets);
-            } else {
-                request(this._url, (error: any, response: http.IncomingMessage, body: any) => {
-                    if (error) {
-                        resolve([]);
-                        return;
-                    }
+            request(this._url, (error: any, response: http.IncomingMessage, body: any) => {
+                if (error) {
+                    resolve([]);
+                    return;
+                }
 
-                    const targets: ITarget[] = [];
-                    const rawTargets: ITarget[] = JSON.parse(body);
-                    rawTargets.forEach((t: ITarget) => {
-                        targets.push(this.setTargetInfo(t, metadata));
-                    });
-
-                    resolve(targets);
+                const targets: ITarget[] = [];
+                const rawTargets: ITarget[] = JSON.parse(body);
+                rawTargets.forEach((t: ITarget) => {
+                    targets.push(this.setTargetInfo(t, metadata));
                 });
-            }
+
+                resolve(targets);
+            });
         }).then((foundTargets: ITarget[]) => {
             // Now get the targets for each device adapter in our list
             const foundTargetIds = new Set(foundTargets.map(t => t.id));
@@ -131,7 +123,7 @@ export class Adapter extends EventEmitter {
         }
 
         const targetData = this._targetIdToTargetDataMap.get(targetId);
-        const target = this.targetFactory(targetId, targetData);
+        const target = new Target(targetId, targetData);
         target.connectTo(targetData.webSocketDebuggerUrl, wsFrom);
 
         // When the VS Code -> remotedebug-ios-webkit-adapter socket is closed,
