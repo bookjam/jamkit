@@ -6,10 +6,19 @@ import * as request from 'request';
 import * as http from 'http';
 import * as WebSocket from 'ws';
 import { EventEmitter } from 'events';
-import { spawn, ChildProcess } from 'child_process';
 import { ITarget, IAdapterOptions } from './adapterInterfaces';
 import { Logger, debug } from './logger';
 import { Target } from './target';
+
+
+/*
+
+IOSAdapter
+Adapter('/ios', `ws://localhost:${port}`, getIOSAdapterOptions(port, simulatorSocketFinder));
+
+child adapters
+Adapter()
+*/
 
 export class Adapter extends EventEmitter {
     protected _id: string;
@@ -17,7 +26,6 @@ export class Adapter extends EventEmitter {
     protected _proxyUrl: string;
     protected _options: IAdapterOptions;
     protected _url: string;
-    protected _proxyProc: ChildProcess;
     protected _targetMap: Map<string, Target>;
     protected _targetIdToTargetDataMap: Map<string, ITarget>;
 
@@ -53,27 +61,6 @@ export class Adapter extends EventEmitter {
     public get id(): string {
         debug(`adapter.id`);
         return this._id;
-    }
-
-    public async start(): Promise<any> {
-        debug(`adapter.start`, this._options);
-
-        if (!this._options.proxyExePath) {
-            debug(`adapter.start: Skip spawnProcess, no proxyExePath available`);
-            return Promise.resolve(`skipped`);
-        }
-
-        const args = this._options.proxyExeArgsProvider();
-        return this.spawnProcess(this._options.proxyExePath, args);
-    }
-
-    public stop(): void {
-        debug(`adapter.stop`);
-        if (this._proxyProc) {
-            // Terminate the proxy process
-            this._proxyProc.kill('SIGTERM');
-            this._proxyProc = null;
-        }
     }
 
     public getTargets(metadata?: any): Promise<ITarget[]> {
@@ -159,15 +146,6 @@ export class Adapter extends EventEmitter {
         this._targetMap.get(targetId).forward(message);
     }
 
-    public forceRefresh() {
-        debug('adapter.forceRefresh');
-        if (this._proxyProc && this._options.proxyExePath && this._options.proxyExeArgsProvider) {
-            const child = this._proxyProc;
-            this._proxyProc = undefined;
-            this.refreshProcess(child, this._options.proxyExePath, this._options.proxyExeArgsProvider());
-        }
-    }
-
     protected setTargetInfo(t: ITarget, metadata?: any): ITarget {
         debug('adapter.setTargetInfo', t, metadata);
 
@@ -194,60 +172,5 @@ export class Adapter extends EventEmitter {
 
         return t;
     }
-
-    timeout(ms: number) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    childParameters?: { path: string; args: string[]; };
-    protected async refreshProcess(child: ChildProcess, path: string, args: string[]) {
-        debug('adapter.refreshProcess');
-        child.kill('SIGTERM');
-        const childParameters = { path, args };
-        this.childParameters = childParameters;
-        await this.timeout(3000);
-        if (this.childParameters !== childParameters) {
-            // Means we scheduled a different spawn already
-            return;
-        }
-        this.spawnProcess(path, args);
-    }
-
-    protected spawnProcess(path: string, args: string[]): Promise<ChildProcess> {
-        debug(`adapter.spawnProcess, path=${path}`);
-
-        return new Promise((resolve, reject) => {
-            if (this._proxyProc) {
-                reject('adapter.spawnProcess.error, err=process already started');
-            }
-
-            const child = spawn(path, args, {
-                detached: false,
-                stdio: ['ignore'],
-            });
-            this._proxyProc = child;
-
-            child.on('error', err => {
-                debug(`adapter.spawnProcess.error, err=${err}`);
-                reject(`adapter.spawnProcess.error, err=${err}`);
-            });
-
-            child.on('close', code => {
-                debug(`adapter.spawnProcess.close, code=${code}`);
-                reject(`adapter.spawnProcess.close, code=${code}`);
-            });
-
-            child.stdout.on('data', data => {
-                debug(`adapter.spawnProcess.stdout, data=${data.toString()}`);
-            });
-
-            child.stderr.on('data', data => {
-                debug(`adapter.spawnProcess.stderr, data=${data.toString()}`);
-            });
-
-            setTimeout(() => {
-                resolve(child);
-            }, 200);
-        });
-    }
 }
+

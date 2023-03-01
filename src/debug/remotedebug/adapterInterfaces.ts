@@ -26,6 +26,4 @@ export interface IAdapterOptions {
     baseUrl?: string;
     path?: string;
     port?: number;
-    proxyExePath?: string;
-    proxyExeArgsProvider?: () => string[];
 }
