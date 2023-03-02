@@ -20,8 +20,3 @@ export interface ITarget {
     adapterType: string;
     metadata: IDevice;
 }
-
-export interface IAdapterOptions {
-    path?: string;
-    port?: number;
-}

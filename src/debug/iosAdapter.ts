@@ -166,7 +166,7 @@ export class IOSAdapter extends EventEmitter {
 
                             // Create a new adapter for this device and add it to our list
                             const proxyUrl = `ws://localhost:${port}`; // ????
-                            const adapter = new Adapter(adapterId, proxyUrl, { port: port });
+                            const adapter = new Adapter(adapterId, proxyUrl, port);
                             adapter.on('socketClosed', id => {
                                 this.emit('socketClosed', id);
                                 this.adapters.delete(adapterId);

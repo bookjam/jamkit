@@ -6,7 +6,7 @@ import * as request from 'request';
 import * as http from 'http';
 import * as WebSocket from 'ws';
 import { EventEmitter } from 'events';
-import { ITarget, IAdapterOptions, IDevice } from './adapterInterfaces';
+import { ITarget, IDevice } from './adapterInterfaces';
 import { Logger, debug } from './logger';
 import { Target } from './target';
 
@@ -15,7 +15,6 @@ export class Adapter extends EventEmitter {
     protected _id: string;
     protected _adapterType: string;
     protected _proxyUrl: string;
-    protected _options: IAdapterOptions;
     protected _url: string;
     protected _targetMap: Map<string, Target>;
     protected _targetIdToTargetDataMap: Map<string, ITarget>;
@@ -23,7 +22,7 @@ export class Adapter extends EventEmitter {
     constructor(
         id: string,
         socket: string,
-        options: IAdapterOptions
+        port: number
     ) {
         super();
 
@@ -32,12 +31,7 @@ export class Adapter extends EventEmitter {
         this._targetMap = new Map<string, Target>();
         this._targetIdToTargetDataMap = new Map<string, ITarget>();
 
-        // Apply default options
-        options.path = options.path || '/json';
-        options.port = options.port || 9222;
-        this._options = options;
-
-        this._url = `http://127.0.0.1:${this._options.port}${this._options.path}`;
+        this._url = `http://127.0.0.1:${port}/json`;
 
         const index = this._id.indexOf('/', 1);
         if (index >= 0) {
@@ -154,9 +148,6 @@ export class Adapter extends EventEmitter {
 
         // Overwrite the real endpoint with the url of our proxy multiplexor
         t.webSocketDebuggerUrl = `${this._proxyUrl}${this._id}/${t.id}`;
-
-        //let wsUrl = `${this._proxyUrl.replace('ws://', '')}${this._id}/${t.id}`;
-        //t.devtoolsFrontendUrl = `https://chrome-devtools-frontend.appspot.com/serve_file/@fcea73228632975e052eb90fcf6cd1752d3b42b4/inspector.html?experiments=true&remoteFrontend=screencast&ws=${wsUrl}`;
 
         return t;
     }
