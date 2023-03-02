@@ -15,6 +15,8 @@ import { IOS8Protocol } from './remotedebug/protocols/ios8';
 import { IOS9Protocol } from './remotedebug/protocols/ios9';
 import { IOS12Protocol } from './remotedebug/protocols/ios12';
 import { exec, spawn, ChildProcess } from 'child_process';
+
+
 export class IOSAdapter extends EventEmitter {
     private protocolMap = new Map<Target, IOSProtocol>();
     private adapters = new Map<string, Adapter>();
@@ -208,7 +210,7 @@ export class IOSAdapter extends EventEmitter {
 
         if (target) {
             if (!this.protocolMap.has(target)) {
-                const version = (target.data.metadata as IDevice).version;
+                const version = target.data.metadata.version;
                 const protocol = this.getProtocolFor(version, target);
                 this.protocolMap.set(target, protocol);
             }
@@ -260,6 +262,8 @@ function timeout(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+const IOS_SIMULATOR_SOCKET_COMMAND = 'lsof -U -F | grep com.apple.webinspectord_sim.socket | uniq';
+
 class SimulatorSocketFinder {
     private timer?: NodeJS.Timeout;
     private knownSockets: string[] = [];
@@ -298,7 +302,7 @@ class SimulatorSocketFinder {
     }
 
     private checkSimulatorSockets() {
-        exec('lsof -U -F | grep com.apple.webinspectord_sim.socket | uniq', (error, stdout, stderr) => {
+        exec(IOS_SIMULATOR_SOCKET_COMMAND, (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;

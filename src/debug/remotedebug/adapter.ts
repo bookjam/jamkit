@@ -6,7 +6,7 @@ import * as request from 'request';
 import * as http from 'http';
 import * as WebSocket from 'ws';
 import { EventEmitter } from 'events';
-import { ITarget, IAdapterOptions } from './adapterInterfaces';
+import { ITarget, IAdapterOptions, IDevice } from './adapterInterfaces';
 import { Logger, debug } from './logger';
 import { Target } from './target';
 
@@ -52,9 +52,9 @@ export class Adapter extends EventEmitter {
         return this._id;
     }
 
-    public getTargets(metadata?: any): Promise<ITarget[]> {
-        debug(`adapter.getTargets, metadata=${metadata}`);
-        return new Promise((resolve, reject) => {
+    public getTargets(device: IDevice): Promise<ITarget[]> {
+        debug(`adapter.getTargets, device=${device}`);
+        return new Promise((resolve, _reject) => {
             request(this._url, (error: any, response: http.IncomingMessage, body: any) => {
                 if (error) {
                     resolve([]);
@@ -64,7 +64,7 @@ export class Adapter extends EventEmitter {
                 const targets: ITarget[] = [];
                 const rawTargets: ITarget[] = JSON.parse(body);
                 rawTargets.forEach((t: ITarget) => {
-                    targets.push(this.setTargetInfo(t, metadata));
+                    targets.push(this.setTargetInfo(t, device));
                 });
 
                 resolve(targets);
@@ -134,8 +134,8 @@ export class Adapter extends EventEmitter {
         this._targetMap.get(targetId).forward(message);
     }
 
-    protected setTargetInfo(t: ITarget, metadata?: any): ITarget {
-        debug('adapter.setTargetInfo', t, metadata);
+    protected setTargetInfo(t: ITarget, device: IDevice): ITarget {
+        debug('adapter.setTargetInfo', t, device);
 
         // Ensure there is a valid id
         const id: string = t.id || t.webSocketDebuggerUrl;
@@ -145,8 +145,8 @@ export class Adapter extends EventEmitter {
         t.adapterType = this._adapterType;
         t.type = t.type || 'javascript';
 
-        // Append the metadata
-        t.metadata = metadata;
+        // Append the device as metadata
+        t.metadata = device;
 
         // Store the real endpoint
         const targetData = JSON.parse(JSON.stringify(t));

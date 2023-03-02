@@ -22,7 +22,7 @@ export class Target extends EventEmitter {
     private _targetBased: boolean;
     private _targetId: string;
 
-    constructor(targetId: string, data?: ITarget) {
+    constructor(targetId: string, data: ITarget) {
         super();
         this._data = data;
         this._messageBuffer = [];
@@ -65,7 +65,7 @@ export class Target extends EventEmitter {
         // Create a connection to the real websocket endpoint
         this._wsTarget = new WebSocket(url);
         this._wsTarget.on('error', (err) => {
-            Logger.error(err);
+            Logger.error(err.message);
         });
 
         this._wsTarget.on('message', (message) => {

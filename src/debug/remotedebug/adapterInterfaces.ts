@@ -18,7 +18,7 @@ export interface ITarget {
     url: string;
     webSocketDebuggerUrl: string;
     adapterType: string;
-    metadata?: IDevice;
+    metadata: IDevice;
 }
 
 export interface IAdapterOptions {
