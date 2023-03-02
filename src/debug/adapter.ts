@@ -6,9 +6,9 @@ import * as request from 'request';
 import * as http from 'http';
 import * as WebSocket from 'ws';
 import { EventEmitter } from 'events';
-import { ITarget, IDevice } from './adapterInterfaces';
-import { Logger, debug } from './logger';
-import { Target } from './target';
+import { ITarget, IDevice } from './remotedebug/adapterInterfaces';
+import { Logger, debug } from './remotedebug/logger';
+import { Target } from './remotedebug/target';
 
 
 export class Adapter extends EventEmitter {
@@ -16,20 +16,18 @@ export class Adapter extends EventEmitter {
     protected _adapterType: string;
     protected _proxyUrl: string;
     protected _url: string;
-    protected _targetMap: Map<string, Target>;
-    protected _targetIdToTargetDataMap: Map<string, ITarget>;
+    protected _targetMap = new Map<string, Target>();
+    protected _targetIdToTargetDataMap = new Map<string, ITarget>();
 
     constructor(
         id: string,
-        socket: string,
+        proxyUrl: string,
         port: number
     ) {
         super();
 
         this._id = id;
-        this._proxyUrl = socket;
-        this._targetMap = new Map<string, Target>();
-        this._targetIdToTargetDataMap = new Map<string, ITarget>();
+        this._proxyUrl = proxyUrl;
 
         this._url = `http://127.0.0.1:${port}/json`;
 
@@ -48,52 +46,51 @@ export class Adapter extends EventEmitter {
 
     public getTargets(device: IDevice): Promise<ITarget[]> {
         debug(`adapter.getTargets, device=${device}`);
-        return new Promise((resolve, _reject) => {
-            request(this._url, (error: any, response: http.IncomingMessage, body: any) => {
+        return new Promise<ITarget[]>(resolve => {
+            request(this._url, (error: any, _response: http.IncomingMessage, body: any) => {
                 if (error) {
                     resolve([]);
                     return;
                 }
 
                 const targets: ITarget[] = [];
-                const rawTargets: ITarget[] = JSON.parse(body);
-                rawTargets.forEach((t: ITarget) => {
-                    targets.push(this.setTargetInfo(t, device));
+                (JSON.parse(body) as ITarget[]).forEach(target => {
+                    this.fixTargetInfo(target, device);
+                    targets.push(target);
+                });
+
+                // Now get the targets for each device adapter in our list
+                const foundTargetIds = new Set(targets.map(t => t.id));
+                this._targetMap.forEach(target => {
+                    const id = target.data.id;
+                    if (!foundTargetIds.has(id)) {
+                        // Unknown target, kill it
+                        target.kill();
+                        this._targetIdToTargetDataMap.delete(id);
+                        this._targetMap.delete(id);
+                    }
                 });
 
                 resolve(targets);
             });
-        }).then((foundTargets: ITarget[]) => {
-            // Now get the targets for each device adapter in our list
-            const foundTargetIds = new Set(foundTargets.map(t => t.id));
-            this._targetMap.forEach(target => {
-                const id = target.data.id;
-                if (!foundTargetIds.has(id)) {
-                    // Unknown target, kill it
-                    target.kill();
-                    this._targetIdToTargetDataMap.delete(id);
-                    this._targetMap.delete(id);
-                }
-            });
-            return foundTargets;
         });
     }
 
     public connectTo(targetId: string, wsFrom: WebSocket): Target | null {
         debug(`adapter.connectTo, targetId=${targetId}`);
-        if (!this._targetIdToTargetDataMap.has(targetId)) {
+        const targetData = this._targetIdToTargetDataMap.get(targetId);
+        if (!targetData) {
             Logger.error(`No endpoint url found for id ${targetId}`);
             return null;
         }
 
-        if (this._targetMap.has(targetId)) {
+        const existingTarget = this._targetMap.get(targetId);
+        if (existingTarget) {
             debug(`Existing target found for id ${targetId}`);
-            const existingTarget = this._targetMap.get(targetId);
             existingTarget.updateClient(wsFrom);
             return existingTarget;
         }
 
-        const targetData = this._targetIdToTargetDataMap.get(targetId);
         const target = new Target(targetId, targetData);
         target.connectTo(targetData.webSocketDebuggerUrl, wsFrom);
 
@@ -125,10 +122,10 @@ export class Adapter extends EventEmitter {
             return;
         }
 
-        this._targetMap.get(targetId).forward(message);
+        this._targetMap.get(targetId)?.forward(message);
     }
 
-    protected setTargetInfo(t: ITarget, device: IDevice): ITarget {
+    private fixTargetInfo(t: ITarget, device: IDevice): void {
         debug('adapter.setTargetInfo', t, device);
 
         // Ensure there is a valid id
@@ -148,8 +145,6 @@ export class Adapter extends EventEmitter {
 
         // Overwrite the real endpoint with the url of our proxy multiplexor
         t.webSocketDebuggerUrl = `${this._proxyUrl}${this._id}/${t.id}`;
-
-        return t;
     }
 }
 

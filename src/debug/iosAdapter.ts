@@ -7,7 +7,7 @@ import * as http from 'http';
 import * as WebSocket from 'ws';
 import { debug } from './remotedebug/logger';
 import { EventEmitter } from 'events';
-import { Adapter } from './remotedebug/adapter';
+import { Adapter } from './adapter';
 import { Target } from './remotedebug/target';
 import { ITarget, IDevice } from './remotedebug/adapterInterfaces';
 import { IOSProtocol } from './remotedebug/protocols/ios';
