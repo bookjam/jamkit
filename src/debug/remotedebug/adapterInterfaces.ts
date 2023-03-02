@@ -2,7 +2,7 @@
 // Copyright (C) Microsoft. All rights reserved.
 //
 
-export interface IDeviceTarget {
+export interface IDevice {
     deviceId: string;
     deviceName: string;
     deviceOSVersion: string;
@@ -18,12 +18,10 @@ export interface ITarget {
     url: string;
     webSocketDebuggerUrl: string;
     adapterType: string;
-    metadata?: IDeviceTarget;
+    metadata?: IDevice;
 }
 
 export interface IAdapterOptions {
-    pollingInterval?: number;
-    baseUrl?: string;
     path?: string;
     port?: number;
 }

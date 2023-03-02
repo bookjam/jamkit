@@ -42,13 +42,11 @@ export class Adapter extends EventEmitter {
         this._targetIdToTargetDataMap = new Map<string, ITarget>();
 
         // Apply default options
-        options.pollingInterval = options.pollingInterval || 3000;
-        options.baseUrl = options.baseUrl || 'http://127.0.0.1';
         options.path = options.path || '/json';
         options.port = options.port || 9222;
         this._options = options;
 
-        this._url = `${this._options.baseUrl}:${this._options.port}${this._options.path}`;
+        this._url = `http://127.0.0.1:${this._options.port}${this._options.path}`;
 
         const index = this._id.indexOf('/', 1);
         if (index >= 0) {
@@ -83,8 +81,7 @@ export class Adapter extends EventEmitter {
         }).then((foundTargets: ITarget[]) => {
             // Now get the targets for each device adapter in our list
             const foundTargetIds = new Set(foundTargets.map(t => t.id));
-            const currentlyKnownTargets = this._targetMap.values();
-            for (const target of currentlyKnownTargets) {
+            this._targetMap.forEach(target => {
                 const id = target.data.id;
                 if (!foundTargetIds.has(id)) {
                     // Unknown target, kill it
@@ -92,7 +89,7 @@ export class Adapter extends EventEmitter {
                     this._targetIdToTargetDataMap.delete(id);
                     this._targetMap.delete(id);
                 }
-            }
+            });
             return foundTargets;
         });
     }

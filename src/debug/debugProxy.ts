@@ -1,5 +1,9 @@
 import * as http from 'http';
 import * as ws from 'ws';
+import * as path from 'path';
+import * as fs from 'fs';
+import * as os from 'os';
+import * as which from 'which';
 import * as express from 'express';
 import { IOSAdapter } from './iosAdapter';
 import { debug } from './remotedebug/logger';
@@ -7,7 +11,7 @@ import { EventEmitter } from 'events';
 
 export class DebugProxy {
     private app;
-    private https: http.Server | null = null;
+    private http: http.Server | null = null;
     private wss: ws.Server | null = null;
     private adapter: IOSAdapter | null = null;
     private targetFetchTimer: NodeJS.Timer | null = null;
@@ -19,9 +23,9 @@ export class DebugProxy {
     public async run(serverPort: number): Promise<number> {
         debug('server.run, port=%s', serverPort);
 
-        this.https = http.createServer(this.app);
+        this.http = http.createServer(this.app);
 
-        this.wss = new ws.Server({ server: this.https });
+        this.wss = new ws.Server({ server: this.http });
         this.wss.on('connection', (a, req) => {
             this.onWSSConnection(a, req);
         });
@@ -29,25 +33,45 @@ export class DebugProxy {
         this.setupHttpHandlers();
 
         // Start server and return the port number
-        this.https.listen(serverPort);
-        const port = (this.https.address() as ws.AddressInfo).port;
+        this.http.listen(serverPort);
 
-        this.adapter = new IOSAdapter(port);
+        const webkitDebugProxyPath = getWebkitDebugProxyPath();
+        if (!webkitDebugProxyPath) {
+            return Promise.reject('ios-webkit-debug-proxy not found!');
+        }
+
+        const webkitDebugProxyPort = serverPort + 100;
+        this.adapter = new IOSAdapter(webkitDebugProxyPath, webkitDebugProxyPort);
 
         return this.adapter
             .start()
             .then(() => {
                 this.startTargetFetcher();
-                return port;
+                return serverPort;
             });
     }
+
+    // private async startServer(http: http.Server, port: number): Promise<number> {
+    //     return new Promise((resolve, reject) => {
+    //         http.on('error', (err) => {
+    //             if (err.name === 'EADDRINUSE') {
+    //                 this.startServer(http, port + 1).then(resolve).catch(reject);
+    //             } else {
+    //                 reject(err);
+    //             }
+    //         });
+    //         http.listen(port, () => {
+    //             resolve(port);
+    //         });
+    //     });
+    // }
 
     public stop(): void {
         debug('server.stop');
 
-        if (this.https) {
-            this.https.close();
-            this.https = null;
+        if (this.http) {
+            this.http.close();
+            this.http = null;
         }
 
         this.stopTargetFetcher();
@@ -149,5 +173,33 @@ export class DebugProxy {
         (socket as EventEmitter).on('message', msg => {
             this.adapter?.forwardTo(url, msg);
         });
+    }
+}
+
+function getWebkitDebugProxyPath(): string | undefined {
+    debug(`getProxyPath`);
+    if (os.platform() === 'win32') {
+        const proxy = process.env.SCOOP
+            ? path.resolve(
+                __dirname,
+                process.env.SCOOP + '/apps/ios-webkit-debug-proxy/current/ios_webkit_debug_proxy.exe',
+            )
+            : path.resolve(
+                __dirname,
+                process.env.USERPROFILE +
+                '/scoop/apps/ios-webkit-debug-proxy/current/ios_webkit_debug_proxy.exe',
+            );
+        try {
+            fs.statSync(proxy);
+            return proxy;
+        } catch (err) {
+            console.error('ios_webkit_debug_proxy.exe not found. Please install "scoop install ios-webkit-debug-proxy"');
+        }
+    } else if (os.platform() === 'darwin' || os.platform() === 'linux') {
+        try {
+            return which.sync('ios_webkit_debug_proxy');
+        } catch (err) {
+            console.error('ios_webkit_debug_proxy not found. Please install ios_webkit_debug_proxy (https://github.com/google/ios-webkit-debug-proxy)');
+        }
     }
 }
