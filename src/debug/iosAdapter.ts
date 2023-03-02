@@ -65,6 +65,8 @@ export class IOSAdapter extends EventEmitter {
 
         const socketStrings = this.simulatorSocketFinder.getKnownSockets();
         if (socketStrings.length > 0) {
+
+            // FIXME: it doesn't work. the proxy accepts only 1 socket string
             const combinedSocketString = socketStrings.map(s => `unix:${s}`).join(',');
             proxyArgs.push('-s');
             proxyArgs.push(combinedSocketString);
@@ -140,6 +142,8 @@ export class IOSAdapter extends EventEmitter {
                 }
 
                 const devices: IDevice[] = JSON.parse(body);
+
+                // Set device versions
                 devices.forEach(d => {
                     if (d.deviceId.startsWith('SIMULATOR')) {
                         d.version = '9.3.0'; // TODO: Find a way to auto detect version. Currently hardcoding it.
