@@ -110,7 +110,7 @@ export class DebugProxy {
         this.app.get('/', (_req, res) => {
             debug('server.http.endpoint/');
             res.json({
-                msg: 'Hello from RemoteDebug iOS WebKit Adapter',
+                msg: 'Hello from Jamkit Debug Proxy',
             });
         });
 
@@ -162,9 +162,11 @@ export class DebugProxy {
         }
 
         try {
+            // TODO: need to check which socket is closed?
             this.adapter?.on('socketClosed', _id => {
                 socket.close();
             });
+
             this.adapter?.connectToTarget(url, socket);
         } catch (err) {
             debug(`server.onWSSConnection.connectTo.error.${err}`);

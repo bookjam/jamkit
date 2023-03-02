@@ -11,15 +11,6 @@ import { Logger, debug } from './logger';
 import { Target } from './target';
 
 
-/*
-
-IOSAdapter
-Adapter('/ios', `ws://localhost:${port}`, getIOSAdapterOptions(port, simulatorSocketFinder));
-
-child adapters
-Adapter()
-*/
-
 export class Adapter extends EventEmitter {
     protected _id: string;
     protected _adapterType: string;
