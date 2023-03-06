@@ -22,7 +22,7 @@ export class Target extends EventEmitter {
     private _targetBased: boolean;
     private _targetId: string;
 
-    constructor(targetId: string, data?: ITarget) {
+    constructor(targetId: string, data: ITarget) {
         super();
         this._data = data;
         this._messageBuffer = [];
@@ -65,7 +65,7 @@ export class Target extends EventEmitter {
         // Create a connection to the real websocket endpoint
         this._wsTarget = new WebSocket(url);
         this._wsTarget.on('error', (err) => {
-            Logger.error(err);
+            Logger.error(err.message);
         });
 
         this._wsTarget.on('message', (message) => {
@@ -258,6 +258,7 @@ export class Target extends EventEmitter {
 
     private sendToTools(rawMessage: string): void {
         debug(`sendToTools.${rawMessage}`);
+        console.debug(`===== To VSCode ======\n${JSON.stringify(JSON.parse(rawMessage), null, 2)}\n\n`);
         // Make sure the tools socket can receive messages
         if (this.isSocketConnected(this._wsTools)) {
             this._wsTools.send(rawMessage);
@@ -266,6 +267,13 @@ export class Target extends EventEmitter {
 
     private sendToTarget(rawMessage: string): void {
         debug(`sendToTarget.${rawMessage}`);
+        console.debug(`===== To Inspector ======\n${JSON.stringify(JSON.parse(rawMessage), null, 2)}\n\n`);
+
+        const message = JSON.parse(rawMessage);
+        if (message.method.match(/^Target/)) {
+            console.debug(`===== To Inspector (target: ${this._targetId}) ======\n${JSON.stringify(JSON.parse(rawMessage), null, 2)}\n\n`);
+        }
+
         if (this._targetBased) {
             const message = JSON.parse(rawMessage);
             if (!message.method.match(/^Target/)) {

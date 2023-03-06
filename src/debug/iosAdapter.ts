@@ -4,65 +4,146 @@
 
 import * as request from 'request';
 import * as http from 'http';
-import * as path from 'path';
-import * as fs from 'fs';
-import * as os from 'os';
 import * as WebSocket from 'ws';
-import * as which from 'which';
 import { debug } from './remotedebug/logger';
-import { Adapter } from './remotedebug/adapter';
+import { EventEmitter } from 'events';
+import { Adapter } from './adapter';
 import { Target } from './remotedebug/target';
-import { AdapterCollection } from './remotedebug/adapterCollection';
-import { ITarget, IDeviceTarget, IAdapterOptions } from './remotedebug/adapterInterfaces';
+import { ITarget, IDevice } from './remotedebug/adapterInterfaces';
 import { IOSProtocol } from './remotedebug/protocols/ios';
 import { IOS8Protocol } from './remotedebug/protocols/ios8';
 import { IOS9Protocol } from './remotedebug/protocols/ios9';
 import { IOS12Protocol } from './remotedebug/protocols/ios12';
-import { exec } from 'child_process';
+import { exec, spawn, ChildProcess } from 'child_process';
 
-export class IOSAdapter extends AdapterCollection {
-    private _protocolMap: Map<Target, IOSProtocol>;
-    private _simulatorSocketFinder: SimulatorSocketFinder;
 
-    constructor(port: number) {
-        const simulatorSocketFinder = new SimulatorSocketFinder();
+export class IOSAdapter extends EventEmitter {
+    private protocolMap = new Map<Target, IOSProtocol>();
+    private adapters = new Map<string, Adapter>();
 
-        super(
-            '/ios',
-            `ws://localhost:${port}`,
-            getIOSAdapterOptions(port, simulatorSocketFinder),
-            (targetId, targetData) => new Target(targetId, targetData),
-        );
+    private simulatorSocketFinder = new SimulatorSocketFinder();
+    private proxyProc?: ChildProcess;
+    private spawnToken: number = 0;
 
-        this._protocolMap = new Map<Target, IOSProtocol>();
-        this._simulatorSocketFinder = simulatorSocketFinder;
+    constructor(private proxyExecPath: string, private proxyPort: number) {
+        super();
     }
 
     public start(): Promise<any> {
         debug(`iOSAdapter.start`);
 
-        this._simulatorSocketFinder.start();
-        this._simulatorSocketFinder.onSocketsChanged(() => this.forceRefresh());
+        this.simulatorSocketFinder.start();
+        this.simulatorSocketFinder.onSocketsChanged(() => this.forceRefresh());
 
-        return super.start();
+        return this.spawnProxyProcess();
     }
 
     public stop(): void {
-        this._simulatorSocketFinder.stop();
-        super.stop();
+        this.simulatorSocketFinder.stop();
+
+        if (this.proxyProc) {
+            // Terminate the proxy process
+            this.proxyProc.kill('SIGTERM');
+            this.proxyProc = undefined;
+        }
+    }
+
+    public forceRefresh() {
+        debug(`iosAdapter.forceRefresh`);
+
+        if (this.proxyProc) {
+            this.refreshProxy();
+        }
+    }
+
+    private getProxyExecArgs(): string[] {
+        const proxyArgs = [
+            '--no-frontend',
+            //'--config=null:' + this.proxyPort + ',:' + (this.proxyPort + 1) + '-' + (this.proxyPort + 101),
+            `--config=null:${this.proxyPort},:${this.proxyPort + 1}-${this.proxyPort + 101}`,
+        ];
+
+        const socketStrings = this.simulatorSocketFinder.getKnownSockets();
+        if (socketStrings.length > 0) {
+
+            // FIXME: it doesn't work. the proxy accepts only 1 socket string
+            const combinedSocketString = socketStrings.map(s => `unix:${s}`).join(',');
+            proxyArgs.push('-s');
+            proxyArgs.push(combinedSocketString);
+        }
+
+        return proxyArgs;
+    }
+
+    private async refreshProxy() {
+        debug('adapter.refreshProxy');
+
+        if (this.proxyProc) {
+            const child = this.proxyProc;
+            this.proxyProc = undefined;
+            child.kill('SIGTERM');
+        }
+
+        const spawnToken = ++this.spawnToken;
+        await timeout(3000);
+
+        if (spawnToken !== this.spawnToken) {
+            // Means we scheduled a different spawn already
+            return;
+        }
+
+        this.spawnProxyProcess();
+    }
+
+    private spawnProxyProcess(): Promise<ChildProcess> {
+        debug(`adapter.spawnProxyProcess`);
+        return new Promise((resolve, reject) => {
+            if (this.proxyProc) {
+                reject('adapter.spawnProcess.error, err=process already started');
+            }
+
+            const child = spawn(this.proxyExecPath, this.getProxyExecArgs(), {
+                detached: false,
+                stdio: ['ignore'],
+            });
+            this.proxyProc = child;
+
+            child.on('error', err => {
+                debug(`adapter.spawnProcess.error, err=${err}`);
+                reject(`adapter.spawnProcess.error, err=${err}`);
+            });
+
+            child.on('close', code => {
+                debug(`adapter.spawnProcess.close, code=${code}`);
+                reject(`adapter.spawnProcess.close, code=${code}`);
+            });
+
+            child.stdout?.on('data', data => {
+                debug(`adapter.spawnProcess.stdout, data=${data.toString()}`);
+            });
+
+            child.stderr?.on('data', data => {
+                debug(`adapter.spawnProcess.stderr, data=${data.toString()}`);
+            });
+
+            setTimeout(() => resolve(child), 200);
+        });
     }
 
     public getTargets(): Promise<ITarget[]> {
         debug(`iOSAdapter.getTargets`);
 
         return new Promise<ITarget[]>(resolve => {
-            request(this._url, (error: any, _res: http.IncomingMessage, body: any) => {
+            const proxyUrl = `http://127.0.0.1:${this.proxyPort}/json`;
+            request(proxyUrl, (error: any, _res: http.IncomingMessage, body: any) => {
                 if (error) {
                     resolve([]);
                     return;
                 }
 
-                const devices: IDeviceTarget[] = JSON.parse(body);
+                const devices: IDevice[] = JSON.parse(body);
+
+                // Set device versions
                 devices.forEach(d => {
                     if (d.deviceId.startsWith('SIMULATOR')) {
                         d.version = '9.3.0'; // TODO: Find a way to auto detect version. Currently hardcoding it.
@@ -79,41 +160,80 @@ export class IOSAdapter extends AdapterCollection {
 
                 // Now start up all the adapters
                 devices.forEach(d => {
-                    const adapterId = `${this._id}_${d.deviceId}`;
+                    const adapterId = `/ios_${d.deviceId}`;
 
-                    if (!this._adapters.has(adapterId)) {
+                    if (!this.adapters.has(adapterId)) {
                         const parts = d.url.split(':');
                         if (parts.length > 1) {
                             // Get the port that the ios proxy exe is forwarding for this device
                             const port = parseInt(parts[1], 10);
 
                             // Create a new adapter for this device and add it to our list
-                            const adapter = new Adapter(adapterId, this._proxyUrl, { port: port }, this.targetFactory);
-                            adapter.start();
+                            const proxyUrl = `ws://localhost:${port}`; // ????
+                            const adapter = new Adapter(adapterId, proxyUrl, port);
                             adapter.on('socketClosed', id => {
                                 this.emit('socketClosed', id);
-                                adapter.stop();
-                                this._adapters.delete(adapterId);
+                                this.adapters.delete(adapterId);
                             });
-                            this._adapters.set(adapterId, adapter);
+                            this.adapters.set(adapterId, adapter);
                         }
                     }
                 });
 
                 // Now get the targets for each device adapter in our list
-                super.getTargets(devices).then(targets => resolve(targets));
+                const promises: Promise<ITarget[]>[] = [];
+
+                let index = 0;
+                this.adapters.forEach(adapter => {
+                    promises.push(adapter.getTargets(devices[index++]));
+                });
+
+                Promise.all(promises).then((results: ITarget[][]) => {
+                    let allTargets: ITarget[] = [];
+                    results.forEach(targets => {
+                        allTargets = allTargets.concat(targets);
+                    });
+                    resolve(allTargets);
+                });
             });
         });
     }
 
-    public connectTo(url: string, wsFrom: WebSocket): Target {
-        const target = super.connectTo(url, wsFrom);
-        if (!this._protocolMap.has(target)) {
-            const version = (target.data.metadata as IDeviceTarget).version;
-            const protocol = this.getProtocolFor(version, target);
-            this._protocolMap.set(target, protocol);
+    public connectToTarget(url: string, wsFrom: WebSocket) {
+        debug(`iosAdapter.connectToTarget, url=${url}`);
+
+        const target = (() => {
+            const id = this.getWebSocketId(url);
+            let target: Target | null = null;
+            const adapter = this.adapters.get(id.adapterId);
+            if (adapter) {
+                target = adapter.connectTo(id.targetId, wsFrom);
+            }
+            return target;
+        })();
+
+        if (target) {
+            if (!this.protocolMap.has(target)) {
+                const version = target.data.metadata.version;
+                const protocol = this.getProtocolFor(version, target);
+                this.protocolMap.set(target, protocol);
+            }
         }
-        return target;
+    }
+
+    public forwardTo(url: string, message: string): void {
+        debug(`iosAdapter.forwardTo, url=${url}`);
+        const id = this.getWebSocketId(url);
+        this.adapters.get(id.adapterId)?.forwardTo(id.targetId, message);
+    }
+
+    private getWebSocketId(url: string): { adapterId: string; targetId: string; } {
+        debug(`iosAdapter.getWebSocketId, url=${url}`);
+        const index = url.indexOf('/', 1);
+        const adapterId = url.substr(0, index);
+        const targetId = url.substr(index + 1);
+
+        return { adapterId: adapterId, targetId: targetId };
     }
 
     private getProtocolFor(version: string, target: Target): IOSProtocol {
@@ -134,60 +254,6 @@ export class IOSAdapter extends AdapterCollection {
     }
 }
 
-function getIOSAdapterOptions(port: number, simulatorSocketFinder: SimulatorSocketFinder): IAdapterOptions {
-    const proxyPort = port + 100;
-    const proxyExeArgsProvider = () => {
-        const proxyArgs = [
-            '--no-frontend',
-            '--config=null:' + proxyPort + ',:' + (proxyPort + 1) + '-' + (proxyPort + 101),
-        ];
-
-        const socketStrings = simulatorSocketFinder.listKnownSockets();
-        if (socketStrings.length > 0) {
-            const combinedSocketString = socketStrings.map(s => `unix:${s}`).join(',');
-            proxyArgs.push('-s');
-            proxyArgs.push(combinedSocketString);
-        }
-
-        return proxyArgs;
-    };
-    const proxyPath = getProxyPath();
-
-    return {
-        port: proxyPort,
-        proxyExePath: proxyPath ?? undefined,
-        proxyExeArgsProvider: proxyExeArgsProvider,
-    };
-}
-
-function getProxyPath(): string | undefined {
-    debug(`iOSAdapter.getProxyPath`);
-    if (os.platform() === 'win32') {
-        const proxy = process.env.SCOOP
-            ? path.resolve(
-                __dirname,
-                process.env.SCOOP + '/apps/ios-webkit-debug-proxy/current/ios_webkit_debug_proxy.exe',
-            )
-            : path.resolve(
-                __dirname,
-                process.env.USERPROFILE +
-                '/scoop/apps/ios-webkit-debug-proxy/current/ios_webkit_debug_proxy.exe',
-            );
-        try {
-            fs.statSync(proxy);
-            return proxy;
-        } catch (err) {
-            console.error('ios_webkit_debug_proxy.exe not found. Please install "scoop install ios-webkit-debug-proxy"');
-        }
-    } else if (os.platform() === 'darwin' || os.platform() === 'linux') {
-        try {
-            return which.sync('ios_webkit_debug_proxy');
-        } catch (err) {
-            console.error('ios_webkit_debug_proxy not found. Please install ios_webkit_debug_proxy (https://github.com/google/ios-webkit-debug-proxy)');
-        }
-    }
-}
-
 function arraysEqual<T>(a: Array<T>, b: Array<T>) {
     if (a.length !== b.length) return false;
     for (let i = 0; i < a.length; ++i) {
@@ -195,6 +261,12 @@ function arraysEqual<T>(a: Array<T>, b: Array<T>) {
     }
     return true;
 }
+
+function timeout(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const IOS_SIMULATOR_SOCKET_COMMAND = 'lsof -U -F | grep com.apple.webinspectord_sim.socket | uniq';
 
 class SimulatorSocketFinder {
     private timer?: NodeJS.Timeout;
@@ -214,7 +286,7 @@ class SimulatorSocketFinder {
         this.timer = undefined;
     }
 
-    public listKnownSockets(): string[] {
+    public getKnownSockets(): string[] {
         return this.knownSockets;
     }
 
@@ -234,7 +306,7 @@ class SimulatorSocketFinder {
     }
 
     private checkSimulatorSockets() {
-        exec('lsof -U -F | grep com.apple.webinspectord_sim.socket | uniq', (error, stdout, stderr) => {
+        exec(IOS_SIMULATOR_SOCKET_COMMAND, (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
