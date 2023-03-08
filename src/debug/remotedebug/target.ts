@@ -53,6 +53,7 @@ export class Target extends EventEmitter {
         this._wsTarget.close();
     }
 
+    // TODO: Fix to fit android!!!
     public connectTo(url: string, wsFrom: WebSocket): void {
         if (this._wsTarget) {
             Logger.error(`Already connected`);

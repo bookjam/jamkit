@@ -2,6 +2,8 @@ import { Socket as TcpSocket } from 'net';
 import * as WebSocket from 'ws';
 import { ITarget } from './remotedebug/adapterInterfaces';
 import { EventEmitter } from 'events';
+import { Target } from './remotedebug/target';
+import { IOS8Protocol } from './remotedebug/protocols/ios8';
 
 interface Message {
     type: string;
@@ -13,7 +15,7 @@ export class AndroidAdapter extends EventEmitter {
 
     private socket = new TcpSocket();
     private buffer = new Uint8Array();
-    private targets: ITarget[] = [];
+    private targets = new Map<string, Target>();
 
     public start(): Promise<string> {
         return new Promise((resolve, reject) => {
@@ -44,7 +46,7 @@ export class AndroidAdapter extends EventEmitter {
     }
 
     public getTargets(): Promise<ITarget[]> {
-        return Promise.resolve(this.targets);
+        return Promise.resolve([...this.targets.values()].map(target => target.data));
     }
 
     public connectToTarget(url: string, wsFrom: WebSocket) {
@@ -103,19 +105,28 @@ export class AndroidAdapter extends EventEmitter {
             const message: Message = JSON.parse(json);
 
             if (message.type === 'update-targets' && message.targets) {
-                this.targets = message.targets.map(target => {
-                    return {
-                        devtoolsFrontendUrl: "",
-                        faviconUrl: "",
-                        thumbnailUrl: "/thumb/",
-                        title: target,
+
+                const oldTargetIds = [...this.targets.keys()];
+                const newTargetIds = message.targets;
+
+                const removedTargetIds = oldTargetIds.filter(targetId => !newTargetIds.includes(targetId));
+                const addedTargetIds = newTargetIds.filter(targetId => !oldTargetIds.includes(targetId));
+
+                removedTargetIds.forEach(targetId => this.targets.delete(targetId));
+                addedTargetIds.forEach(targetId => {
+
+                    const targetData: ITarget = {
+                        //devtoolsFrontendUrl: "",
+                        //faviconUrl: "",
+                        //thumbnailUrl: "/thumb/",
+                        title: targetId,
                         url: '',
-                        webSocketDebuggerUrl: `ws://localhost:9010/android/${target}`,
+                        webSocketDebuggerUrl: `ws://localhost:9010/android/${targetId}`,
                         appId: 'a-fake-app-id',
-                        id: target,
+                        id: targetId,
                         adapterType: 'android',
                         type: 'javascript',
-                        description: `a fake description for ${target}`,
+                        description: `a fake description for ${targetId}`,
                         metadata: {
                             deviceId: 'a-fake-android-device-id',
                             deviceName: 'Android',
@@ -124,7 +135,15 @@ export class AndroidAdapter extends EventEmitter {
                             version: '9.3.0',
                         }
                     };
+
+                    const target = new Target(targetId, targetData);
+
+                    new IOS8Protocol(target); // OK as it is.
+
+                    this.targets.set(targetId, target);
                 });
+
+
             }
 
             console.log(`From Android: ${message}`);

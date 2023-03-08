@@ -18,7 +18,7 @@ import { exec, spawn, ChildProcess } from 'child_process';
 
 
 export class IOSAdapter extends EventEmitter {
-    private protocolMap = new Map<Target, IOSProtocol>();
+    private protocolMap = new Map<Target, IOSProtocol>(); // FIXME: not needed?
     private adapters = new Map<string, Adapter>();
 
     private simulatorSocketFinder = new SimulatorSocketFinder();
