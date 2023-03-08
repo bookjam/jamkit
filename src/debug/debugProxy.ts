@@ -6,6 +6,7 @@ import * as os from 'os';
 import * as which from 'which';
 import * as express from 'express';
 import { IOSAdapter } from './iosAdapter';
+import { AndroidAdapter } from './androidAdapter';
 import { debug } from './remotedebug/logger';
 import { EventEmitter } from 'events';
 
@@ -13,7 +14,7 @@ export class DebugProxy {
     private app;
     private http: http.Server | null = null;
     private wss: ws.Server | null = null;
-    private adapter: IOSAdapter | null = null;
+    private adapter: IOSAdapter | AndroidAdapter | null = null;
     private targetFetchTimer: NodeJS.Timer | null = null;
 
     constructor() {
@@ -41,7 +42,8 @@ export class DebugProxy {
         }
 
         const webkitDebugProxyPort = serverPort + 100;
-        this.adapter = new IOSAdapter(webkitDebugProxyPath, webkitDebugProxyPort);
+        //this.adapter = new IOSAdapter(webkitDebugProxyPath, webkitDebugProxyPort);
+        this.adapter = new AndroidAdapter();
 
         return this.adapter
             .start()
@@ -50,21 +52,6 @@ export class DebugProxy {
                 return serverPort;
             });
     }
-
-    // private async startServer(http: http.Server, port: number): Promise<number> {
-    //     return new Promise((resolve, reject) => {
-    //         http.on('error', (err) => {
-    //             if (err.name === 'EADDRINUSE') {
-    //                 this.startServer(http, port + 1).then(resolve).catch(reject);
-    //             } else {
-    //                 reject(err);
-    //             }
-    //         });
-    //         http.listen(port, () => {
-    //             resolve(port);
-    //         });
-    //     });
-    // }
 
     public stop(): void {
         debug('server.stop');
@@ -138,10 +125,13 @@ export class DebugProxy {
         this.app.get('/json/version', (_req, res) => {
             debug('server.http.endpoint/json/version');
             res.json({
-                Browser: 'Safari/RemoteDebug iOS Webkit Adapter',
+                'Browser': 'Safari/RemoteDebug iOS Webkit Adapter',
                 'Protocol-Version': '1.2',
                 'User-Agent':
-                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2926.0 Safari/537.36',
+                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) ' +
+                    'AppleWebKit/537.36 (KHTML, like Gecko) ' +
+                    'Chrome/57.0.2926.0 ' +
+                    'Safari/537.36',
                 'WebKit-Version': '537.36 (@da59d418f54604ba2451cd0ef3a9cd42c05ca530)',
             });
         });
