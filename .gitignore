@@ -6,9 +6,5 @@ node_modules
 # OS X
 .DS_Store
 
-# App
-jamkit.apk
-jamkit.App
-
 # Tools
 .vscode
