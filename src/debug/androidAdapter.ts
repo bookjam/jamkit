@@ -48,12 +48,19 @@ export class AndroidAdapter extends EventEmitter {
     }
 
     public connectToTarget(url: string, wsFrom: WebSocket) {
+        // do nothing...
     }
 
     public forwardTo(url: string, message: string): void {
+        const target = url.substring(9); // remove '/android/'
+        this.sendMessage(
+            `{
+                "type": "relay-protocol-message",
+                "target": "${target}",
+                "payload": ${message}
+            }`
+        );
     }
-
-    //'{"type":"relay-debugger-message","target":"xxx","payload":{}}';
 
     private sendMessage(message: string): void {
 
@@ -116,29 +123,7 @@ export class AndroidAdapter extends EventEmitter {
                             url: 'I might have to fill it properly later...',
                             version: '9.3.0',
                         }
-                    };/**/
-
-                    /*return {
-                        "devtoolsFrontendUrl": "",
-                        "faviconUrl": "",
-                        "thumbnailUrl": "/thumb/",
-                        "title": "catalog_main.js - MainApp :: com.yourdomain.b77cdb8f-d006-4f45-8af9-1b4c5f7140ed",
-                        "url": "",
-                        //"webSocketDebuggerUrl": "ws://localhost:9010/ios_SIMULATOR/ws://127.0.0.1:9111/devtools/page/1",
-                        "webSocketDebuggerUrl": "ws://127.0.0.1:9111/devtools/page/1",
-                        "appId": "---PID:31585",
-                        "id": "---ws://127.0.0.1:9111/devtools/page/1",
-                        "adapterType": "----_ios_SIMULATOR",
-                        "type": "javascript",
-                        "description": "",
-                        "metadata": {
-                            "deviceId": "---SIMULATOR",
-                            "deviceName": "---SIMULATOR",
-                            "deviceOSVersion": "---0.0.0",
-                            "url": "---127.0.0.1:9111",
-                            "version": "---9.3.0"
-                        }
-                    };/**/
+                    };
                 });
             }
 
