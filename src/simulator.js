@@ -51,7 +51,7 @@ const _impl = {
         },
 
         _launch_app: function(handler) {
-            var app_path = path.resolve(__dirname, 'jamkit.app');
+            var app_path = path.resolve(__dirname, '..', 'browsers', 'jamkit.app');
             var self = this;
 
             this._read_info_plist(app_path)
@@ -213,7 +213,7 @@ const _impl = {
         },
 
         _launch_app: function(handler) {
-            var app_path = path.resolve(__dirname, 'jamkit.apk');
+            var app_path = path.resolve(__dirname, '..', 'browsers', 'jamkit.apk');
 
             this._read_manifest(app_path)
                 .then(function(manifest) {

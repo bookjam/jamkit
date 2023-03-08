@@ -47,8 +47,6 @@ module.exports = {
         var result = simctl.launch(false, device, app_id, {});
 
         if (result.code === 0) {
-            sleep(3000);
-
             return true;
         }
 
