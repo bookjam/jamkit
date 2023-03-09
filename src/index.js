@@ -214,6 +214,22 @@ program
         });
 
 program
+    .command('style')
+    .description('Manage sbss files.')
+        .command('migrate')
+        .description('Migrate old style sbss to new style.')
+        .action((options) => {
+            if (fs.existsSync('./package.bon')) {
+                commands.migrate_style();
+
+                return;
+            }
+
+            console.log('ERROR: package.bon not found.');
+        });
+
+
+program
     .command('debug')
     .description('Start a debugging proxy.')
     .action((options) => {
