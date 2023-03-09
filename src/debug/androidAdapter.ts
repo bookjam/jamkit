@@ -3,7 +3,7 @@ import * as WebSocket from 'ws';
 import { ITarget } from './remotedebug/adapterInterfaces';
 import { EventEmitter } from 'events';
 import { Target } from './remotedebug/target';
-import { IOS8Protocol } from './remotedebug/protocols/ios8';
+import { IOS9Protocol } from './remotedebug/protocols/ios9';
 
 interface Message {
     type: string;
@@ -50,15 +50,26 @@ export class AndroidAdapter extends EventEmitter {
     }
 
     public connectToTarget(url: string, wsFrom: WebSocket) {
-        // do nothing...
+        const targetId = url.substring(9); // remove '/android/'
+        const target = this.targets.get(targetId);
+        if (target) {
+            target.connectTo('', wsFrom);
+        }
     }
 
     public forwardTo(url: string, message: string): void {
-        const target = url.substring(9); // remove '/android/'
+        const targetId = url.substring(9); // remove '/android/'
+        const target = this.targets.get(targetId);
+        if (target) {
+            target.relayMessageFromTarget(message);
+        }
+    }
+
+    private relayMessageToTarget(targetId: string, message: string) {
         this.sendMessage(
             `{
                 "type": "relay-protocol-message",
-                "target": "${target}",
+                "target": "${targetId}",
                 "payload": ${message}
             }`
         );
@@ -136,14 +147,14 @@ export class AndroidAdapter extends EventEmitter {
                         }
                     };
 
-                    const target = new Target(targetId, targetData);
+                    const target = new Target(targetId, targetData, (targetId, message) => {
+                        this.relayMessageToTarget(targetId, message);
+                    });
 
-                    new IOS8Protocol(target); // OK as it is.
+                    new IOS9Protocol(target); // apply the protocol
 
                     this.targets.set(targetId, target);
                 });
-
-
             }
 
             console.log(`From Android: ${message}`);

@@ -7,6 +7,7 @@ import { EventEmitter } from 'events';
 import { Logger, debug } from './logger';
 import { ITarget } from './adapterInterfaces';
 
+
 export class Target extends EventEmitter {
     private _data: ITarget;
     private _url: string;
@@ -21,8 +22,9 @@ export class Target extends EventEmitter {
     private _id: string;
     private _targetBased: boolean;
     private _targetId: string;
+    private _sendToTarget?: (targetId: string, message: string) => void;
 
-    constructor(targetId: string, data: ITarget) {
+    constructor(targetId: string, data: ITarget, sendToTarget: (targetId: string, message: string) => void = undefined) {
         super();
         this._data = data;
         this._messageBuffer = [];
@@ -32,6 +34,7 @@ export class Target extends EventEmitter {
         this._requestId = 0;
         this._targetBased = false;
         this._targetId = null;
+        this._sendToTarget = sendToTarget;
 
         // Chrome currently uses id, iOS usies appId
         this._id = targetId;
@@ -50,10 +53,11 @@ export class Target extends EventEmitter {
     }
 
     public kill() {
-        this._wsTarget.close();
+        if (this._wsTarget) {
+            this._wsTarget.close();
+        }
     }
 
-    // TODO: Fix to fit android!!!
     public connectTo(url: string, wsFrom: WebSocket): void {
         if (this._wsTarget) {
             Logger.error(`Already connected`);
@@ -63,35 +67,48 @@ export class Target extends EventEmitter {
         this._url = url;
         this._wsTools = wsFrom;
 
-        // Create a connection to the real websocket endpoint
-        this._wsTarget = new WebSocket(url);
-        this._wsTarget.on('error', (err) => {
-            Logger.error(err.message);
-        });
-
-        this._wsTarget.on('message', (message) => {
-            this.onMessageFromTarget(message);
-        });
-        this._wsTarget.on('open', () => {
-            debug(`Connection established to ${url}`);
-            this._isConnected = true;
+        const flushMessages = () => {
             for (let i = 0; i < this._messageBuffer.length; i++) {
                 this.onMessageFromTools(this._messageBuffer[i]);
             }
             this._messageBuffer = [];
-        });
-        this._wsTarget.on('close', () => {
-            debug('Socket is closed');
-        });
+        };
+
+        if (this._sendToTarget) {
+            this._isConnected = true;
+            flushMessages();
+        } else {
+            // Create a connection to the real websocket endpoint
+            this._wsTarget = new WebSocket(url);
+            this._wsTarget.on('error', (err) => {
+                Logger.error(err.message);
+            });
+
+            this._wsTarget.on('message', (message) => {
+                this.onMessageFromTarget(message);
+            });
+            this._wsTarget.on('open', () => {
+                debug(`Connection established to ${url}`);
+                this._isConnected = true;
+                flushMessages();
+            });
+            this._wsTarget.on('close', () => {
+                debug('Socket is closed');
+            });
+        }
     }
 
     public forward(message: string): void {
-        if (!this._wsTarget) {
+        if (!this._sendToTarget && !this._wsTarget) {
             Logger.error('No websocket endpoint found');
             return;
         }
 
         this.onMessageFromTools(message);
+    }
+
+    public relayMessageFromTarget(message: string): void {
+        this.onMessageFromTarget(message);
     }
 
     public updateClient(wsFrom: WebSocket): void {
@@ -288,13 +305,19 @@ export class Target extends EventEmitter {
             }
         }
 
-        // Make sure the target socket can receive messages
-        if (this.isSocketConnected(this._wsTarget)) {
-            this._wsTarget.send(rawMessage);
-        } else {
-            // The socket has closed, we should send this message up to the parent
-            this._wsTarget = null;
-            this.emit('socketClosed', this._id);
+        if (this._sendToTarget) {
+            this._sendToTarget(this._id, rawMessage);
+        }
+        else {
+            // Make sure the target socket can receive messages
+            if (this.isSocketConnected(this._wsTarget)) {
+                this._wsTarget.send(rawMessage);
+            }
+            else {
+                // The socket has closed, we should send this message up to the parent
+                this._wsTarget = null;
+                this.emit('socketClosed', this._id);
+            }
         }
     }
 
