@@ -8,7 +8,7 @@ import * as WebSocket from 'ws';
 import { EventEmitter } from 'events';
 import { ITarget, IDevice } from './remotedebug/adapterInterfaces';
 import { Logger, debug } from './remotedebug/logger';
-import { Target } from './remotedebug/target';
+import { TargetAdapter } from './remotedebug/targetAdapter';
 
 
 export class Adapter extends EventEmitter {
@@ -16,7 +16,7 @@ export class Adapter extends EventEmitter {
     protected _adapterType: string;
     protected _proxyUrl: string;
     protected _url: string;
-    protected _targetMap = new Map<string, Target>();
+    protected _targetMap = new Map<string, TargetAdapter>();
     protected _targetIdToTargetDataMap = new Map<string, ITarget>();
 
     constructor(
@@ -76,7 +76,7 @@ export class Adapter extends EventEmitter {
         });
     }
 
-    public connectTo(targetId: string, wsFrom: WebSocket): Target | null {
+    public connectTo(targetId: string, wsFrom: WebSocket): TargetAdapter | null {
         debug(`adapter.connectTo, targetId=${targetId}`);
         const targetData = this._targetIdToTargetDataMap.get(targetId);
         if (!targetData) {
@@ -91,7 +91,7 @@ export class Adapter extends EventEmitter {
             return existingTarget;
         }
 
-        const target = new Target(targetId, targetData);
+        const target = new TargetAdapter(targetId, targetData);
         target.connectTo(targetData.webSocketDebuggerUrl, wsFrom);
 
         // When the VS Code -> remotedebug-ios-webkit-adapter socket is closed,

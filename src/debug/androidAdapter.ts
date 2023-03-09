@@ -2,7 +2,7 @@ import { Socket as TcpSocket } from 'net';
 import * as WebSocket from 'ws';
 import { ITarget } from './remotedebug/adapterInterfaces';
 import { EventEmitter } from 'events';
-import { Target } from './remotedebug/target';
+import { TargetAdapter } from './remotedebug/targetAdapter';
 import { IOS9Protocol } from './remotedebug/protocols/ios9';
 
 interface Message {
@@ -20,7 +20,7 @@ export class AndroidAdapter extends EventEmitter {
 
     private socket = new TcpSocket();
     private buffer = new Uint8Array();
-    private targets = new Map<string, Target>();
+    private targets = new Map<string, TargetAdapter>();
 
     public start(): Promise<string> {
         return new Promise((resolve, reject) => {
@@ -165,7 +165,7 @@ export class AndroidAdapter extends EventEmitter {
                 }
             };
 
-            const target = new Target(targetId, targetData, (targetId, message) => {
+            const target = new TargetAdapter(targetId, targetData, (targetId, message) => {
                 this.relayMessageToTarget(targetId, message);
             });
             new IOS9Protocol(target); // apply the protocol

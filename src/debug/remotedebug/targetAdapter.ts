@@ -8,7 +8,7 @@ import { Logger, debug } from './logger';
 import { ITarget } from './adapterInterfaces';
 
 
-export class Target extends EventEmitter {
+export class TargetAdapter extends EventEmitter {
     private _data: ITarget;
     private _url: string;
     private _wsTarget: WebSocket;

@@ -8,7 +8,7 @@ import * as WebSocket from 'ws';
 import { debug } from './remotedebug/logger';
 import { EventEmitter } from 'events';
 import { Adapter } from './adapter';
-import { Target } from './remotedebug/target';
+import { TargetAdapter } from './remotedebug/targetAdapter';
 import { ITarget, IDevice } from './remotedebug/adapterInterfaces';
 import { IOSProtocol } from './remotedebug/protocols/ios';
 import { IOS8Protocol } from './remotedebug/protocols/ios8';
@@ -18,7 +18,7 @@ import { exec, spawn, ChildProcess } from 'child_process';
 
 
 export class IOSAdapter extends EventEmitter {
-    private protocolMap = new Map<Target, IOSProtocol>(); // FIXME: not needed?
+    private protocolMap = new Map<TargetAdapter, IOSProtocol>(); // FIXME: not needed?
     private adapters = new Map<string, Adapter>();
 
     private simulatorSocketFinder = new SimulatorSocketFinder();
@@ -204,7 +204,7 @@ export class IOSAdapter extends EventEmitter {
 
         const target = (() => {
             const id = this.getWebSocketId(url);
-            let target: Target | null = null;
+            let target: TargetAdapter | null = null;
             const adapter = this.adapters.get(id.adapterId);
             if (adapter) {
                 target = adapter.connectTo(id.targetId, wsFrom);
@@ -236,7 +236,7 @@ export class IOSAdapter extends EventEmitter {
         return { adapterId: adapterId, targetId: targetId };
     }
 
-    private getProtocolFor(version: string, target: Target): IOSProtocol {
+    private getProtocolFor(version: string, target: TargetAdapter): IOSProtocol {
         debug(`iOSAdapter.getProtocolFor`);
         const parts = version.split('.');
         if (parts.length > 0) {

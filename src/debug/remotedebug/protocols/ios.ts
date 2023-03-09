@@ -2,10 +2,10 @@
 // Copyright (C) Microsoft. All rights reserved.
 //
 
-import { Target } from '../target';
+import { TargetAdapter } from '../targetAdapter';
 
 export class IOSProtocol {
-    protected _target: Target;
+    protected _target: TargetAdapter;
 
     protected _isEvaluating: boolean;
     protected _lastScriptEval: string;
@@ -16,7 +16,7 @@ export class IOSProtocol {
     protected shouldDeferScriptParsed: boolean = true;
     protected deferredScriptParsedCalls: (() => void)[] = [];
 
-    constructor(target: Target) {
+    constructor(target: TargetAdapter) {
         this._target = target;
 
         this._target.addMessageFilter('tools::Debugger.canSetScriptSource', msg => this.onCanSetScriptSource(msg));

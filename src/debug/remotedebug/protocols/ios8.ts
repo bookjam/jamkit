@@ -3,12 +3,12 @@
 //
 
 import { IOSProtocol } from './ios';
-import { Target } from '../target';
+import { TargetAdapter } from '../targetAdapter';
 import { Logger } from '../logger';
 
 export class IOS8Protocol extends IOSProtocol {
 
-    constructor(target: Target) {
+    constructor(target: TargetAdapter) {
         super(target);
 
         this._target.addMessageFilter('target::error', (msg) => {

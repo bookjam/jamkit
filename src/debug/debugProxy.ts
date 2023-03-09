@@ -162,8 +162,9 @@ export class DebugProxy {
             debug(`server.onWSSConnection.connectTo.error.${err}`);
         }
 
-        (socket as EventEmitter).on('message', msg => {
-            this.adapter?.forwardTo(url, msg);
+        (socket as EventEmitter).on('message', (rawData, isBinary) => {
+            const message = rawData.toString('utf-8');
+            this.adapter?.forwardTo(url, rawData);
         });
     }
 }
