@@ -1,5 +1,6 @@
 const fs         = require('fs-extra'),
       path       = require('path'),
+      glob       = require('glob'),
       zipdir     = require('zip-dir'),
       tmp        = require('tmp'),
       ipfs       = require('ipfs-http-client'),
@@ -12,6 +13,7 @@ const fs         = require('fs-extra'),
       syncfolder = require('./syncfolder'),
       installer  = require('./installer'),
       bon        = require('./bon'),
+      style      = require('./style'),
       leafly     = require('./leafly'),
       utils      = require('./utils');
 
@@ -125,7 +127,7 @@ function _publish_image(options, ipfs_options, callback) {
 
 function _publish_file(path, options) {
     return ipfs.create(options)
-        .then((client) => {
+        .then(function(client) {
             return Promise.all(client.addAll(ipfs.globSource('./', path)));
         });
 }
@@ -469,5 +471,15 @@ module.exports = {
 
         catalog.save_to_file(data[0], path.join(basedir, 'catalog.bon'));
         catalog.save_to_database(data[0], data[1], path.join(basedir, 'catalog.sqlite'));
+    },
+
+    migrate_style: function() {
+        var basedir = 'catalogs';
+
+        glob(basedir + '/**/*.sbss', {}, function(err, files) {
+            files.forEach(function(file) {
+                style.migrate(file);
+            });
+        });
     }
 }
