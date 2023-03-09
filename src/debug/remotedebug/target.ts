@@ -98,7 +98,7 @@ export class Target extends EventEmitter {
         }
     }
 
-    public forward(message: string): void {
+    public forwardFromToolsToTarget(message: string): void {
         if (!this._sendToTarget && !this._wsTarget) {
             Logger.error('No websocket endpoint found');
             return;
@@ -107,8 +107,13 @@ export class Target extends EventEmitter {
         this.onMessageFromTools(message);
     }
 
-    public relayMessageFromTarget(message: string): void {
-        this.onMessageFromTarget(message);
+    public forwardFromTargetToTools(message: string): void {
+        if (!this._sendToTarget && !this._wsTarget) {
+            Logger.error('No websocket endpoint found');
+            return;
+        }
+
+        this.onMessageFromTools(message);
     }
 
     public updateClient(wsFrom: WebSocket): void {

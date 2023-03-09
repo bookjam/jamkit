@@ -7,8 +7,13 @@ import { IOS9Protocol } from './remotedebug/protocols/ios9';
 
 interface Message {
     type: string;
+
+    // update-targets
     targets?: string[];
-    payload?: object;
+
+    // relay-protocol-message
+    target?: string;
+    payload?: string;
 }
 
 export class AndroidAdapter extends EventEmitter {
@@ -61,7 +66,7 @@ export class AndroidAdapter extends EventEmitter {
         const targetId = url.substring(9); // remove '/android/'
         const target = this.targets.get(targetId);
         if (target) {
-            target.relayMessageFromTarget(message);
+            target.forwardFromToolsToTarget(message);
         }
     }
 
@@ -116,51 +121,57 @@ export class AndroidAdapter extends EventEmitter {
             const message: Message = JSON.parse(json);
 
             if (message.type === 'update-targets' && message.targets) {
-
-                const oldTargetIds = [...this.targets.keys()];
-                const newTargetIds = message.targets;
-
-                const removedTargetIds = oldTargetIds.filter(targetId => !newTargetIds.includes(targetId));
-                const addedTargetIds = newTargetIds.filter(targetId => !oldTargetIds.includes(targetId));
-
-                removedTargetIds.forEach(targetId => this.targets.delete(targetId));
-                addedTargetIds.forEach(targetId => {
-
-                    const targetData: ITarget = {
-                        //devtoolsFrontendUrl: "",
-                        //faviconUrl: "",
-                        //thumbnailUrl: "/thumb/",
-                        title: targetId,
-                        url: '',
-                        webSocketDebuggerUrl: `ws://localhost:9010/android/${targetId}`,
-                        appId: 'a-fake-app-id',
-                        id: targetId,
-                        adapterType: 'android',
-                        type: 'javascript',
-                        description: `a fake description for ${targetId}`,
-                        metadata: {
-                            deviceId: 'a-fake-android-device-id',
-                            deviceName: 'Android',
-                            deviceOSVersion: 'Android 999',
-                            url: 'I might have to fill it properly later...',
-                            version: '9.3.0',
-                        }
-                    };
-
-                    const target = new Target(targetId, targetData, (targetId, message) => {
-                        this.relayMessageToTarget(targetId, message);
-                    });
-
-                    new IOS9Protocol(target); // apply the protocol
-
-                    this.targets.set(targetId, target);
-                });
+                this.updateTargets(message.targets);
+            }
+            else if (message.type === 'relay-protocol-message' && message.target && message.payload) {
+                const target = this.targets.get(message.target);
+                if (target) {
+                    target.forwardFromTargetToTools(message.payload);
+                }
             }
 
             console.log(`From Android: ${message}`);
 
             this.buffer = this.buffer.subarray(size + 4);
         }
+    }
+
+    private updateTargets(targetIds: string[]) {
+        const oldTargetIds = [...this.targets.keys()];
+        const removedTargetIds = oldTargetIds.filter(targetId => !targetIds.includes(targetId));
+        const addedTargetIds = targetIds.filter(targetId => !oldTargetIds.includes(targetId));
+
+        removedTargetIds.forEach(targetId => this.targets.delete(targetId));
+        addedTargetIds.forEach(targetId => {
+
+            const targetData: ITarget = {
+                //devtoolsFrontendUrl: "",
+                //faviconUrl: "",
+                //thumbnailUrl: "/thumb/",
+                title: targetId,
+                url: '',
+                webSocketDebuggerUrl: `ws://localhost:9010/android/${targetId}`,
+                appId: 'a-fake-app-id',
+                id: targetId,
+                adapterType: 'android',
+                type: 'javascript',
+                description: `a fake description for ${targetId}`,
+                metadata: {
+                    deviceId: 'a-fake-android-device-id',
+                    deviceName: 'Android',
+                    deviceOSVersion: 'Android 999',
+                    url: 'I might have to fill it properly later...',
+                    version: '9.3.0',
+                }
+            };
+
+            const target = new Target(targetId, targetData, (targetId, message) => {
+                this.relayMessageToTarget(targetId, message);
+            });
+            new IOS9Protocol(target); // apply the protocol
+
+            this.targets.set(targetId, target);
+        });
     }
 }
 

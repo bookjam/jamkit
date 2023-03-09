@@ -122,7 +122,7 @@ export class Adapter extends EventEmitter {
             return;
         }
 
-        this._targetMap.get(targetId)?.forward(message);
+        this._targetMap.get(targetId)?.forwardFromToolsToTarget(message);
     }
 
     private fixTargetInfo(t: ITarget, device: IDevice): void {
