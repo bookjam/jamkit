@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function _migrage_new_style(line, trailing="\n\n") {
+function _migrage_new_style(line, trailing) {
     var m = /(\s*)([#%\/].+):(.*)/.exec(line);
 
     if (m) {
@@ -14,8 +14,6 @@ function _migrage_new_style(line, trailing="\n\n") {
 
         return style + trailing;
     }
-
-    return line;
 }
 
 function _build_new_style(leading, selector, props) {
@@ -46,8 +44,20 @@ module.exports = {
             multiline = line.endsWith('\\') ? true : false;
         });
 
+        var last_migrated = false;
         lines.forEach(function(line) {
-            text += _migrage_new_style(line) + "\n";
+            var style = _migrage_new_style(line, "\n\n");
+
+            if (!style) {
+                if (last_migrated) {
+                    text = text.replace(/\n\n$/, "");
+                }
+                text += line + "\n";
+                last_migrated = false;
+            } else {
+                text += style + "\n";
+                last_migrated = true;
+            }
         });
 
         text = text.replace(/\n{2,}$/, "\n");
