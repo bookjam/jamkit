@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function _migrage_new_style(line, trailing) {
+function _migrate_new_style(line, trailing) {
     var m = /(\s*)([#%\/].+):(.*)/.exec(line);
 
     if (m) {
@@ -46,7 +46,7 @@ module.exports = {
 
         var last_migrated = false;
         lines.forEach(function(line) {
-            var style = _migrage_new_style(line, "\n\n");
+            var style = _migrate_new_style(line, "\n\n");
 
             if (!style) {
                 if (last_migrated) {
