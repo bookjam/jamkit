@@ -198,25 +198,36 @@ program
     });
 
 program
-    .command('generate')
-    .description('Generate a database with a file named data.xlsx.')
-    .option('-t, --type <type>', 'Type of project to build. `app`, `book` or `auto`.', 'auto')
-    .option('--platform <platform>', 'Platform on which to run the simulator. `ios` or `android`', (process.platform === 'darwin') ? 'ios' : 'android')
-    .action((options) => {
-        if ((options.type === 'auto' && fs.existsSync('./package.bon')) || options.type === 'app') {
-            commands.install_app(options.platform);
+    .command('database')
+    .description('Manage databases.')
+        .command('generate')
+        .description('Generate a database from an excel file.')
+        .argument('<path>', 'Path for an excel file')
+        .action((path, options) => {
+            if (fs.existsSync('./package.bon')) {
+                commands.generate_database("MainApp", "", path);
 
-            return;
-        }
+                return;
+            }
 
-        if ((options.type === 'auto' && fs.existsSync('./book.bon')) || options.type === 'book') {
-            commands.install_book(options.platform);
+            console.log('ERROR: package.bon not found.');
+        });
 
-            return;
-        }
+program
+    .command('style')
+    .description('Manage sbss files.')
+        .command('migrate')
+        .description('Migrate old style sbss to new style.')
+        .action((options) => {
+            if (fs.existsSync('./package.bon')) {
+                commands.migrate_style();
 
-        console.log('ERROR: package.bon or book.bon not found.');
-    });
+                return;
+            }
+
+            console.log('ERROR: package.bon not found.');
+        });
+
 
 program
     .command('debug')
