@@ -170,7 +170,7 @@ export class AndroidAdapter extends EventEmitter {
             const target = new TargetAdapter(targetId, targetData, (targetId, message) => {
                 this.relayMessageToTarget(targetId, message);
             });
-            new IOS9Protocol(target); // apply the protocol
+            //new IOS9Protocol(target); // apply the protocol
 
             this.targets.set(targetId, target);
         });
