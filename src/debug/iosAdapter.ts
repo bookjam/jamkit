@@ -25,20 +25,29 @@ export class IOSAdapter extends EventEmitter {
     private proxyProc?: ChildProcess;
     private spawnToken: number = 0;
 
+    private targetFetchTimer: NodeJS.Timer | null = null;
+
     constructor(private proxyExecPath: string, private proxyPort: number) {
         super();
     }
 
-    public start(): Promise<any> {
+    public start(): Promise<void> {
         debug(`iOSAdapter.start`);
 
         this.simulatorSocketFinder.start();
         this.simulatorSocketFinder.onSocketsChanged(() => this.forceRefresh());
 
-        return this.spawnProxyProcess();
+        return new Promise((resolve, reject) => {
+            this.spawnProxyProcess()
+                .then(_ => {
+                    this.startTargetFetcher();
+                    resolve();
+                });
+        });
     }
 
     public stop(): void {
+        this.stopTargetFetcher();
         this.simulatorSocketFinder.stop();
 
         if (this.proxyProc) {
@@ -251,6 +260,31 @@ export class IOSAdapter extends EventEmitter {
         }
 
         return new IOS9Protocol(target);
+    }
+
+    private startTargetFetcher(): void {
+        debug('IOSAdapter.startTargetFetcher');
+
+        const fetch = () => {
+            this.getTargets().then(
+                targets => {
+                    debug(`server.startTargetFetcher.fetched.${targets.length}`);
+                },
+                err => {
+                    debug(`server.startTargetFetcher.error`, err``);
+                },
+            );
+        };
+        this.targetFetchTimer = setInterval(fetch, 5000);
+    }
+
+    private stopTargetFetcher(): void {
+        debug('IOSAdapter.stopTargetFetcher');
+        if (!this.targetFetchTimer) {
+            return;
+        }
+        clearInterval(this.targetFetchTimer);
+        this.targetFetchTimer = null;
     }
 }
 

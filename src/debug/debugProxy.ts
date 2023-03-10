@@ -15,7 +15,6 @@ export class DebugProxy {
     private http: http.Server | null = null;
     private wss: ws.Server | null = null;
     private adapter: IOSAdapter | AndroidAdapter | null = null;
-    private targetFetchTimer: NodeJS.Timer | null = null;
 
     constructor() {
         this.app = express();
@@ -48,7 +47,6 @@ export class DebugProxy {
         return this.adapter
             .start()
             .then(() => {
-                this.startTargetFetcher();
                 return serverPort;
             });
     }
@@ -61,34 +59,8 @@ export class DebugProxy {
             this.http = null;
         }
 
-        this.stopTargetFetcher();
         this.adapter?.stop();
         this.adapter = null;
-    }
-
-    private startTargetFetcher(): void {
-        debug('server.startTargetFetcher');
-
-        const fetch = () => {
-            this.adapter?.getTargets().then(
-                targets => {
-                    debug(`server.startTargetFetcher.fetched.${targets.length}`);
-                },
-                err => {
-                    debug(`server.startTargetFetcher.error`, err``);
-                },
-            );
-        };
-        this.targetFetchTimer = setInterval(fetch, 5000);
-    }
-
-    private stopTargetFetcher(): void {
-        debug('server.stopTargetFetcher');
-        if (!this.targetFetchTimer) {
-            return;
-        }
-        clearInterval(this.targetFetchTimer);
-        this.targetFetchTimer = null;
     }
 
     private setupHttpHandlers(): void {
