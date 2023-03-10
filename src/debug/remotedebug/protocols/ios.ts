@@ -83,7 +83,10 @@ export class IOSProtocol {
     }
 
     private onDebuggerEnable(msg: any): Promise<any> {
-        this._target.callTarget('Debugger.setBreakpointsActive', { active: true });
+        this._target.callTarget('Debugger.setBreakpointsActive', { active: true })
+            .catch(err => {
+                console.error(err);
+            });
         return Promise.resolve(msg);
     }
 
@@ -148,13 +151,17 @@ export class IOSProtocol {
             contextId: msg.params.executionContextId,
         };
 
-        this._target.callTarget('Runtime.evaluate', params).then(obj => {
-            const results = {
-                scriptId: null,
-                exceptionDetails: null,
-            };
-            this._target.fireResultToTools(msg.id, results);
-        });
+        this._target.callTarget('Runtime.evaluate', params)
+            .then(obj => {
+                const results = {
+                    scriptId: null,
+                    exceptionDetails: null,
+                };
+                this._target.fireResultToTools(msg.id, results);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
 
         return Promise.resolve(null);
     }

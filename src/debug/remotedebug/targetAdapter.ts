@@ -113,7 +113,7 @@ export class TargetAdapter extends EventEmitter {
             return;
         }
 
-        this.onMessageFromTools(message);
+        this.onMessageFromTarget(message);
     }
 
     public updateClient(wsFrom: WebSocket): void {
@@ -280,8 +280,8 @@ export class TargetAdapter extends EventEmitter {
     }
 
     private sendToTools(rawMessage: string): void {
-        debug(`sendToTools.${rawMessage}`);
-        //console.debug(`===== To VSCode ======\n${JSON.stringify(JSON.parse(rawMessage), null, 2)}\n\n`);
+        //debug(`sendToTools.${rawMessage}`);
+        console.debug(`===== To VSCode ======\n${JSON.stringify(JSON.parse(rawMessage), null, 2)}\n\n`);
 
         // Make sure the tools socket can receive messages
         if (this.isSocketConnected(this._wsTools)) {
@@ -290,8 +290,8 @@ export class TargetAdapter extends EventEmitter {
     }
 
     private sendToTarget(rawMessage: string): void {
-        debug(`sendToTarget.${rawMessage}`);
-        //console.debug(`===== To Inspector ======\n${JSON.stringify(JSON.parse(rawMessage), null, 2)}\n\n`);
+        //debug(`sendToTarget.${rawMessage}`);
+        console.debug(`===== To Inspector ======\n${JSON.stringify(JSON.parse(rawMessage), null, 2)}\n\n`);
 
         if (this._targetBased) {
             const message = JSON.parse(rawMessage);

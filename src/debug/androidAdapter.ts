@@ -6,7 +6,7 @@ import { TargetAdapter } from './remotedebug/targetAdapter';
 import { IOS9Protocol } from './remotedebug/protocols/ios9';
 
 interface Message {
-    type: string;
+    type: string; // "update-targets" || "relay-protocol-message"
 
     // update-targets
     targets?: string[];
@@ -130,7 +130,6 @@ export class AndroidAdapter extends EventEmitter {
                         target.forwardFromTargetToTools(message.payload);
                     }
                 }
-                console.log(`From Android: ${message}`);
             } catch (e) {
                 console.log(e);
             }
