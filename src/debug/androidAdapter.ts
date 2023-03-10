@@ -118,19 +118,22 @@ export class AndroidAdapter extends EventEmitter {
             const decoder = new TextDecoder('utf-8');
             const json = decoder.decode(this.buffer.subarray(4, 4 + size));
 
-            const message: Message = JSON.parse(json);
+            try {
+                const message: Message = JSON.parse(json);
 
-            if (message.type === 'update-targets' && message.targets) {
-                this.updateTargets(message.targets);
-            }
-            else if (message.type === 'relay-protocol-message' && message.target && message.payload) {
-                const target = this.targets.get(message.target);
-                if (target) {
-                    target.forwardFromTargetToTools(message.payload);
+                if (message.type === 'update-targets' && message.targets) {
+                    this.updateTargets(message.targets);
                 }
+                else if (message.type === 'relay-protocol-message' && message.target && message.payload) {
+                    const target = this.targets.get(message.target);
+                    if (target) {
+                        target.forwardFromTargetToTools(message.payload);
+                    }
+                }
+                console.log(`From Android: ${message}`);
+            } catch (e) {
+                console.log(e);
             }
-
-            console.log(`From Android: ${message}`);
 
             this.buffer = this.buffer.subarray(size + 4);
         }
@@ -176,7 +179,7 @@ export class AndroidAdapter extends EventEmitter {
 }
 
 function readUint32(bytes: Uint8Array): number {
-    return (bytes[0] << 24) + (bytes[1] << 16) + (bytes[1] << 8) + bytes[3];
+    return (bytes[0] << 24) + (bytes[1] << 16) + (bytes[2] << 8) + bytes[3];
 }
 
 function writeUint32(bytes: Uint8Array, length: number): void {
