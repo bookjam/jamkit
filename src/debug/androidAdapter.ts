@@ -3,7 +3,7 @@ import * as WebSocket from 'ws';
 import { ITarget } from './remotedebug/adapterInterfaces';
 import { EventEmitter } from 'events';
 import { TargetAdapter } from './remotedebug/targetAdapter';
-import { IOS9Protocol } from './remotedebug/protocols/ios9';
+import { V8Protocol } from './remotedebug/protocols/v8';
 
 interface Message {
     type: string; // "update-targets" || "relay-protocol-message"
@@ -21,6 +21,7 @@ export class AndroidAdapter extends EventEmitter {
     private socket = new TcpSocket();
     private buffer = new Uint8Array();
     private targets = new Map<string, TargetAdapter>();
+    private protocolHolder = new Array<V8Protocol>();
 
     public start(): Promise<string> {
         return new Promise((resolve, reject) => {
@@ -103,10 +104,10 @@ export class AndroidAdapter extends EventEmitter {
             newBuffer.set(data, this.buffer.length);
             this.buffer = newBuffer;
         }
-        this.processInput();
+        this.processDataFromTarget();
     }
 
-    private processInput(): void {
+    private processDataFromTarget(): void {
         while (this.buffer.length >= 4) {
 
             const size = readUint32(this.buffer);
@@ -154,7 +155,7 @@ export class AndroidAdapter extends EventEmitter {
                 url: '',
                 webSocketDebuggerUrl: `ws://localhost:9010/android/${targetId}`,
                 appId: 'a-fake-app-id',
-                id: targetId,
+                id: '1',
                 adapterType: 'android',
                 type: 'javascript',
                 description: `a fake description for ${targetId}`,
@@ -170,7 +171,7 @@ export class AndroidAdapter extends EventEmitter {
             const target = new TargetAdapter(targetId, targetData, (targetId, message) => {
                 this.relayMessageToTarget(targetId, message);
             });
-            //new IOS9Protocol(target); // apply the protocol
+            //this.protocolHolder.push(new V8Protocol(target));
 
             this.targets.set(targetId, target);
         });

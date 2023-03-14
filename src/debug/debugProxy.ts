@@ -40,9 +40,12 @@ export class DebugProxy {
             return Promise.reject('ios-webkit-debug-proxy not found!');
         }
 
-        //const webkitDebugProxyPort = serverPort + 100;
-        //this.adapter = new IOSAdapter(webkitDebugProxyPath, webkitDebugProxyPort);
-        this.adapter = new AndroidAdapter();
+        if (false) {
+            const webkitDebugProxyPort = serverPort + 100;
+            this.adapter = new IOSAdapter(webkitDebugProxyPath, webkitDebugProxyPort);
+        } else {
+            this.adapter = new AndroidAdapter();
+        }
 
         return this.adapter
             .start()
