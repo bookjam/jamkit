@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 function _migrate_new_style(line, trailing) {
-    var m = /(\s*)([#%\/].+):(.*)/.exec(line);
+    var m = /(\s*)([#%\/][^:]+):(.*)/.exec(line);
 
     if (m) {
         var props = [...m[3].trim().matchAll(/(([\w\d-]+)\s*=\s*("(\\"|[^"])+"|'(\\'|[^'])+'|[^,]+))(,|$)/g)];
