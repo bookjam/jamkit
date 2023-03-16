@@ -7,7 +7,7 @@ import * as http from 'http';
 import * as WebSocket from 'ws';
 import { debug } from './remotedebug/logger';
 import { EventEmitter } from 'events';
-import { Adapter } from './adapter';
+import { DeviceAdapter } from './deviceAdapter';
 import { TargetAdapter } from './remotedebug/targetAdapter';
 import { ITarget, IDevice } from './remotedebug/adapterInterfaces';
 import { IOSProtocol } from './remotedebug/protocols/ios';
@@ -19,7 +19,7 @@ import { exec, spawn, ChildProcess } from 'child_process';
 
 export class IOSAdapter extends EventEmitter {
     private protocolMap = new Map<TargetAdapter, IOSProtocol>(); // FIXME: not needed?
-    private adapters = new Map<string, Adapter>();
+    private adapters = new Map<string, DeviceAdapter>();
 
     private simulatorSocketFinder = new SimulatorSocketFinder();
     private proxyProc?: ChildProcess;
@@ -179,7 +179,7 @@ export class IOSAdapter extends EventEmitter {
 
                             // Create a new adapter for this device and add it to our list
                             const proxyUrl = `ws://localhost:${port}`; // ????
-                            const adapter = new Adapter(adapterId, proxyUrl, port);
+                            const adapter = new DeviceAdapter(adapterId, proxyUrl, port);
                             adapter.on('socketClosed', id => {
                                 this.emit('socketClosed', id);
                                 this.adapters.delete(adapterId);

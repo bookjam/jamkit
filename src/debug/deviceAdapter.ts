@@ -11,7 +11,9 @@ import { Logger, debug } from './remotedebug/logger';
 import { TargetAdapter } from './remotedebug/targetAdapter';
 
 
-export class Adapter extends EventEmitter {
+// FIXME: Merge this class into iosAdapter
+
+export class DeviceAdapter extends EventEmitter {
     protected _id: string;
     protected _adapterType: string;
     protected _proxyUrl: string;
