@@ -104,30 +104,6 @@ export class TargetAdapter extends EventEmitter {
             return;
         }
 
-        const parsedMessage = JSON.parse(message);
-        if (parsedMessage.id &&
-            parsedMessage.method &&
-            parsedMessage.method === 'Runtime.evaluate' &&
-            parsedMessage.params &&
-            parsedMessage.params.expression &&
-            parsedMessage.params.expression.startsWith('typeof process === ')) {
-
-            this.sendToTools(JSON.stringify({
-                id: parsedMessage.id,
-                error: {
-                    code: -32000,
-                    message: "Interrupted by Jamkit Debugging Adapter",
-                    data: [
-                        {
-                            code: -32000,
-                            message: "Interrupted by Jamkit Debugging Adapter",
-                        }
-                    ]
-                }
-            }));
-            return;
-        }
-
         this.onMessageFromTools(message);
     }
 
