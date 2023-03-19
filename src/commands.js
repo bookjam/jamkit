@@ -177,7 +177,7 @@ module.exports = {
             return;
         }
 
-        simulator.start(platform, shell_options['port'])
+        simulator.start(platform, shell_options['port'], options['debug-port'])
             .then(function(app_id) {
                 shell.ready(shell_options['host'], shell_options['port'], 60 * 1000) // 1 minute
                     .then(function() {
@@ -359,7 +359,7 @@ module.exports = {
             return;
         }
 
-        simulator.start(platform, shell_options['port'])
+        simulator.start(platform, shell_options['port'], options['debug-port'])
             .then(function(app_id) {
                 shell.ready(shell_options['host'], shell_options['port'], 60 * 1000) // 1 minute
                     .then(function() { 

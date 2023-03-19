@@ -164,11 +164,13 @@ const _impl = {
     },
 
     "android": {
-        start: function(port) {
+        start: function(shellPort, debugPort) {
             var self = this;
 
             return new Promise(function(resolve, reject) {
-                if (self._start_device() && self._forward_port(port)) {
+                if (self._start_device() &&
+                    self._forward_port(shellPort) &&
+                    self._forward_port(debugPort)) {
                     self._launch_app(function(app_id) {
                         if (app_id) {
                             resolve(app_id);
@@ -280,7 +282,7 @@ const _impl = {
 };
 
 module.exports = {
-    start: function(platform, port) {
-        return _impl[platform].start(port);
+    start: function(platform, shellPort, debugPort) {
+        return _impl[platform].start(shellPort, debugPort);
     }
 }

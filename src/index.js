@@ -63,6 +63,7 @@ program
     .option('--mode <mode>', 'Run mode. `main`, `jam` or `widget`', 'main')
     .option('--shell-host <host>', 'Host for the simulator shell', '127.0.0.1')
     .option('--shell-port <port>', 'Port for the simulator shell', '8888')
+    .option('--debug-port <port>', 'Port for the debug server', '9010')
     .option('--skip-sync', 'If set, do not copy files to the simulator', false)
     .action((options) => {
         if ((options.type === 'auto' && fs.existsSync('./package.bon')) || options.type === 'app') {
@@ -70,7 +71,8 @@ program
                 'host': options.shellHost, 
                 'port': options.shellPort
             }, {
-                'skip-sync': options.skipSync
+                'skip-sync': options.skipSync,
+                'debug-port': options.debugPort
             });
 
             return;
@@ -81,7 +83,8 @@ program
                 'host': options.shellHost, 
                 'port': options.shellPort
             }, {
-                'skip-sync': options.skipSync
+                'skip-sync': options.skipSync,
+                'debug-port': options.debugPort
             });
 
             return;
