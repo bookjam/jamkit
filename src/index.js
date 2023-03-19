@@ -71,8 +71,8 @@ program
                 'host': options.shellHost, 
                 'port': options.shellPort
             }, {
-                'skip-sync': options.skipSync,
-                'debug-port': options.debugPort
+                'debug-port': options.debugPort,
+                'skip-sync': options.skipSync
             });
 
             return;
@@ -83,8 +83,8 @@ program
                 'host': options.shellHost, 
                 'port': options.shellPort
             }, {
-                'skip-sync': options.skipSync,
-                'debug-port': options.debugPort
+                'debug-port': options.debugPort,
+                'skip-sync': options.skipSync
             });
 
             return;
