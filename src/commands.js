@@ -35,12 +35,12 @@ function _compress_folder(src_path, zip_path) {
     return new Promise(function(resolve, reject) {
         zipdir(src_path, { 
             saveTo: zip_path,
-            filter: function(fullPath, stat) {
-                if (path.basename(fullPath).startsWith(".")) {
+            filter: function(full_path, stat) {
+                if (path.basename(full_path).startsWith(".")) {
                     return false;
                 }
     
-                if ([ '.jam', '.bxp' ].includes(path.extname(fullPath))) {
+                if ([ '.jam', '.bxp' ].includes(path.extname(full_path))) {
                     return false;
                 }
     
