@@ -31,51 +31,56 @@ function _generate_app_id(wanted_app_id, template_app_id) {
     return wanted_app_id;
 }
 
-function _compress_folder(zip_path, callback) {
-    zipdir('.', { 
-        saveTo: zip_path,
-        filter: function(fullPath, stat) {
-            if (path.basename(fullPath).startsWith(".")) {
-                return false;
+function _compress_folder(src_path, zip_path) {
+    return new Promise(function(resolve, reject) {
+        zipdir(src_path, { 
+            saveTo: zip_path,
+            filter: function(fullPath, stat) {
+                if (path.basename(fullPath).startsWith(".")) {
+                    return false;
+                }
+    
+                if ([ '.jam', '.bxp' ].includes(path.extname(fullPath))) {
+                    return false;
+                }
+    
+                return true;
             }
-
-            if ([ '.jam', '.bxp' ].includes(path.extname(fullPath))) {
-                return false;
+         }, 
+         function(error) {
+            if (!error) {
+                resolve(zip_path);
+            } else {
+                reject(error)
             }
-
-            return true;
-        }
-     }, 
-     function(err, buffer) {
-        if (err) {
-            throw err;
-        }
-
-        callback();
+        });
     });
 }
 
 function _publish_app(app_id, options, ipfs_options, callback) {
     if (!options['file-url']) {
         var basename = app_id.split(".").slice(-1);
-        var jamfile = basename + '.jam';
+        var jam_path = path.join('.', basename + '.jam');
 
-        if (fs.existsSync(jamfile)) {
-            fs.unlinkSync(jamfile);
+        if (fs.existsSync(jam_path)) {
+            fs.unlinkSync(jam_path);
         }
 
-        var tempfile = tmp.tmpNameSync();
-        _compress_folder(tempfile, function() {
-            fs.moveSync(tempfile, jamfile);
+        _compress_folder('.', tmp.tmpNameSync())
+            .then(function(zip_path) {
+                fs.moveSync(zip_path, jam_path);
 
-            _publish_file(jamfile, ipfs_options)
-                .then(function(hash) {
-                    callback("ipfs://hash/" + hash);
-                })
-                .catch(function(err){
-                    console.log(err);
-                });
-        });
+                _publish_file(jam_path, ipfs_options)
+                    .then(function(hash) {
+                        callback("ipfs://hash/" + hash);
+                    })
+                    .catch(function(error){
+                        console.log("ERROR: could not publish to ipfs.");
+                    });
+            })
+            .catch(function(error){
+                console.log("ERROR: could not generate a package.");
+            });
     } else {
         callback(options['file-url']);
     }
@@ -84,24 +89,27 @@ function _publish_app(app_id, options, ipfs_options, callback) {
 function _publish_book(options, ipfs_options, callback) {
     if (!options['file-url']) {
         var basename = path.basename(path.resolve('.'))
-        var bxpfile = basename + '.bxp';
+        var bxp_path = path.join('.', basename + '.bxp');
 
-        if (fs.existsSync(bxpfile)) {
-            fs.unlinkSync(bxpfile);
+        if (fs.existsSync(bxp_path)) {
+            fs.unlinkSync(bxp_path);
         }
 
-        var tempfile = tmp.tmpNameSync();
-        _compress_folder(tempfile, function() {
-            fs.moveSync(tempfile, bxpfile);
+        _compress_folder('.', tmp.tmpNameSync())
+            .then(function(zip_path) {
+                fs.moveSync(zip_path, bxp_path);
 
-            _publish_file(bxpfile, ipfs_options)
-                .then(function(hash) {
-                    callback("ipfs://hash/" + hash);
-                })
-                .catch(function(err){
-                    console.log(err);
-                });
-        });
+                _publish_file(bxp_path, ipfs_options)
+                    .then(function(hash) {
+                        callback("ipfs://hash/" + hash);
+                    })
+                    .catch(function(error){
+                        console.log("ERROR: could not publish to ipfs.");
+                    });
+            })
+            .catch(function(error){
+                console.log("ERROR: could not generate a package.");
+            });
     } else {
         callback(options['file-url']);
     }
@@ -145,7 +153,7 @@ function _shorten_url(url, callback) {
 module.exports = {
     create_app: function(directory, options) {
         if (fs.existsSync(directory)) {
-            console.log('ERROR: ' + directory + ' already exists!');
+            console.log('ERROR: ' + directory + ' already exists.');
             return;
         }
 
@@ -167,6 +175,7 @@ module.exports = {
     run_app: function(platform, mode, shell_options, options) {
         if (!fs.existsSync('./package.bon')) {
             console.log('ERROR: package.bon not found.');
+
             return;
         }
         
@@ -174,6 +183,7 @@ module.exports = {
 
         if (!appinfo || !appinfo['id']) {
             console.log('ERROR: package.bon is malformed.');
+
             return;
         }
 
@@ -227,13 +237,14 @@ module.exports = {
                 });
             })
             .catch(function() {
-                console.log('ERROR: could not start a simulator!');
+                console.log('ERROR: could not start a simulator.');
             });
     },
 
     build_app: function() {
         if (!fs.existsSync('./package.bon')) {
-            console.log('ERROR: package.bon not found!');
+            console.log('ERROR: package.bon not found.');
+
             return;
         }
 
@@ -241,25 +252,30 @@ module.exports = {
 
         if (!appinfo || !appinfo['id']) {
             console.log('ERROR: package.bon is malformed.');
+
             return;
         }
 
         var basename = appinfo["id"].split(".").slice(-1);
-        var jamfile = basename + '.jam';
+        var jam_path = path.join('.', basename + '.jam');
 
-        if (fs.existsSync(jamfile)) {
-            fs.unlinkSync(jamfile);
+        if (fs.existsSync(jam_path)) {
+            fs.unlinkSync(jam_path);
         }
 
-        var tempfile = tmp.tmpNameSync();
-        _compress_folder(tempfile, function() {
-            fs.moveSync(tempfile, jamfile);
-        });
+        _compress_folder('.', tmp.tmpNameSync())
+            .then(function(zip_path) {
+                fs.moveSync(zip_path, jam_path);
+            })
+            .catch(function(error){
+                console.log("ERROR: could not generate a package.");
+            });
     },
 
     install_app: function(platform) {
         if (!fs.existsSync('./package.bon')) {
-            console.log('ERROR: package.bon not found!');
+            console.log('ERROR: package.bon not found.');
+
             return;
         }
 
@@ -267,27 +283,32 @@ module.exports = {
 
         if (!appinfo || !appinfo['id']) {
             console.log('ERROR: package.bon is malformed.');
+
             return;
         }
 
         var basename = appinfo["id"].split(".").slice(-1);
-        var jamfile = basename + '.jam';
+        var jam_path = path.join('.', basename + '.jam');
 
-        if (fs.existsSync(jamfile)) {
-            fs.unlinkSync(jamfile);
+        if (fs.existsSync(jam_path)) {
+            fs.unlinkSync(jam_path);
         }
 
-        var tempfile = tmp.tmpNameSync();
-        _compress_folder(tempfile, function() {
-            fs.moveSync(tempfile, jamfile);
+       _compress_folder('.', tmp.tmpNameSync())
+            .then(function(zip_path) {
+                fs.moveSync(zip_path, jam_path);
 
-            installer.install(platform, jamfile);
-        });
+                installer.install(platform, jam_path);
+            })
+            .catch(function(error){
+                console.log("ERROR: could not generate a package.");
+            });
     },
 
     publish_app: function(host, options, ipfs_options, install_urls) {
         if (!options['file-url'] && !fs.existsSync('./package.bon')) {
-            console.log('ERROR: package.bon not found!');
+            console.log('ERROR: package.bon not found.');
+
             return;
         }
 
@@ -295,6 +316,7 @@ module.exports = {
 
         if (!options['file-url'] && !appinfo) {
             console.log('ERROR: package.bon is malformed.');
+
             return;
         }
 
@@ -335,7 +357,7 @@ module.exports = {
 
     create_book: function(directory, options) {
         if (fs.existsSync(directory)) {
-            console.log('ERROR: ' + directory + ' already exists!');
+            console.log('ERROR: ' + directory + ' already exists.');
             return;
         }
 
@@ -355,7 +377,8 @@ module.exports = {
 
     run_book: function(platform, shell_options, options) {
         if (!fs.existsSync('./book.bon')) {
-            console.log('ERROR: book.bon not found!');
+            console.log('ERROR: book.bon not found.');
+
             return;
         }
 
@@ -381,53 +404,62 @@ module.exports = {
                     });
         })
         .catch(function() {
-            console.log('ERROR: could not start a simulator!');
+            console.log('ERROR: could not start a simulator.');
         });
     },
 
     build_book: function() {
         if (!fs.existsSync('./book.bon')) {
-            console.log('ERROR: book.bon not found!');
+            console.log('ERROR: book.bon not found.');
+
             return;
         }
 
         var basename = path.basename(path.resolve('.'))
-        var bxpfile = basename + '.bxp';
+        var bxp_path = path.join('.', basename + '.bxp');
 
-        if (fs.existsSync(bxpfile)) {
-            fs.unlinkSync(bxpfile);
+        if (fs.existsSync(bxp_path)) {
+            fs.unlinkSync(bxp_path);
         }
 
-        var tempfile = tmp.tmpNameSync();
-        _compress_folder(tempfile, function() {
-            fs.moveSync(tempfile, bxpfile);
-        });
+        _compress_folder('.', tmp.tmpNameSync())
+            .then(function(zip_path, bxp_path) {
+                fs.moveSync(zip_path, bxp_path);
+            })
+            .catch(function(error){
+                console.log("ERROR: could not generate a package.");
+            });
     },
 
     install_book: function(platform) {
         if (!fs.existsSync('./book.bon')) {
-            console.log('ERROR: book.bon not found!');
+            console.log('ERROR: book.bon not found.');
+
             return;
         }
 
         var basename = path.basename(path.resolve('.'))
-        var bxpfile = basename + '.bxp';
+        var bxp_path = path.join('.', basename + '.bxp');
 
-        if (fs.existsSync(bxpfile)) {
-            fs.unlinkSync(bxpfile);
+        if (fs.existsSync(bxp_path)) {
+            fs.unlinkSync(bxp_path);
         }
 
-        var tempfile = tmp.tmpNameSync();
-        _compress_folder(tempfile, function() {
-            fs.moveSync(tempfile, bxpfile);
+        _compress_folder('.', tmp.tmpNameSync())
+            .then(function(zip_path, bxp_path) {
+                fs.moveSync(zip_path, bxp_path);
 
-            installer.install(platform, jamfile);
-        });
+                // TBD: What to do?
+            })
+            .catch(function(error){
+                console.log("ERROR: could not generate a package.");
+            });
     },
 
     publish_book: function(host, options, ipfs_options, install_urls) {
         if (!options['file-url'] && !fs.existsSync('./book.bon')) {
-            console.log('ERROR: book.bon not found!');
+            console.log('ERROR: book.bon not found.');
+
             return;
         }
 
@@ -435,6 +467,7 @@ module.exports = {
 
         if (!options['file-url'] && !bookinfo) {
             console.log('ERROR: book.bon is malformed.');
+
             return;
         }
 

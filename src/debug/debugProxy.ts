@@ -37,7 +37,7 @@ export class DebugProxy {
 
         const webkitDebugProxyPath = getWebkitDebugProxyPath();
         if (!webkitDebugProxyPath) {
-            return Promise.reject('ios-webkit-debug-proxy not found!');
+            return Promise.reject('ios-webkit-debug-proxy not found.');
         }
 
         const webkitDebugProxyPort = serverPort + 100;
