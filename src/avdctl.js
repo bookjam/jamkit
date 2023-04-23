@@ -60,7 +60,7 @@ module.exports = {
     },
 
     launch: function(app_id) {
-        var command = 'adb shell am start -n ' + app_id + '/' + app_id + '.SplashActivity';
+        var command = 'adb shell am start -n ' + app_id + '/' + app_id + '.LaunchScreenViewController';
         var result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
@@ -74,6 +74,17 @@ module.exports = {
         return false;
     },
 
+    running: function(app_id) {
+        var command = 'adb shell ps | grep ' + app_id;
+        var result = shell.exec(command, { silent: true });
+
+        if (result.code === 0) {
+            return true;
+        }
+
+        return false;
+    },
+ 
     version: function(app_id) {
         var command = 'adb shell "dumpsys package ' + app_id + ' | grep versionName"';
         var result = shell.exec(command, { silent: true });

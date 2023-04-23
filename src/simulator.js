@@ -229,7 +229,7 @@ const _impl = {
                         avdctl.install(app_path);
                     }
 
-                    if (avdctl.launch(app_id)) {
+                    if (avdctl.running(app_id) || avdctl.launch(app_id)) {
                         console.log("Done");
 
                         handler(app_id);
