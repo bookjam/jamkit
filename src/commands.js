@@ -215,7 +215,11 @@ module.exports = {
                                 return _write_vscode_launch_json(parseInt(port));
                             })
                             .then(function() {
-                                return require('./debug-proxy').start();
+                                if (platform !== 'iOS') {
+                                    return require('./debug-proxy').start();
+                                } else {
+                                    return Promise.resolve();
+                                }
                             })
                             .catch(function(error) {
                                 return Promise.resolve();
