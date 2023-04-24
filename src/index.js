@@ -228,12 +228,4 @@ program
             console.log('ERROR: package.bon not found.');
         });
 
-
-program
-    .command('debug')
-    .description('Start a debugging proxy.')
-    .action((options) => {
-        require('./debug-proxy').start();
-    });
-
 program.parse();

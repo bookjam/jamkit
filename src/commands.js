@@ -57,6 +57,12 @@ function _compress_folder(src_path, zip_path) {
     });
 }
 
+function _write_vscode_launch_json(debugger_port) {
+    return new Promise(function(resolve, reject) {
+        resolve();
+    });
+}
+
 function _publish_app(app_id, options, ipfs_options, callback) {
     if (!options['file-url']) {
         var basename = app_id.split(".").slice(-1);
@@ -202,6 +208,18 @@ module.exports = {
                     })
                     .then(function() {
                         return shell.execute('app source ' + path.join(process.cwd(), 'catalogs'));
+                    })
+                    .then(function() {
+                        return shell.execute('debugger start')
+                            .then(function(port) {
+                                return _write_vscode_launch_json(parseInt(port));
+                            })
+                            .then(function() {
+                                return require('./debug-proxy').start();
+                            })
+                            .catch(function(error) {
+                                return Promise.resolve();
+                            });
                     })
                     .then(function() {
                         if ([ 'jam', 'widget' ].includes(mode)) {
