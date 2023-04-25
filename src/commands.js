@@ -63,9 +63,13 @@ function _json_stringify(json) {
 }
 
 function _get_vscode_launch_json_path() {
+    // In case this app/book is a part of a collection such as jamkit-recipes,
+    // we would have .vscode in the containing directory.
     if (fs.pathExistsSync('../.vscode')) {
         return '../.vscode/launch.json';
     }
+
+    // Otherwise, use the app/book (i.e., where package.bon exists) directory.
     return './.vscode/launch.json';
 }
 
@@ -79,7 +83,7 @@ function _write_vscode_launch_json(debugger_port) {
         port: debugger_port
     };
 
-    const overwriteLaunchJson = () => {
+    const rewriteLaunchJson = () => {
         fs.writeFile(json_path, _json_stringify({
             version: '0.2.0',
             configurations: [
@@ -88,31 +92,32 @@ function _write_vscode_launch_json(debugger_port) {
         }));
     };
 
-    console.log(`Writing debugger attach configuration to: ${json_path}...`);
-
     if (fs.existsSync(json_path)) {
+        console.log(`Checking debugger attach configuration in ${json_path}...`);
         try {
             const json = JSON.parse(fs.readFileSync(json_path, 'utf-8'));
             const index = json.configurations.findIndex(c => c.name === 'Jamkit attach');
             if (index !== -1) {
                 if (json.configurations[index].port === debugger_port) {
-                    console.log('Skipped. (Existing debug config seems fine.)');
+                    console.log('  Skipped - the existing configuration seems fine.');
                     return;
                 }
                 json.configurations[index].port = debugger_port;
             } else {
                 json.configurations.push(jamkitAttachConfig);
             }
-            fs.writeFileSync(json_path, _json_stringify(json_path, json, 'utf8'));
+            fs.writeFileSync(json_path, _json_stringify(json, 'utf8'));
+            console.log(`  Done - the configuration is updated.`);
         } catch (err) {
-            overwriteLaunchJson();
+            // it seems that the existing json file is malformed.
+            rewriteLaunchJson();
+            console.log(`  Done - the configuration is re-written.`);
         }
     } else {
         fs.ensureFileSync(json_path);
-        overwriteLaunchJson();
+        rewriteLaunchJson();
+        console.log(`A debugger attatch configuration is created in ${json_path}.`);
     }
-
-    console.log('Done.');
 }
 
 function _publish_app(app_id, options, ipfs_options, callback) {
