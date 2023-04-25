@@ -73,16 +73,18 @@ function _write_vscode_launch_json(debugger_port) {
     const json_path = _get_vscode_launch_json_path();
 
     const jamkitAttachConfig = {
-        name: "Jamkit attach",
-        type: "node",
-        request: "attach",
+        name: 'Jamkit attach',
+        type: 'node',
+        request: 'attach',
         port: debugger_port
     };
 
     const overwriteLaunchJson = () => {
         fs.writeFile(json_path, _json_stringify({
-            version: "0.2.0",
-            configurations: [ jamkitAttachConfig ]
+            version: '0.2.0',
+            configurations: [
+                jamkitAttachConfig
+            ]
         }));
     };
 
