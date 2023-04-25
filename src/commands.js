@@ -58,10 +58,59 @@ function _compress_folder(src_path, zip_path) {
     });
 }
 
+function _json_stringify(json) {
+    return JSON.stringify(json, null, 4);
+}
+
+function _get_vscode_launch_json_path() {
+    if (fs.pathExistsSync('../.vscode')) {
+        return '../.vscode/launch.json';
+    }
+    return './.vscode/launch.json';
+}
+
 function _write_vscode_launch_json(debugger_port) {
-    return new Promise(function(resolve, reject) {
-        resolve();
-    });
+    const json_path = _get_vscode_launch_json_path();
+
+    const jamkitAttachConfig = {
+        name: "Jamkit attach",
+        type: "node",
+        request: "attach",
+        port: debugger_port
+    };
+
+    const overwriteLaunchJson = () => {
+        fs.writeFile(json_path, _json_stringify({
+            version: "0.2.0",
+            configurations: [ jamkitAttachConfig ]
+        }));
+    };
+
+    console.log(`Writing debugger attach configuration to: ${json_path}...`);
+
+    if (fs.existsSync(json_path)) {
+        try {
+            const json = JSON.parse(fs.readFileSync(json_path, 'utf-8'));
+            const index = json.configurations.findIndex(c => c.name === 'Jamkit attach');
+            if (index !== -1) {
+                if (json.configurations[index].port === debugger_port) {
+                    console.log('Skipped. (Existing debug config seems fine.)');
+                    return;
+                }
+                json.configurations[index].port = debugger_port;
+            } else {
+                json.configurations.push(jamkitAttachConfig);
+            }
+            fs.writeFileSync(json_path, _json_stringify(json_path, json, 'utf8'));
+        } catch (err) {
+            overwriteLaunchJson();
+        }
+    } else {
+        fs.ensureFileSync(json_path);
+        overwriteLaunchJson();
+    }
+
+    console.log('Done.');
 }
 
 function _publish_app(app_id, options, ipfs_options, callback) {
@@ -229,7 +278,8 @@ module.exports = {
                                     }
                                     local_port += 1;
                                 }
-                                return _write_vscode_launch_json(local_port);
+                                _write_vscode_launch_json(local_port);
+                                return Promise.resolve();
                             })
                             .catch(function(error) {
                                 console.log(`WARNING: failed to start debugger - ${error}`);
