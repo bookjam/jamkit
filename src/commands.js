@@ -15,6 +15,7 @@ const fs         = require('fs-extra'),
       bon        = require('./bon'),
       style      = require('./style'),
       leafly     = require('./leafly'),
+      avdctl     = require('./avdctl'),
       utils      = require('./utils');
 
 const CONNECT_BASE_URL = "https://jamkit.io";
@@ -210,20 +211,31 @@ module.exports = {
                         return shell.execute('app source ' + path.join(process.cwd(), 'catalogs'));
                     })
                     .then(function() {
-                        return shell.execute('debugger start')
-                            .then(function(port) {
-                                return _write_vscode_launch_json(parseInt(port));
-                            })
-                            .then(function() {
-                                if (platform !== 'iOS') {
-                                    return require('./debug-proxy').start();
-                                } else {
+                        if (platform === 'android') {
+                            return shell.execute('debugger start')
+                                .then(function(result) {
+                                    const device_port = parseInt(result);
+                                    let local_port = device_port;
+                                    while (true) {
+                                        const src = `tcp:${local_port}`;
+                                        const dst = `tcp:${device_port}`;
+                                        if (avdctl.forward(src, dst)) {
+                                            break;
+                                        }
+                                        if (local_port > device_port + 100) {
+                                            return Promise.reject('cannot port forward via adb');
+                                        }
+                                        local_port += 1;
+                                    }
+                                    return _write_vscode_launch_json(local_port);
+                                })
+                                .catch(function(error) {
+                                    console.log(`WARNING: failed to start debugger - ${error}`);
                                     return Promise.resolve();
-                                }
-                            })
-                            .catch(function(error) {
-                                return Promise.resolve();
-                            });
+                                });
+                        } else {
+                            return Promise.resolve();
+                        }
                     })
                     .then(function() {
                         if ([ 'jam', 'widget' ].includes(mode)) {
