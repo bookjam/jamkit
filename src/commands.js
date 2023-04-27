@@ -65,9 +65,9 @@ function _json_stringify(json) {
 function _get_vscode_launch_json_path() {
 
     // Starting from the current directory (where package.bon exists),
-    // check up to 5 ancestors to see if they have the VSCode configs.
+    // check up to 7 ancestors to see if they have the VSCode configs.
     let config_dir_path = '.vscode';
-    for (let i = 0; i < 5; ++i) {
+    for (let i = 0; i < 7; ++i) {
         if (fs.existsSync(config_dir_path)) {
             const isUserConfigDir = fs.existsSync(config_dir_path + '/argv.json') ||
                                     fs.existsSync(config_dir_path + '/extensions');
