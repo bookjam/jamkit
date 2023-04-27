@@ -63,14 +63,26 @@ function _json_stringify(json) {
 }
 
 function _get_vscode_launch_json_path() {
-    // If this app is a part of an app collection such as jamkit-recipes,
-    // we could have `.vscode` in the parent directory.
-    if (fs.pathExistsSync('../.vscode')) {
-        return '../.vscode/launch.json';
+
+    // Starting from the current directory (where package.bon exists),
+    // check up to 5 ancestors to see if they have the VSCode configs.
+    let config_dir_path = '.vscode';
+    for (let i = 0; i < 5; ++i) {
+        if (fs.existsSync(config_dir_path)) {
+            const isUserConfigDir = fs.existsSync(config_dir_path + '/argv.json') ||
+                                    fs.existsSync(config_dir_path + '/extensions');
+            if (isUserConfigDir) {
+                // this is user config directory. give up here.
+                break;
+            }
+
+            return config_dir_path + '/launch.json';
+        }
+        config_dir_path = '../' + config_dir_path;
     }
 
-    // Otherwise, use the app's project directory, i.e., where the `package.bon` exists.
-    return './.vscode/launch.json';
+    // If not found, fallback to the current directory.
+    return '.vscode/launch.json';
 }
 
 function _write_vscode_launch_json(debugger_port) {
@@ -106,7 +118,7 @@ function _write_vscode_launch_json(debugger_port) {
         const index = json.configurations.findIndex(c => c.name === CONFIG_NAME);
         if (index !== -1) {
             if (json.configurations[index].port === debugger_port) {
-                console.log('  Done - the existing configuration seems fine.');
+                console.log('> Done');
                 return;
             }
             json.configurations[index].port = debugger_port;
@@ -114,11 +126,11 @@ function _write_vscode_launch_json(debugger_port) {
             json.configurations.push(jamkitAttachConfig);
         }
         fs.writeFileSync(json_path, _json_stringify(json, 'utf8'));
-        console.log(`  Done - updated the existing configuration.`);
+        console.log(`> Done - updated the existing configuration.`);
     } catch (err) {
         // the existing launch.json file might have been corrupted.
         rewriteLaunchJson();
-        console.log(`  Done - rewrote the whole configuration file.`);
+        console.log(`> Done - rewrote the whole configuration file.`);
     }
 }
 
