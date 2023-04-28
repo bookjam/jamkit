@@ -21,6 +21,11 @@ function _connect_to_host(host, port, timeout, callback) {
             console.log("ERROR: Failed to establish connection!");
         }
     });
+
+    client.on('close', function(error) {
+        console.log('ERROR: Connection to the app has been closed.');
+        process.exit(102);
+    });
 };
 
 module.exports = {
