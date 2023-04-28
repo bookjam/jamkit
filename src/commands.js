@@ -15,6 +15,7 @@ const fs         = require('fs-extra'),
       bon        = require('./bon'),
       style      = require('./style'),
       leafly     = require('./leafly'),
+      avdctl     = require('./avdctl'),
       utils      = require('./utils');
 
 const CONNECT_BASE_URL = "https://jamkit.io";
@@ -55,6 +56,82 @@ function _compress_folder(src_path, zip_path) {
             }
         });
     });
+}
+
+function _json_stringify(json) {
+    return JSON.stringify(json, null, 4);
+}
+
+function _get_vscode_launch_json_path() {
+
+    // Starting from the current directory (where package.bon exists),
+    // check up to 7 ancestors to see if they have the VSCode configs.
+    let config_dir_path = '.vscode';
+    for (let i = 0; i < 7; ++i) {
+        if (fs.existsSync(config_dir_path)) {
+            const is_user_config_dir = fs.existsSync(config_dir_path + '/argv.json') ||
+                                       fs.existsSync(config_dir_path + '/extensions');
+            if (is_user_config_dir) {
+                // this is the user config directory. give up here.
+                break;
+            }
+
+            return config_dir_path + '/launch.json';
+        }
+        config_dir_path = '../' + config_dir_path;
+    }
+
+    // If not found, fall back to the current directory.
+    return '.vscode/launch.json';
+}
+
+function _write_vscode_launch_json(debugger_port) {
+    const json_path = _get_vscode_launch_json_path();
+
+    const CONFIG_NAME = 'Jamkit attach';
+    const jamkitAttachConfig = {
+        name: CONFIG_NAME,
+        type: 'node',
+        request: 'attach',
+        port: debugger_port
+    };
+
+    const rewriteLaunchJson = () => {
+        fs.writeFile(json_path, _json_stringify({
+            version: '0.2.0',
+            configurations: [
+                jamkitAttachConfig
+            ]
+        }));
+    };
+
+    if (!fs.existsSync(json_path)) {
+        fs.ensureFileSync(json_path);
+        rewriteLaunchJson();
+        console.log(`Created the debugger attatch configuration in ${json_path}.`);
+        return;
+    }
+
+    console.log(`Verifying the exisiting debugger configuration in ${json_path}...`);
+    try {
+        const json = JSON.parse(fs.readFileSync(json_path, 'utf-8'));
+        const index = json.configurations.findIndex(c => c.name === CONFIG_NAME);
+        if (index !== -1) {
+            if (json.configurations[index].port === debugger_port) {
+                console.log('> Done');
+                return;
+            }
+            json.configurations[index].port = debugger_port;
+        } else {
+            json.configurations.push(jamkitAttachConfig);
+        }
+        fs.writeFileSync(json_path, _json_stringify(json, 'utf8'));
+        console.log(`> Done - updated the existing configuration.`);
+    } catch (err) {
+        // the existing launch.json file might have been corrupted.
+        rewriteLaunchJson();
+        console.log(`> Done - rewrote the whole configuration file.`);
+    }
 }
 
 function _publish_app(app_id, options, ipfs_options, callback) {
@@ -202,6 +279,33 @@ module.exports = {
                     })
                     .then(function() {
                         return shell.execute('app source ' + path.join(process.cwd(), 'catalogs'));
+                    })
+                    .then(function() {
+                        if (platform !== 'android') {
+                            // debugging is supported only on android
+                            return Promise.resolve();
+                        }
+
+                        return shell.execute('debugger start')
+                            .then(function(result) {
+                                const device_port = parseInt(result);
+                                let local_port = device_port;
+                                while (true) {
+                                    if (avdctl.forward(`tcp:${local_port}`, `tcp:${device_port}`)) {
+                                        break;
+                                    }
+                                    if (local_port > device_port + 100) {
+                                        return Promise.reject('too many `adb forward` failures');
+                                    }
+                                    local_port += 1;
+                                }
+                                _write_vscode_launch_json(local_port);
+                                return Promise.resolve();
+                            })
+                            .catch(function(error) {
+                                console.log(`WARNING: failed to start debugger - ${error}`);
+                                return Promise.resolve();
+                            });
                     })
                     .then(function() {
                         if ([ 'jam', 'widget' ].includes(mode)) {
