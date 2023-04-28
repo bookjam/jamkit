@@ -69,10 +69,10 @@ function _get_vscode_launch_json_path() {
     let config_dir_path = '.vscode';
     for (let i = 0; i < 7; ++i) {
         if (fs.existsSync(config_dir_path)) {
-            const isUserConfigDir = fs.existsSync(config_dir_path + '/argv.json') ||
-                                    fs.existsSync(config_dir_path + '/extensions');
-            if (isUserConfigDir) {
-                // this is user config directory. give up here.
+            const is_user_config_dir = fs.existsSync(config_dir_path + '/argv.json') ||
+                                       fs.existsSync(config_dir_path + '/extensions');
+            if (is_user_config_dir) {
+                // this is the user config directory. give up here.
                 break;
             }
 
@@ -81,7 +81,7 @@ function _get_vscode_launch_json_path() {
         config_dir_path = '../' + config_dir_path;
     }
 
-    // If not found, fallback to the current directory.
+    // If not found, fall back to the current directory.
     return '.vscode/launch.json';
 }
 
