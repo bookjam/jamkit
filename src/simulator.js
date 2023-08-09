@@ -33,12 +33,12 @@ const _impl = {
                 device = this._find_available_device();
         
                 if (device) {
-                    process.stdout.write("Starting an simulator... ");
+                    process.stdout.write('Starting an simulator... ');
 
                     simctl.start(device.udid);
                     
                     if (this._wait_until_device_booted()) {
-                        console.log("Done");
+                        console.log('Done');
                         
                         return true;
                     }
@@ -82,7 +82,7 @@ const _impl = {
                     }
 
                     if (simctl.launch('booted', app_id)) {
-                        console.log("Done");
+                        console.log('Done');
     
                         handler(app_id);
                     } else {
@@ -93,7 +93,7 @@ const _impl = {
                     handler();
                 });
 
-            process.stdout.write("Launching the browser... ");
+            process.stdout.write('Launching the browser... ');
         },
 
         _find_booted_device: function() {
@@ -187,11 +187,11 @@ const _impl = {
                 var device = this._find_available_device();
 
                 if (device) {
-                    process.stdout.write("Starting an emulator... ");
+                    process.stdout.write('Starting an emulator... ');
                     
                     if (avdctl.start(device)) {
                         if (this._wait_until_device_booted()) {
-                            console.log("Done");
+                            console.log('Done');
                             
                             return true;
                         }
@@ -230,7 +230,7 @@ const _impl = {
                     }
 
                     if (avdctl.running(app_id) || avdctl.launch(app_id)) {
-                        console.log("Done");
+                        console.log('Done');
 
                         handler(app_id);
                     } else {
@@ -241,7 +241,7 @@ const _impl = {
                     handler();
                 });
 
-            process.stdout.write("Launching the browser... ");
+            process.stdout.write('Launching the browser... ');
         }, 
 
         _find_available_device: function() {

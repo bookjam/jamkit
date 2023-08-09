@@ -80,7 +80,7 @@ module.exports = {
 
                 is_ready = true;
 
-                console.log("Done");
+                console.log('Done');
 
                 handler();
             })

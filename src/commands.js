@@ -58,19 +58,16 @@ function _compress_folder(src_path, zip_path) {
     });
 }
 
-function _json_stringify(json) {
-    return JSON.stringify(json, null, 4);
-}
-
 function _get_vscode_launch_json_path() {
-
     // Starting from the current directory (where package.bon exists),
     // check up to 7 ancestors to see if they have the VSCode configs.
-    let config_dir_path = '.vscode';
-    for (let i = 0; i < 7; ++i) {
+    var config_dir_path = '.vscode';
+    
+    for (var i = 0; i < 7; ++i) {
         if (fs.existsSync(config_dir_path)) {
-            const is_user_config_dir = fs.existsSync(config_dir_path + '/argv.json') ||
-                                       fs.existsSync(config_dir_path + '/extensions');
+            var is_user_config_dir = fs.existsSync(config_dir_path + '/argv.json') ||
+                                     fs.existsSync(config_dir_path + '/extensions');
+
             if (is_user_config_dir) {
                 // this is the user config directory. give up here.
                 break;
@@ -78,6 +75,7 @@ function _get_vscode_launch_json_path() {
 
             return config_dir_path + '/launch.json';
         }
+
         config_dir_path = '../' + config_dir_path;
     }
 
@@ -85,53 +83,50 @@ function _get_vscode_launch_json_path() {
     return '.vscode/launch.json';
 }
 
-function _write_vscode_launch_json(debugger_port) {
-    const json_path = _get_vscode_launch_json_path();
-
-    const CONFIG_NAME = 'Jamkit attach';
-    const jamkitAttachConfig = {
-        name: CONFIG_NAME,
+function _update_vscode_launch_json(debugger_port) {
+    var json_path = _get_vscode_launch_json_path();
+    var config_name = 'Jamkit attach';
+    var default_launch_config = {
+        name: config_name,
         type: 'node',
         request: 'attach',
         port: debugger_port
     };
 
-    const rewriteLaunchJson = () => {
-        fs.writeFile(json_path, _json_stringify({
+    process.stdout.write(`Updating the debugger configuration in ${json_path}... `);
+    
+    try {
+        var launch_json = fs.readJsonSync(json_path);
+        var launch_config = launch_json.configurations.find(function(config) {
+            return config.name === config_name;
+        });
+        var needs_update = false;
+
+        if (launch_config) {
+            if (launch_config.port != debugger_port) {
+                launch_config.port = debugger_port;
+                needs_update = true;
+            }
+        } else {
+            launch_json.configurations.push(default_launch_config);
+            needs_update = true;
+        }
+    } catch (error) {
+        // launch.json not exist or the existing launch.json might have been corrupted.
+        launch_json = {
             version: '0.2.0',
             configurations: [
-                jamkitAttachConfig
+                default_launch_config
             ]
-        }));
-    };
-
-    if (!fs.existsSync(json_path)) {
-        fs.ensureFileSync(json_path);
-        rewriteLaunchJson();
-        console.log(`Created the debugger attatch configuration in ${json_path}.`);
-        return;
+        };
+        needs_update = true;
     }
 
-    console.log(`Verifying the exisiting debugger configuration in ${json_path}...`);
-    try {
-        const json = JSON.parse(fs.readFileSync(json_path, 'utf-8'));
-        const index = json.configurations.findIndex(c => c.name === CONFIG_NAME);
-        if (index !== -1) {
-            if (json.configurations[index].port === debugger_port) {
-                console.log('> Done');
-                return;
-            }
-            json.configurations[index].port = debugger_port;
-        } else {
-            json.configurations.push(jamkitAttachConfig);
-        }
-        fs.writeFileSync(json_path, _json_stringify(json, 'utf8'));
-        console.log(`> Done - updated the existing configuration.`);
-    } catch (err) {
-        // the existing launch.json file might have been corrupted.
-        rewriteLaunchJson();
-        console.log(`> Done - rewrote the whole configuration file.`);
+    if (needs_update) {
+        fs.outputJsonSync(json_path, launch_json, { spaces: 4 });
     }
+
+    console.log('Done');
 }
 
 function _publish_app(app_id, options, ipfs_options, callback) {
@@ -151,12 +146,12 @@ function _publish_app(app_id, options, ipfs_options, callback) {
                     .then(function(hash) {
                         callback("ipfs://hash/" + hash);
                     })
-                    .catch(function(error){
-                        console.log("ERROR: could not publish to ipfs.");
+                    .catch(function(error) {
+                        console.log('ERROR: could not publish to ipfs.');
                     });
             })
-            .catch(function(error){
-                console.log("ERROR: could not generate a package.");
+            .catch(function(error) {
+                console.log('ERROR: could not generate a package.');
             });
     } else {
         callback(options['file-url']);
@@ -180,12 +175,12 @@ function _publish_book(options, ipfs_options, callback) {
                     .then(function(hash) {
                         callback("ipfs://hash/" + hash);
                     })
-                    .catch(function(error){
-                        console.log("ERROR: could not publish to ipfs.");
+                    .catch(function(error) {
+                        console.log('ERROR: could not publish to ipfs.');
                     });
             })
-            .catch(function(error){
-                console.log("ERROR: could not generate a package.");
+            .catch(function(error) {
+                console.log('ERROR: could not generate a package.');
             });
     } else {
         callback(options['file-url']);
@@ -199,8 +194,8 @@ function _publish_image(options, ipfs_options, callback) {
                 .then(function(hash) {
                     callback("https://ipfs.io/ipfs/" + hash);
                 })
-                .catch(function(err){
-                    console.log(err);
+                .catch(function(error) {
+                    console.log(error);
                 });
         } else {
             callback();
@@ -229,8 +224,9 @@ function _shorten_url(url, callback) {
 
 module.exports = {
     create_app: function(directory, options) {
-        if (fs.existsSync(directory)) {
-            console.log('ERROR: ' + directory + ' already exists.');
+        if (fs.existsSync(path.join(directory, 'package.bon'))) {
+            console.log('ERROR: directory already exists.');
+
             return;
         }
 
@@ -242,7 +238,7 @@ module.exports = {
                 appinfo['id'] = _generate_app_id(options['app-id'], appinfo['id']);
                 appinfo['version'] = options['version'];
                 
-                fs.writeFileSync(bon_path, bon.stringify(appinfo));        
+                fs.writeFileSync(bon_path, bon.stringify(appinfo));
             })
             .catch(function(error) {
                 console.log('ERROR: template may not exists.');
@@ -288,22 +284,28 @@ module.exports = {
 
                         return shell.execute('debugger start')
                             .then(function(result) {
-                                const device_port = parseInt(result);
-                                let local_port = device_port;
+                                var device_port = parseInt(result);
+                                var local_port = device_port;
+                                
                                 while (true) {
                                     if (avdctl.forward(`tcp:${local_port}`, `tcp:${device_port}`)) {
                                         break;
                                     }
+                                
                                     if (local_port > device_port + 100) {
                                         return Promise.reject('too many `adb forward` failures');
                                     }
+                                
                                     local_port += 1;
                                 }
-                                _write_vscode_launch_json(local_port);
+                                
+                                _update_vscode_launch_json(local_port);
+                                
                                 return Promise.resolve();
                             })
                             .catch(function(error) {
                                 console.log(`WARNING: failed to start debugger - ${error}`);
+                                
                                 return Promise.resolve();
                             });
                     })
@@ -316,6 +318,7 @@ module.exports = {
                     })
                     .then(function(resource_path) {
                         var needs_reset = true;
+
                         syncfolder.start(platform, app_id, './catalogs', resource_path, options, function() {
                             if (needs_reset) {
                                 if ([ 'jam', 'widget' ].includes(mode)) {
@@ -371,8 +374,8 @@ module.exports = {
             .then(function(zip_path) {
                 fs.moveSync(zip_path, jam_path);
             })
-            .catch(function(error){
-                console.log("ERROR: could not generate a package.");
+            .catch(function(error) {
+                console.log('ERROR: could not generate a package.');
             });
     },
 
@@ -404,8 +407,8 @@ module.exports = {
 
                 installer.install(platform, jam_path);
             })
-            .catch(function(error){
-                console.log("ERROR: could not generate a package.");
+            .catch(function(error) {
+                console.log('ERROR: could not generate a package.');
             });
     },
 
@@ -460,8 +463,9 @@ module.exports = {
     },
 
     create_book: function(directory, options) {
-        if (fs.existsSync(directory)) {
-            console.log('ERROR: ' + directory + ' already exists.');
+        if (fs.existsSync(path.join(directory, 'book.bon'))) {
+            console.log('ERROR: directory already exists.');
+
             return;
         }
 
@@ -497,6 +501,7 @@ module.exports = {
                     })
                     .then(function(resource_path) {
                         var needs_open = true;
+
                         syncfolder.start(platform, app_id, '.', resource_path, options, function() {
                             if (needs_open) {
                                 shell.execute('book open');
@@ -530,8 +535,8 @@ module.exports = {
             .then(function(zip_path, bxp_path) {
                 fs.moveSync(zip_path, bxp_path);
             })
-            .catch(function(error){
-                console.log("ERROR: could not generate a package.");
+            .catch(function(error) {
+                console.log('ERROR: could not generate a package.');
             });
     },
 
@@ -555,8 +560,8 @@ module.exports = {
 
                 // TBD: What to do?
             })
-            .catch(function(error){
-                console.log("ERROR: could not generate a package.");
+            .catch(function(error) {
+                console.log('ERROR: could not generate a package.');
             });
     },
 
@@ -613,7 +618,7 @@ module.exports = {
     migrate_style: function() {
         var basedir = 'catalogs';
 
-        glob(basedir + '/**/*.sbss', {}, function(err, files) {
+        glob(basedir + '/**/*.sbss', {}, function(error, files) {
             files.forEach(function(file) {
                 style.migrate(file);
             });

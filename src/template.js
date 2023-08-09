@@ -11,6 +11,8 @@ module.exports = {
             download({
                 src: repository + '/' + path,
                 dir: destdir
+            }, {
+                replace: true
             })
                 .then(function() {
                     resolve();
