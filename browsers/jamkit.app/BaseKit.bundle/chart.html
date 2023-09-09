@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+<title>Chart</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style>
+body {
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+};
+</style>
+</head>
+<body onload="window.location='chart://initialize'">
+    <canvas id="chart" style="width:100%;height:100vh;"></canvas>
+    <!-- chart.js should not be imported here! -->
+    <script>
+        var initialize = function(type, data, options) {
+            configureChart(document.getElementById('chart'), type, data, options);
+        }
+    </script>
+</body>
+</html>

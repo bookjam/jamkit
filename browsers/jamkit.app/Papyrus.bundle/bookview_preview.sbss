@@ -1,0 +1,10 @@
+/preview: font-family=serif, font-size=1.0, margin=0.05pw*${margin-scale}
+/preview/poet: text-align=right
+
+if $SCREEN_WIDTH > 4.7
+    /preview: line-spacing=0.6em*${spacing-scale}, paragraph-spacing=0.6em*${spacing-scale}
+    /preview/poet: margin-top=0.6em
+else
+    /preview: line-spacing=0.4em*${spacing-scale}, paragraph-spacing=0.4em*${spacing-scale}
+    /preview/poet: margin-top=0.4em
+end
