@@ -1,23 +1,23 @@
-const download = require('fetch-repo-dir');
+const download = require("fetch-repo-dir");
 
 module.exports = {
-    copy: function(type, destdir, options) {
-        return new Promise(function(resolve, reject) {
-            var repository = options['repository'] || 'bookjam/jamkit-templates';
-            var template = options['template'] || 'hello-world';
-            var language = options['language'] || 'global';
-            var path = type + '/' + template + '/' + language;
+    copy: (type, destdir, options) => {
+        return new Promise((resolve, reject) => {
+            const repository = options["repository"] || "bookjam/jamkit-templates";
+            const template = options["template"] || "hello-world";
+            const language = options["language"] || "global";
+            const path = type + "/" + template + "/" + language;
 
             download({
-                src: repository + '/' + path,
+                src: repository + "/" + path,
                 dir: destdir
             }, {
                 replace: true
             })
-                .then(function() {
+                .then(() => {
                     resolve();
                 })
-                .catch(function(error) {
+                .catch((error) => {
                     reject(error);
                 }) 
         });

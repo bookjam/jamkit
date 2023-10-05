@@ -1,24 +1,24 @@
-const shell = require('shelljs'),
-      child_process = require('child_process'),
-      sleep = require('./sleep');
+const shell         = require("shelljs"),
+      child_process = require("child_process"),
+      sleep         = require("./sleep");
 
 function _emulator_path() {
-    var command = (process.platform === 'win32') ? 'where emulator' : 'which emulator';
-    var result = shell.exec(command, { silent: true });
+    const command = (process.platform === "win32") ? "where emulator" : "which emulator";
+    const result = shell.exec(command, { silent: true });
         
     if (result.code === 0) {
         return result.stdout.trim();
     }
 
-    return 'emulator';
+    return "emulator";
 }
 
 module.exports = {
-    start: function(device_name) {
-        var args = [ '-avd', device_name ];
-        var subprocess = child_process.spawn(_emulator_path(), args, { 
+    start: (device_name) => {
+        const args = [ "-avd", device_name ];
+        const subprocess = child_process.spawn(_emulator_path(), args, { 
             detached: true,
-            stdio: 'ignore'
+            stdio: "ignore"
         });
 
         subprocess.unref();
@@ -26,9 +26,9 @@ module.exports = {
         return true;
     },
 
-    list: function() {
-        var command = _emulator_path() + ' -list-avds';
-        var result = shell.exec(command, { silent: true });
+    list: () => {
+        const command = _emulator_path() + " -list-avds";
+        const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return result.stdout.trim().split(/\n/g);
@@ -37,9 +37,9 @@ module.exports = {
         return null;
     },
 
-    install: function(path) {
-        var command = 'adb install ' + path;
-        var result = shell.exec(command, { silent: true });
+    install: (path) => {
+        const command = `adb install ${path}`;
+        const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;
@@ -48,9 +48,9 @@ module.exports = {
         return false;
     },
 
-    uninstall: function(app_id) {
-        var command = 'adb uninstall ' + app_id;
-        var result = shell.exec(command, { silent: true });
+    uninstall: (app_id) => {
+        const command = `adb uninstall ${app_id}`;
+        const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;
@@ -59,9 +59,9 @@ module.exports = {
         return false;
     },
 
-    launch: function(app_id) {
-        var command = 'adb shell am start -n ' + app_id + '/' + app_id + '.LaunchScreenViewController';
-        var result = shell.exec(command, { silent: true });
+    launch: (app_id) => {
+        const command = `adb shell am start -n ${app_id}/${app_id}.LaunchScreenViewController`;
+        const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             if (!result.stderr) {
@@ -74,9 +74,9 @@ module.exports = {
         return false;
     },
 
-    running: function(app_id) {
-        var command = 'adb shell ps | grep ' + app_id;
-        var result = shell.exec(command, { silent: true });
+    running: (app_id) => {
+        const command = `adb shell ps | grep ${app_id}`;
+        const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;
@@ -85,9 +85,9 @@ module.exports = {
         return false;
     },
  
-    version: function(app_id) {
-        var command = 'adb shell "dumpsys package ' + app_id + ' | grep versionName"';
-        var result = shell.exec(command, { silent: true });
+    version: (app_id) => {
+        const command = `adb shell 'dumpsys package ${app_id} | grep versionName'`;
+        const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             var matched = result.stdout.match(/versionName=([0-9.]+)/);
@@ -100,9 +100,9 @@ module.exports = {
         return null;
     },
 
-    forward: function(src, dest) {
-        var command = 'adb forward ' + src + ' ' + dest;
-        var result = shell.exec(command, { silent: true });
+    forward: (src, dest) => {
+        const command = `adb forward ${src} ${dest}`;
+        const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;
@@ -111,9 +111,9 @@ module.exports = {
         return false;
     }, 
 
-    push: function(src, dest) {
-        var command = 'adb push \"' + src + '\" \"' + dest + '\"';
-        var result = shell.exec(command, { silent: true });
+    push: (src, dest) => {
+        const command = `adb push '${src}' '${dest}'`;
+        const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;
@@ -122,9 +122,9 @@ module.exports = {
         return false;
     },
 
-    intent: function(action, url) {
-        var command = 'adb shell am start -a ' + action + ' -d ' + url;
-        var result = shell.exec(command, { silent: true });
+    intent: (action, url) => {
+        const command = `adb shell am start -a ${action} -d ${url}`;
+        const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;
@@ -133,9 +133,9 @@ module.exports = {
         return false;
     },
 
-    property: function(name) {
-        var command = 'adb shell getprop ' + name;
-        var result = shell.exec(command, { silent: true });
+    property: (name) => {
+        const command = `adb shell getprop ${name}`;
+        const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return result.stdout.trim();
@@ -144,9 +144,9 @@ module.exports = {
         return null;
     },
     
-    shell: function(cmd) {
-        var command = 'adb shell \"' + cmd + '\"';
-        var result = shell.exec(command, { silent: true });
+    shell: (cmd) => {
+        const command = `adb shell '${cmd}'`;
+        const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;

@@ -1,13 +1,13 @@
-const fs     = require('fs'),
-      path   = require('path'),
-      avdctl = require('./avdctl')
+const fs     = require("fs"),
+      path   = require("path"),
+      avdctl = require("./avdctl");
 
-var _sdk_version = parseInt(avdctl.property('ro.build.version.sdk'));
+const _sdk_version = parseInt(avdctl.property("ro.build.version.sdk"));
 
 function _walk_dir(root, dir, handler) {
     fs.readdirSync(path.join(root, dir)).forEach(function(file) {
-        var subpath = path.join(dir, file);
-        var stats = fs.statSync(path.join(root, subpath));
+        const subpath = path.join(dir, file);
+        const stats = fs.statSync(path.join(root, subpath));
 
         handler(subpath, stats);
 
@@ -18,19 +18,19 @@ function _walk_dir(root, dir, handler) {
 }
 
 module.exports = {
-    push: function(src, dest) {
-        var stats = fs.statSync(src);
+    push: (src, dest) => {
+        const stats = fs.statSync(src);
 
         if (stats.isDirectory()) {
-            avdctl.shell("mkdir " + dest);
+            avdctl.shell(`mkdir ${dest}`);
 
             _walk_dir(src, ".", function(file, stats) {
-                var subpath = file.replace(/\\/g, '/');
+                const subpath = file.replace(/\\/g, "/");
 
                 if (stats.isDirectory()) {
-                    avdctl.shell("mkdir " + dest + "/" + subpath);
+                    avdctl.shell(`mkdir ${dest}/${subpath}`);
                 } else {
-                    avdctl.push(path.join(src, file), dest + "/" + subpath);
+                    avdctl.push(path.join(src, file), `${dest}/${subpath}`);
                 }
             });
         } else {
@@ -38,15 +38,15 @@ module.exports = {
         }
     }, 
 
-    intent: function(action, url) {
+    intent: (action, url) => {
         avdctl.intent(action, url);
     },
 
-    shell: function(cmd) {
+    shell: (cmd) => {
         avdctl.shell(cmd);
     },
 
-    get_sdk_version: function() {
+    get_sdk_version: () => {
         return _sdk_version;
     }
 }

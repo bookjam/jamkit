@@ -1,8 +1,7 @@
-const path   = require('path'),
-      fs     = require('fs-extra'),
-      avdctl = require('./avdctl-helper')
+const path   = require("path"),
+      avdctl = require("./avdctl-helper");
 
-var _impl = {
+const _impl = {
     "ios" : {
         install: function(file) {
             

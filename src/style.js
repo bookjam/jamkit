@@ -1,13 +1,13 @@
-const fs = require('fs');
+const fs = require("fs");
 
 function _migrate_new_style(line, trailing) {
-    var m = /(\s*)([#%\/][^:]+):(.*)/.exec(line);
+    const m = /(\s*)([#%\/][^:]+):(.*)/.exec(line);
 
     if (m) {
-        var props = [...m[3].trim().matchAll(/(([\w\d-]+)\s*=\s*("(\\"|[^"])+"|'(\\'|[^'])+'|[^,]+))(,|$)/g)];
-        var style = _build_new_style(m[1], m[2], props.map(function(prop) {
-            var name  = prop[2].trim();
-            var value = prop[3].trim().replace(/^["']|["']$/g, "");
+        const props = [...m[3].trim().matchAll(/(([\w\d-]+)\s*=\s*("(\\"|[^"])+"|'(\\'|[^'])+'|[^,]+))(,|$)/g)];
+        const style = _build_new_style(m[1], m[2], props.map((prop) => {
+            const name  = prop[2].trim();
+            const value = prop[3].trim().replace(/^["']|["']$/g, "");
         
             return [ name, value ];
         }));
@@ -19,7 +19,7 @@ function _migrate_new_style(line, trailing) {
 function _build_new_style(leading, selector, props) {
     var style = leading + selector + " {" + "\n";
 
-    props.forEach(function([ name, value ]) {
+    props.forEach(([ name, value ]) => {
         style += leading + "    " + name + ": " + value + ";" + "\n";
     });
 
@@ -29,12 +29,12 @@ function _build_new_style(leading, selector, props) {
 }
 
 module.exports = {
-    migrate: function(path) {
-        var source = fs.readFileSync(path, { encoding: 'utf8' });
-        var lines = [], multiline = false;
+    migrate: (path) => {
+        const source = fs.readFileSync(path, { encoding: 'utf8' });
+        const lines = [], multiline = false;
         var text = "";
         
-        source.split(/\r\n|\n|\r/).forEach(function(line) {
+        source.split(/\r\n|\n|\r/).forEach((line) => {
             if (multiline) {
                 lines[lines.length - 1] += line.replace(/^\s+|\\$/g, '');
             } else {
@@ -45,8 +45,8 @@ module.exports = {
         });
 
         var last_migrated = false;
-        lines.forEach(function(line) {
-            var style = _migrate_new_style(line, "\n\n");
+        lines.forEach((line) => {
+            const style = _migrate_new_style(line, "\n\n");
 
             if (!style) {
                 if (last_migrated) {

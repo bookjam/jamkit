@@ -1,10 +1,10 @@
-const simctl = require('simctl'),
-      shell  = require('shelljs'),
-      sleep  = require('./sleep');
+const simctl = require("simctl"),
+      shell  = require("shelljs"),
+      sleep  = require("./sleep");
 
 module.exports = {
-    start: function(device_id) {
-        var result = simctl.extensions.start(device_id);
+    start: (device_id) => {
+        const result = simctl.extensions.start(device_id);
 
         if (result.code === 0) {
             return true;
@@ -13,8 +13,8 @@ module.exports = {
         return false;
     },
 
-    list: function() {
-        var siminfo = simctl.list({ silent: true });
+    list: () => {
+        const siminfo = simctl.list({ silent: true });
 
         if (siminfo) {
             return siminfo.json;
@@ -23,8 +23,8 @@ module.exports = {
         return null;
     },
 
-    install: function(device, path) {
-        var result = simctl.install(device, path);
+    install: (device, path) => {
+        const result = simctl.install(device, path);
 
         if (result.code === 0) {
             return true;
@@ -33,8 +33,8 @@ module.exports = {
         return false;
     },
 
-    uninstall: function(device, app_id) {
-        var result = simctl.uninstall(device, app_id);
+    uninstall: (device, app_id) => {
+        const result = simctl.uninstall(device, app_id);
 
         if (result.code === 0) {
             return true;
@@ -43,8 +43,8 @@ module.exports = {
         return false;
     },
 
-    launch: function(device, app_id) {
-        var result = simctl.launch(false, device, app_id, {});
+    launch: (device, app_id) => {
+        const result = simctl.launch(false, device, app_id, {});
 
         if (result.code === 0) {
             return true;
@@ -53,9 +53,9 @@ module.exports = {
         return false;
     },
 
-    container: function(device, app_id) {
-        var command = 'xcrun simctl get_app_container ' + device + ' ' + app_id;
-        var result = shell.exec(command, { silent: true });
+    container: (device, app_id) => {
+        const command = `xcrun simctl get_app_container ${device} ${app_id}`;
+        const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return result.stdout.trim();
