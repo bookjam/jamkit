@@ -39,8 +39,8 @@ module.exports = {
 
     open: function() {
         return new Promise(function(resolve, reject) {
-            callbacks = new Array();
-            lines = "";
+            const callbacks = new Array();
+            var lines = "";
 
             callbacks.push(resolve);
 

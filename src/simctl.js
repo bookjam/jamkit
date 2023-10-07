@@ -1,6 +1,5 @@
 const simctl = require("simctl"),
-      shell  = require("shelljs"),
-      sleep  = require("./sleep");
+      shell  = require("shelljs");
 
 module.exports = {
     start: (device_id) => {

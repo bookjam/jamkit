@@ -5,7 +5,7 @@ const chokidar = require("chokidar"),
 
 const _impl = {
     "ios" : {
-        sync: (app_id, src, dest) => {
+        sync: function(app_id, src, dest) {
             if (fs.existsSync(dest)) {
                 fs.removeSync(dest);
             }
@@ -13,7 +13,7 @@ const _impl = {
             fs.copySync(src, dest);
         },
 
-        copy: (app_id, src, dest) => {
+        copy: function(app_id, src, dest) {
             if (!fs.lstatSync(src).isDirectory) {
                 fs.writeFileSync(dest, fs.readFileSync(src));
             } else {
@@ -21,13 +21,13 @@ const _impl = {
             }
         },
     
-        remove: (app_id, path) => {
+        remove: function(app_id, path) {
             fs.removeSync(path);
         }
     },
 
     "android" : {
-        sync: (app_id, src, dest) => {
+        sync: function(app_id, src, dest) {
             const tmproot = "/data/local/tmp/jamkit";
 
             avdctl.shell(`rm -rf ${tmproot}`);
@@ -44,7 +44,7 @@ const _impl = {
             }
         },
 
-        copy: (app_id, src, dest) => {
+        copy: function(app_id, src, dest) {
             var tmproot = "/data/local/tmp/jamkit";
             var tmppath = `${tmproot}/${path.basename(src)}`;
 
@@ -57,7 +57,7 @@ const _impl = {
             }
         },
         
-        remove: (app_id, path) => {
+        remove: function(app_id, path) {
             if (avdctl.get_sdk_version() >= 30) {
                 avdctl.shell(`rm -rf ${path.replace(/\\/g, "/")}`);
             } else {
