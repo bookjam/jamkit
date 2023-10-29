@@ -21,7 +21,7 @@ const _impl = {
 }
 
 module.exports = {
-    install: (platform, file) => {
+    install: function(platform, file) {
         _impl[platform].install(file);
     }
 }

@@ -384,11 +384,11 @@ BonStringifier.prototype._append_newline = function() {
 }
 
 module.exports = {
-    parse: (text) => {
+    parse: function(text) {
         return new BonParser().parse(text);
     },
 
-    stringify: (value) => {
+    stringify: function(value) {
         return new BonStringifier(true).stringify(value);
     }
 }

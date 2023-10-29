@@ -68,7 +68,7 @@ const _impl = {
 }
 
 module.exports = {
-    start: (platform, app_id, src, dest, options, handler) => {
+    start: function(platform, app_id, src, dest, options, handler) {
         const watcher = chokidar.watch(src, { ignored: /[\/\\]\./, persistent: true });
         var is_ready = false;
         

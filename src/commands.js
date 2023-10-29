@@ -224,7 +224,7 @@ function _shorten_url(url, callback) {
 }
 
 module.exports = {
-    create_app: (directory, options) => {
+    create_app: function(directory, options) {
         if (fs.existsSync(path.join(directory, "package.bon"))) {
             console.log("ERROR: directory already exists.");
 
@@ -246,7 +246,7 @@ module.exports = {
             });
     },
 
-    run_app: (platform, mode, shell_options, options) => {
+    run_app: function(platform, mode, shell_options, options) {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
@@ -349,7 +349,7 @@ module.exports = {
             });
     },
 
-    build_app: () => {
+    build_app: function() {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
@@ -380,7 +380,7 @@ module.exports = {
             });
     },
 
-    install_app: (platform) => {
+    install_app: function(platform) {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
@@ -413,7 +413,7 @@ module.exports = {
             });
     },
 
-    publish_app: (host, options, ipfs_options, install_urls) => {
+    publish_app: function(host, options, ipfs_options, install_urls) {
         if (!options["file-url"] && !fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
@@ -463,7 +463,7 @@ module.exports = {
         });
     },
 
-    create_book: (directory, options) => {
+    create_book: function(directory, options) {
         if (fs.existsSync(path.join(directory, "book.bon"))) {
             console.log("ERROR: directory already exists.");
 
@@ -484,7 +484,7 @@ module.exports = {
             });
     },
 
-    run_book: (platform, shell_options, options) => {
+    run_book: function(platform, shell_options, options) {
         if (!fs.existsSync("./book.bon")) {
             console.log("ERROR: book.bon not found.");
 
@@ -518,7 +518,7 @@ module.exports = {
         });
     },
 
-    build_book: () => {
+    build_book: function() {
         if (!fs.existsSync("./book.bon")) {
             console.log("ERROR: book.bon not found.");
 
@@ -541,7 +541,7 @@ module.exports = {
             });
     },
 
-    install_book: (platform) => {
+    install_book: function(platform) {
         if (!fs.existsSync("./book.bon")) {
             console.log("ERROR: book.bon not found.");
 
@@ -566,7 +566,7 @@ module.exports = {
             });
     },
 
-    publish_book: (host, options, ipfs_options, install_urls) => {
+    publish_book: function(host, options, ipfs_options, install_urls) {
         if (!options["file-url"] && !fs.existsSync("./book.bon")) {
             console.log("ERROR: book.bon not found.");
 
@@ -608,7 +608,7 @@ module.exports = {
         });
     },
 
-    generate_database: (target, store, file) => {
+    generate_database: function(target, store, file) {
         const data = catalog.load_from_spreadsheet(file, store);
         const basedir = path.join("catalogs", target);
 
@@ -616,7 +616,7 @@ module.exports = {
         catalog.save_to_database(data[0], data[1], path.join(basedir, "catalog.sqlite"));
     },
 
-    migrate_style: () => {
+    migrate_style: function() {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
@@ -632,7 +632,7 @@ module.exports = {
         });
     },
 
-    compose_native: () => {
+    compose_native: function() {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
             

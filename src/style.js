@@ -29,7 +29,7 @@ function _build_new_style(leading, selector, props) {
 }
 
 module.exports = {
-    migrate: (path) => {
+    migrate: function(path) {
         const source = fs.readFileSync(path, { encoding: 'utf8' });
         const lines = [], multiline = false;
         var text = "";

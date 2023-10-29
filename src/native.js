@@ -1,5 +1,5 @@
 module.exports = {
-    compose: () => {
+    compose: function() {
         
     }
 }

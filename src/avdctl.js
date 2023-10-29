@@ -14,7 +14,7 @@ function _emulator_path() {
 }
 
 module.exports = {
-    start: (device_name) => {
+    start: function(device_name) {
         const args = [ "-avd", device_name ];
         const subprocess = child_process.spawn(_emulator_path(), args, { 
             detached: true,
@@ -26,7 +26,7 @@ module.exports = {
         return true;
     },
 
-    list: () => {
+    list: function() {
         const command = _emulator_path() + " -list-avds";
         const result = shell.exec(command, { silent: true });
 
@@ -37,7 +37,7 @@ module.exports = {
         return null;
     },
 
-    install: (path) => {
+    install: function(path) {
         const command = `adb install ${path}`;
         const result = shell.exec(command, { silent: true });
 
@@ -48,7 +48,7 @@ module.exports = {
         return false;
     },
 
-    uninstall: (app_id) => {
+    uninstall: function(app_id) {
         const command = `adb uninstall ${app_id}`;
         const result = shell.exec(command, { silent: true });
 
@@ -59,7 +59,7 @@ module.exports = {
         return false;
     },
 
-    launch: (app_id) => {
+    launch: function(app_id) {
         const command = `adb shell am start -n ${app_id}/${app_id}.LaunchScreenViewController`;
         const result = shell.exec(command, { silent: true });
 
@@ -74,7 +74,7 @@ module.exports = {
         return false;
     },
 
-    running: (app_id) => {
+    running: function(app_id) {
         const command = `adb shell ps | grep ${app_id}`;
         const result = shell.exec(command, { silent: true });
 
@@ -85,7 +85,7 @@ module.exports = {
         return false;
     },
  
-    version: (app_id) => {
+    version: function(app_id) {
         const command = `adb shell 'dumpsys package ${app_id} | grep versionName'`;
         const result = shell.exec(command, { silent: true });
 
@@ -100,7 +100,7 @@ module.exports = {
         return null;
     },
 
-    forward: (src, dest) => {
+    forward: function(src, dest) {
         const command = `adb forward ${src} ${dest}`;
         const result = shell.exec(command, { silent: true });
 
@@ -111,7 +111,7 @@ module.exports = {
         return false;
     }, 
 
-    push: (src, dest) => {
+    push: function(src, dest) {
         const command = `adb push '${src}' '${dest}'`;
         const result = shell.exec(command, { silent: true });
 
@@ -122,7 +122,7 @@ module.exports = {
         return false;
     },
 
-    intent: (action, url) => {
+    intent: function(action, url) {
         const command = `adb shell am start -a ${action} -d ${url}`;
         const result = shell.exec(command, { silent: true });
 
@@ -133,7 +133,7 @@ module.exports = {
         return false;
     },
 
-    property: (name) => {
+    property: function(name) {
         const command = `adb shell getprop ${name}`;
         const result = shell.exec(command, { silent: true });
 
@@ -144,7 +144,7 @@ module.exports = {
         return null;
     },
     
-    shell: (cmd) => {
+    shell: function(cmd) {
         const command = `adb shell '${cmd}'`;
         const result = shell.exec(command, { silent: true });
 

@@ -18,7 +18,7 @@ function _walk_dir(root, dir, handler) {
 }
 
 module.exports = {
-    push: (src, dest) => {
+    push: function(src, dest) {
         const stats = fs.statSync(src);
 
         if (stats.isDirectory()) {
@@ -38,15 +38,15 @@ module.exports = {
         }
     }, 
 
-    intent: (action, url) => {
+    intent: function(action, url) {
         avdctl.intent(action, url);
     },
 
-    shell: (cmd) => {
+    shell: function(cmd) {
         avdctl.shell(cmd);
     },
 
-    get_sdk_version: () => {
+    get_sdk_version: function() {
         return _sdk_version;
     }
 }

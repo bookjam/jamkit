@@ -1,7 +1,7 @@
 const download = require("fetch-repo-dir");
 
 module.exports = {
-    copy: (type, destdir, options) => {
+    copy: function(type, destdir, options) {
         return new Promise((resolve, reject) => {
             const repository = options["repository"] || "bookjam/jamkit-templates";
             const template = options["template"] || "hello-world";

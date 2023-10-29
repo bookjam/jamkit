@@ -59,29 +59,29 @@ QueryBuilder.prototype.__escape_special_characters = function(value) {
 }
 
 module.exports = {
-    open_database: (path) => {
+    open_database: function(path) {
         return new Database(path);
     },
 
-    close_database: (database) => {
+    close_database: function(database) {
         database.close();
     },
 
-    create_table: (database, table, columns) => {
+    create_table: function(database, table, columns) {
         database.exec(new QueryBuilder().create_table(table, columns));
     },
 
-    create_indexes_to_table: (database, table, indexes) => {
+    create_indexes_to_table: function(database, table, indexes) {
         indexes.forEach((columns) => {
             database.exec(new QueryBuilder().create_index_to_table(table, columns));
         });
     },
 
-    drop_table_if_exists: (database, table) => {
+    drop_table_if_exists: function(database, table) {
         database.exec(new QueryBuilder().drop_table_if_exists(table));
     }, 
 
-    insert_rows_to_table: (database, table, rows) => {
+    insert_rows_to_table: function(database, table, rows) {
         rows.forEach((row) => {
             database.exec(new QueryBuilder().insert_row_to_table(table, row));
         });

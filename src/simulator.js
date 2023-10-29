@@ -153,7 +153,7 @@ const _impl = {
             });
         },
 
-        _wait_until_device_booted: () => {
+        _wait_until_device_booted: function() {
             sleep(3000);
 
             return true;
@@ -275,7 +275,7 @@ const _impl = {
 };
 
 module.exports = {
-    start: (platform, port) => {
+    start: function(platform, port) {
         return _impl[platform].start(port);
     }
 }

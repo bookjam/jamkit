@@ -1,5 +1,5 @@
 module.exports = {
-    dataToDataURL: (data) => {
+    dataToDataURL: function(data) {
         const buffer = Buffer.from(JSON.stringify(data), "utf-8");
         const base64 = buffer.toString("base64");
         
