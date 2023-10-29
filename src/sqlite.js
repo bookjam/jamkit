@@ -1,18 +1,21 @@
-const sqlite3  = require("sqlite3"),
-      vsprintf = require("sprintf-js").vsprintf
+const { Database } = require("node-sqlite3-wasm");
+const vsprintf = require("sprintf-js").vsprintf;
 
 function QueryBuilder() {};
 
 QueryBuilder.prototype.create_table = function(table, columns) {
     const defines = [];
+
     columns.forEach(function(column) {
         defines.push(vsprintf("%s %s", column));
     });
+    
     return vsprintf("CREATE TABLE %s (%s)", [ table, defines.join(",") ]);
 };
 
 QueryBuilder.prototype.create_index_to_table = function(table, columns) {
     var index = vsprintf("index_%s_%s", [ table, columns.join("_") ]);
+
     return vsprintf("CREATE INDEX %s ON %s (%s)", [ index, table, columns.join(",") ]);
 };
 
@@ -22,10 +25,12 @@ QueryBuilder.prototype.drop_table_if_exists = function(table) {
 
 QueryBuilder.prototype.insert_row_to_table = function(table, row) {
     const columns = [], values = [];
+
     Object.keys(row).forEach((column) => {
         columns.push(column);
         values.push(this.__value_for_query(row[column]));
     });
+
     return vsprintf("INSERT INTO %s (%s) VALUES (%s)", [ table, columns.join(","), values.join(",") ]);
 };
 
@@ -55,7 +60,7 @@ QueryBuilder.prototype.__escape_special_characters = function(value) {
 
 module.exports = {
     open_database: (path) => {
-        return new sqlite3.Database(path);
+        return new Database(path);
     },
 
     close_database: (database) => {
@@ -63,22 +68,22 @@ module.exports = {
     },
 
     create_table: (database, table, columns) => {
-        database.run(new QueryBuilder().create_table(table, columns));
+        database.exec(new QueryBuilder().create_table(table, columns));
     },
 
     create_indexes_to_table: (database, table, indexes) => {
         indexes.forEach((columns) => {
-            database.run(new QueryBuilder().create_index_to_table(table, columns));
+            database.exec(new QueryBuilder().create_index_to_table(table, columns));
         });
     },
 
     drop_table_if_exists: (database, table) => {
-        database.run(new QueryBuilder().drop_table_if_exists(table));
+        database.exec(new QueryBuilder().drop_table_if_exists(table));
     }, 
 
     insert_rows_to_table: (database, table, rows) => {
         rows.forEach((row) => {
-            database.run(new QueryBuilder().insert_row_to_table(table, row));
+            database.exec(new QueryBuilder().insert_row_to_table(table, row));
         });
     }
 }

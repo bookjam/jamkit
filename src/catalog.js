@@ -225,17 +225,17 @@ function _keys_starts_with(dict, prefix) {
 }
 
 function _save_table_to_database(database, table, columns, indexes, rows) {
-    database.serialize(() => {
-        sqlite.create_table(database, table, columns);
-        if (indexes) {
-            sqlite.create_indexes_to_table(database, table, indexes);
-        }    
-        sqlite.insert_rows_to_table(database, table, rows);    
-    });
+    sqlite.create_table(database, table, columns);
+
+    if (indexes) {
+        sqlite.create_indexes_to_table(database, table, indexes);
+    }    
+    
+    sqlite.insert_rows_to_table(database, table, rows);
 }
 
 function _merge_sortkeys(sortkeys) {
-    const merged_sortkeys = [];
+    let merged_sortkeys = [];
 
     Object.keys(sortkeys).forEach((sortkey) => {
         merged_sortkeys = array.union(merged_sortkeys, sortkeys[sortkey]);
