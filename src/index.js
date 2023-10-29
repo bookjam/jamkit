@@ -6,7 +6,7 @@ const commands = require("./commands"),
 const { Command } = require("commander");
 const program = new Command();
 
-program
+program.name("jamkit")
     .usage("<command> [argument, ...] [options]")
     .helpOption("-h, --help", "Show help for command")
     .addHelpCommand(false)
@@ -15,8 +15,7 @@ program
         program.help();
     });
 
-program
-    .command("create")
+program.command("create")
     .description("Create a new project.")
     .argument("<directory>", "Directory to create a project in")
     .option("-t, --type <type>", "Type of project to create. `app` or `book`.", "app")
@@ -55,8 +54,7 @@ program
         console.log("ERROR: invalid type: " + options.type);
     });
 
-program
-    .command("run")
+program.command("run")
     .description("Run on simulator.")
     .option("-t, --type <type>", "Type of project to run. `app`, `book` or `auto`.", "auto")
     .option("--platform <platform>", "Platform on which to run the simulator. `ios` or `android`", (process.platform === "darwin") ? "ios" : "android")
@@ -90,8 +88,7 @@ program
         console.log("ERROR: package.bon or book.bon not found.");
     });
 
-program
-    .command("build")
+program.command("build")
     .description("Build a package.")
     .option("-t, --type <type>", "Type of project to build. `app`, `book` or `auto`.", "auto")
     .action((options) => {
@@ -110,8 +107,7 @@ program
         console.log("ERROR: package.bon or book.bon not found.");
     });
 
-program
-    .command("install")
+program.command("install")
     .description("Install on simulator.")
     .option("-t, --type <type>", "Type of project to build. `app`, `book` or `auto`.", "auto")
     .option("--platform <platform>", "Platform on which to run the simulator. `ios` or `android`", (process.platform === "darwin") ? "ios" : "android")
@@ -131,8 +127,7 @@ program
         console.log("ERROR: package.bon or book.bon not found.");
     });
 
-program
-    .command("publish")
+program.command("publish")
     .description("Publish a package to IPFS.")
     .option("-t, --type <type>", "Type of project to run. `app`, `book` or `auto`.", "auto")
     .option("--host-scheme <scheme>", "Custom scheme that the host app uses", "jamkit")
@@ -197,35 +192,53 @@ program
         console.log("ERROR: package.bon or book.bon not found.");
     });
 
-program
-    .command("database")
-    .description("Manage databases.")
-        .command("generate")
-        .description("Generate a database from an excel file.")
-        .argument("<path>", "Path for an excel file")
-        .action((path, options) => {
-            if (fs.existsSync("./package.bon")) {
-                commands.generate_database("MainApp", "", path);
 
-                return;
-            }
+const database = program.command("database")
+                        .description("Manage databases.")
+                        .on("command:*", ([ command ]) => {
+                            database.addHelpText("after", "\n" + "Command not found: " + command);
+                            database.help();
+                        });
+            
+database.command("generate")
+    .description("Generate a database from an excel file.")
+    .argument("<path>", "Path for an excel file")
+    .action((path, options) => {
+        if (fs.existsSync("./package.bon")) {
+            commands.generate_database("MainApp", "", path);
 
-            console.log("ERROR: package.bon not found.");
-        });
+            return;
+        }
 
-program
-    .command("style")
-    .description("Manage sbss files.")
-        .command("migrate")
-        .description("Migrate old style sbss to new style.")
-        .action((options) => {
-            if (fs.existsSync("./package.bon")) {
-                commands.migrate_style();
+        console.log("ERROR: package.bon not found.");
+    });
 
-                return;
-            }
 
-            console.log("ERROR: package.bon not found.");
-        });
+const style = program.command("style")
+                    .description("Manage sbss files.")
+                    .on("command:*", ([ command ]) => {
+                        style.addHelpText("after", "\n" + "Command not found: " + command);
+                        style.help();
+                    });
+
+style.command("migrate")
+    .description("Migrate old style sbss to new style.")
+    .action((options) => {
+        commands.migrate_style();
+    });
+
+
+const native = program.command("native")
+                    .description("Manage native apps.")
+                    .on("command:*", ([ command ]) => {
+                        style.addHelpText("after", "\n" + "Command not found: " + command);
+                        style.help();
+                    });
+
+native.command("compose")
+    .description("Update native projects with your app codes.")
+    .action((options) => {
+        commands.compose_native();
+    });
 
 program.parse();

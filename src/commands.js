@@ -9,13 +9,14 @@ const fs         = require("fs-extra"),
       template   = require("./template"),
       catalog    = require("./catalog"),
       simulator  = require("./simulator"),
+      avdctl     = require("./avdctl"),
       shell      = require("./shell"),
       syncfolder = require("./syncfolder"),
       installer  = require("./installer"),
       bon        = require("./bon"),
       style      = require("./style"),
+      native     = require("./native"),
       leafly     = require("./leafly"),
-      avdctl     = require("./avdctl"),
       utils      = require("./utils");
 
 const CONNECT_BASE_URL = "https://jamkit.io";
@@ -616,6 +617,12 @@ module.exports = {
     },
 
     migrate_style: () => {
+        if (!fs.existsSync("./package.bon")) {
+            console.log("ERROR: package.bon not found.");
+
+            return;
+        }
+
         const basedir = "catalogs";
 
         glob(basedir + "/**/*.sbss", {}, (error, files) => {
@@ -623,5 +630,15 @@ module.exports = {
                 style.migrate(file);
             });
         });
+    },
+
+    compose_native: () => {
+        if (!fs.existsSync("./package.bon")) {
+            console.log("ERROR: package.bon not found.");
+            
+            return;
+        }
+
+        
     }
 }
