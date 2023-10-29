@@ -12,4 +12,4 @@
     `;
 
     iframe.head.appendChild(hiding_info_style);
-})()
+})();

@@ -1,16 +1,17 @@
 var __$_ = (function() {
     return {
         player: null,
-        current_video_id: null,
+        container: '',
+        current_video_id: '',
         suggested_quality: 'default',
         plays_when_ready: false,
         turns_off_captions: false,
         buffering_video: false
     }
-})()
+})();
 
-function configureVideo(element, video_id, quality, options) {
-    __$_.player = new YT.Player(element, {
+function configureVideo(container, video_id, quality, options) {
+    __$_.player = new YT.Player(container, {
         width: '100%',
         height: '100%',
         playerVars: options,
@@ -21,6 +22,7 @@ function configureVideo(element, video_id, quality, options) {
         }
     });
 
+    __$_.container = container;
     __$_.current_video_id = video_id;
     __$_.suggested_quality = quality;
     __$_.buffering_video = false;
@@ -112,10 +114,16 @@ function onPlayerError(event) {
 
         return;
     }
+
+    if (event.data == 150) {
+        window.location = "video://notavailable/restricted";
+
+        return;
+    }
 }
 
 function loadVideo(video_id) {
-    __$_.player.cueVideoById(video_id, 0, suggested_quality);
+    __$_.player.cueVideoById(video_id, 0, __$_.suggested_quality);
 
     __$_.current_video_id = video_id;
     __$_.buffering_video = false;
@@ -163,6 +171,26 @@ function setRate(rate) {
 
 function getRate() {
     return __$_.player.getPlaybackRate();
+}
+
+function setVolume(volume) {
+}
+
+function getVolume() {
+    return 1.0;
+}
+
+function setRepeats(repeats) {
+}
+
+function setMirrors(mirrors) {
+    var container = document.getElementById(__$_.container);
+
+    if (mirrors) {
+        container.style.setProperty("-webkit-transform", "scaleX(-1)");
+    } else {
+        container.style.setProperty("-webkit-transform", "");
+    }
 }
 
 function mute() {

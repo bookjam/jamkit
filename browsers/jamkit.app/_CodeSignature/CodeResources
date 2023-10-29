@@ -38,7 +38,7 @@
 		</data>
 		<key>AppInfo.plist</key>
 		<data>
-		zSjwmxNB6P0GS2Plgj6VqQ+nTFI=
+		rA+EZRHS3K9sDGuoknVYh/Drqr0=
 		</data>
 		<key>AppViewController_iPad.nib</key>
 		<data>
@@ -50,11 +50,11 @@
 		</data>
 		<key>ArticleViewController_iPad.nib</key>
 		<data>
-		r0K0cVLdo+8FQUMYX4YTTdybSNA=
+		MLM1OHZu0vDd/kfaACY4g/wV9ng=
 		</data>
 		<key>ArticleViewController_iPhone.nib</key>
 		<data>
-		vlEXD9d3dgumy8egcxjgGiidDzg=
+		RlOrcHCUdPItqFOENLi38ArzGP0=
 		</data>
 		<key>Assets.car</key>
 		<data>
@@ -62,7 +62,7 @@
 		</data>
 		<key>AudioBookViewController_iPad.nib</key>
 		<data>
-		hEuxibhQ6ix5VKJO7dan06cWF+M=
+		P+VvjnWyXsxWZ7xZRKRgxURByrQ=
 		</data>
 		<key>AudioBookViewController_iPhone.nib</key>
 		<data>
@@ -108,6 +108,33 @@
 		<data>
 		THuJft4MM2mgMUka3w7Jpr5oPT0=
 		</data>
+		<key>BaseApp.bundle/en.lproj/Localizable.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			lFN6XuB1DrhByJutkjlqYTbvPUM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>BaseApp.bundle/ja.lproj/Localizable.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			y9f2nEqCXOvEw5LPB5V4Drp0Cs0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>BaseApp.bundle/ko.lproj/Localizable.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			HhFfQTnN01qUaFL1KtMCIRBbRTs=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
 		<key>BaseKit.bundle/chart.html</key>
 		<data>
 		sdnlf2znDjox/3Gt0tIh6CrejGc=
@@ -154,23 +181,23 @@
 		</data>
 		<key>BaseKit.bundle/youtube.js</key>
 		<data>
-		IRTivtvhlMcqcp4T2k7PpHyu4yE=
+		VMyWMQIci/1WAsSeBMTeouxJLFM=
 		</data>
 		<key>BaseKit.bundle/youtube_hiding_ads.js</key>
 		<data>
-		TZh2GoIp+c+jYk4cSWUeE3VFVVE=
+		mnfTl92i5wgVdxkJnAF3B+85VaA=
 		</data>
 		<key>BaseKit.bundle/youtube_hiding_info.js</key>
 		<data>
-		6sJJTJvSFjp6K7S7iJjiFK/WZQs=
+		DCFd4aKnVt9rQCPS5gv3VHTj8d4=
 		</data>
 		<key>BookViewController_iPad.nib</key>
 		<data>
-		Me+ZsIOAczzsrfW/04rQyq9NJ+g=
+		lR82YvPWYyfuXRq6xMmC6HoUOCo=
 		</data>
 		<key>BookViewController_iPhone.nib</key>
 		<data>
-		gCFbIQdBjXd4xVnGxFdAd+UvAHY=
+		IoJa7sps8/fD8S6YM8HRuZzXWCY=
 		</data>
 		<key>CloudAuthView_iPad.nib</key>
 		<data>
@@ -190,11 +217,11 @@
 		</data>
 		<key>ComicViewController_iPad.nib</key>
 		<data>
-		RTNkyPTPeD7NHNa82HoH2MxMq4E=
+		dHHTqlud0AvJIBu6wwgxSv6pS3c=
 		</data>
 		<key>ComicViewController_iPhone.nib</key>
 		<data>
-		jzcnq6WWsrT1gwT4I23FLucI/fQ=
+		pWMD4ooHFGx4x6DNVu4GF/T6A5s=
 		</data>
 		<key>CouponsViewController_iPad.nib</key>
 		<data>
@@ -214,7 +241,7 @@
 		</data>
 		<key>Frameworks/FloatingPanel.framework/FloatingPanel</key>
 		<data>
-		4jhUXbFIpSz8EoCcHHPH7BRHjhs=
+		OK+EZ+YZYQ2QE0591au52bKr0SI=
 		</data>
 		<key>Frameworks/FloatingPanel.framework/Info.plist</key>
 		<data>
@@ -230,7 +257,7 @@
 		</data>
 		<key>Frameworks/Lottie.framework/Lottie</key>
 		<data>
-		1mvYpio0zrBTyxbLYHFToV2y4J8=
+		ytP+FAoD/YbyBYiR1iDYykq+DeM=
 		</data>
 		<key>Frameworks/Lottie.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -242,7 +269,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		2WDx12Ec79KqPN1KzSGgu5X0gSA=
+		WbSEm9fjs1xaHzsLG/1+eBXlvGo=
 		</data>
 		<key>KoPubBatangBold.ttf</key>
 		<data>
@@ -972,33 +999,6 @@
 		<data>
 		5pO6kq/GChMyrTewxl3KZKYcrGk=
 		</data>
-		<key>StoreBase.bundle/en.lproj/Localizable.strings</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			lFN6XuB1DrhByJutkjlqYTbvPUM=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>StoreBase.bundle/ja.lproj/Localizable.strings</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			y9f2nEqCXOvEw5LPB5V4Drp0Cs0=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>StoreBase.bundle/ko.lproj/Localizable.strings</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			HhFfQTnN01qUaFL1KtMCIRBbRTs=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
 		<key>StoreBottomSheetView_iPad.nib</key>
 		<data>
 		xZ8DJQSANVHtAENO4eFwMnrs1EY=
@@ -1049,7 +1049,7 @@
 		</data>
 		<key>StoryViewController_iPad.nib</key>
 		<data>
-		b73e+MAfzkt6Z/iTBOsxC4MZHQA=
+		EuMZHcTNMBwKG9O2mlfy0bCJGno=
 		</data>
 		<key>StoryViewController_iPhone.nib</key>
 		<data>
@@ -2453,11 +2453,11 @@
 		</data>
 		<key>WebtoonViewController_iPad.nib</key>
 		<data>
-		y1mdLi2hY5U0QmvZ50Kcepegn9Q=
+		BZDQc+WCNIX1HM+5shBwckxznbM=
 		</data>
 		<key>WebtoonViewController_iPhone.nib</key>
 		<data>
-		vSInotlcPZ6yUqz07ZDEADkH4dQ=
+		eUXsrg/qZa0LnkNG9GbhPHQyNMc=
 		</data>
 		<key>WorksViewController_iPad.nib</key>
 		<data>
@@ -2558,7 +2558,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			PSGrwkx+hpvRXInUgmJM3bxzarxsTdsqtVVvhE0AkDw=
+			oLNGx938oP2xsSsSt9DLfLn6xdm918X5Z9rNK2+8VMY=
 			</data>
 		</dict>
 		<key>AppViewController_iPad.nib</key>
@@ -2579,14 +2579,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			4461GqEO1cN1xwdWQ+N/PZekrpQPI4jEAYqtMznm6kI=
+			1yUp+Ph3GgC9RMaq+21vJgNCdh1C0F/4IGfJIieUp18=
 			</data>
 		</dict>
 		<key>ArticleViewController_iPhone.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			3MaH2vmcBHoH+hD8FHCQED7jDy0xNytRkJxJJU2TCOA=
+			Um6diCWh9B8FXO7oMcJyvnJlltFp5htnjlAN7vzVHmc=
 			</data>
 		</dict>
 		<key>Assets.car</key>
@@ -2600,7 +2600,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			u4t0QVlI4+QL9bf2PCM55mAcGKOFZJnBcU/X0GUZ99g=
+			ZiVA8DAvPoF6F7srfu7HkFjWqKgUjGXoXAOrzb1MCVQ=
 			</data>
 		</dict>
 		<key>AudioBookViewController_iPhone.nib</key>
@@ -2679,6 +2679,33 @@
 			<data>
 			rnwe2AUS7E0sZxIZz2AVSuNDYBk76YbPmq/jGqfjt9g=
 			</data>
+		</dict>
+		<key>BaseApp.bundle/en.lproj/Localizable.strings</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			frZxkSa3b/u17cqkpwOo+rG/o+BmSfxBublDLp9iM64=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>BaseApp.bundle/ja.lproj/Localizable.strings</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			iEmGhYScWeqNedATpUO+K0M/a7GBfPfeYvTJvqXyXok=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>BaseApp.bundle/ko.lproj/Localizable.strings</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			gbi6xGJAJhtXBBoWqE8ojr4qJsef/Z6rygpthR4apHc=
+			</data>
+			<key>optional</key>
+			<true/>
 		</dict>
 		<key>BaseKit.bundle/chart.html</key>
 		<dict>
@@ -2761,35 +2788,35 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			9TSWbAhoZ48TOEbvoXHNL8eG331PsU+4Kn0v8MIlo+4=
+			xJWJa8w0JbjJBLLL+XM6vUSxl9OAdxJ9vyGpTJ7KZWs=
 			</data>
 		</dict>
 		<key>BaseKit.bundle/youtube_hiding_ads.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			/1SDLyiijXJpnpdIdGTJTd24eX225nw5Wr9DldH94bA=
+			BAcFvYKe95AG0CKFwSLVoTEu19gvD9tookGJAqMdfMs=
 			</data>
 		</dict>
 		<key>BaseKit.bundle/youtube_hiding_info.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			aVx4tIbmfvaFZvQ8kyIjJeZXonnqnfpWb1BioD58gTs=
+			le7JRxZIbQbZqpc7KSsGafEqCHQtSFdCUVMDX6uWrk8=
 			</data>
 		</dict>
 		<key>BookViewController_iPad.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			cdius1Rsc6pt4ma8HCf6leZybbRlJ9r2Dg4jTVbKQyg=
+			GXJ19NrZkvvzbkhuDlB9CDXBBH/ob2CSWhYtozztvi8=
 			</data>
 		</dict>
 		<key>BookViewController_iPhone.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			iv99yvJ/Tu872cQBPkQeoO1JIkSXAYcwpIr4lK+cun4=
+			rQrAp1qPxh9qO8CSdqcVaLq2j9R2m+XAnKnIQlykRbU=
 			</data>
 		</dict>
 		<key>CloudAuthView_iPad.nib</key>
@@ -2824,14 +2851,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Q7oCS856EU1knXxvpOnugkWAO3D96CzKSQR8O6pJTto=
+			eCtRuHIwnaLpa6M3UVAo9uv51aGE645ewvmQWtsPBmk=
 			</data>
 		</dict>
 		<key>ComicViewController_iPhone.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			yPts13c60XpNd97Nr3cWypIqj15v5wV6swxORJZJjlA=
+			gCBY9OLMFuXwjyENW9DO85RAfEGGC2waUDqIN3/66n4=
 			</data>
 		</dict>
 		<key>CouponsViewController_iPad.nib</key>
@@ -2866,7 +2893,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			+nMdYtd6GnQBOG/owcwnnJr6u37cW86cAZDn50Jfk8c=
+			mRxYWQFhcBl8tMfmunip0Dw4QlBcIUZTA7nQ0s9ijQs=
 			</data>
 		</dict>
 		<key>Frameworks/FloatingPanel.framework/Info.plist</key>
@@ -2894,7 +2921,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			mzoshOxRYzBsMRtEbKKV946W1SSAJnIRfo3IV1dRj1E=
+			/+Zxr0fqv9pJFhLcHF0J0k70bQH1Tv/Q/AHy8tPSL6w=
 			</data>
 		</dict>
 		<key>Frameworks/Lottie.framework/_CodeSignature/CodeResources</key>
@@ -4178,33 +4205,6 @@
 			DhH9i7kL97LFcWTdGgu6p+6X71Z50fhW6/yh3x0q9L0=
 			</data>
 		</dict>
-		<key>StoreBase.bundle/en.lproj/Localizable.strings</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			frZxkSa3b/u17cqkpwOo+rG/o+BmSfxBublDLp9iM64=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>StoreBase.bundle/ja.lproj/Localizable.strings</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			iEmGhYScWeqNedATpUO+K0M/a7GBfPfeYvTJvqXyXok=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>StoreBase.bundle/ko.lproj/Localizable.strings</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			gbi6xGJAJhtXBBoWqE8ojr4qJsef/Z6rygpthR4apHc=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
 		<key>StoreBottomSheetView_iPad.nib</key>
 		<dict>
 			<key>hash2</key>
@@ -4293,7 +4293,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			M5z19E/337a2q8KB6FN23xXCNnRfr/Yc1Li/eW7mLDw=
+			XhBB2yjlwpAja6kg+kiq43j2XuxSefcI4SzRtz30QUE=
 			</data>
 		</dict>
 		<key>StoryViewController_iPhone.nib</key>
@@ -6750,14 +6750,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			rhV/r0MY9DvXCqqsV++RLFKBJIKZU9JOPARFe/IrTn0=
+			w5x9b7vLu4QhY3ORZTp35z+gcDDxtRrLBE901PQKYdE=
 			</data>
 		</dict>
 		<key>WebtoonViewController_iPhone.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Rs8L13H5DPPfUeaX9Y34AS/5YBDEAhpp0Bgp6w1ZWXk=
+			Kb45v4QH0eyQNT/J0wpMzngaxiG1ES5D0N6CKoHWMPI=
 			</data>
 		</dict>
 		<key>WorksViewController_iPad.nib</key>

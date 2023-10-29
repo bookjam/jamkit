@@ -20,4 +20,4 @@
     `;
 
     iframe.head.appendChild(hiding_ads_style);
-})()
+})();
