@@ -30,7 +30,7 @@ function _connect_to_host(host, port, timeout, callback) {
 
 module.exports = {
     ready: function(host, port, timeout) {
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             _connect_to_host(host, port, timeout, () => {
                 resolve();
             });
@@ -38,17 +38,17 @@ module.exports = {
     },
 
     open: function() {
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             const callbacks = new Array();
             var lines = "";
 
             callbacks.push(resolve);
 
-            client.on("data", function(data) {
+            client.on("data", (data) => {
                 lines += data.toString("utf-8");
 
                 if (lines.match(/(.|\n)*\$ $/)) {
-                    (lines.match(/(.|\n)*\$ ?/g)||[]).forEach(function(line) {
+                    (lines.match(/(.|\n)*\$ ?/g)||[]).forEach((line) => {
                         callbacks.shift()(line.replace("$ ", "").trimEnd());
                     });
 
@@ -58,7 +58,7 @@ module.exports = {
                 }
 
                 if (lines.match(/(DEBUG: .*\n)+/)) {
-                    (lines.match(/DEBUG: .*\n/g)||[]).forEach(function(line) {
+                    (lines.match(/DEBUG: .*\n/g)||[]).forEach((line) => {
                         console.log(line.replace("DEBUG: ", "").trimEnd());
                     });
 
@@ -71,7 +71,7 @@ module.exports = {
     },
 
     execute: function(command) {
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             callbacks.push(resolve);
 
             client.write(command);

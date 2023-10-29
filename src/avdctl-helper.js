@@ -5,7 +5,7 @@ const fs     = require("fs"),
 const _sdk_version = parseInt(avdctl.property("ro.build.version.sdk"));
 
 function _walk_dir(root, dir, handler) {
-    fs.readdirSync(path.join(root, dir)).forEach(function(file) {
+    fs.readdirSync(path.join(root, dir)).forEach((file) => {
         const subpath = path.join(dir, file);
         const stats = fs.statSync(path.join(root, subpath));
 
@@ -24,7 +24,7 @@ module.exports = {
         if (stats.isDirectory()) {
             avdctl.shell(`mkdir ${dest}`);
 
-            _walk_dir(src, ".", function(file, stats) {
+            _walk_dir(src, ".", (file, stats) => {
                 const subpath = file.replace(/\\/g, "/");
 
                 if (stats.isDirectory()) {

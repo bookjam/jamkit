@@ -34,7 +34,7 @@ function _generate_app_id(wanted_app_id, template_app_id) {
 }
 
 function _compress_folder(src_path, zip_path) {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         zipdir(src_path, { 
             saveTo: zip_path,
             filter: function(full_path, stat) {
@@ -98,7 +98,7 @@ function _update_vscode_launch_json(debugger_port) {
     
     try {
         const launch_json = fs.readJsonSync(json_path);
-        const launch_config = launch_json.configurations.find(function(config) {
+        const launch_config = launch_json.configurations.find((config) => {
             return config.name === config_name;
         });
         var needs_update = false;
@@ -140,11 +140,11 @@ function _publish_app(app_id, options, ipfs_options, callback) {
         }
 
         _compress_folder(".", tmp.tmpNameSync())
-            .then(function(zip_path) {
+            .then((zip_path) => {
                 fs.moveSync(zip_path, jam_path);
 
                 _publish_file(jam_path, ipfs_options)
-                    .then(function(hash) {
+                    .then((hash) => {
                         callback("ipfs://hash/" + hash);
                     })
                     .catch((error) => {
@@ -192,7 +192,7 @@ function _publish_image(options, ipfs_options, callback) {
     if (!options["image-url"]) {
         if (options["image-file"]) {
             _publish_file(options["image-file"], ipfs_options)
-                .then(function(hash) {
+                .then((hash) => {
                     callback("https://ipfs.io/ipfs/" + hash);
                 })
                 .catch((error) => {
@@ -215,7 +215,7 @@ function _publish_file(path, options) {
 
 function _shorten_url(url, callback) {
     leafly.create_short_url(url)
-        .then(function({ url }) {
+        .then(({ url }) => {
             callback(url);
         })
         .catch((error) => {
@@ -317,7 +317,7 @@ module.exports = {
                             return shell.execute("catalog path resource");
                         }
                     })
-                    .then(function(resource_path) {
+                    .then((resource_path) => {
                         var needs_reset = true;
 
                         syncfolder.start(platform, app_id, "./catalogs", resource_path, options, () => {
@@ -446,7 +446,7 @@ module.exports = {
                         + (image_url ? "&" + "image=" + urlencode(image_url) : "")
                         + (host["url"] ? "" : "&" + "host-scheme=" + host["scheme"]);
     
-                Object.keys(install_urls).forEach(function(platform) {
+                Object.keys(install_urls).forEach((platform) => {
                     if (install_urls[platform] !== "auto") {
                         url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
                     }

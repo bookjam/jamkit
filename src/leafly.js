@@ -15,7 +15,7 @@ module.exports = {
             },
             "body":  JSON.stringify(params)
         })
-            .then(function(response) {
+            .then((response) => {
                 if (response.ok) {
                     return response.json();
                 } else {

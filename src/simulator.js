@@ -164,7 +164,7 @@ const _impl = {
         start: function(port) {
             return new Promise((resolve, reject) => {
                 if (this._start_device() && this._forward_port(port)) {
-                    this._launch_app(function(app_id) {
+                    this._launch_app((app_id) => {
                         if (app_id) {
                             resolve(app_id);
                         } else {

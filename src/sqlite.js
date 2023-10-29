@@ -6,7 +6,7 @@ function QueryBuilder() {};
 QueryBuilder.prototype.create_table = function(table, columns) {
     const defines = [];
 
-    columns.forEach(function(column) {
+    columns.forEach((column) => {
         defines.push(vsprintf("%s %s", column));
     });
     
