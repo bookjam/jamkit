@@ -1,7 +1,8 @@
 const net   = require("net"),
       utils = require("./utils");
 
-var client, callbacks, lines;
+const callbacks = new Array();
+var client;
 
 function _connect_to_host(host, port, timeout, callback) {
     const started_time = new Date().getTime();
@@ -39,7 +40,6 @@ module.exports = {
 
     open: function() {
         return new Promise((resolve, reject) => {
-            const callbacks = new Array();
             var lines = "";
 
             callbacks.push(resolve);
