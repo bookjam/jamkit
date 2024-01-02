@@ -17,9 +17,9 @@ program.name("jamkit")
 
 program.command("create")
     .description("Create a new project.")
-    .argument("<directory>", "Directory to create a project in")
-    .option("-t, --type <type>", "Type of project to create. `app` or `book`.", "app")
-    .option("--app-id <identifier>", "Identifier of the app. Specify `manual` to leave blank", "auto")
+    .argument("<directory>", "Directory where the project will be created")
+    .option("-t, --type <type>", "Type of project to create: `app` or `book`.", "app")
+    .option("--app-id <identifier>", "Identifier of the app. Use `manual` to leave it blank", "auto")
     .option("--version <version>", "Version of the app or book", "1.0")
     .option("--template <template>", "Template to create from", "hello-world")
     .option("--repository <repository>", "Template repository", "bookjam/jamkit-templates")
@@ -56,11 +56,11 @@ program.command("create")
 
 program.command("run")
     .description("Run on simulator.")
-    .option("-t, --type <type>", "Type of project to run. `app`, `book` or `auto`.", "auto")
-    .option("--platform <platform>", "Platform on which to run the simulator. `ios` or `android`", (process.platform === "darwin") ? "ios" : "android")
-    .option("--mode <mode>", "Run mode. `main`, `jam` or `widget`", "main")
-    .option("--shell-host <host>", "Host for the simulator shell", "127.0.0.1")
-    .option("--shell-port <port>", "Port for the simulator shell", "8888")
+    .option("-t, --type <type>", "Specify project type: `app`, `book`, or `auto`", "auto")
+    .option("--platform <platform>", "Specify the platform to run the simulator: `ios` or `android`", (process.platform === "darwin") ? "ios" : "android")
+    .option("--mode <mode>", "Specify the run mode: `main`, `jam`, or `widget`", "main")
+    .option("--shell-host <host>", "Specify the host for the simulator shell", "127.0.0.1")
+    .option("--shell-port <port>", "Specify the port for the simulator shell", "8888")
     .option("--skip-sync", "If set, do not copy files to the simulator", false)
     .action((options) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
@@ -90,7 +90,7 @@ program.command("run")
 
 program.command("build")
     .description("Build a package.")
-    .option("-t, --type <type>", "Type of project to build. `app`, `book` or `auto`.", "auto")
+    .option("-t, --type <type>", "Specify the project type to build: `app`, `book`, or `auto`.", "auto")
     .action((options) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
             commands.build_app();
@@ -109,8 +109,8 @@ program.command("build")
 
 program.command("install")
     .description("Install on simulator.")
-    .option("-t, --type <type>", "Type of project to build. `app`, `book` or `auto`.", "auto")
-    .option("--platform <platform>", "Platform on which to run the simulator. `ios` or `android`", (process.platform === "darwin") ? "ios" : "android")
+    .option("-t, --type <type>", "Specify the project type to install: `app`, `book`, or `auto`", "auto")
+    .option("--platform <platform>", "Specify the platform for the simulator: `ios` or `android`", (process.platform === "darwin") ? "ios" : "android")
     .action((options) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
             commands.install_app(options.platform);
@@ -129,9 +129,9 @@ program.command("install")
 
 program.command("publish")
     .description("Publish a package to IPFS.")
-    .option("-t, --type <type>", "Type of project to run. `app`, `book` or `auto`.", "auto")
-    .option("--host-scheme <scheme>", "Custom scheme that the host app uses", "jamkit")
-    .option("--host-url <url>", "URL that run the host app automatically", "")
+    .option("-t, --type <type>", "Specify the project type to publish: `app`, `book`, or `auto`", "auto")
+    .option("--host-scheme <scheme>", "Custom scheme used by the host app", "jamkit")
+    .option("--host-url <url>", "URL to automatically run the host app", "")
     .option("--file-url <url>", "File URL of the app or book", "")
     .option("--image-url <url>", "Image URL of the app or book", "")
     .option("--image-file <path>", "File path of the image", "")
@@ -139,7 +139,7 @@ program.command("publish")
     .option("--language <language>", "Language to use", "")
     .option("--ipfs-host <host>", "IPFS host to connect", "ipfs.infura.io")
     .option("--ipfs-port <port>", "IPFS port to connect", "5001")
-    .option("--ipfs-protocol <scheme>", "IPFS protocol to connect. , `https` or `http`", "https")
+    .option("--ipfs-protocol <scheme>", "IPFS protocol to use: `https` or `http`", "https")
     .option("--shorten-url", "If set, the url will be shortened", "")
     .option("--apple-install-url <url>", "Installation URL of the host app for iOS", "auto")
     .option("--google-install-url <url>", "Installation URL of the host app for Android", "auto")
@@ -201,8 +201,8 @@ const database = program.command("database")
                         });
             
 database.command("generate")
-    .description("Generate a database from an excel file.")
-    .argument("<path>", "Path for an excel file")
+    .description("Generate a database using data from an Excel file.")
+    .argument("<path>", "Specify the file path of the Excel document")
     .action((path, options) => {
         if (fs.existsSync("./package.bon")) {
             commands.generate_database("MainApp", "", path);
@@ -236,9 +236,13 @@ const native = program.command("native")
                     });
 
 native.command("compose")
-    .description("Update native projects with your app codes.")
-    .action((options) => {
-        commands.compose_native();
+    .description("Combine native code with your app's codebase.")
+    .argument("<path>", "Specify the path for the native code")
+    .option("--platform <platform>", "Specify the platform for the native code: `ios`, `android` or `all`", "all")
+    .action((path, options) => {
+        const platforms = options.platform === "all" ? [ "ios", "android"] : [ options.platform ];
+
+        commands.compose_native(path, platforms);
     });
 
 program.parse();

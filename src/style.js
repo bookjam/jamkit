@@ -31,8 +31,8 @@ function _build_new_style(leading, selector, props) {
 module.exports = {
     migrate: function(path) {
         const source = fs.readFileSync(path, { encoding: 'utf8' });
-        const lines = [], multiline = false;
-        var text = "";
+        var text = "", multiline = false;
+        const lines = [];
         
         source.split(/\r\n|\n|\r/).forEach((line) => {
             if (multiline) {

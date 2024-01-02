@@ -10,8 +10,8 @@ const _impl = {
 
     "android" : {
         install: function(file) {
-            var tmproot = '/data/local/tmp/';
-            var tmpfile = tmproot + path.basename(file);
+            const tmproot = '/data/local/tmp/';
+            const tmpfile = tmproot + path.basename(file);
 
             avdctl.shell('rm -f ' + tmpfile);
             avdctl.push(file, tmproot);

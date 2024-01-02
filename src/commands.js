@@ -608,8 +608,8 @@ module.exports = {
         });
     },
 
-    generate_database: function(target, store, file) {
-        const data = catalog.load_from_spreadsheet(file, store);
+    generate_database: function(target, store, spreadsheet_path) {
+        const data = catalog.load_from_spreadsheet(spreadsheet_path, store);
         const basedir = path.join("catalogs", target);
 
         catalog.save_to_file(data[0], path.join(basedir, "catalog.bon"));
@@ -632,13 +632,17 @@ module.exports = {
         });
     },
 
-    compose_native: function() {
+    compose_native: function(native_path, platforms) {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
             
             return;
         }
 
-        
+        const appinfo = bon.parse(fs.readFileSync("./package.bon", "utf8"));
+
+        platforms.forEach((platform) => {
+            native.compose(native_path, platform, appinfo);
+        });
     }
 }
