@@ -19,6 +19,14 @@ function _get_app_title(appinfo, language) {
     return appinfo.title;
 }
 
+function _get_project_name(appinfo) {
+    return appinfo.id.split(".").pop();
+}
+
+function _get_custom_url_scheme(appinfo) {
+    return appinfo.id.split(".").pop().toLowerCase();
+}
+
 function _replace_word_in_file(file_path, old_word, new_word) {
     const old_text = fs.readFileSync(file_path, { encoding: "utf8" });
     const new_text = old_text.replaceAll(old_word, new_word);
@@ -71,10 +79,6 @@ const _impl = {
 
         _get_product_name: function(bundle_identifier) {
             return bundle_identifier.split(".").pop();
-        },
-
-        _get_custom_url_scheme: function(bundle_identifier) {
-            return bundle_identifier.split(".").pop().toLowerCase();
         },
 
         _replace_bundle_identifier_in_project: function(project, old_bundle_identifier, new_bundle_identifier) {
@@ -146,13 +150,13 @@ const _impl = {
             const old_text = fs.readFileSync(plist_path, { encoding: "utf-8" });
             const new_text = old_text.replace(
                 /<key>CFBundleName<\/key>([\n\s]*)<string>[^<]*<\/string>/,
-                `<key>CFBundleName</key>$1<string>${this._get_product_name(appinfo.id)}</string>`
+                `<key>CFBundleName</key>$1<string>${_get_project_name(appinfo)}</string>`
             ).replace(
                 /<key>CFBundleDisplayName<\/key>([\n\s]*)<string>[^<]*<\/string>/,
                 `<key>CFBundleDisplayName</key>$1<string>${appinfo.title}</string>`
             ).replace(
                 /<string>x-jamkit-\$\(PRODUCT_BUNDLE_IDENTIFIER\)<\/string>([\n\s]*)<string>[^<]*<\/string>/,
-                `<string>x-jamkit-$(PRODUCT_BUNDLE_IDENTIFIER)</string>$1<string>${this._get_custom_url_scheme(appinfo.id)}</string>`
+                `<string>x-jamkit-$(PRODUCT_BUNDLE_IDENTIFIER)</string>$1<string>${_get_custom_url_scheme(appinfo)}</string>`
             );
 
             if (new_text !== old_text) {
@@ -175,10 +179,17 @@ const _impl = {
 
         _update_app_icon: function(rootdir) {
             const target_dir = path.join(rootdir, "Resources", "Images.xcassets", "AppIcon.appiconset");
+            const contents_json_path = path.join(target_dir, "Contents.json");
+            const contents = JSON.parse(fs.readFileSync(contents_json_path, { encoding: "utf-8" }));
+            const contents_images = contents["images"].map(({ filename }) => filename);
             const images = globSync(`${rootdir}/Resources/Images/AppIcon/*.{png,jpg}`);
 
             images.forEach((image) => {
-                fs.copySync(image, path.join(target_dir, path.basename(image)));
+                const image_name = path.basename(image);
+
+                if (contents_images.includes(image_name)) {
+                    fs.copySync(image, path.join(target_dir, image_name));
+                }
             });
         },
 
@@ -222,7 +233,7 @@ const _impl = {
                 this._rename_package_sources(rootdir, old_package_name, new_package_name);
             }
 
-            this._update_settings_gradle(rootdir, appinfo.id.split(".").pop());
+            this._update_settings_gradle(rootdir, appinfo);
             this._update_gradle_properties(rootdir, appinfo);
 
             this._update_string_resources(rootdir, appinfo);
@@ -284,12 +295,12 @@ const _impl = {
             }
         },
 
-        _update_settings_gradle: function(rootdir, project_name) {
+        _update_settings_gradle: function(rootdir, appinfo) {
             const gradle_path = path.join(rootdir, "settings.gradle");
             const old_text = fs.readFileSync(gradle_path, { encoding: "utf8" });
             const new_text = old_text.replace(
                 /rootProject\.name\s*=\s*"[^"]*"/, 
-                `rootProject.name = "${project_name}"`
+                `rootProject.name = "${_get_project_name(appinfo)}"`
             );
 
             if (old_text !== new_text) {
@@ -302,7 +313,7 @@ const _impl = {
             const old_text = fs.readFileSync(properties_path, { encoding: "utf8" });
             const new_text = old_text.replace(
                 /ProductName\s*=\s*[^\n]*/, 
-                `ProductName=${appinfo.title}`
+                `ProductName=${_get_project_name(appinfo)}`
             );
             
             if (old_text !== new_text) {
@@ -355,15 +366,15 @@ const _impl = {
             const drawable_dirs = {
                 "@m": "drawable-mdpi",
                 "@h": "drawable-hdpi",
-                "@x": "drawable-xdpi",
-                "@u": "drawable-xxdpi"
+                "@x": "drawable-xhdpi",
+                "@u": "drawable-xxhdpi"
             }
 
             images.forEach((image) => {
                 const m = path.basename(image).match(/(.+)(@[mhxu])(\.(png|jpg))/);
                 const target_dir = path.join(rootdir, "res", drawable_dirs[m[2]]);
 
-                fs.copySync(image, path.join(target_dir, `${m[1]}${m[3]}`));
+                fs.copySync(image, path.join(target_dir, `${m[1]}${m[3]}`.replaceAll("-", "_")));
             });
         },
 
