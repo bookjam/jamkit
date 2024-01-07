@@ -23,7 +23,7 @@ const CONNECT_BASE_URL = "https://jamkit.io";
 
 function _generate_app_id(wanted_app_id, template_app_id) {
     if (wanted_app_id === "auto") {
-        return "com.yourdomain." + uuid.v4();
+        return `com.yourdomain.${uuid.v4()}`;
     }
 
     if (wanted_app_id === "manual") {
@@ -66,22 +66,22 @@ function _get_vscode_launch_json_path() {
     
     for (let i = 0; i < 7; ++i) {
         if (fs.existsSync(config_dir_path)) {
-            const is_user_config_dir = fs.existsSync(config_dir_path + "/argv.json") ||
-                                       fs.existsSync(config_dir_path + "/extensions");
+            const is_user_config_dir = fs.existsSync(path.join(config_dir_path, "argv.json")) ||
+                                       fs.existsSync(path.join(config_dir_path, "extensions"));
 
             if (is_user_config_dir) {
                 // this is the user config directory. give up here.
                 break;
             }
 
-            return config_dir_path + "/launch.json";
+            return path.join(config_dir_path, "launch.json");
         }
 
-        config_dir_path = "../" + config_dir_path;
+        config_dir_path = path.join("..", config_dir_path);
     }
 
     // If not found, fall back to the current directory.
-    return ".vscode/launch.json";
+    return path.join(".vscode", "launch.json");
 }
 
 function _update_vscode_launch_json(debugger_port) {
@@ -133,7 +133,7 @@ function _update_vscode_launch_json(debugger_port) {
 function _publish_app(app_id, options, ipfs_options, callback) {
     if (!options["file-url"]) {
         const basename = app_id.split(".").slice(-1);
-        const jam_path = path.join(".", basename + ".jam");
+        const jam_path = path.join(".", `${basename}.jam`);
 
         if (fs.existsSync(jam_path)) {
             fs.unlinkSync(jam_path);
@@ -145,7 +145,7 @@ function _publish_app(app_id, options, ipfs_options, callback) {
 
                 _publish_file(jam_path, ipfs_options)
                     .then((hash) => {
-                        callback("ipfs://hash/" + hash);
+                        callback(`ipfs://hash/${hash}`);
                     })
                     .catch((error) => {
                         console.log("ERROR: could not publish to ipfs.");
@@ -162,7 +162,7 @@ function _publish_app(app_id, options, ipfs_options, callback) {
 function _publish_book(options, ipfs_options, callback) {
     if (!options["file-url"]) {
         const basename = path.basename(path.resolve("."))
-        const bxp_path = path.join(".", basename + ".bxp");
+        const bxp_path = path.join(".", `${basename}.bxp`);
 
         if (fs.existsSync(bxp_path)) {
             fs.unlinkSync(bxp_path);
@@ -193,7 +193,7 @@ function _publish_image(options, ipfs_options, callback) {
         if (options["image-file"]) {
             _publish_file(options["image-file"], ipfs_options)
                 .then((hash) => {
-                    callback("https://ipfs.io/ipfs/" + hash);
+                    callback(`https://ipfs.io/ipfs/${hash}`);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -312,7 +312,7 @@ module.exports = {
                     })
                     .then(() => {
                         if ([ "jam", "widget" ].includes(mode)) {
-                            return shell.execute("catalog path resource " + appinfo["id"]);
+                            return shell.execute(`catalog path resource ${appinfo["id"]}`);
                         } else {
                             return shell.execute("catalog path resource");
                         }
@@ -365,7 +365,7 @@ module.exports = {
         }
 
         const basename = appinfo["id"].split(".").slice(-1);
-        const jam_path = path.join(".", basename + ".jam");
+        const jam_path = path.join(".", `${basename}.jam`);
 
         if (fs.existsSync(jam_path)) {
             fs.unlinkSync(jam_path);
@@ -396,7 +396,7 @@ module.exports = {
         }
 
         const basename = appinfo["id"].split(".").slice(-1);
-        const jam_path = path.join(".", basename + ".jam");
+        const jam_path = path.join(".", `${basename}.jam`);
 
         if (fs.existsSync(jam_path)) {
             fs.unlinkSync(jam_path);
@@ -439,16 +439,16 @@ module.exports = {
         _publish_app(appinfo["id"], options, ipfs_options, (app_url) => {
             _publish_image(options, ipfs_options, (image_url) => {
                 const title = options["title"] || appinfo["title"] || "";
-                var url = (host["url"] || CONNECT_BASE_URL) + "/connect/app/?"
-                        + "app=" + appinfo["id"] + "&" + "url=" + urlencode(app_url)
-                        + (title ? "&" + "title=" + urlencode(title) : "")
-                        + (appinfo["version"] ? "&" + "version=" + appinfo["version"] : "")
-                        + (image_url ? "&" + "image=" + urlencode(image_url) : "")
-                        + (host["url"] ? "" : "&" + "host-scheme=" + host["scheme"]);
+                var url = `${host["url"] || CONNECT_BASE_URL}/connect/app/?`
+                        + `app=${appinfo["id"]}` + "&" + `url=${urlencode(app_url)}`
+                        + (title ? "&" + `title=${urlencode(title)}` : "")
+                        + (appinfo["version"] ? "&" + `version=${appinfo["version"]}` : "")
+                        + (image_url ? "&" + `image=${urlencode(image_url)}` : "")
+                        + (host["url"] ? "" : "&" + `host-scheme=${host["scheme"]}`);
     
                 Object.keys(install_urls).forEach((platform) => {
                     if (install_urls[platform] !== "auto") {
-                        url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
+                        url = url + "&" + `${platform}-install-url=${urlencode(install_urls[platform])}`;
                     }
                 });
     
@@ -526,7 +526,7 @@ module.exports = {
         }
 
         const basename = path.basename(path.resolve("."))
-        const bxp_path = path.join(".", basename + ".bxp");
+        const bxp_path = path.join(".", `${basename}.bxp`);
 
         if (fs.existsSync(bxp_path)) {
             fs.unlinkSync(bxp_path);
@@ -549,7 +549,7 @@ module.exports = {
         }
 
         const basename = path.basename(path.resolve("."))
-        const bxp_path = path.join(".", basename + ".bxp");
+        const bxp_path = path.join(".", `${basename}.bxp`);
 
         if (fs.existsSync(bxp_path)) {
             fs.unlinkSync(bxp_path);
@@ -584,16 +584,16 @@ module.exports = {
         _publish_book(options, (book_url) => {
             _publish_image(options, ipfs_options, (image_url) => {
                 const title = options["title"] || appinfo["title"] || "";
-                var url = (host["url"] || CONNECT_BASE_URL) + "/connect/book/?"
-                        + "book=" + basename + "&" + "url=" + urlencode(book_url)
-                        + (title ? "&" + "title=" + urlencode(title) : "")
-                        + (bookinfo["version"] ? "&" + "version=" + bookinfo["version"] : "")
-                        + (image_url ? "&" + "image=" + urlencode(image_url) : "")
-                        + (host["url"] ? "" : "&" + "host-scheme=" + host["scheme"]);
+                var url = `${host["url"] || CONNECT_BASE_URL}/connect/book/?`
+                        + `book=${basename}` + "&" + `url=${urlencode(book_url)}`
+                        + (title ? "&" + `title=${urlencode(title)}` : "")
+                        + (bookinfo["version"] ? "&" + `version=${bookinfo["version"]}` : "")
+                        + (image_url ? "&" + `image=${urlencode(image_url)}` : "")
+                        + (host["url"] ? "" : "&" + `host-scheme=${host["scheme"]}`);
     
                 Object.keys(install_urls).forEach((platform) => {
                     if (install_urls[platform] !== "auto") {
-                        url = url + "&" + platform + "-install-url=" + urlencode(install_urls[platform]);
+                        url = url + "&" + `${platform}-install-url=${urlencode(install_urls[platform])}`;
                     }
                 });
     
