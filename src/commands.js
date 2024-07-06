@@ -6,12 +6,14 @@ const fs         = require("fs-extra"),
       ipfs       = require("ipfs-http-client"),
       urlencode  = require("urlencode"),
       uuid       = require("uuid"),
+      qrcode     = require("qrcode-terminal"),
       template   = require("./template"),
       catalog    = require("./catalog"),
       simulator  = require("./simulator"),
       avdctl     = require("./avdctl"),
       shell      = require("./shell"),
       syncfolder = require("./syncfolder"),
+      obfuscator = require("./obfuscator"),
       installer  = require("./installer"),
       bon        = require("./bon"),
       style      = require("./style"),
@@ -454,9 +456,11 @@ module.exports = {
     
                 if (options["shorten-url"]) {
                     _shorten_url(url, (url) => {
+                        qrcode.generate(url);
                         console.log(url);
                     });
                 } else {
+                    qrcode.generate(url);
                     console.log(url);
                 }
             });
@@ -599,13 +603,21 @@ module.exports = {
     
                 if (options["shorten-url"]) {
                     _shorten_url(url, (url) => {
+                        qrcode.generate(url);
                         console.log(url);
                     });
                 } else {
+                    qrcode.generate(url);
                     console.log(url);
                 }
             });
         });
+    },
+
+    open_url: function(platform, url) {
+        if (!simulator.open_url(platform, url)) {
+            console.log(`ERROR: Failed to open the url: ${url}`);
+        }
     },
 
     generate_database: function(target, store, spreadsheet_path) {

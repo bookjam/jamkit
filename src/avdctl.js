@@ -60,7 +60,7 @@ module.exports = {
     },
 
     launch: function(app_id) {
-        const command = `adb shell am start -n ${app_id}/${app_id}.LaunchScreenViewController`;
+        const command = `adb shell 'am start -n ${app_id}/${app_id}.LaunchScreenViewController'`;
         const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
@@ -68,6 +68,17 @@ module.exports = {
                 sleep(3000);
             }
 
+            return true;
+        }
+
+        return false;
+    },
+
+    open: function(url) {
+        const command = `adb shell 'am start -a android.intent.action.VIEW -d "${url}"'`;
+        const result = shell.exec(command, { silent: true });
+
+        if (result.code === 0) {
             return true;
         }
 

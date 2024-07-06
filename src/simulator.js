@@ -24,6 +24,10 @@ const _impl = {
             });
         },
 
+        open_url: function(url) {
+
+        },
+
         _start_device: function() {
             var device = this._find_booted_device();
 
@@ -177,6 +181,14 @@ const _impl = {
             });
         },
 
+        open_url: function(url) {
+            if (avdctl.open(url)) {
+                return true;
+            }
+
+            return false;
+        },
+
         _start_device: function() {
             if (!avdctl.property("sys.boot_completed")) {
                 const device = this._find_available_device();
@@ -257,7 +269,7 @@ const _impl = {
         },
 
         _wait_until_device_booted: function() {
-            const timeout = 3000, interval = 200;
+            const timeout = 10000, interval = 200;
 
             while (!avdctl.property("sys.boot_completed")) {
                 sleep(interval);
@@ -277,5 +289,9 @@ const _impl = {
 module.exports = {
     start: function(platform, port) {
         return _impl[platform].start(port);
+    },
+
+    open_url: function(platform, url) {
+        return _impl[platform].open_url(url);
     }
 }

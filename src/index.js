@@ -192,15 +192,22 @@ program.command("publish")
         console.log("ERROR: package.bon or book.bon not found.");
     });
 
+program.command("open")
+    .description("Open the url with simulator.")
+    .argument("<url>", "Specify the url to open")
+    .option("--platform <platform>", "Specify the platform to run the simulator: `ios` or `android`", (process.platform === "darwin") ? "ios" : "android")
+    .action((url, options) => {
+        commands.open_url(options.platform, url);
+    });    
 
-const database = program.command("database")
-                        .description("Manage databases.")
-                        .on("command:*", ([ command ]) => {
-                            database.addHelpText("after", "\n" + "Command not found: " + command);
-                            database.help();
-                        });
+const databaseCommand = program.command("database")
+    .description("Manage databases.")
+    .on("command:*", ([ command ]) => {
+        database.addHelpText("after", "\n" + "Command not found: " + command);
+        database.help();
+    });
             
-database.command("generate")
+databaseCommand.command("generate")
     .description("Generate a database using data from an Excel file.")
     .argument("<path>", "Specify the file path of the Excel document")
     .action((path, options) => {
@@ -214,28 +221,28 @@ database.command("generate")
     });
 
 
-const style = program.command("style")
-                    .description("Manage sbss files.")
-                    .on("command:*", ([ command ]) => {
-                        style.addHelpText("after", "\n" + "Command not found: " + command);
-                        style.help();
-                    });
+const styleCommand = program.command("style")
+    .description("Manage sbss files.")
+    .on("command:*", ([ command ]) => {
+        style.addHelpText("after", "\n" + "Command not found: " + command);
+        style.help();
+    });
 
-style.command("migrate")
+styleCommand.command("migrate")
     .description("Migrate old style sbss to new style.")
     .action((options) => {
         commands.migrate_style();
     });
 
 
-const native = program.command("native")
-                    .description("Manage native apps.")
-                    .on("command:*", ([ command ]) => {
-                        style.addHelpText("after", "\n" + "Command not found: " + command);
-                        style.help();
-                    });
+const nativeCommand = program.command("native")
+    .description("Manage native apps.")
+    .on("command:*", ([ command ]) => {
+        style.addHelpText("after", "\n" + "Command not found: " + command);
+        style.help();
+    });
 
-native.command("compose")
+nativeCommand.command("compose")
     .description("Combine native code with your app's codebase.")
     .argument("<path>", "Specify the path for the native code")
     .option("--platform <platform>", "Specify the platform for the native code: `ios`, `android` or `all`", "all")
@@ -244,5 +251,5 @@ native.command("compose")
 
         commands.compose_native(path, platforms);
     });
-
+    
 program.parse();
