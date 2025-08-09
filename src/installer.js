@@ -1,15 +1,15 @@
-const path   = require("path"),
-      avdctl = require("./avdctl-helper");
+import path from "path";
+import avdctl from "./avdctl-helper.js";
 
 const _impl = {
     "ios" : {
-        install: function(file) {
+        install(file) {
             
         }
     },
 
     "android" : {
-        install: function(file) {
+        install(file) {
             const tmproot = "/data/local/tmp";
             const tmpfile = `${tmproot}/${path.basename(file)}`;
 
@@ -20,8 +20,8 @@ const _impl = {
     }
 }
 
-module.exports = {
-    install: function(platform, file) {
+export default {
+    install(platform, file) {
         _impl[platform].install(file);
     }
 }

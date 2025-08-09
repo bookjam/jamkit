@@ -1,7 +1,7 @@
-const chokidar = require("chokidar"),
-      path     = require("path"),
-      fs       = require("fs-extra"),
-      avdctl   = require("./avdctl-helper")
+import chokidar from "chokidar";
+import path from "path";
+import fs from "fs-extra";
+import avdctl from "./avdctl-helper.js";
 
 const _impl = {
     "ios" : {
@@ -67,8 +67,8 @@ const _impl = {
     }
 }
 
-module.exports = {
-    start: function(platform, app_id, src, dest, options, handler) {
+export default {
+    start(platform, app_id, src, dest, options, handler) {
         const watcher = chokidar.watch(src, { ignored: /[\/\\]\./, persistent: true });
         var is_ready = false;
         

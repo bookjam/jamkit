@@ -383,12 +383,12 @@ BonStringifier.prototype._append_newline = function() {
     return "";
 }
 
-module.exports = {
-    parse: function(text) {
+export default {
+    parse(text) {
         return new BonParser().parse(text);
     },
 
-    stringify: function(value) {
+    stringify(value) {
         return new BonStringifier(true).stringify(value);
     }
 }

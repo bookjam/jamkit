@@ -1,5 +1,4 @@
-const net   = require("net"),
-      utils = require("./utils");
+import net from "net";
 
 const callbacks = new Array();
 var client;
@@ -29,8 +28,8 @@ function _connect_to_host(host, port, timeout, callback) {
     });
 };
 
-module.exports = {
-    ready: function(host, port, timeout) {
+export default {
+    ready(host, port, timeout) {
         return new Promise((resolve, reject) => {
             _connect_to_host(host, port, timeout, () => {
                 resolve();
@@ -38,7 +37,7 @@ module.exports = {
         });
     },
 
-    open: function() {
+    open() {
         return new Promise((resolve, reject) => {
             var lines = "";
 
@@ -70,7 +69,7 @@ module.exports = {
         });
     },
 
-    execute: function(command) {
+    execute(command) {
         return new Promise((resolve, reject) => {
             callbacks.push(resolve);
 
@@ -79,7 +78,7 @@ module.exports = {
         });
     },
 
-    close: function() {
+    close() {
         client.end();
     }
 }

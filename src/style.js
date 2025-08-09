@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs-extra";
 
 function _migrate_new_style(line, trailing) {
     const m = /(\s*)([#%\/][^:]+):(.*)/.exec(line);
@@ -28,8 +28,8 @@ function _build_new_style(leading, selector, props) {
     return style;
 }
 
-module.exports = {
-    migrate: function(path) {
+export default {
+    migrate(path) {
         const source = fs.readFileSync(path, { encoding: 'utf8' });
         var text = "", multiline = false;
         const lines = [];

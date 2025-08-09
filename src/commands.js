@@ -1,31 +1,32 @@
-const fs         = require("fs-extra"),
-      path       = require("path"),
-      glob       = require("glob"),
-      zipdir     = require("zip-dir"),
-      tmp        = require("tmp"),
-      ipfs       = require("ipfs-http-client"),
-      urlencode  = require("urlencode"),
-      uuid       = require("uuid"),
-      qrcode     = require("qrcode-terminal"),
-      template   = require("./template"),
-      catalog    = require("./catalog"),
-      simulator  = require("./simulator"),
-      avdctl     = require("./avdctl"),
-      shell      = require("./shell"),
-      syncfolder = require("./syncfolder"),
-      obfuscator = require("./obfuscator"),
-      installer  = require("./installer"),
-      bon        = require("./bon"),
-      style      = require("./style"),
-      native     = require("./native"),
-      leafly     = require("./leafly"),
-      utils      = require("./utils");
+import fs from "fs-extra";
+import path from "path";
+import { glob } from "glob";
+import zipdir from "zip-dir";
+import tmp from "tmp";
+import { create as createIpfsClient, globSource as ipfsGlobSource } from "ipfs-http-client";
+import urlencode from "urlencode";
+import { v4 as uuid_v4 } from "uuid";
+import qrcode from "qrcode-terminal";
+
+import template from "./template.js";
+import catalog from "./catalog.js";
+import simulator from "./simulator.js";
+import avdctl from "./avdctl.js";
+import shell from "./shell.js";
+import syncfolder from "./syncfolder.js";
+import obfuscator from "./obfuscator.js";
+import installer from "./installer.js";
+import bon from "./bon.js";
+import style from "./style.js";
+import native from "./native.js";
+import leafly from "./leafly.js";
+import utils from "./utils.js";
 
 const CONNECT_BASE_URL = "https://jamkit.io";
 
 function _generate_app_id(wanted_app_id, template_app_id) {
     if (wanted_app_id === "auto") {
-        return `com.yourdomain.${uuid.v4()}`;
+        return `com.yourdomain.${uuid_v4()}`;
     }
 
     if (wanted_app_id === "manual") {
@@ -39,7 +40,7 @@ function _compress_folder(src_path, zip_path) {
     return new Promise((resolve, reject) => {
         zipdir(src_path, { 
             saveTo: zip_path,
-            filter: function(full_path, stat) {
+            filter(full_path, stat) {
                 if (path.basename(full_path).startsWith(".")) {
                     return false;
                 }
@@ -209,9 +210,9 @@ function _publish_image(options, ipfs_options, callback) {
 }
 
 function _publish_file(path, options) {
-    return ipfs.create(options)
+    return createIpfsClient(options)
         .then((client) => {
-            return Promise.all(client.addAll(ipfs.globSource("./", path)));
+            return Promise.all(client.addAll(ipfsGlobSource("./", path)));
         });
 }
 
@@ -225,8 +226,8 @@ function _shorten_url(url, callback) {
         });
 }
 
-module.exports = {
-    create_app: function(directory, options) {
+export default {
+    create_app(directory, options) {
         if (fs.existsSync(path.join(directory, "package.bon"))) {
             console.log("ERROR: directory already exists.");
 
@@ -248,7 +249,7 @@ module.exports = {
             });
     },
 
-    run_app: function(platform, mode, shell_options, options) {
+    run_app(platform, mode, shell_options, options) {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
@@ -351,7 +352,7 @@ module.exports = {
             });
     },
 
-    build_app: function() {
+    build_app() {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
@@ -382,7 +383,7 @@ module.exports = {
             });
     },
 
-    install_app: function(platform) {
+    install_app(platform) {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
@@ -415,7 +416,7 @@ module.exports = {
             });
     },
 
-    publish_app: function(host, options, ipfs_options, install_urls) {
+    publish_app(host, options, ipfs_options, install_urls) {
         if (!options["file-url"] && !fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
@@ -467,7 +468,7 @@ module.exports = {
         });
     },
 
-    create_book: function(directory, options) {
+    create_book(directory, options) {
         if (fs.existsSync(path.join(directory, "book.bon"))) {
             console.log("ERROR: directory already exists.");
 
@@ -488,7 +489,7 @@ module.exports = {
             });
     },
 
-    run_book: function(platform, shell_options, options) {
+    run_book(platform, shell_options, options) {
         if (!fs.existsSync("./book.bon")) {
             console.log("ERROR: book.bon not found.");
 
@@ -522,7 +523,7 @@ module.exports = {
         });
     },
 
-    build_book: function() {
+    build_book() {
         if (!fs.existsSync("./book.bon")) {
             console.log("ERROR: book.bon not found.");
 
@@ -545,7 +546,7 @@ module.exports = {
             });
     },
 
-    install_book: function(platform) {
+    install_book(platform) {
         if (!fs.existsSync("./book.bon")) {
             console.log("ERROR: book.bon not found.");
 
@@ -570,7 +571,7 @@ module.exports = {
             });
     },
 
-    publish_book: function(host, options, ipfs_options, install_urls) {
+    publish_book(host, options, ipfs_options, install_urls) {
         if (!options["file-url"] && !fs.existsSync("./book.bon")) {
             console.log("ERROR: book.bon not found.");
 
@@ -614,13 +615,13 @@ module.exports = {
         });
     },
 
-    open_url: function(platform, url) {
+    open_url(platform, url) {
         if (!simulator.open_url(platform, url)) {
             console.log(`ERROR: Failed to open the url: ${url}`);
         }
     },
 
-    generate_database: function(target, store, spreadsheet_path) {
+    generate_database(target, store, spreadsheet_path) {
         const data = catalog.load_from_spreadsheet(spreadsheet_path, store);
         const basedir = path.join("catalogs", target);
 
@@ -628,7 +629,7 @@ module.exports = {
         catalog.save_to_database(data[0], data[1], path.join(basedir, "catalog.sqlite"));
     },
 
-    migrate_style: function() {
+    migrate_style() {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
@@ -644,7 +645,7 @@ module.exports = {
         });
     },
 
-    compose_native: function(native_path, platforms) {
+    compose_native(native_path, platforms) {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
             

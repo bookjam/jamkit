@@ -1,7 +1,7 @@
-const obfuscator = require("javascript-obfuscator");
+import obfuscator from "javascript-obfuscator";
 
-module.exports = {
-    obfuscate: function() {
+export default {
+    obfuscate() {
         
     }
 }

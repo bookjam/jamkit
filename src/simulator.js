@@ -1,10 +1,10 @@
-const path   = require("path"),
-      fs     = require("fs-extra"),
-      plist  = require("simple-plist"),
-      apk    = require("adbkit-apkreader"),
-      simctl = require("./simctl"),
-      avdctl = require("./avdctl"),
-      sleep  = require("./sleep")
+import path from "path";
+import fs from "fs-extra";
+import plist from "simple-plist";
+import apk from "adbkit-apkreader";
+import simctl from "./simctl.js";
+import avdctl from "./avdctl.js";
+import sleep from "./sleep.js";
 
 const _impl = {
     "ios": {
@@ -286,12 +286,12 @@ const _impl = {
     }
 };
 
-module.exports = {
-    start: function(platform, port) {
+export default {
+    start(platform, port) {
         return _impl[platform].start(port);
     },
 
-    open_url: function(platform, url) {
+    open_url(platform, url) {
         return _impl[platform].open_url(url);
     }
 }

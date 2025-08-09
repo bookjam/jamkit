@@ -1,7 +1,7 @@
-const axios = require("axios");
+import axios from "axios";
 
-module.exports = {
-    create_short_url: function(original_url, expiry_date) {
+export default {
+    create_short_url(original_url, expiry_date) {
         const url = "https://us-central1-leafly-service.cloudfunctions.net/createShortUrl";
         const params = {
             "url": original_url,

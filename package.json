@@ -1,28 +1,38 @@
 {
     "name": "jamkit",
-    "version": "0.99.9",
+    "version": "0.99.10",
     "description": "A simple native app framework",
-    "main": "./src/index.js",
+    "type": "module",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "bin": {
-        "jamkit": "./src/index.js"
+        "jamkit": "dist/index.js"
+    },
+    "files": [ "dist/**", "README.md", "LICENSE" ],
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "dev": "tsc -w -p tsconfig.json",
+        "start": "node dist/index.js",
+        "prepare": "npm run build",
+        "typecheck": "tsc --noEmit"
+    },
+    "engines": {
+        "node": ">=18.0"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/bookjam/jamkit.git"
     },
+    "bugs": {
+        "url": "https://github.com/bookjam/jamkit/issues"
+    },
     "keywords": [
         "jamkit",
         "app"
     ],
+    "homepage": "https://github.com/bookjam/jamkit",
     "author": "Hanyeol Cho <hanyeol.cho@gmail.com>",
     "license": "MIT",
-    "engines": {
-        "node": ">=10.0"
-    },
-    "bugs": {
-        "url": "https://github.com/bookjam/jamkit/issues"
-    },
-    "homepage": "https://github.com/bookjam/jamkit#readme",
     "dependencies": {
         "@raydeck/xcode": "^2.2.1",
         "adbkit-apkreader": "^3.1.2",

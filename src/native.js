@@ -1,10 +1,10 @@
-const path  = require("path"),
-      fs    = require("fs-extra"),
-      xcode = require("@raydeck/xcode");
+import path from "path";
+import fs from "fs-extra";
+import xcode from "@raydeck/xcode";
 
-const { XMLParser } = require("fast-xml-parser");
-const { globSync } = require("glob");
-const walkSync = require("walk-sync");
+import { XMLParser } from "fast-xml-parser";
+import { globSync } from "glob";
+import walkSync from "walk-sync";
 
 function _get_app_title(appinfo, language) {
     if (language) {
@@ -38,7 +38,7 @@ function _replace_word_in_file(file_path, old_word, new_word) {
 
 const _impl = {
     "ios": {
-        compose: function(rootdir, appinfo, languages) {
+        compose(rootdir, appinfo, languages) {
             const project = this._load_xcode_project(rootdir);
             const old_bundle_identifier = this._get_bundle_identifier(project);
             const new_bundle_identifier = appinfo.id;
@@ -57,31 +57,31 @@ const _impl = {
             this._copy_app_sources(rootdir);
         },
 
-        _load_xcode_project: function(rootdir) {
+        _load_xcode_project(rootdir) {
             const [ project_path ] = globSync(`${rootdir}/*.xcodeproj/project.pbxproj`);
             const project = xcode.project(project_path);
             
             return project.parseSync();
         },
 
-        _get_bundle_identifier: function(project) {
+        _get_bundle_identifier(project) {
             return project.getBuildProperty("PRODUCT_BUNDLE_IDENTIFIER", '"Distribution Production"')
                         .replace("${PRODUCT_NAME}", project.productName)
                         .replaceAll('"', "");
         },
         
-        _parse_bundle_identifier: function(bundle_identifier) {
+        _parse_bundle_identifier(bundle_identifier) {
             const bundle_identifier_parts = bundle_identifier.split(".");
             const product_name = bundle_identifier_parts.pop();
 
             return [ bundle_identifier_parts.join("."), product_name ];
         },
 
-        _get_product_name: function(bundle_identifier) {
+        _get_product_name(bundle_identifier) {
             return bundle_identifier.split(".").pop();
         },
 
-        _replace_bundle_identifier_in_project: function(project, old_bundle_identifier, new_bundle_identifier) {
+        _replace_bundle_identifier_in_project(project, old_bundle_identifier, new_bundle_identifier) {
             const [ old_bundle_domain, old_product_name ] = this._parse_bundle_identifier(old_bundle_identifier);
             const [ new_bundle_domain, new_product_name ] = this._parse_bundle_identifier(new_bundle_identifier);
 
@@ -102,7 +102,7 @@ const _impl = {
             }
         },
 
-        _replace_bundle_identifier_in_scheme: function(rootdir, old_bundle_identifier, new_bundle_identifier) {
+        _replace_bundle_identifier_in_scheme(rootdir, old_bundle_identifier, new_bundle_identifier) {
             const old_product_name = this._get_product_name(old_bundle_identifier);
             const new_product_name = this._get_product_name(new_bundle_identifier);
             const [ xcscheme_path ] = globSync(`${rootdir}/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme`);
@@ -123,7 +123,7 @@ const _impl = {
             }
         },
 
-        _rename_project_sources: function(rootdir, new_bundle_identifier) {
+        _rename_project_sources(rootdir, new_bundle_identifier) {
             const new_product_name = this._get_product_name(new_bundle_identifier);
             const [ xcscheme_path ] = globSync(`${rootdir}/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme`);
 
@@ -145,7 +145,7 @@ const _impl = {
             }
         },
 
-        _update_info_plist: function(rootdir, appinfo) {
+        _update_info_plist(rootdir, appinfo) {
             const plist_path = path.join(rootdir, "Info.plist");
             const old_text = fs.readFileSync(plist_path, { encoding: "utf-8" });
             const new_text = old_text.replace(
@@ -164,7 +164,7 @@ const _impl = {
             }
         },
 
-        _update_app_info_plist: function(rootdir, appinfo) {
+        _update_app_info_plist(rootdir, appinfo) {
             const template_path = path.join(rootdir, "Resources", ".AppInfo.plist.tmpl");
             var text = fs.readFileSync(template_path, { encoding: "utf-8" });
 
@@ -177,7 +177,7 @@ const _impl = {
             fs.writeFileSync(plist_path, text);
         },
 
-        _update_app_icon: function(rootdir) {
+        _update_app_icon(rootdir) {
             const target_dir = path.join(rootdir, "Resources", "Images.xcassets", "AppIcon.appiconset");
             const contents_json_path = path.join(target_dir, "Contents.json");
             const contents = JSON.parse(fs.readFileSync(contents_json_path, { encoding: "utf-8" }));
@@ -193,11 +193,11 @@ const _impl = {
             });
         },
 
-        _update_launch_screen: function(rootdir) {
+        _update_launch_screen(rootdir) {
             /* Do nothing */
         },
 
-        _copy_app_sources: function(rootdir) {
+        _copy_app_sources(rootdir) {
             const target_dir = path.join(rootdir, "Resources", "Catalogs.bundle");
 
             if (fs.existsSync(target_dir)) {
@@ -215,7 +215,7 @@ const _impl = {
     },
 
     "android": {
-        compose: function(rootdir, appinfo, languages) {
+        compose(rootdir, appinfo, languages) {
             const old_package_name = this._get_package_name(rootdir);
             const new_package_name = appinfo.id.toLowerCase();
 
@@ -248,7 +248,7 @@ const _impl = {
             this._copy_app_sources(rootdir);
         },
 
-        _get_package_name: function(rootdir) {
+        _get_package_name(rootdir) {
             const manifest_path = path.join(rootdir, "AndroidManifest.xml");
             const text = fs.readFileSync(manifest_path, { encoding: "utf8" });
             const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "" });
@@ -257,7 +257,7 @@ const _impl = {
             return manifest.package;
         },
 
-        _replace_package_name_in_sources: function(source_dir, old_package_name, new_package_name) {
+        _replace_package_name_in_sources(source_dir, old_package_name, new_package_name) {
             for (const entry of walkSync.entries(source_dir)) {
                 if (!entry.isDirectory()) {
                     const source_path = path.join(source_dir, entry.relativePath);
@@ -267,13 +267,13 @@ const _impl = {
             }
         },
 
-        _replace_package_name_in_manifest: function(rootdir, old_package_name, new_package_name) {
+        _replace_package_name_in_manifest(rootdir, old_package_name, new_package_name) {
             const manifest_path = path.join(rootdir, "AndroidManifest.xml");
 
             _replace_word_in_file(manifest_path, old_package_name, new_package_name);
         },
 
-        _rename_package_sources: function(rootdir, old_package_name, new_package_name) {
+        _rename_package_sources(rootdir, old_package_name, new_package_name) {
             const old_source_parts = old_package_name.split(".");
             const new_source_parts = new_package_name.split(".");
 
@@ -295,7 +295,7 @@ const _impl = {
             }
         },
 
-        _update_settings_gradle: function(rootdir, appinfo) {
+        _update_settings_gradle(rootdir, appinfo) {
             const gradle_path = path.join(rootdir, "settings.gradle");
             const old_text = fs.readFileSync(gradle_path, { encoding: "utf8" });
             const new_text = old_text.replace(
@@ -308,7 +308,7 @@ const _impl = {
             }
         },
 
-        _update_gradle_properties: function(rootdir, appinfo) {
+        _update_gradle_properties(rootdir, appinfo) {
             const properties_path = path.join(rootdir, "gradle.properties");
             const old_text = fs.readFileSync(properties_path, { encoding: "utf8" });
             const new_text = old_text.replace(
@@ -321,7 +321,7 @@ const _impl = {
             }
         },
 
-        _update_string_resources: function(rootdir, appinfo, language) {
+        _update_string_resources(rootdir, appinfo, language) {
             const xml_path = path.join(rootdir, "res", "values" + (language ? `-${language}` : ""), "strings.xml");
 
             if (fs.existsSync(xml_path)) {
@@ -337,7 +337,7 @@ const _impl = {
             }
         },
 
-        _update_app_info_json: function(rootdir, appinfo) {
+        _update_app_info_json(rootdir, appinfo) {
             const template_path = path.join(rootdir, "assets", ".AppInfo.json.tmpl");
             var text = fs.readFileSync(template_path, { encoding: "utf-8" });
 
@@ -350,13 +350,13 @@ const _impl = {
             fs.writeFileSync(json_path, text);
         },
 
-        _update_app_icon: function(rootdir) {
+        _update_app_icon(rootdir) {
             const images = globSync(`${rootdir}/images/AppIcon/*.{png,jpg}`);
 
             this._copy_images_to_drawable(rootdir, images);
         },
 
-        _update_launch_screen: function(rootdir) {
+        _update_launch_screen(rootdir) {
             const images = globSync(`${rootdir}/images/LaunchScreen/*.{png,jpg}`);
 
             this._copy_images_to_drawable(rootdir, images);
@@ -378,7 +378,7 @@ const _impl = {
             });
         },
 
-        _copy_app_sources: function(rootdir) {
+        _copy_app_sources(rootdir) {
             const target_dir = path.join(rootdir, "assets", "catalogs");
 
             if (fs.existsSync(target_dir)) {
@@ -396,8 +396,8 @@ const _impl = {
     }
 }
 
-module.exports = {
-    compose: function(rootdir, platform, appinfo) {
+export default {
+    compose(rootdir, platform, appinfo) {
         const platform_rootdir = path.join(rootdir, "src", platform);
         const languages = [ "ko", "ja" ];
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const commands = require("./commands"),
-      fs       = require("fs-extra");
+import commands from "./commands.js";
+import fs from "fs-extra";
 
-const { Command } = require("commander");
+import { Command } from "commander";
 const program = new Command();
 
 program.name("jamkit")

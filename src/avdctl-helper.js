@@ -1,6 +1,6 @@
-const fs     = require("fs"),
-      path   = require("path"),
-      avdctl = require("./avdctl");
+import fs from "fs";
+import path from "path";
+import avdctl from "./avdctl.js";
 
 const _sdk_version = parseInt(avdctl.property("ro.build.version.sdk"));
 
@@ -17,8 +17,8 @@ function _walk_dir(root, dir, handler) {
     }); 
 }
 
-module.exports = {
-    push: function(src, dest) {
+export default {
+    push(src, dest) {
         const stats = fs.statSync(src);
 
         if (stats.isDirectory()) {
@@ -38,15 +38,15 @@ module.exports = {
         }
     }, 
 
-    intent: function(action, url) {
+    intent(action, url) {
         avdctl.intent(action, url);
     },
 
-    shell: function(cmd) {
+    shell(cmd) {
         avdctl.shell(cmd);
     },
 
-    get_sdk_version: function() {
+    get_sdk_version() {
         return _sdk_version;
     }
 }

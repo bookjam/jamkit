@@ -1,8 +1,8 @@
-module.exports = (time) => {
-    const start = new Date().getTime();
-   
+export default function sleep(time) {
+    const start = Date.now();
+
     while (true) {
-        if (new Date().getTime() > start + time) {
+        if (Date.now() > start + time) {
             break;
         }
     }

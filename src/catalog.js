@@ -1,10 +1,10 @@
-const xlsx            = require("xlsx"),
-      fs              = require("fs"),
-      sqlite          = require("./sqlite"),
-      vsprintf        = require("sprintf-js").vsprintf,
-      is_object       = require("is-object"),
-      is_empty_object = require("is-empty-object"),
-      array           = require("array-extended")
+import xlsx from "xlsx";
+import fs from "fs";
+import { vsprintf } from "sprintf-js";
+import is_object from "is-object";
+import is_empty_object from "is-empty-object";
+import array from "array-extended";
+import sqlite from "./sqlite.js";
 
 const _SEPERATORS = [ "\n", "\\n", "," ];
 const _KEYS_IN_DATABASE = [ 
@@ -300,8 +300,8 @@ function _stringify_value(value) {
     return value;
 }
 
-module.exports = {
-    load_from_spreadsheet: function(path, store) {
+export default {
+    load_from_spreadsheet(path, store) {
         const source = _load_spreadsheet_data(path);
         const data = {}, sortkeys = {};
 
@@ -414,7 +414,7 @@ module.exports = {
         return [ data, sortkeys ];
     },
 
-    save_to_file: function(data, path, include_all_data) {
+    save_to_file(data, path, include_all_data) {
         const keys_to_skip = _bool_for_key(data, "uses-database") ? _KEYS_IN_DATABASE : [];
         const catalog_dict = {};
 
@@ -427,7 +427,7 @@ module.exports = {
         fs.writeFileSync(path, JSON.stringify(catalog_dict, null, 4));
     },
 
-    save_to_database: function(data, sortkeys, path) {
+    save_to_database(data, sortkeys, path) {
         if (fs.existsSync(path)) {
             fs.unlinkSync(path);
         }
