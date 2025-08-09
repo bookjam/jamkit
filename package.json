@@ -1,6 +1,6 @@
 {
     "name": "jamkit",
-    "version": "0.99.8",
+    "version": "0.99.9",
     "description": "A simple native app framework",
     "main": "./src/index.js",
     "bin": {
@@ -27,6 +27,7 @@
         "@raydeck/xcode": "^2.2.1",
         "adbkit-apkreader": "^3.1.2",
         "array-extended": "^0.0.11",
+        "axios": "^1.8.4",
         "chokidar": "^3.4.3",
         "commander": "^9.4.1",
         "fast-xml-parser": "^4.3.2",
@@ -38,7 +39,6 @@
         "is-empty-object": "^1.1.1",
         "is-object": "^1.0.1",
         "javascript-obfuscator": "^4.1.0",
-        "node-fetch": "^2.6.7",
         "node-sqlite3-wasm": "^0.8.0",
         "path": "^0.12.7",
         "qrcode-terminal": "^0.12.0",
