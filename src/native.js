@@ -166,7 +166,7 @@ const _impl = {
 
         _updateAppInfoPlist(rootDir, appInfo) {
             const templatePath = path.join(rootDir, "Resources", ".AppInfo.plist.tmpl");
-            var text = fs.readFileSync(templatePath, { encoding: "utf-8" });
+            let text = fs.readFileSync(templatePath, { encoding: "utf-8" });
 
             text = text.replace("${APP_ID}", appInfo.id);
             text = text.replace("${APP_TITLE}", appInfo.title);
@@ -277,7 +277,7 @@ const _impl = {
             const oldSourceParts = oldPackageName.split(".");
             const newSourceParts = newPackageName.split(".");
 
-            var sourceRootToRemove = path.join(rootDir, "src", oldSourceParts[0]);
+            let sourceRootToRemove = path.join(rootDir, "src", oldSourceParts[0]);
             for (let i = 0; i < oldSourceParts.length; ++i) {
                 if (oldSourceParts[i] === newSourceParts[i]) {
                     sourceRootToRemove = path.join(sourceRootToRemove, oldSourceParts[i + 1]);
@@ -339,7 +339,7 @@ const _impl = {
 
         _updateAppInfoJson(rootDir, appInfo) {
             const templatePath = path.join(rootDir, "assets", ".AppInfo.json.tmpl");
-            var text = fs.readFileSync(templatePath, { encoding: "utf-8" });
+            let text = fs.readFileSync(templatePath, { encoding: "utf-8" });
 
             text = text.replace("${APP_ID}", appInfo.id);
             text = text.replace("${APP_TITLE}", appInfo.title);
