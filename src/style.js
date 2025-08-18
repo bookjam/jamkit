@@ -1,11 +1,14 @@
 import fs from "fs-extra";
 
-function _migrate_new_style(line, trailing) {
-    const m = /(\s*)([#%\/][^:]+):(.*)/.exec(line);
+const RE_OLD_STYLE = /(\s*)([#%\/][^:]+):(.*)/;
+const RE_PROP = /(([\w\d-]+)\s*=\s*("(\\"|[^"])+"|'(\\'|[^'])+'|[^,]+))(,|$)/g;
+
+const migrateNewStyle = (line, trailing) => {
+    const m = RE_OLD_STYLE.exec(line);
 
     if (m) {
-        const props = [...m[3].trim().matchAll(/(([\w\d-]+)\s*=\s*("(\\"|[^"])+"|'(\\'|[^'])+'|[^,]+))(,|$)/g)];
-        const style = _build_new_style(m[1], m[2], props.map((prop) => {
+        const props = [...m[3].trim().matchAll(RE_PROP)];
+        const style = buildNewStyle(m[1], m[2], props.map((prop) => {
             const name  = prop[2].trim();
             const value = prop[3].trim().replace(/^["']|["']$/g, "");
         
@@ -16,47 +19,47 @@ function _migrate_new_style(line, trailing) {
     }
 }
 
-function _build_new_style(leading, selector, props) {
-    var style = leading + selector + " {" + "\n";
+const buildNewStyle = (leading, selector, props) => {
+    let style = `${leading}${selector} {\n`;
 
     props.forEach(([ name, value ]) => {
-        style += leading + "    " + name + ": " + value + ";" + "\n";
+        style += `${leading}    ${name}: ${value};\n`;
     });
 
-    style += leading + "}";
+    style += `${leading}}`;
 
     return style;
 }
 
 export default {
     migrate(path) {
-        const source = fs.readFileSync(path, { encoding: 'utf8' });
-        var text = "", multiline = false;
+        const source = fs.readFileSync(path, { encoding: "utf8" });
+        let text = "", multiline = false;
         const lines = [];
         
         source.split(/\r\n|\n|\r/).forEach((line) => {
             if (multiline) {
-                lines[lines.length - 1] += line.replace(/^\s+|\\$/g, '');
+                lines[lines.length - 1] += line.replace(/^\s+|\\$/g, "");
             } else {
-                lines.push(line.replace(/\\$/, ''));
+                lines.push(line.replace(/\\$/, ""));
             }
 
-            multiline = line.endsWith('\\') ? true : false;
+            multiline = line.endsWith("\\");
         });
 
-        var last_migrated = false;
+        let lastMigrated = false;
         lines.forEach((line) => {
-            const style = _migrate_new_style(line, "\n\n");
+            const style = migrateNewStyle(line, "\n\n");
 
             if (!style) {
-                if (last_migrated) {
+                if (lastMigrated) {
                     text = text.replace(/\n\n$/, "");
                 }
                 text += line + "\n";
-                last_migrated = false;
+                lastMigrated = false;
             } else {
                 text += style + "\n";
-                last_migrated = true;
+                lastMigrated = true;
             }
         });
 

@@ -10,12 +10,12 @@ const _impl = {
 
     "android" : {
         install(file) {
-            const tmproot = "/data/local/tmp";
-            const tmpfile = `${tmproot}/${path.basename(file)}`;
+            const tmpRoot = "/data/local/tmp";
+            const tmpPath = `${tmpRoot}/${path.basename(file)}`;
 
-            avdctl.shell(`rm -f ${tmpfile}`);
-            avdctl.push(file, tmproot);
-            avdctl.intent("android.intent.action.VIEW", `file://${tmpfile}`);
+            avdctl.shell(`rm -f ${tmpPath}`);
+            avdctl.push(file, tmpRoot);
+            avdctl.intent("android.intent.action.VIEW", `file://${tmpPath}`);
         }
     }
 }

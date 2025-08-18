@@ -1,8 +1,8 @@
 import shell from "shelljs";
-import child_process from "child_process";
+import { spawn } from "child_process";
 import sleep from "./sleep.js";
 
-function _emulator_path() {
+const getEmulatorPath = () => {
     const command = (process.platform === "win32") ? "where emulator" : "which emulator";
     const result = shell.exec(command, { silent: true });
         
@@ -14,9 +14,9 @@ function _emulator_path() {
 }
 
 export default {
-    start(device_name) {
-        const args = [ "-avd", device_name ];
-        const subprocess = child_process.spawn(_emulator_path(), args, { 
+    start(deviceName) {
+        const args = [ "-avd", deviceName ];
+        const subprocess = spawn(getEmulatorPath(), args, { 
             detached: true,
             stdio: "ignore"
         });
@@ -27,7 +27,7 @@ export default {
     },
 
     list() {
-        const command = _emulator_path() + " -list-avds";
+        const command = getEmulatorPath() + " -list-avds";
         const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
@@ -48,8 +48,8 @@ export default {
         return false;
     },
 
-    uninstall(app_id) {
-        const command = `adb uninstall ${app_id}`;
+    uninstall(appId) {
+        const command = `adb uninstall ${appId}`;
         const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
@@ -59,8 +59,8 @@ export default {
         return false;
     },
 
-    launch(app_id) {
-        const command = `adb shell 'am start -n ${app_id}/${app_id}.LaunchScreenViewController'`;
+    launch(appId) {
+        const command = `adb shell 'am start -n ${appId}/${appId}.LaunchScreenViewController'`;
         const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
@@ -85,8 +85,8 @@ export default {
         return false;
     },
 
-    running(app_id) {
-        const command = `adb shell ps | grep ${app_id}`;
+    isRunning(appId) {
+        const command = `adb shell ps | grep ${appId}`;
         const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
@@ -96,8 +96,8 @@ export default {
         return false;
     },
  
-    version(app_id) {
-        const command = `adb shell 'dumpsys package ${app_id} | grep versionName'`;
+    getVersion(appId) {
+        const command = `adb shell 'dumpsys package ${appId} | grep versionName'`;
         const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
@@ -144,7 +144,7 @@ export default {
         return false;
     },
 
-    property(name) {
+    getProperty(name) {
         const command = `adb shell getprop ${name}`;
         const result = shell.exec(command, { silent: true });
 

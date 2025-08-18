@@ -32,8 +32,8 @@ export default {
         return false;
     },
 
-    uninstall(device, app_id) {
-        const result = simctl.uninstall(device, app_id);
+    uninstall(device, appId) {
+        const result = simctl.uninstall(device, appId);
 
         if (result.code === 0) {
             return true;
@@ -42,8 +42,8 @@ export default {
         return false;
     },
 
-    launch(device, app_id) {
-        const result = simctl.launch(false, device, app_id, {});
+    launch(device, appId) {
+        const result = simctl.launch(false, device, appId, {});
 
         if (result.code === 0) {
             return true;
@@ -52,7 +52,7 @@ export default {
         return false;
     },
 
-    container(device, app_id) {
+    container(device, appId) {
         const command = `xcrun simctl get_app_container ${device} ${app_id}`;
         const result = shell.exec(command, { silent: true });
 

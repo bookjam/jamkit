@@ -1,21 +1,21 @@
 import net from "net";
 
 const callbacks = new Array();
-var client;
+let client;
 
-function _connect_to_host(host, port, timeout, callback) {
-    const started_time = new Date().getTime();
+const _connectToHost = (host, port, timeout, callback) => {
+    const startedTime = new Date().getTime();
 
-    client = net.connect({ host:host, port:port }, () => {
+    client = net.connect({ host, port }, () => {
          callback();
     });
 
     client.on("error", (error) => {
-        timeout = Math.max(timeout - (new Date().getTime() - started_time), 0);
+        timeout = Math.max(timeout - (new Date().getTime() - startedTime), 0);
 
         if (timeout > 0) {
             setTimeout(() => {
-                _connect_to_host(host, port, timeout - 100, callback);
+                _connectToHost(host, port, timeout - 100, callback);
             }, 100);
         } else {
             console.log("ERROR: Failed to establish connection!");
@@ -31,7 +31,7 @@ function _connect_to_host(host, port, timeout, callback) {
 export default {
     ready(host, port, timeout) {
         return new Promise((resolve, reject) => {
-            _connect_to_host(host, port, timeout, () => {
+            _connectToHost(host, port, timeout, () => {
                 resolve();
             });
         });
@@ -39,7 +39,7 @@ export default {
 
     open() {
         return new Promise((resolve, reject) => {
-            var lines = "";
+            let lines = "";
 
             callbacks.push(resolve);
 

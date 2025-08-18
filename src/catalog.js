@@ -1,13 +1,13 @@
 import xlsx from "xlsx";
 import fs from "fs";
 import { vsprintf } from "sprintf-js";
-import is_object from "is-object";
-import is_empty_object from "is-empty-object";
+import isObject from "is-object";
+import isEmptyObject from "is-empty-object";
 import array from "array-extended";
 import sqlite from "./sqlite.js";
 
-const _SEPERATORS = [ "\n", "\\n", "," ];
-const _KEYS_IN_DATABASE = [ 
+const SEPERATORS = [ "\n", "\\n", "," ];
+const KEYS_IN_DATABASE = [ 
     "subviews", "subcatalogs", "categories", 
     "panes", "banners", "showcases", "showcase", "collections", 
     "purchases", "promos", "readings", "auxiliary", 
@@ -15,7 +15,7 @@ const _KEYS_IN_DATABASE = [
     "points", "events", "ads", "notifications", "strings"
 ]
 
-function _load_spreadsheet_data(path) {
+function _loadSpreadsheetData(path) {
     const sheets = xlsx.readFile(path).Sheets;
     const data = {};
     
@@ -26,16 +26,16 @@ function _load_spreadsheet_data(path) {
     return data;
 }
 
-function _rows_to_main_dict(rows, store) {
-    const main_dict = {}, group = main_dict;
+function _rowsToMainDict(rows, store) {
+    const mainDict = {}, group = mainDict;
 
     (rows || []).forEach((row) => {
-        if (_should_skip_row(row, store)) {
+        if (_shouldSkipRow(row, store)) {
             return;
         }
 
         if (row["category"]) {
-            group = {}, main_dict[row["category"]] = group;
+            group = {}, mainDict[row["category"]] = group;
         }
 
         if (row["value"]) {
@@ -43,14 +43,14 @@ function _rows_to_main_dict(rows, store) {
         }
     });
 
-    return main_dict;
+    return mainDict;
 }
 
-function _rows_to_dict(rows, store, skip_key) {
-    const dict = {}, sortkeys = [];
+function _rowsToDict(rows, store, skipKey) {
+    const dict = {}, sortKeys = [];
 
     (rows || []).forEach((row) => {
-        if (_should_skip_row(row, store, skip_key)) {
+        if (_shouldSkipRow(row, store, skipKey)) {
             return;
         }
 
@@ -61,17 +61,17 @@ function _rows_to_dict(rows, store, skip_key) {
 
             if (header.endsWith("-(o)")) { // sortkey notation
                 header = header.replace(/\-\(o\)$/, "");
-                sortkeys.push(header);
+                sortKeys.push(header);
             }
 
             if (value && !header.endsWith("-(x)")) {
                 const key = header.split(".");
-                const target_store = (key.length > 1) ? key[1] : null;
+                const targetStore = (key.length > 1) ? key[1] : null;
     
                 if (key[0] === "id") {
                     identifiers.push(value);
                 } else {
-                    if (!target_store || target_store === store) {
+                    if (!targetStore || targetStore === store) {
                         data[key[0]] = value;
                     }
                 }
@@ -83,11 +83,11 @@ function _rows_to_dict(rows, store, skip_key) {
         });
     });
 
-    return [ dict, sortkeys ];
+    return [ dict, sortKeys ];
 }
 
-function _rows_to_raw_list(rows) {
-    const raw_list = [];
+function _rowsToRawList(rows) {
+    const rawList = [];
 
     (rows || []).forEach((row) => {
         const data = {};
@@ -100,17 +100,17 @@ function _rows_to_raw_list(rows) {
             }
         });
 
-        raw_list.push(data);
+        rawList.push(data);
     });
 
-    return raw_list;
+    return rawList;
 }
 
-function _rows_to_list(rows, store, skip_key) {
-    const list = [], sortkeys = [];
+function _rowsToList(rows, store, skipKey) {
+    const list = [], sortKeys = [];
 
     (rows || []).forEach((row) => {
-        if (_should_skip_row(row, store, skip_key)) {
+        if (_shouldSkipRow(row, store, skipKey)) {
             return;
         }
 
@@ -121,19 +121,19 @@ function _rows_to_list(rows, store, skip_key) {
 
             if (header.endsWith("-(o)")) { // sortkey notation
                 header = header.replace(/\-\(o\)$/, "");
-                if (!sortkeys.includes(header)) {
-                    sortkeys.push(header);
+                if (!sortKeys.includes(header)) {
+                    sortKeys.push(header);
                 }
             }
 
             if (value && !header.endsWith("-(x)")) {
                 const key = header.split(".");
-                const target_store = (key.length > 1) ? key[1] : null;
+                const targetStore = (key.length > 1) ? key[1] : null;
     
                 if (key[0] === "id") {
                     identifiers.push(value);
                 } else {
-                    if (!target_store || target_store === store) {
+                    if (!targetStore || targetStore === store) {
                         data[key[0]] = value;
                     }
                 }
@@ -147,43 +147,43 @@ function _rows_to_list(rows, store, skip_key) {
         });
     });
 
-    return [ list, sortkeys ];
+    return [ list, sortKeys ];
 }
 
-function _should_skip_row(row, store, skip_key) {
-    if (skip_key && skip_key in row && row[skip_key] == "yes") {
+function _shouldSkipRow(row, store, skipKey) {
+    if (skipKey && skipKey in row && row[skipKey] == "yes") {
         return true;
     }
 
-    var available_stores = _unfold_value(row["available-stores-(x)"]);
-    if (available_stores.length && !(store in available_stores)) {
+    const availableStores = _unfoldValue(row["available-stores-(x)"]);
+    if (availableStores.length && !(store in availableStores)) {
         return true;
     }
 
-    var avoid_stores = _unfold_value(row["avoid-stores-(x)"]);
-    if (avoid_stores.length && (store in avoid_stores)) {
+    const avoidStores = _unfoldValue(row["avoid-stores-(x)"]);
+    if (avoidStores.length && (store in avoidStores)) {
         return true;
     }
 
     return false;
 }
 
-function _unfold_list(list, key, unfold_func) {
+function _unfoldList(list, key, unfoldFunc) {
     list.forEach((data) => {
         if (key in data) {
-            if (unfold_func) {
-                data[key] = unfold_func(_unfold_value(data[key]));
+            if (unfoldFunc) {
+                data[key] = unfoldFunc(_unfoldValue(data[key]));
             } else {
-                data[key] = _unfold_value(data[key]);
+                data[key] = _unfoldValue(data[key]);
             }
         }
     });
 }
 
-function _unfold_value(value) {
+function _unfoldValue(value) {
     const values = [];
     
-    (value || "").split(new RegExp(_SEPERATORS.join("|"))).forEach((element) => {
+    (value || "").split(new RegExp(SEPERATORS.join("|"))).forEach((element) => {
         if (element) {
             values.push(element.trim());
         }
@@ -192,27 +192,27 @@ function _unfold_value(value) {
     return values;
 }
 
-function _unfold_items(values) {
-    var unfolded_values = [];
+function _unfoldItems(values) {
+    const unfoldedValues = [];
     
     values.forEach((item) => {
-        var match = /([A-Z]{2}_[A-Z]{3}_[0-9]+)_([0-9]+)-([0-9]+)/.exec(item);
+        const match = /([A-Z]{2}_[A-Z]{3}_[0-9]+)_([0-9]+)-([0-9]+)/.exec(item);
 
         if (match) {
-            var prefix = match[1], first = match[2], last = match[3];
+            const prefix = match[1], first = match[2], last = match[3];
 
-            for (var number = parseInt(first); number < parseInt(last) + 1; number++) {
-                unfolded_values.push(vsprintf("%s_%06d", [ prefix, number ]))
+            for (const number = parseInt(first); number < parseInt(last) + 1; number++) {
+                unfoldedValues.push(vsprintf("%s_%06d", [ prefix, number ]))
             }
         } else {
-            unfolded_values.push(item)
+            unfoldedValues.push(item)
         }
     });
 
-    return unfolded_values;
+    return unfoldedValues;
 }
 
-function _keys_starts_with(dict, prefix) {
+function _keysStartsWith(dict, prefix) {
     const keys = [];
 
     Object.keys(dict).forEach((key) => {
@@ -224,27 +224,27 @@ function _keys_starts_with(dict, prefix) {
     return keys;
 }
 
-function _save_table_to_database(database, table, columns, indexes, rows) {
-    sqlite.create_table(database, table, columns);
+function _saveTableToDatabase(database, table, columns, indexes, rows) {
+    sqlite.createTable(database, table, columns);
 
     if (indexes) {
-        sqlite.create_indexes_to_table(database, table, indexes);
+        sqlite.createIndexesToTable(database, table, indexes);
     }    
     
-    sqlite.insert_rows_to_table(database, table, rows);
+    sqlite.insertRowsToTable(database, table, rows);
 }
 
-function _merge_sortkeys(sortkeys) {
-    let merged_sortkeys = [];
+function _mergeSortKeys(sortKeys) {
+    let mergedSortKeys = [];
 
-    Object.keys(sortkeys).forEach((sortkey) => {
-        merged_sortkeys = array.union(merged_sortkeys, sortkeys[sortkey]);
+    Object.keys(sortKeys).forEach((sortkey) => {
+        mergedSortKeys = array.union(mergedSortKeys, sortKeys[sortkey]);
     });
 
-    return array.unique(merged_sortkeys);
+    return array.unique(mergedSortKeys);
 }
 
-function _columns_for_headers(headers) {
+function _columnsForHeaders(headers) {
     const columns = [];
 
     headers.forEach((header) => {
@@ -254,7 +254,7 @@ function _columns_for_headers(headers) {
     return columns;
 }
 
-function _indexes_for_headers(dataset, headers) {
+function _indexesForHeaders(dataset, headers) {
     const indexes = [];
 
     headers.forEach((header) => {
@@ -264,18 +264,18 @@ function _indexes_for_headers(dataset, headers) {
     return indexes;
 }
 
-function _values_for_headers(dict, headers) {
+function _valuesForHeaders(dict, headers) {
     const values = {};
 
     headers.forEach((header) => {
-        values[header.replace("-", "_")] = _value_for_key(dict, header, "");
+        values[header.replace("-", "_")] = _valueForKey(dict, header, "");
     });
 
     return values;
 }
 
-function _bool_for_key(dict, key) {
-    const value = _value_for_key(dict, key);
+function _boolForKey(dict, key) {
+    const value = _valueForKey(dict, key);
 
     if (value === "yes") {
         return true;
@@ -284,16 +284,16 @@ function _bool_for_key(dict, key) {
     return false;
 }
 
-function _value_for_key(dict, key, default_value) {
+function _valueForKey(dict, key, defaultValue) {
     if (key in dict) {
         return dict[key];
     }
 
-    return default_value;
+    return defaultValue;
 }
 
-function _stringify_value(value) {
-    if (Array.isArray(value) || is_object(value)) {
+function _stringifyValue(value) {
+    if (Array.isArray(value) || isObject(value)) {
         return JSON.stringify(value, null, 4);
     }
 
@@ -301,422 +301,422 @@ function _stringify_value(value) {
 }
 
 export default {
-    load_from_spreadsheet(path, store) {
-        const source = _load_spreadsheet_data(path);
-        const data = {}, sortkeys = {};
+    loadFromSpreadsheet(path, store) {
+        const source = _loadSpreadsheetData(path);
+        const data = {}, sortKeys = {};
 
-        const main_dict = _rows_to_main_dict(source["main"], store);
-        if (!is_empty_object(main_dict)) {
+        const mainDict = _rowsToMainDict(source["main"], store);
+        if (!isEmptyObject(mainDict)) {
             [ "related-catalogs" ].forEach((key) => {
-                _unfold_list([ main_dict ], key);
+                _unfoldList([ mainDict ], key);
             });
-            Object.assign(data, main_dict);
+            Object.assign(data, mainDict);
         }
 
-        const subviews_list = _rows_to_list(source["subviews"], store, "do-not-display-(x)");
-        if (subviews_list[0].length) {
-            data["subviews"] = subviews_list[0];
+        const subviewsList = _rowsToList(source["subviews"], store, "do-not-display-(x)");
+        if (subviewsList[0].length) {
+            data["subviews"] = subviewsList[0];
         }
 
-        const subcatalogs_dict = _rows_to_dict(source["subcatalogs"], store, "do-not-display-(x)");
-        if (!is_empty_object(subcatalogs_dict[0])) {
-            data["subcatalogs"] = subcatalogs_dict[0];
+        const subcatalogsDict = _rowsToDict(source["subcatalogs"], store, "do-not-display-(x)");
+        if (!isEmptyObject(subcatalogsDict[0])) {
+            data["subcatalogs"] = subcatalogsDict[0];
         }
 
-        const categories_sheets = _keys_starts_with(source, "categories.");
-        if (categories_sheets.length) {
-            var categories_dict = {};
-            categories_sheets.forEach((sheet) => {
-                var category_list = _rows_to_list(source[sheet], store, "do-not-display-(x)");
+        const categoriesSheets = _keysStartsWith(source, "categories.");
+        if (categoriesSheets.length) {
+            const categoriesDict = {};
+            categoriesSheets.forEach((sheet) => {
+                const categoriesList = _rowsToList(source[sheet], store, "do-not-display-(x)");
 
-                if (categories_list[0].length) {
-                    categories_dict[sheet.substring("categories.".length)] = category_list[0];
+                if (categoriesList[0].length) {
+                    categoriesDict[sheet.substring("categories.".length)] = categoriesList[0];
                 }
             });
-            if (!is_empty_object(categories_dict)) {
-                data["categories"] = categories_dict;
+            if (!isEmptyObject(categoriesDict)) {
+                data["categories"] = categoriesDict;
             }
         } else {
-            var categories_list = _rows_to_list(source["categories"], store, "do-not-display-(x)");
-            if (categories_list[0].length) {
-                data["categories"] = categories_list[0];
+            const categoriesList = _rowsToList(source["categories"], store, "do-not-display-(x)");
+            if (categoriesList[0].length) {
+                data["categories"] = categoriesList[0];
             }
         }
 
         [ "panes", "banners", "showcases", "collections" ].forEach((dataset) => {
-            const singular_keys = { "banners": "banner", "showcases": "showcase", "collections": "collection" };
-            const dataset_prefix = ((dataset in singular_keys) ? singular_keys[dataset] : dataset) + ".";
-            const dataset_sheets = _keys_starts_with(source, dataset_prefix);
-            const datasets_dict = {}, datasets_sortkeys = {};
+            const singularKeys = { "banners": "banner", "showcases": "showcase", "collections": "collection" };
+            const datasetPrefix = ((dataset in singularKeys) ? singularKeys[dataset] : dataset) + ".";
+            const datasetSheets = _keysStartsWith(source, datasetPrefix);
+            const datasetsDict = {}, datasetsSortKeys = {};
 
-            dataset_sheets.forEach((sheet) => {
-                const dataset_list = _rows_to_list(source[sheet], store, "do-not-display-(x)");
+            datasetSheets.forEach((sheet) => {
+                const datasetLlist = _rowsToList(source[sheet], store, "do-not-display-(x)");
 
-                if (dataset_list[0].length) {
+                if (datasetLlist[0].length) {
                     [ "categories", "memberships" ].forEach((key) => {
-                        _unfold_list(dataset_list[0], key);
+                        _unfoldList(datasetLlist[0], key);
                     });
-                    datasets_dict[sheet.substring(dataset_prefix.length)] = dataset_list[0];
-                    datasets_sortkeys[sheet.substring(dataset_prefix.length)] = dataset_list[1];
+                    datasetsDict[sheet.substring(datasetPrefix.length)] = datasetLlist[0];
+                    datasetsSortKeys[sheet.substring(datasetPrefix.length)] = datasetLlist[1];
                 }
             });
-            if (!is_empty_object(datasets_dict)) {
-                data[dataset] = datasets_dict, sortkeys[dataset] = datasets_sortkeys;
+            if (!isEmptyObject(datasetsDict)) {
+                data[dataset] = datasetsDict, sortKeys[dataset] = datasetsSortKeys;
             }
         });
 
         [ "purchases", "promos", "readings", "auxiliary" ].forEach((dataset) => {
-            const dataset_prefix = dataset + ".";
-            const dataset_sheets = _keys_starts_with(source, dataset_prefix);
-            const datasets_dict = {};
+            const datasetPrefix = dataset + ".";
+            const datasetSheets = _keysStartsWith(source, datasetPrefix);
+            const datasetsDict = {};
 
-            dataset_sheets.forEach((sheet) => {
-                const dataset_dict = _rows_to_dict(source[sheet], store, "do-not-display-(x)");
+            datasetSheets.forEach((sheet) => {
+                const datasetDict = _rowsToDict(source[sheet], store, "do-not-display-(x)");
 
-                if (!is_empty_object(dataset_dict[0])) {
-                    datasets_dict[sheet.substring(dataset_prefix.length)] = dataset_dict[0];
+                if (!isEmptyObject(datasetDict[0])) {
+                    datasetsDict[sheet.substring(datasetPrefix.length)] = datasetDict[0];
                 }
             });
-            if (!is_empty_object(datasets_dict)) {
-                data[dataset] = datasets_dict;
+            if (!isEmptyObject(datasetsDict)) {
+                data[dataset] = datasetsDict;
             }
         });
 
-        const products_dict = _rows_to_dict(source["products"], store, "not-for-sale-(x)");
+        const productsDict = _rowsToDict(source["products"], store, "not-for-sale-(x)");
         [ "stores", "points", "required-products", "required-events", "required-memberships" ].forEach((key) => {
-            _unfold_list(Object.values(products_dict[0] || {}), key);
+            _unfoldList(Object.values(productsDict[0] || {}), key);
         });
-        _unfold_list(Object.values(products_dict[0] || {}), "items", _unfold_items);
-        if (!is_empty_object(products_dict[0])) {
-            data["products"] = products_dict[0];
+        _unfoldList(Object.values(productsDict[0] || {}), "items", _unfoldItems);
+        if (!isEmptyObject(productsDict[0])) {
+            data["products"] = productsDict[0];
         }
 
-        const items_dict = _rows_to_dict(source["items"], store, "not-for-sale-(x)");
+        const itemsDict = _rowsToDict(source["items"], store, "not-for-sale-(x)");
         [ "series" ].forEach((key) => {
-            _unfold_list(Object.values(items_dict[0] || {}), key);
+            _unfoldList(Object.values(itemsDict[0] || {}), key);
         });
-        if (!is_empty_object(items_dict[0])) {
-            data["items"] = items_dict[0];
+        if (!isEmptyObject(itemsDict[0])) {
+            data["items"] = itemsDict[0];
         }
 
         [ "series", "memberships", "points", "events", "ads", "notifications" ].forEach((dataset) => {
-            const dataset_dict = _rows_to_dict(source[dataset], store, "not-for-sale-(x)");
-            if (!is_empty_object(dataset_dict[0])) {
-                data[dataset] = dataset_dict[0];
+            const datasetDict = _rowsToDict(source[dataset], store, "not-for-sale-(x)");
+            if (!isEmptyObject(datasetDict[0])) {
+                data[dataset] = datasetDict[0];
             }
         });
        
-        const strings_list = _rows_to_raw_list(source["strings"]);
-        if (!is_empty_object(strings_list)) {
-            data["strings"] = strings_list;
+        const stringsList = _rowsToRawList(source["strings"]);
+        if (!isEmptyObject(stringsList)) {
+            data["strings"] = stringsList;
         }
 
-        return [ data, sortkeys ];
+        return [ data, sortKeys ];
     },
 
-    save_to_file(data, path, include_all_data) {
-        const keys_to_skip = _bool_for_key(data, "uses-database") ? _KEYS_IN_DATABASE : [];
-        const catalog_dict = {};
+    saveToFile(data, path, includeAllData) {
+        const keysToSkip = _boolForKey(data, "uses-database") ? KEYS_IN_DATABASE : [];
+        const catalogDict = {};
 
         Object.keys(data).forEach((key) => {
-            if (include_all_data || !keys_to_skip.includes(key)) {
-                catalog_dict[key] = data[key];
+            if (includeAllData || !keysToSkip.includes(key)) {
+                catalogDict[key] = data[key];
             }
         });
 
-        fs.writeFileSync(path, JSON.stringify(catalog_dict, null, 4));
+        fs.writeFileSync(path, JSON.stringify(catalogDict, null, 4));
     },
 
-    save_to_database(data, sortkeys, path) {
+    saveToDatabase(data, sortKeys, path) {
         if (fs.existsSync(path)) {
             fs.unlinkSync(path);
         }
 
-        const database = sqlite.open_database(path);
+        const database = sqlite.openDatabase(path);
 
         if ("subviews" in data) {
-            const subviews_rows = [];
+            const subviewsRows = [];
 
-            (data["subviews"]).forEach((subview_dict) => {
-                subviews_rows.push({
-                    "id": subview_dict["id"],
-                    "type": subview_dict["type"],
-                    "attr": _stringify_value(subview_dict)
+            (data["subviews"]).forEach((subviewDict) => {
+                subviewsRows.push({
+                    "id": subviewDict["id"],
+                    "type": subviewDict["type"],
+                    "attr": _stringifyValue(subviewDict)
                 });
             });
 
-            _save_table_to_database(
+            _saveTableToDatabase(
                 database,
                 "subviews", 
                 [["id","TEXT"],["type","TEXT"],["attr","TEXT"]], 
                 [["id"],["type"]],
-                subviews_rows
+                subviewsRows
             );
         }
 
         if ("subcatalogs" in data) {
-            const subcatalogs_rows = [];
+            const subcatalogsRows = [];
 
             Object.keys(data["subcatalogs"]).forEach((identifier) => {
-                var subcatalog_dict = data["subcatalogs"][identifier];
-                subcatalogs_rows.push({
+                var subcatalogDict = data["subcatalogs"][identifier];
+                subcatalogsRows.push({
                     "id": identifier,
-                    "attr": _stringify_value(subcatalog_dict)
+                    "attr": _stringifyValue(subcatalogDict)
                 });
             });
 
-            _save_table_to_database(
+            _saveTableToDatabase(
                 database,
                 "subcatalogs", 
                 [["id","TEXT"],["attr","TEXT"]], 
                 [["id"]],
-                subcatalogs_rows
+                subcatalogsRows
             );
         }
 
         if ("categories" in data) {
-            const categories_rows = [];
+            const categoriesRows = [];
 
             if (Array.isArray(data["categories"])) {
-                data["categories"].forEach((category_dict) => {
-                    categories_rows.push({
-                        "id": category_dict["id"],
+                data["categories"].forEach((categoryDict) => {
+                    categoriesRows.push({
+                        "id": categoryDict["id"],
                         "subcatalog": "__DEFAULT__",
-                        "attr": _stringify_value(category_dict)
+                        "attr": _stringifyValue(categoryDict)
                     });
                 });
             } else {
                 Object.keys(data["categories"]).forEach((name) => {
                     const subcatalog_list = data["categories"][name];
-                    subcatalog_list.forEach((category_dict) => {
-                        categories_rows.push({
-                            "id": category_dict["id"],
+                    subcatalog_list.forEach((categoryDict) => {
+                        categoriesRows.push({
+                            "id": categoryDict["id"],
                             "subcatalog": name,
-                            "attr": _stringify_value(category_dict)
+                            "attr": _stringifyValue(categoryDict)
                         });
                     });
                 });
             }
 
-            _save_table_to_database(
+            _saveTableToDatabase(
                 database,
                 "categories", 
                 [["id","TEXT"],["subcatalog","TEXT"],["attr","TEXT"]], 
                 [["id"],["subcatalog"]],
-                categories_rows
+                categoriesRows
             );
         }  
         
         [ "panes", "banners", "showcases", "collections" ].forEach((dataset) => {
             if (dataset in data) {
-                const singular_keys = { "banners": "banner", "showcases": "showcase", "collections": "collection" };
-                const singular_key = (dataset in singular_keys) ? singular_keys[dataset] : dataset;
-                const datasets_rows = [], dataset_to_category = [], dataset_to_membership = [];
-                const datasets_sortkeys = _merge_sortkeys(sortkeys[dataset] || {});
+                const singularKeys = { "banners": "banner", "showcases": "showcase", "collections": "collection" };
+                const singularKey = (dataset in singularKeys) ? singularKeys[dataset] : dataset;
+                const datasetsRows = [], datasetToCategory = [], datasetToMembership = [];
+                const datasetsSortKeys = _mergeSortKeys(sortKeys[dataset] || {});
     
                 Object.keys(data[dataset]).forEach((name) => {
-                    const dataset_list = data[dataset][name];
-                    dataset_list.forEach((dataset_dict) => {
-                        if ("categories" in dataset_dict) {
-                            dataset_dict["categories"].forEach((category) => {
-                                dataset_to_category.push({
-                                    "id": dataset_dict["id"],
-                                    [singular_key]: name, 
+                    const datasetLlist = data[dataset][name];
+                    datasetLlist.forEach((datasetDict) => {
+                        if ("categories" in datasetDict) {
+                            datasetDict["categories"].forEach((category) => {
+                                datasetToCategory.push({
+                                    "id": datasetDict["id"],
+                                    [singularKey]: name, 
                                     "category": category
                                 });
                             });
-                            delete dataset_dict["categories"];
+                            delete datasetDict["categories"];
                         }
     
-                        if ("memberships" in dataset_dict) {
-                            dataset_dict["memberships"].forEach((membership) => {
-                                dataset_to_membership.push({
-                                    "id": dataset_dict["id"],
-                                    [singular_key]: name, 
+                        if ("memberships" in datasetDict) {
+                            datasetDict["memberships"].forEach((membership) => {
+                                datasetToMembership.push({
+                                    "id": datasetDict["id"],
+                                    [singularKey]: name, 
                                     "membership": membership
                                 });
                             });
-                            delete dataset_dict["memberships"];
+                            delete datasetDict["memberships"];
                         }
                         
-                        datasets_rows.push(Object.assign({
-                            "id": dataset_dict["id"],
-                            [singular_key]: name,
-                            "attr": _stringify_value(dataset_dict)
-                        }, _values_for_headers(dataset_dict, datasets_sortkeys)));
+                        datasetsRows.push(Object.assign({
+                            "id": datasetDict["id"],
+                            [singularKey]: name,
+                            "attr": _stringifyValue(datasetDict)
+                        }, _valuesForHeaders(datasetDict, datasetsSortKeys)));
                     });
                 });
     
-                _save_table_to_database(
+                _saveTableToDatabase(
                     database,
-                    singular_key + "_to_category", 
-                    [["id","TEXT"],[singular_key,"TEXT"],["category","TEXT"]], 
-                    [[singular_key,"category"]],
-                    dataset_to_category
+                    singularKey + "_to_category", 
+                    [["id","TEXT"],[singularKey,"TEXT"],["category","TEXT"]], 
+                    [[singularKey,"category"]],
+                    datasetToCategory
                 );
-                _save_table_to_database(
+                _saveTableToDatabase(
                     database,
-                    singular_key + "_to_membership", 
-                    [["id","TEXT"],[singular_key,"TEXT"],["membership","TEXT"]], 
-                    [[singular_key,"membership"]],
-                    dataset_to_membership
+                    singularKey + "_to_membership", 
+                    [["id","TEXT"],[singularKey,"TEXT"],["membership","TEXT"]], 
+                    [[singularKey,"membership"]],
+                    datasetToMembership
                 );
 
-                const columns = [["id","TEXT"],[singular_key,"TEXT"],["series","TEXT"],["item","TEXT"],["attr","TEXT"]];
-                const unique_sortkeys = datasets_sortkeys.filter((value, index, self) => {
-                    return !["id",singular_key,"series","item"].includes(value);
+                const columns = [["id","TEXT"],[singularKey,"TEXT"],["series","TEXT"],["item","TEXT"],["attr","TEXT"]];
+                const uniqueSortKeys = datasetsSortKeys.filter((value, index, self) => {
+                    return !["id",singularKey,"series","item"].includes(value);
                 });
-                _save_table_to_database(
+                _saveTableToDatabase(
                     database,
                     dataset, 
-                    array.union(columns, _columns_for_headers(unique_sortkeys)), 
-                    array.union([["id"],[singular_key],["series"],["item"]], _indexes_for_headers(singular_key, unique_sortkeys)),
-                    datasets_rows
+                    array.union(columns, _columnsForHeaders(uniqueSortKeys)), 
+                    array.union([["id"],[singularKey],["series"],["item"]], _indexesForHeaders(singularKey, uniqueSortKeys)),
+                    datasetsRows
                 );
             }
         });
         
         [ "purchases", "promos", "readings", "auxiliary" ].forEach((dataset) => {
             if (dataset in data) {
-                const datasets_rows = [];
+                const datasetsRows = [];
 
                 Object.keys(data[dataset]).forEach((name) => {
-                    const datasets_dict = data[dataset][name];
-                    Object.keys(datasets_dict).forEach((identifier) => {
-                        datasets_rows.push({
+                    const datasetsDict = data[dataset][name];
+                    Object.keys(datasetsDict).forEach((identifier) => {
+                        datasetsRows.push({
                             "id": identifier,
                             [dataset]: name,
-                            "attr": _stringify_value(datasets_dict[identifier])
+                            "attr": _stringifyValue(datasetsDict[identifier])
                         });
                     });
                 }); 
                 
-                _save_table_to_database(
+                _saveTableToDatabase(
                     database,
                     dataset,
                     [["id","TEXT"],[dataset,"TEXT"],["attr","TEXT"]],
                     [["id",dataset]],
-                    datasets_rows
+                    datasetsRows
                 );
             }
         });
 
         if ("items" in data) {
-            const items_rows = [];
-            const item_to_series = [];
+            const itemsRows = [];
+            const itemToSeries = [];
 
             Object.keys(data["items"]).forEach((identifier) => {
-                var item_dict = data["items"][identifier];
-                if ("series" in item_dict) {
-                    item_dict["series"].forEach((series) => {
-                        item_to_series.push({
+                var itemDict = data["items"][identifier];
+                if ("series" in itemDict) {
+                    itemDict["series"].forEach((series) => {
+                        itemToSeries.push({
                             "item": identifier,
                             "series": series
                         });
                     });
-                    delete item_dict["series"]
+                    delete itemDict["series"]
                 }
-                items_rows.push({
+                itemsRows.push({
                     "id": identifier,
-                    "attr": _stringify_value(item_dict)
+                    "attr": _stringifyValue(itemDict)
                 });
             });
 
-            _save_table_to_database(
+            _saveTableToDatabase(
                 database,
-                "item_to_series",
+                "itemToSeries",
                 [["item","TEXT"],["series","TEXT"]],
                 [["item"],["series"]],
-                item_to_series
+                itemToSeries
             );
-            _save_table_to_database(
+            _saveTableToDatabase(
                 database,
                 "items",
                 [["id","TEXT"],["attr","TEXT"]],
                 [["id"]],
-                items_rows
+                itemsRows
             );
         }
 
         if ("products" in data) {
-            const products_rows = [];
-            const product_to_item = [], product_to_store = [];
+            const productsRows = [];
+            const productToItem = [], productToStore = [];
 
             Object.keys(data["products"]).forEach((identifier) => {
-                const product_dict = data["products"][identifier];
-                const free_of_charge = _bool_for_key(product_dict, "free-of-charge");
-                if ("items" in product_dict) {
-                    product_dict["items"].forEach((item) => {
-                        product_to_item.push({
+                const productDict = data["products"][identifier];
+                const freeOfCharge = _boolForKey(productDict, "free-of-charge");
+                if ("items" in productDict) {
+                    productDict["items"].forEach((item) => {
+                        productToItem.push({
                             "product": identifier,
                             "item": item
                         });
                     });
-                    delete product_dict["items"]
+                    delete productDict["items"]
                 }
-                if ("stores" in product_dict) {
-                    product_dict["stores"].forEach((store) => {
-                        product_to_store.push({
+                if ("stores" in productDict) {
+                    productDict["stores"].forEach((store) => {
+                        productToStore.push({
                             "product": identifier,
                             "store": store
                         });
                     });
-                    delete product_dict["stores"]
+                    delete productDict["stores"]
                 }
-                products_rows.push({
+                productsRows.push({
                     "id": identifier,
-                    "free_of_charge": free_of_charge ? 1 : 0,
-                    "attr": _stringify_value(product_dict)
+                    "free_of_charge": freeOfCharge ? 1 : 0,
+                    "attr": _stringifyValue(productDict)
                 });
             });
 
-            _save_table_to_database(
+            _saveTableToDatabase(
                 database,
-                "product_to_item",
+                "productToItem",
                 [["product","TEXT"],["item","TEXT"]],
                 [["product"],["item"]],
-                product_to_item
+                productToItem
             );
-            _save_table_to_database(
+            _saveTableToDatabase(
                 database,
-                "product_to_store",
+                "productToStore",
                 [["product","TEXT"],["store","TEXT"]],
                 [["product"],["store"]],
-                product_to_store
+                productToStore
             );
-            _save_table_to_database(
+            _saveTableToDatabase(
                 database,
                 "products",
                 [["id","TEXT"],["free_of_charge","INTEGER"],["attr","TEXT"]],
                 [["id"],["free_of_charge"]],
-                products_rows
+                productsRows
             );
         }
 
         [ "series", "memberships", "points", "events", "ads", "notifications" ].forEach((dataset) => {
             if (dataset in data) {
-                const datasets_rows = [];
+                const datasetsRows = [];
 
                 Object.keys(data[dataset]).forEach((identifier) => {
-                    var dataset_dict = data[dataset][identifier];
-                    datasets_rows.push({
+                    var datasetDict = data[dataset][identifier];
+                    datasetsRows.push({
                         "id": identifier,
-                        "attr": _stringify_value(dataset_dict)
+                        "attr": _stringifyValue(datasetDict)
                     });
                 });
     
-                _save_table_to_database(
+                _saveTableToDatabase(
                     database,
                     dataset,
                     [["id","TEXT"],["attr","TEXT"]],
                     [["id"]],
-                    datasets_rows
+                    datasetsRows
                 );
             }
         });
 
         if ("strings" in data) {
-            const strings_rows = [], languages = [];
+            const stringsRows = [], languages = [];
 
             data["strings"].forEach((dataset) => {
                 Object.keys(dataset).forEach((header) => {
@@ -725,18 +725,18 @@ export default {
                     }
                 });
 
-                strings_rows.push(dataset);
+                stringsRows.push(dataset);
             }); 
             
-            _save_table_to_database(
+            _saveTableToDatabase(
                 database,
                 "strings",
-                array.union([["key","TEXT"]], _columns_for_headers(languages)),
+                array.union([["key","TEXT"]], _columnsForHeaders(languages)),
                 [["key"]],
-                strings_rows
+                stringsRows
             );
         }
 
-        sqlite.close_database(database);
+        sqlite.closeDatabase(database);
     }
 }

@@ -27,7 +27,7 @@ program.command("create")
     .option("--theme <theme>", "Theme for the app or book")
     .action((directory, options) => {
         if (options.type === "app") {
-            commands.create_app(directory, {
+            commands.createApp(directory, {
                 "app-id":     options.appId,
                 "version":    options.version,
                 "template":   options.template,
@@ -40,7 +40,7 @@ program.command("create")
         }
 
         if (options.type === "book") {
-            commands.create_book(directory, {
+            commands.createBook(directory, {
                 "version":    options.version,
                 "template":   options.template,
                 "repository": options.repository,
@@ -64,7 +64,7 @@ program.command("run")
     .option("--skip-sync", "If set, do not copy files to the simulator", false)
     .action((options) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
-            commands.run_app(options.platform, options.mode, {
+            commands.runApp(options.platform, options.mode, {
                 "host": options.shellHost, 
                 "port": options.shellPort
             }, {
@@ -75,7 +75,7 @@ program.command("run")
         }
 
         if ((options.type === "auto" && fs.existsSync("./book.bon")) || options.type === "book") {
-            commands.run_book(options.platform, {
+            commands.runBook(options.platform, {
                 "host": options.shellHost, 
                 "port": options.shellPort
             }, {
@@ -93,13 +93,13 @@ program.command("build")
     .option("-t, --type <type>", "Specify the project type to build: `app`, `book`, or `auto`.", "auto")
     .action((options) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
-            commands.build_app();
+            commands.buildApp();
 
             return;
         }
 
         if ((options.type === "auto" && fs.existsSync("./book.bon")) || options.type === "book") {
-            commands.build_book();
+            commands.buildBook();
 
             return;
         }
@@ -113,13 +113,13 @@ program.command("install")
     .option("--platform <platform>", "Specify the platform for the simulator: `ios` or `android`", (process.platform === "darwin") ? "ios" : "android")
     .action((options) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
-            commands.install_app(options.platform);
+            commands.installApp(options.platform);
 
             return;
         }
 
         if ((options.type === "auto" && fs.existsSync("./book.bon")) || options.type === "book") {
-            commands.install_book(options.platform);
+            commands.installBook(options.platform);
 
             return;
         }
@@ -145,7 +145,7 @@ program.command("publish")
     .option("--google-install-url <url>", "Installation URL of the host app for Android", "auto")
     .action((options) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
-            commands.publish_app({
+            commands.publishApp({
                 "scheme": options.hostScheme,
                 "url": options.hostUrl
             }, {
@@ -168,7 +168,7 @@ program.command("publish")
         }
         
         if ((options.type === "auto" && fs.existsSync("./book.bon")) || options.type === "book") {
-            commands.publish_book({
+            commands.publishBook({
                 "scheme": options.hostScheme,
                 "url": options.hostUrl
             }, {
@@ -197,7 +197,7 @@ program.command("open")
     .argument("<url>", "Specify the url to open")
     .option("--platform <platform>", "Specify the platform to run the simulator: `ios` or `android`", (process.platform === "darwin") ? "ios" : "android")
     .action((url, options) => {
-        commands.open_url(options.platform, url);
+        commands.openUrl(options.platform, url);
     });    
 
 const databaseCommand = program.command("database")
@@ -212,7 +212,7 @@ databaseCommand.command("generate")
     .argument("<path>", "Specify the file path of the Excel document")
     .action((path, options) => {
         if (fs.existsSync("./package.bon")) {
-            commands.generate_database("MainApp", "", path);
+            commands.generateDatabase("MainApp", "", path);
 
             return;
         }
@@ -231,7 +231,7 @@ const styleCommand = program.command("style")
 styleCommand.command("migrate")
     .description("Migrate old style sbss to new style.")
     .action((options) => {
-        commands.migrate_style();
+        commands.migrateStyle();
     });
 
 
@@ -249,7 +249,7 @@ nativeCommand.command("compose")
     .action((path, options) => {
         const platforms = options.platform === "all" ? [ "ios", "android"] : [ options.platform ];
 
-        commands.compose_native(path, platforms);
+        commands.composeNative(path, platforms);
     });
     
 program.parse();

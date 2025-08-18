@@ -2,89 +2,90 @@ import sqlite3 from "node-sqlite3-wasm";
 import { vsprintf } from "sprintf-js";
 
 const { Database } = sqlite3;
-function QueryBuilder() {};
 
-QueryBuilder.prototype.create_table = function(table, columns) {
-    const defines = [];
+class QueryBuilder {
+    createTable(table, columns) {
+        const defines = [];
 
-    columns.forEach((column) => {
-        defines.push(vsprintf("%s %s", column));
-    });
-    
-    return vsprintf("CREATE TABLE %s (%s)", [ table, defines.join(",") ]);
-};
-
-QueryBuilder.prototype.create_index_to_table = function(table, columns) {
-    var index = vsprintf("index_%s_%s", [ table, columns.join("_") ]);
-
-    return vsprintf("CREATE INDEX %s ON %s (%s)", [ index, table, columns.join(",") ]);
-};
-
-QueryBuilder.prototype.drop_table_if_exists = function(table) {
-    return vsprintf("DROP TABLE IF EXISTS %s", [ table ]);
-};
-
-QueryBuilder.prototype.insert_row_to_table = function(table, row) {
-    const columns = [], values = [];
-
-    Object.keys(row).forEach((column) => {
-        columns.push(column);
-        values.push(this.__value_for_query(row[column]));
-    });
-
-    return vsprintf("INSERT INTO %s (%s) VALUES (%s)", [ table, columns.join(","), values.join(",") ]);
-};
-
-QueryBuilder.prototype.__value_for_query = function(value) {
-    if (!value) {
-        return "NULL";
+        columns.forEach((column) => {
+            defines.push(vsprintf("%s %s", column));
+        });
+        
+        return vsprintf("CREATE TABLE %s (%s)", [ table, defines.join(",") ]);
     }
 
-    if (typeof value === "string") {
-        return vsprintf("'%s'", [ this.__escape_special_characters(value) ]);
+    createIndexToTable(table, columns) {
+        const index = vsprintf("index_%s_%s", [ table, columns.join("_") ]);
+
+        return vsprintf("CREATE INDEX %s ON %s (%s)", [ index, table, columns.join(",") ]);
     }
 
-    if (typeof value === "number" && parseInt(value) === value) {
-        return vsprintf("%d", [ value ]);
+    dropTableIfExists(table) {
+        return vsprintf("DROP TABLE IF EXISTS %s", [ table ]);
     }
 
-    if (typeof value === "number") {
-        return vsprintf("%f", [ value ]);
+    insertRowToTable(table, row) {
+        const columns = [], values = [];
+
+        Object.keys(row).forEach((column) => {
+            columns.push(column);
+            values.push(this._getValueForQuery(row[column]));
+        });
+
+        return vsprintf("INSERT INTO %s (%s) VALUES (%s)", [ table, columns.join(","), values.join(",") ]);
     }
-}
 
-QueryBuilder.prototype.__escape_special_characters = function(value) {
-    value = value.replace(/\'/g, "''");
+    _getValueForQuery(value) {
+        if (value == null) {
+            return "NULL";
+        }
 
-    return value;
+        if (typeof value === "string") {
+            return vsprintf("'%s'", [ this._escapeString(value) ]);
+        }
+
+        if (Number.isInteger(value)) {
+            return vsprintf("%d", [ value ]);
+        }
+
+        if (Number.isFinite(value)) {
+            return vsprintf("%f", [ value ]);
+        }
+
+        return String(value);
+    }
+
+    _escapeString(value) {
+        return value.replace(/\'/g, "''");
+    }
 }
 
 export default {
-    open_database(path) {
+    openDatabase(path) {
         return new Database(path);
     },
 
-    close_database(database) {
+    closeDatabase(database) {
         database.close();
     },
 
-    create_table(database, table, columns) {
-        database.exec(new QueryBuilder().create_table(table, columns));
+    createTable(database, table, columns) {
+        database.exec(new QueryBuilder().createTable(table, columns));
     },
 
-    create_indexes_to_table(database, table, indexes) {
+    createIndexesToTable(database, table, indexes) {
         indexes.forEach((columns) => {
-            database.exec(new QueryBuilder().create_index_to_table(table, columns));
+            database.exec(new QueryBuilder().createIndexToTable(table, columns));
         });
     },
 
-    drop_table_if_exists(database, table) {
-        database.exec(new QueryBuilder().drop_table_if_exists(table));
+    dropTableIfExists(database, table) {
+        database.exec(new QueryBuilder().dropTableIfExists(table));
     }, 
 
-    insert_rows_to_table(database, table, rows) {
+    insertRowsToTable(database, table, rows) {
         rows.forEach((row) => {
-            database.exec(new QueryBuilder().insert_row_to_table(table, row));
+            database.exec(new QueryBuilder().insertRowToTable(table, row));
         });
     }
 }

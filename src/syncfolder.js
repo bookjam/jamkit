@@ -5,7 +5,7 @@ import avdctl from "./avdctl-helper.js";
 
 const _impl = {
     "ios" : {
-        sync: function(app_id, src, dest) {
+        sync: function(appId, src, dest) {
             if (fs.existsSync(dest)) {
                 fs.removeSync(dest);
             }
@@ -13,118 +13,118 @@ const _impl = {
             fs.copySync(src, dest);
         },
 
-        copy: function(app_id, src, dest) {
-            if (!fs.lstatSync(src).isDirectory) {
+        copy: function(appId, src, dest) {
+            if (!fs.lstatSync(src).isDirectory()) {
                 fs.writeFileSync(dest, fs.readFileSync(src));
             } else {
                 fs.copySync(src, dest);
             }
         },
     
-        remove: function(app_id, path) {
+        remove: function(appId, path) {
             fs.removeSync(path);
         }
     },
 
     "android" : {
-        sync: function(app_id, src, dest) {
-            const tmproot = "/data/local/tmp/jamkit";
+        sync: function(appId, src, dest) {
+            const tmpRoot = "/data/local/tmp/jamkit";
 
-            avdctl.shell(`rm -rf ${tmproot}`);
-            avdctl.push(src, tmproot);
+            avdctl.shell(`rm -rf ${tmpRoot}`);
+            avdctl.push(src, tmpRoot);
 
-            if (avdctl.get_sdk_version() >= 30) {
+            if (avdctl.getSdkVersion() >= 30) {
                 avdctl.shell(`rm -rf ${dest}`);
                 avdctl.shell(`mkdir ${dest}`);
-                avdctl.shell(`cp -rf ${tmproot}/* ${dest}`);
+                avdctl.shell(`cp -rf ${tmpRoot}/* ${dest}`);
             } else {
-                avdctl.shell(`run-as ${app_id} rm -rf ${dest}`);
-                avdctl.shell(`run-as ${app_id} mkdir ${dest}`);
-                avdctl.shell(`run-as ${app_id} cp -rf ${tmproot}/* ${dest}`);
+                avdctl.shell(`run-as ${appId} rm -rf ${dest}`);
+                avdctl.shell(`run-as ${appId} mkdir ${dest}`);
+                avdctl.shell(`run-as ${appId} cp -rf ${tmpRoot}/* ${dest}`);
             }
         },
 
-        copy: function(app_id, src, dest) {
-            var tmproot = "/data/local/tmp/jamkit";
-            var tmppath = `${tmproot}/${path.basename(src)}`;
+        copy: function(appId, src, dest) {
+            const tmpRoot = "/data/local/tmp/jamkit";
+            const tmpPath = `${tmpRoot}/${path.basename(src)}`;
 
-            avdctl.push(src, tmppath);
+            avdctl.push(src, tmpPath);
 
-            if (avdctl.get_sdk_version() >= 30) {
-                avdctl.shell(`cp -rf ${tmppath} ${dest}`);
+            if (avdctl.getSdkVersion() >= 30) {
+                avdctl.shell(`cp -rf ${tmpPath} ${dest}`);
             } else {
-                avdctl.shell(`run-as ${app_id} cp -rf ${tmppath} ${dest}`);
+                avdctl.shell(`run-as ${appId} cp -rf ${tmpPath} ${dest}`);
             }
         },
         
-        remove: function(app_id, path) {
-            if (avdctl.get_sdk_version() >= 30) {
+        remove: function(appId, path) {
+            if (avdctl.getSdkVersion() >= 30) {
                 avdctl.shell(`rm -rf ${path.replace(/\\/g, "/")}`);
             } else {
-                avdctl.shell(`run-as ${app_id} rm -rf ${path.replace(/\\/g, "/")}`);
+                avdctl.shell(`run-as ${appId} rm -rf ${path.replace(/\\/g, "/")}`);
             }
         }
     }
 }
 
 export default {
-    start(platform, app_id, src, dest, options, handler) {
+    start(platform, appId, src, dest, options, handler) {
         const watcher = chokidar.watch(src, { ignored: /[\/\\]\./, persistent: true });
-        var is_ready = false;
+        let isReady = false;
         
         watcher
             .on("ready", () => {
                 if (!options["skip-sync"]) {
-                    _impl[platform].sync(app_id, src, dest);
+                    _impl[platform].sync(appId, src, dest);
                 }
 
-                is_ready = true;
+                isReady = true;
 
                 console.log("Done");
 
                 handler();
             })
             .on("add", (file) => {
-                if (is_ready) {
-					const subpath = path.relative(src, file).replace(/\\/g, "/");
+                if (isReady) {
+					const subPath = path.relative(src, file).replace(/\\/g, "/");
 
-                    _impl[platform].copy(app_id, file, `${dest}/${subpath}`);
+                    _impl[platform].copy(appId, file, `${dest}/${subPath}`);
 
                     handler();
                 }
             })
             .on("addDir", (dir) => {
-                if (is_ready) {
-					const subpath = path.relative(src, dir).replace(/\\/g, "/");
+                if (isReady) {
+					const subPath = path.relative(src, dir).replace(/\\/g, "/");
 					
-                    _impl[platform].copy(app_id, dir, `${dest}/${subpath}`);
+                    _impl[platform].copy(appId, dir, `${dest}/${subPath}`);
 
                     handler();
                 }
             })
             .on("change", (file, stats) => {
-                if (is_ready) {
-					const subpath = path.relative(src, file).replace(/\\/g, "/");
+                if (isReady) {
+					const subPath = path.relative(src, file).replace(/\\/g, "/");
 					
-                    _impl[platform].copy(app_id, file, `${dest}/${subpath}`);
+                    _impl[platform].copy(appId, file, `${dest}/${subPath}`);
 
                     handler();
                 }
             })
             .on("unlink", (file) => {
-                if (is_ready) {
-					const subpath = path.relative(src, file).replace(/\\/g, "/");
+                if (isReady) {
+					const subPath = path.relative(src, file).replace(/\\/g, "/");
 
-                    _impl[platform].remove(app_id, `${dest}/${subpath}`);
+                    _impl[platform].remove(appId, `${dest}/${subPath}`);
 
                     handler();
                 }
             })
             .on("unlinkDir", (dir) => {
-                if (is_ready) {
-					const subpath = path.relative(src, dir).replace(/\\/g, "/");
+                if (isReady) {
+					const subPath = path.relative(src, dir).replace(/\\/g, "/");
 
-                    _impl[platform].remove(app_id, `${dest}/${subpath}`);
+                    _impl[platform].remove(appId, `${dest}/${subPath}`);
 
                     handler();
                 }

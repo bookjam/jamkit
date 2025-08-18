@@ -2,19 +2,21 @@ import fs from "fs";
 import path from "path";
 import avdctl from "./avdctl.js";
 
-const _sdk_version = parseInt(avdctl.property("ro.build.version.sdk"));
+const SDK_VERSION = Number.parseInt(avdctl.getProperty("ro.build.version.sdk"), 10);
 
-function _walk_dir(root, dir, handler) {
-    fs.readdirSync(path.join(root, dir)).forEach((file) => {
-        const subpath = path.join(dir, file);
-        const stats = fs.statSync(path.join(root, subpath));
+const walkDir = (root, dir, handler) => {
+    const basePath = path.join(root, dir);
 
-        handler(subpath, stats);
+    for (const file of fs.readdirSync(basePath)) {
+        const subPath = path.join(dir, file);
+        const stat = fs.statSync(path.join(root, subPath));
 
-        if (stats.isDirectory()) {
-            _walk_dir(root, subpath, handler);
+        handler(subPath, stat);
+
+        if (stat.isDirectory()) {
+            walkDir(root, subPath, handler);
         }
-    }); 
+    }
 }
 
 export default {
@@ -24,7 +26,7 @@ export default {
         if (stats.isDirectory()) {
             avdctl.shell(`mkdir ${dest}`);
 
-            _walk_dir(src, ".", (file, stats) => {
+            walkDir(src, ".", (file, stats) => {
                 const subpath = file.replace(/\\/g, "/");
 
                 if (stats.isDirectory()) {
@@ -46,7 +48,7 @@ export default {
         avdctl.shell(cmd);
     },
 
-    get_sdk_version() {
-        return _sdk_version;
+    getSdkVersion() {
+        return SDK_VERSION;
     }
 }

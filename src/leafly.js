@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export default {
-    create_short_url(original_url, expiry_date) {
+    createShortUrl(originalUrl, expiryDate) {
         const url = "https://us-central1-leafly-service.cloudfunctions.net/createShortUrl";
         const params = {
-            "url": original_url,
-            "expiry-date": expiry_date || 0
+            "url": originalUrl,
+            "expiry-date": expiryDate || 0
         };
 
         return axios.post(url, params, {

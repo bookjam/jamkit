@@ -6,364 +6,364 @@ import { XMLParser } from "fast-xml-parser";
 import { globSync } from "glob";
 import walkSync from "walk-sync";
 
-function _get_app_title(appinfo, language) {
+const _getAppTitle = (appInfo, language) => {
     if (language) {
-        const localization = appinfo.localization || {};
-        const localized_appinfo = localization[language] || {};
+        const localization = appInfo.localization || {};
+        const localizedAppInfo = localization[language] || {};
 
-        if (localized_appinfo.title) {
-            return localized_appinfo.title;
+        if (localizedAppInfo.title) {
+            return localizedAppInfo.title;
         }
     }
 
-    return appinfo.title;
+    return appInfo.title;
 }
 
-function _get_project_name(appinfo) {
-    return appinfo.id.split(".").pop();
+const _getProjectName = (appInfo) => {
+    return appInfo.id.split(".").pop();
 }
 
-function _get_custom_url_scheme(appinfo) {
-    return appinfo.id.split(".").pop().toLowerCase();
+const _getCustomUrlScheme = (appInfo) => {
+    return appInfo.id.split(".").pop().toLowerCase();
 }
 
-function _replace_word_in_file(file_path, old_word, new_word) {
-    const old_text = fs.readFileSync(file_path, { encoding: "utf8" });
-    const new_text = old_text.replaceAll(old_word, new_word);
+const _replaceWordInFile = (filePath, oldWord, newWord) => {
+    const oldText = fs.readFileSync(filePath, { encoding: "utf8" });
+    const newText = oldText.replaceAll(oldWord, newWord);
     
-    if (old_text !== new_text) {
-        fs.writeFileSync(file_path, new_text);
+    if (oldText !== newText) {
+        fs.writeFileSync(filePath, newText);
     }
 }
 
 const _impl = {
     "ios": {
-        compose(rootdir, appinfo, languages) {
-            const project = this._load_xcode_project(rootdir);
-            const old_bundle_identifier = this._get_bundle_identifier(project);
-            const new_bundle_identifier = appinfo.id;
+        compose(rootDir, appInfo, languages) {
+            const project = this._loadXcodeProject(rootDir);
+            const oldBundleIdentifier = this._getBundleIdentifier(project);
+            const newBundleIdentifier = appInfo.id;
 
-            if (new_bundle_identifier !== old_bundle_identifier) {
-                this._replace_bundle_identifier_in_project(project, old_bundle_identifier, new_bundle_identifier);
-                this._replace_bundle_identifier_in_scheme(rootdir, old_bundle_identifier, new_bundle_identifier);
-                this._rename_project_sources(rootdir, new_bundle_identifier);
+            if (newBundleIdentifier !== oldBundleIdentifier) {
+                this._replaceBundleIdentifierInProject(project, oldBundleIdentifier, newBundleIdentifier);
+                this._replaceBundleIdentifierInScheme(rootDir, oldBundleIdentifier, newBundleIdentifier);
+                this._renameProjectSources(rootDir, newBundleIdentifier);
             }
 
-            this._update_info_plist(rootdir, appinfo);
-            this._update_app_info_plist(rootdir, appinfo);
-            this._update_app_icon(rootdir);
-            this._update_launch_screen(rootdir);
+            this._updateInfoPlist(rootDir, appInfo);
+            this._updateAppInfoPlist(rootDir, appInfo);
+            this._updateAppIcon(rootDir);
+            this._updateLaunchScreen(rootDir);
 
-            this._copy_app_sources(rootdir);
+            this._copyAppSources(rootDir);
         },
 
-        _load_xcode_project(rootdir) {
-            const [ project_path ] = globSync(`${rootdir}/*.xcodeproj/project.pbxproj`);
-            const project = xcode.project(project_path);
+        _loadXcodeProject(rootDir) {
+            const [ projectPath ] = globSync(`${rootDir}/*.xcodeproj/project.pbxproj`);
+            const project = xcode.project(projectPath);
             
             return project.parseSync();
         },
 
-        _get_bundle_identifier(project) {
+        _getBundleIdentifier(project) {
             return project.getBuildProperty("PRODUCT_BUNDLE_IDENTIFIER", '"Distribution Production"')
                         .replace("${PRODUCT_NAME}", project.productName)
                         .replaceAll('"', "");
         },
         
-        _parse_bundle_identifier(bundle_identifier) {
-            const bundle_identifier_parts = bundle_identifier.split(".");
-            const product_name = bundle_identifier_parts.pop();
+        _parseBundleIdentifier(bundleIdentifier) {
+            const bundleIdentifierParts = bundleIdentifier.split(".");
+            const productName = bundleIdentifierParts.pop();
 
-            return [ bundle_identifier_parts.join("."), product_name ];
+            return [ bundleIdentifierParts.join("."), productName ];
         },
 
-        _get_product_name(bundle_identifier) {
-            return bundle_identifier.split(".").pop();
+        _getProductName(bundleIdentifier) {
+            return bundleIdentifier.split(".").pop();
         },
 
-        _replace_bundle_identifier_in_project(project, old_bundle_identifier, new_bundle_identifier) {
-            const [ old_bundle_domain, old_product_name ] = this._parse_bundle_identifier(old_bundle_identifier);
-            const [ new_bundle_domain, new_product_name ] = this._parse_bundle_identifier(new_bundle_identifier);
+        _replaceBundleIdentifierInProject(project, oldBundleIdentifier, newBundleIdentifier) {
+            const [ oldBundleDomain, oldProductName ] = this._parseBundleIdentifier(oldBundleIdentifier);
+            const [ newBundleDomain, newProductName ] = this._parseBundleIdentifier(newBundleIdentifier);
 
-            project.updateBuildProperty("PRODUCT_BUNDLE_IDENTIFIER", `"${new_bundle_domain}.\${PRODUCT_NAME}"`);
-            project.updateProductName(new_product_name);
+            project.updateBuildProperty("PRODUCT_BUNDLE_IDENTIFIER", `"${newBundleDomain}.\${PRODUCT_NAME}"`);
+            project.updateProductName(newProductName);
 
-            const old_text = fs.readFileSync(project.filepath, { encoding: "utf-8" });
-            const new_text = project.writeSync().replace(
-                new RegExp(`(\s*)name = ${old_product_name};`),
-                `$1name = ${new_product_name};`
+            const oldText = fs.readFileSync(project.filepath, { encoding: "utf-8" });
+            const newText = project.writeSync().replace(
+                new RegExp(`(\s*)name = ${oldProductName};`),
+                `$1name = ${newProductName};`
             ).replaceAll(
-                `${old_product_name}.app`,
-                `${new_product_name}.app`
+                `${oldProductName}.app`,
+                `${newProductName}.app`
             );
 
-            if (old_text !== new_text) {
-                fs.writeFileSync(project.filepath, new_text);
+            if (oldText !== newText) {
+                fs.writeFileSync(project.filepath, newText);
             }
         },
 
-        _replace_bundle_identifier_in_scheme(rootdir, old_bundle_identifier, new_bundle_identifier) {
-            const old_product_name = this._get_product_name(old_bundle_identifier);
-            const new_product_name = this._get_product_name(new_bundle_identifier);
-            const [ xcscheme_path ] = globSync(`${rootdir}/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme`);
-            const old_text = fs.readFileSync(xcscheme_path, { encoding: "utf-8" });
-            const new_text = old_text.replaceAll(
-                `"${old_product_name}"`,
-                `"${new_product_name}"`
+        _replaceBundleIdentifierInScheme(rootDir, oldBundleIdentifier, newBundleIdentifier) {
+            const oldProductName = this._getProductName(oldBundleIdentifier);
+            const newProductName = this._getProductName(newBundleIdentifier);
+            const [ xcschemePath ] = globSync(`${rootDir}/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme`);
+            const oldText = fs.readFileSync(xcschemePath, { encoding: "utf-8" });
+            const newText = oldText.replaceAll(
+                `"${oldProductName}"`,
+                `"${newProductName}"`
             ).replaceAll(
-                `"${old_product_name}.app"`,
-                `"${new_product_name}.app"`
+                `"${oldProductName}.app"`,
+                `"${newProductName}.app"`
             ).replaceAll(
-                `container:${old_product_name}.xcodeproj`,
-                `container:${new_product_name}.xcodeproj`
+                `container:${oldProductName}.xcodeproj`,
+                `container:${newProductName}.xcodeproj`
             );
             
-            if (old_text !== new_text) {
-                fs.writeFileSync(xcscheme_path, new_text);
+            if (oldText !== newText) {
+                fs.writeFileSync(xcschemePath, newText);
             }
         },
 
-        _rename_project_sources(rootdir, new_bundle_identifier) {
-            const new_product_name = this._get_product_name(new_bundle_identifier);
-            const [ xcscheme_path ] = globSync(`${rootdir}/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme`);
+        _renameProjectSources(rootDir, newBundleIdentifier) {
+            const newProductName = this._getProductName(newBundleIdentifier);
+            const [ xcschemePath ] = globSync(`${rootDir}/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme`);
 
-            if (path.basename(xcscheme_path) !== `${new_product_name}.xcscheme`) {
-                fs.renameSync(xcscheme_path, path.join(path.dirname(xcscheme_path), `${new_product_name}.xcscheme`));
+            if (path.basename(xcschemePath) !== `${newProductName}.xcscheme`) {
+                fs.renameSync(xcschemePath, path.join(path.dirname(xcschemePath), `${newProductName}.xcscheme`));
             }
 
-            const [ prefix_path ] = globSync(`${rootdir}/*_Prefix.pch`);
+            const [ prefixPath ] = globSync(`${rootDir}/*_Prefix.pch`);
 
-            if (path.basename(prefix_path) !== `${new_product_name}_Prefix.pch`) {
-                fs.renameSync(prefix_path, path.join(path.dirname(prefix_path), `${new_product_name}_Prefix.pch`));
+            if (path.basename(prefixPath) !== `${newProductName}_Prefix.pch`) {
+                fs.renameSync(prefixPath, path.join(path.dirname(prefixPath), `${newProductName}_Prefix.pch`));
             }
 
-            const [ xcodeproj_path ] = globSync(`${rootdir}/*.xcodeproj`);
+            const [ xcodeprojPath ] = globSync(`${rootDir}/*.xcodeproj`);
 
-            if (path.basename(prefix_path) !== `${new_product_name}.xcodeproj`) {
-                fs.copySync(xcodeproj_path, path.join(path.dirname(xcodeproj_path), `${new_product_name}.xcodeproj`));
-                fs.removeSync(xcodeproj_path);
+            if (path.basename(prefixPath) !== `${newProductName}.xcodeproj`) {
+                fs.copySync(xcodeprojPath, path.join(path.dirname(xcodeprojPath), `${newProductName}.xcodeproj`));
+                fs.removeSync(xcodeprojPath);
             }
         },
 
-        _update_info_plist(rootdir, appinfo) {
-            const plist_path = path.join(rootdir, "Info.plist");
-            const old_text = fs.readFileSync(plist_path, { encoding: "utf-8" });
-            const new_text = old_text.replace(
+        _updateInfoPlist(rootDir, appInfo) {
+            const plistPath = path.join(rootDir, "Info.plist");
+            const oldText = fs.readFileSync(plistPath, { encoding: "utf-8" });
+            const newText = oldText.replace(
                 /<key>CFBundleName<\/key>([\n\s]*)<string>[^<]*<\/string>/,
-                `<key>CFBundleName</key>$1<string>${_get_project_name(appinfo)}</string>`
+                `<key>CFBundleName</key>$1<string>${_getProjectName(appInfo)}</string>`
             ).replace(
                 /<key>CFBundleDisplayName<\/key>([\n\s]*)<string>[^<]*<\/string>/,
-                `<key>CFBundleDisplayName</key>$1<string>${appinfo.title}</string>`
+                `<key>CFBundleDisplayName</key>$1<string>${appInfo.title}</string>`
             ).replace(
                 /<string>x-jamkit-\$\(PRODUCT_BUNDLE_IDENTIFIER\)<\/string>([\n\s]*)<string>[^<]*<\/string>/,
-                `<string>x-jamkit-$(PRODUCT_BUNDLE_IDENTIFIER)</string>$1<string>${_get_custom_url_scheme(appinfo)}</string>`
+                `<string>x-jamkit-$(PRODUCT_BUNDLE_IDENTIFIER)</string>$1<string>${_getCustomUrlScheme(appInfo)}</string>`
             );
 
-            if (new_text !== old_text) {
-                fs.writeFileSync(plist_path, new_text);
+            if (newText !== oldText) {
+                fs.writeFileSync(plistPath, newText);
             }
         },
 
-        _update_app_info_plist(rootdir, appinfo) {
-            const template_path = path.join(rootdir, "Resources", ".AppInfo.plist.tmpl");
-            var text = fs.readFileSync(template_path, { encoding: "utf-8" });
+        _updateAppInfoPlist(rootDir, appInfo) {
+            const templatePath = path.join(rootDir, "Resources", ".AppInfo.plist.tmpl");
+            var text = fs.readFileSync(templatePath, { encoding: "utf-8" });
 
-            text = text.replace("${APP_ID}", appinfo.id);
-            text = text.replace("${APP_TITLE}", appinfo.title);
+            text = text.replace("${APP_ID}", appInfo.id);
+            text = text.replace("${APP_TITLE}", appInfo.title);
             text = text.replace("${APP_URL}", ""); // TBD
             text = text.replace("${APP_SHORTURL}", ""); // TBD
 
-            const plist_path = path.join(rootdir, "Resources", "AppInfo.plist");
-            fs.writeFileSync(plist_path, text);
+            const plistPath = path.join(rootDir, "Resources", "AppInfo.plist");
+            fs.writeFileSync(plistPath, text);
         },
 
-        _update_app_icon(rootdir) {
-            const target_dir = path.join(rootdir, "Resources", "Images.xcassets", "AppIcon.appiconset");
-            const contents_json_path = path.join(target_dir, "Contents.json");
-            const contents = JSON.parse(fs.readFileSync(contents_json_path, { encoding: "utf-8" }));
-            const contents_images = contents["images"].map(({ filename }) => filename);
-            const images = globSync(`${rootdir}/Resources/Images/AppIcon/*.{png,jpg}`);
+        _updateAppIcon(rootDir) {
+            const targetDir = path.join(rootDir, "Resources", "Images.xcassets", "AppIcon.appiconset");
+            const contentsJsonPath = path.join(targetDir, "Contents.json");
+            const contents = JSON.parse(fs.readFileSync(contentsJsonPath, { encoding: "utf-8" }));
+            const contentsImages = contents["images"].map(({ filename }) => filename);
+            const images = globSync(`${rootDir}/Resources/Images/AppIcon/*.{png,jpg}`);
 
             images.forEach((image) => {
-                const image_name = path.basename(image);
+                const imageName = path.basename(image);
 
-                if (contents_images.includes(image_name)) {
-                    fs.copySync(image, path.join(target_dir, image_name));
+                if (contentsImages.includes(imageName)) {
+                    fs.copySync(image, path.join(targetDir, imageName));
                 }
             });
         },
 
-        _update_launch_screen(rootdir) {
+        _updateLaunchScreen(rootDir) {
             /* Do nothing */
         },
 
-        _copy_app_sources(rootdir) {
-            const target_dir = path.join(rootdir, "Resources", "Catalogs.bundle");
+        _copyAppSources(rootDir) {
+            const targetDir = path.join(rootDir, "Resources", "Catalogs.bundle");
 
-            if (fs.existsSync(target_dir)) {
-                fs.removeSync(target_dir);
+            if (fs.existsSync(targetDir)) {
+                fs.removeSync(targetDir);
             }
 
-            fs.copySync("catalogs", target_dir);
+            fs.copySync("catalogs", targetDir);
 
-            for (const entry of walkSync.entries(target_dir)) {
+            for (const entry of walkSync.entries(targetDir)) {
                 if ([ ".git" ].includes(path.basename(entry.relativePath))) {
-                    fs.removeSync(path.join(target_dir, entry.relativePath));
+                    fs.removeSync(path.join(targetDir, entry.relativePath));
                 }
             }
         }
     },
 
     "android": {
-        compose(rootdir, appinfo, languages) {
-            const old_package_name = this._get_package_name(rootdir);
-            const new_package_name = appinfo.id.toLowerCase();
+        compose(rootDir, appInfo, languages) {
+            const oldPackageName = this._getPackageName(rootDir);
+            const newPackageName = appInfo.id.toLowerCase();
 
-            if (new_package_name !== old_package_name) {
-                const source_dirs = [
-                    path.join(rootdir, "src"),
-                    path.join(rootdir, "res", "layout")
+            if (newPackageName !== oldPackageName) {
+                const sourceDirs = [
+                    path.join(rootDir, "src"),
+                    path.join(rootDir, "res", "layout")
                 ];
 
-                for (const source_dir of source_dirs) {
-                    this._replace_package_name_in_sources(source_dir, old_package_name, new_package_name);    
+                for (const sourceDir of sourceDirs) {
+                    this._replacePackageNameInSources(sourceDir, oldPackageName, newPackageName);    
                 }
 
-                this._replace_package_name_in_manifest(rootdir, old_package_name, new_package_name);
-                this._rename_package_sources(rootdir, old_package_name, new_package_name);
+                this._replacePackageNameInManifest(rootDir, oldPackageName, newPackageName);
+                this._renamePackageSources(rootDir, oldPackageName, newPackageName);
             }
 
-            this._update_settings_gradle(rootdir, appinfo);
-            this._update_gradle_properties(rootdir, appinfo);
+            this._updateSettingsGradle(rootDir, appInfo);
+            this._update_gradle_properties(rootDir, appInfo);
 
-            this._update_string_resources(rootdir, appinfo);
+            this._updateStringResources(rootDir, appInfo);
             for (const language of languages) {
-                this._update_string_resources(rootdir, appinfo, language);
+                this._updateStringResources(rootDir, appInfo, language);
             }
             
-            this._update_app_info_json(rootdir, appinfo);
-            this._update_app_icon(rootdir);
-            this._update_launch_screen(rootdir);
+            this._updateAppInfoJson(rootDir, appInfo);
+            this._updateAppIcon(rootDir);
+            this._updateLaunchScreen(rootDir);
 
-            this._copy_app_sources(rootdir);
+            this._copyAppSources(rootDir);
         },
 
-        _get_package_name(rootdir) {
-            const manifest_path = path.join(rootdir, "AndroidManifest.xml");
-            const text = fs.readFileSync(manifest_path, { encoding: "utf8" });
+        _getPackageName(rootDir) {
+            const manifestPath = path.join(rootDir, "AndroidManifest.xml");
+            const text = fs.readFileSync(manifestPath, { encoding: "utf8" });
             const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "" });
             const { manifest } = parser.parse(text);
 
             return manifest.package;
         },
 
-        _replace_package_name_in_sources(source_dir, old_package_name, new_package_name) {
-            for (const entry of walkSync.entries(source_dir)) {
+        _replacePackageNameInSources(sourceDir, oldPackageName, newPackageName) {
+            for (const entry of walkSync.entries(sourceDir)) {
                 if (!entry.isDirectory()) {
-                    const source_path = path.join(source_dir, entry.relativePath);
+                    const sourcePath = path.join(sourceDir, entry.relativePath);
 
-                    _replace_word_in_file(source_path, old_package_name, new_package_name);
+                    _replaceWordInFile(sourcePath, oldPackageName, newPackageName);
                 }
             }
         },
 
-        _replace_package_name_in_manifest(rootdir, old_package_name, new_package_name) {
-            const manifest_path = path.join(rootdir, "AndroidManifest.xml");
+        _replacePackageNameInManifest(rootDir, oldPackageName, newPackageName) {
+            const manifestPath = path.join(rootDir, "AndroidManifest.xml");
 
-            _replace_word_in_file(manifest_path, old_package_name, new_package_name);
+            _replaceWordInFile(manifestPath, oldPackageName, newPackageName);
         },
 
-        _rename_package_sources(rootdir, old_package_name, new_package_name) {
-            const old_source_parts = old_package_name.split(".");
-            const new_source_parts = new_package_name.split(".");
+        _renamePackageSources(rootDir, oldPackageName, newPackageName) {
+            const oldSourceParts = oldPackageName.split(".");
+            const newSourceParts = newPackageName.split(".");
 
-            var source_root_to_remove = path.join(rootdir, "src", old_source_parts[0]);
-            for (let i = 0; i < old_source_parts.length; ++i) {
-                if (old_source_parts[i] === new_source_parts[i]) {
-                    source_root_to_remove = path.join(source_root_to_remove, old_source_parts[i + 1]);
+            var sourceRootToRemove = path.join(rootDir, "src", oldSourceParts[0]);
+            for (let i = 0; i < oldSourceParts.length; ++i) {
+                if (oldSourceParts[i] === newSourceParts[i]) {
+                    sourceRootToRemove = path.join(sourceRootToRemove, oldSourceParts[i + 1]);
                 } else {
                     break;
                 }
             }
 
-            const old_source_path = path.join(rootdir, "src", ...old_source_parts);
-            const new_source_path = path.join(rootdir, "src", ...new_source_parts);
+            const oldSourcePath = path.join(rootDir, "src", ...oldSourceParts);
+            const newSourcePath = path.join(rootDir, "src", ...newSourceParts);
 
-            if (old_source_path !== new_source_path) {
-                fs.copySync(old_source_path, new_source_path);
-                fs.removeSync(source_root_to_remove);
+            if (oldSourcePath !== newSourcePath) {
+                fs.copySync(oldSourcePath, newSourcePath);
+                fs.removeSync(sourceRootToRemove);
             }
         },
 
-        _update_settings_gradle(rootdir, appinfo) {
-            const gradle_path = path.join(rootdir, "settings.gradle");
-            const old_text = fs.readFileSync(gradle_path, { encoding: "utf8" });
-            const new_text = old_text.replace(
+        _updateSettingsGradle(rootDir, appInfo) {
+            const gradlePath = path.join(rootDir, "settings.gradle");
+            const oldText = fs.readFileSync(gradlePath, { encoding: "utf8" });
+            const newText = oldText.replace(
                 /rootProject\.name\s*=\s*"[^"]*"/, 
-                `rootProject.name = "${_get_project_name(appinfo)}"`
+                `rootProject.name = "${_getProjectName(appInfo)}"`
             );
 
-            if (old_text !== new_text) {
-                fs.writeFileSync(gradle_path, new_text);
+            if (oldText !== newText) {
+                fs.writeFileSync(gradlePath, newText);
             }
         },
 
-        _update_gradle_properties(rootdir, appinfo) {
-            const properties_path = path.join(rootdir, "gradle.properties");
-            const old_text = fs.readFileSync(properties_path, { encoding: "utf8" });
-            const new_text = old_text.replace(
+        _update_gradle_properties(rootDir, appInfo) {
+            const propertiesPath = path.join(rootDir, "gradle.properties");
+            const oldText = fs.readFileSync(propertiesPath, { encoding: "utf8" });
+            const newText = oldText.replace(
                 /ProductName\s*=\s*[^\n]*/, 
-                `ProductName=${_get_project_name(appinfo)}`
+                `ProductName=${_getProjectName(appInfo)}`
             );
             
-            if (old_text !== new_text) {
-                fs.writeFileSync(properties_path, new_text);
+            if (oldText !== newText) {
+                fs.writeFileSync(propertiesPath, newText);
             }
         },
 
-        _update_string_resources(rootdir, appinfo, language) {
-            const xml_path = path.join(rootdir, "res", "values" + (language ? `-${language}` : ""), "strings.xml");
+        _updateStringResources(rootDir, appInfo, language) {
+            const xmlPath = path.join(rootDir, "res", "values" + (language ? `-${language}` : ""), "strings.xml");
 
-            if (fs.existsSync(xml_path)) {
-                const old_text = fs.readFileSync(xml_path, { encoding: "utf8" });
-                const new_text = old_text.replace(
+            if (fs.existsSync(xmlPath)) {
+                const oldText = fs.readFileSync(xmlPath, { encoding: "utf8" });
+                const newText = oldText.replace(
                     /name="app_name">[^<]*</, 
-                    `name="app_name">${_get_app_title(appinfo, language)}<`
+                    `name="app_name">${_getAppTitle(appInfo, language)}<`
                 );
 
-                if (old_text !== new_text) {
-                    fs.writeFileSync(xml_path, new_text);
+                if (oldText !== newText) {
+                    fs.writeFileSync(xmlPath, newText);
                 }
             }
         },
 
-        _update_app_info_json(rootdir, appinfo) {
-            const template_path = path.join(rootdir, "assets", ".AppInfo.json.tmpl");
-            var text = fs.readFileSync(template_path, { encoding: "utf-8" });
+        _updateAppInfoJson(rootDir, appInfo) {
+            const templatePath = path.join(rootDir, "assets", ".AppInfo.json.tmpl");
+            var text = fs.readFileSync(templatePath, { encoding: "utf-8" });
 
-            text = text.replace("${APP_ID}", appinfo.id);
-            text = text.replace("${APP_TITLE}", appinfo.title);
+            text = text.replace("${APP_ID}", appInfo.id);
+            text = text.replace("${APP_TITLE}", appInfo.title);
             text = text.replace("${APP_URL}", ""); // TBD
             text = text.replace("${APP_SHORTURL}", ""); // TBD
 
-            const json_path = path.join(rootdir, "assets", "AppInfo.json");
-            fs.writeFileSync(json_path, text);
+            const jsonPath = path.join(rootDir, "assets", "AppInfo.json");
+            fs.writeFileSync(jsonPath, text);
         },
 
-        _update_app_icon(rootdir) {
-            const images = globSync(`${rootdir}/images/AppIcon/*.{png,jpg}`);
+        _updateAppIcon(rootDir) {
+            const images = globSync(`${rootDir}/images/AppIcon/*.{png,jpg}`);
 
-            this._copy_images_to_drawable(rootdir, images);
+            this._copyImagesToDrawable(rootDir, images);
         },
 
-        _update_launch_screen(rootdir) {
-            const images = globSync(`${rootdir}/images/LaunchScreen/*.{png,jpg}`);
+        _updateLaunchScreen(rootDir) {
+            const images = globSync(`${rootDir}/images/LaunchScreen/*.{png,jpg}`);
 
-            this._copy_images_to_drawable(rootdir, images);
+            this._copyImagesToDrawable(rootDir, images);
         },
 
-        _copy_images_to_drawable(rootdir, images) {
-            const drawable_dirs = {
+        _copyImagesToDrawable(rootDir, images) {
+            const drawableDirs = {
                 "@m": "drawable-mdpi",
                 "@h": "drawable-hdpi",
                 "@x": "drawable-xhdpi",
@@ -372,24 +372,24 @@ const _impl = {
 
             images.forEach((image) => {
                 const m = path.basename(image).match(/(.+)(@[mhxu])(\.(png|jpg))/);
-                const target_dir = path.join(rootdir, "res", drawable_dirs[m[2]]);
+                const targetDir = path.join(rootDir, "res", drawableDirs[m[2]]);
 
-                fs.copySync(image, path.join(target_dir, `${m[1]}${m[3]}`.replaceAll("-", "_")));
+                fs.copySync(image, path.join(targetDir, `${m[1]}${m[3]}`.replaceAll("-", "_")));
             });
         },
 
-        _copy_app_sources(rootdir) {
-            const target_dir = path.join(rootdir, "assets", "catalogs");
+        _copyAppSources(rootDir) {
+            const targetDir = path.join(rootDir, "assets", "catalogs");
 
-            if (fs.existsSync(target_dir)) {
-                fs.removeSync(target_dir);
+            if (fs.existsSync(targetDir)) {
+                fs.removeSync(targetDir);
             }
 
-            fs.copySync("catalogs", target_dir);
+            fs.copySync("catalogs", targetDir);
 
-            for (const entry of walkSync.entries(target_dir)) {
+            for (const entry of walkSync.entries(targetDir)) {
                 if ([ ".git" ].includes(path.basename(entry.relativePath))) {
-                    fs.removeSync(path.join(target_dir, entry.relativePath));
+                    fs.removeSync(path.join(targetDir, entry.relativePath));
                 }
             }
         }
@@ -397,10 +397,10 @@ const _impl = {
 }
 
 export default {
-    compose(rootdir, platform, appinfo) {
-        const platform_rootdir = path.join(rootdir, "src", platform);
+    compose(rootDir, platform, appInfo) {
+        const platformRootDir = path.join(rootDir, "src", platform);
         const languages = [ "ko", "ja" ];
 
-        _impl[platform].compose(platform_rootdir, appinfo, languages);
+        _impl[platform].compose(platformRootDir, appInfo, languages);
     }
 }
