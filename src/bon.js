@@ -1,13 +1,13 @@
-const _WHITESPACES = [ ' ', '\t', '\n', '\r', '\f', '\v' ],
-      _SYNTAXCHARS = [ '[', ']', '{', '}', ',', ':' ]
+const WHITESPACES = [ ' ', '\t', '\n', '\r', '\f', '\v' ],
+      SYNTAXCHARS = [ '[', ']', '{', '}', ',', ':' ]
 
-const _ESCAPE_TABLE = {
+const ESCAPE_TABLE = {
     '"': '"', '\\': '\\', '/': '/',
     'b': '\b', 'f': '\f', 'n': '\n',
     'r': '\r', 't': '\t', 'v': '\v'
 }
 
-const _REVERSE_ESCAPE_TABLE = {
+const REVERSE_ESCAPE_TABLE = {
     '"': '\\"', '\\': '\\\\', '/': '\\/',
     '\b': '\\b', '\f': '\\f', '\n': '\\n',
     '\r': '\\r', '\t': '\\t', '\v': '\\v'
@@ -24,14 +24,14 @@ BonParser.prototype.parse = function(text) {
     this._text = text;
     this._index = 0;
 
-    this._skip_spaces();
+    this._skipSpaces();
 
     try {
-        const value = this._read_value();
+        const value = this._readValue();
 
-        this._skip_spaces();
+        this._skipSpaces();
         
-        if (!this._peek_char()) {
+        if (!this._peekChar()) {
             return value;
         }
     } catch (e) {
@@ -39,32 +39,32 @@ BonParser.prototype.parse = function(text) {
     }
 }
 
-BonParser.prototype._read_value = function() {
-    var value = this._read_array();
+BonParser.prototype._readValue = function() {
+    let value = this._readArray();
 
     if (!value) {
-        value = this._read_object();
+        value = this._readObject();
 
         if (!value) {
-            value = this._read_string();
+            value = this._readString();
         }
     }
 
     return value;
 }
 
-BonParser.prototype._read_array = function() {
-    if (this._match_char("[")) {
-        this._skip_spaces();
+BonParser.prototype._readArray = function() {
+    if (this._matchChar("[")) {
+        this._skipSpaces();
 
-        var array = [];
+        const array = [];
 
         while (true) {
-            if (this._match_char("]")) {
+            if (this._matchChar("]")) {
                 return array;
             }
 
-            var value = this._read_value();
+            var value = this._readValue();
 
             if (!value) {
                 break;
@@ -72,11 +72,11 @@ BonParser.prototype._read_array = function() {
             
             array.push(value);
 
-            this._skip_spaces();
+            this._skipSpaces();
 
-            if (this._match_char(",")) {
-                this._skip_spaces();
-            } else if (this._match_char("]")) {
+            if (this._matchChar(",")) {
+                this._skipSpaces();
+            } else if (this._matchChar("]")) {
                 return array;
             } else {
                 break;
@@ -87,38 +87,38 @@ BonParser.prototype._read_array = function() {
     }
 }
 
-BonParser.prototype._read_object = function() {
-    if (this._match_char("{")) {
-        this._skip_spaces();
+BonParser.prototype._readObject = function() {
+    if (this._matchChar("{")) {
+        this._skipSpaces();
 
         var object = {}
 
         while (true) {
-            if (this._match_char("}")) {
+            if (this._matchChar("}")) {
                 return object;
             }
 
-            var key = this._read_string();
+            var key = this._readString();
 
             if (!key) {
                 break;
             }
 
-            this._skip_spaces();
+            this._skipSpaces();
 
-            if (!this._match_char(":")) {
+            if (!this._matchChar(":")) {
                 break;
             }
 
-            this._skip_spaces();
+            this._skipSpaces();
 
-            object[key] = this._read_value();
+            object[key] = this._readValue();
 
-            this._skip_spaces();
+            this._skipSpaces();
 
-            if (this._match_char(",")) {
-                this._skip_spaces();
-            } else if (this._match_char("}")) {
+            if (this._matchChar(",")) {
+                this._skipSpaces();
+            } else if (this._matchChar("}")) {
                 return object;
             } else {
                 break;
@@ -129,40 +129,40 @@ BonParser.prototype._read_object = function() {
     }
 }
 
-BonParser.prototype._read_string = function() {
-    var ch = this._peek_char();
+BonParser.prototype._readString = function() {
+    let ch = this._peekChar();
 
-    if (!_SYNTAXCHARS.includes(ch)) {
-        var string = "";
+    if (!SYNTAXCHARS.includes(ch)) {
+        let string = "";
 
         if (ch === '"') {
-            this._consume_char();
+            this._consumeChar();
 
             while (true) {
-                ch = this._peek_char();
+                ch = this._peekChar();
 
                 if (!ch) {
                     break;
                 }
 
-                this._consume_char();
+                this._consumeChar();
 
                 if (ch === '"') {
                     return string;
                 }
 
                 if (ch === '\\') {
-                    ch = this._peek_char();
+                    ch = this._peekChar();
 
                     if (!ch) {
                         break;
                     }
 
-                    if (_ESCAPE_TABLE.hasOwnProperty(ch)) {
-                        ch = _ESCAPE_TABLE[ch];
+                    if (ESCAPE_TABLE.hasOwnProperty(ch)) {
+                        ch = ESCAPE_TABLE[ch];
                     }
 
-                    this._consume_char();
+                    this._consumeChar();
                 }
 
                 string = string + ch;
@@ -171,19 +171,19 @@ BonParser.prototype._read_string = function() {
             throw "BonParser: " + "wrong quoted string";
         } else {
             while (true) {
-                var ch = this._peek_char();
+                const ch = this._peekChar();
 
                 if (!ch) {
                     break;
                 }
 
-                if (_WHITESPACES.includes(ch) || _SYNTAXCHARS.includes(ch)) {
+                if (WHITESPACES.includes(ch) || SYNTAXCHARS.includes(ch)) {
                     break;
                 }
 
                 string = string + ch;
 
-                this._consume_char();
+                this._consumeChar();
             }
 
             return string;
@@ -191,19 +191,19 @@ BonParser.prototype._read_string = function() {
     }
 }
 
-BonParser.prototype._peek_char = function() {
+BonParser.prototype._peekChar = function() {
     if (this._index < this._text.length) {
         return this._text.charAt(this._index);
     }
 }
 
-BonParser.prototype._consume_char = function() {
+BonParser.prototype._consumeChar = function() {
     this._index += 1;
 }
 
-BonParser.prototype._match_char = function(ch) {
-    if (this._peek_char() == ch) {
-        this._consume_char();
+BonParser.prototype._matchChar = function(ch) {
+    if (this._peekChar() == ch) {
+        this._consumeChar();
 
         return true;
     }
@@ -211,15 +211,15 @@ BonParser.prototype._match_char = function(ch) {
     return false;
 }
 
-BonParser.prototype._skip_spaces = function() {
+BonParser.prototype._skipSpaces = function() {
     while (true) {
-        var ch = this._peek_char();
+        const ch = this._peekChar();
 
-        if (!_WHITESPACES.includes(ch)) {
+        if (!WHITESPACES.includes(ch)) {
             break;
         }
 
-        this._consume_char();
+        this._consumeChar();
     }
 }
 
@@ -234,23 +234,23 @@ BonStringifier.prototype.stringify = function(value) {
     this._indent = 0;
 
     try {
-        return this._stringify_value(value);
+        return this._stringifyValue(value);
     } catch (e) {
         console.log(e);
     }
 }
 
-BonStringifier.prototype._stringify_value = function(value) {
+BonStringifier.prototype._stringifyValue = function(value) {
     if (Array.isArray(value)) {
-        return this._stringify_array(value);
+        return this._stringifyArray(value);
     }
 
     if (typeof(value) === "object") {
-        return this._stringify_object(value);
+        return this._stringifyObject(value);
     }
 
     if (typeof(value) === "string") {
-        return this._stringify_string(value);
+        return this._stringifyString(value);
     }
 
     console.log(typeof(value));
@@ -258,71 +258,71 @@ BonStringifier.prototype._stringify_value = function(value) {
     throw "BonStringifier: " + "Unsupported type"
 }
 
-BonStringifier.prototype._stringify_array = function(array) {
-    var text = "[";
+BonStringifier.prototype._stringifyArray = function(array) {
+    let text = "[";
 
-    text += this._append_newline();
-    this._increment_indent();
+    text += this._appendNewline();
+    this._incrementIndent();
 
-    var once = true;
-    for (var v in array) {
+    let once = true;
+    for (let v in array) {
         if (once) {
             once = false;
         } else {
             text += ",";
-            text += this._append_newline();
+            text += this._appendNewline();
         }
 
-        text += this._append_indent();
-        text += this._stringify_value(v);
+        text += this._appendIndent();
+        text += this._stringifyValue(v);
     }
 
-    text += this._append_newline();
-    this._decrement_indent();
-    text += this._append_indent();
+    text += this._appendNewline();
+    this._decrementIndent();
+    text += this._appendIndent();
     
     text += "]";
 
     return text;
 }
 
-BonStringifier.prototype._stringify_object = function(object) {
-    var text = "{";
+BonStringifier.prototype._stringifyObject = function(object) {
+    let text = "{";
 
-    text += this._append_newline();
-    this._increment_indent();
+    text += this._appendNewline();
+    this._incrementIndent();
 
-    var once = true;
+    let once = true;
     for (var [ k, v ] of Object.entries(object)) {
         if (once) {
             once = false;
         } else {
             text += ",";
-            text += this._append_newline();
+            text += this._appendNewline();
         }
 
-        text += this._append_indent();
+        text += this._appendIndent();
         text += k + ":" + (this._use_indent ? " " : "");
-        text += this._stringify_value(v);
+        text += this._stringifyValue(v);
     }
 
-    text += this._append_newline();
-    this._decrement_indent();
-    text += this._append_indent();
+    text += this._appendNewline();
+    this._decrementIndent();
+    text += this._appendIndent();
 
     text += "}";
 
     return text;
 }
 
-BonStringifier.prototype._stringify_string = function(string) {
-    var text = "";
-    var quote_str = false;
+BonStringifier.prototype._stringifyString = function(string) {
+    let text = "";
+    let quote_str = false;
 
     for (let ch of string) {
-        if (_SYNTAXCHARS.includes(ch) || 
-            _WHITESPACES.includes(ch) || 
-            _REVERSE_ESCAPE_TABLE.hasOwnProperty(ch)) {
+        if (SYNTAXCHARS.includes(ch) || 
+            WHITESPACES.includes(ch) || 
+            REVERSE_ESCAPE_TABLE.hasOwnProperty(ch)) {
             quote_str = true;
             break;
         }
@@ -336,8 +336,8 @@ BonStringifier.prototype._stringify_string = function(string) {
         text += "\"";
 
         for (let ch of string) {
-            if (_REVERSE_ESCAPE_TABLE.hasOwnProperty(ch)) {
-                text += _REVERSE_ESCAPE_TABLE[ch];
+            if (REVERSE_ESCAPE_TABLE.hasOwnProperty(ch)) {
+                text += REVERSE_ESCAPE_TABLE[ch];
             } else {
                 text += ch;
             }
@@ -351,20 +351,20 @@ BonStringifier.prototype._stringify_string = function(string) {
     return text;
 }
 
-BonStringifier.prototype._increment_indent = function() {
+BonStringifier.prototype._incrementIndent = function() {
     if (this._use_indent) {
         this._indent += 4;
     }
 }
 
-BonStringifier.prototype._decrement_indent = function() {
+BonStringifier.prototype._decrementIndent = function() {
     if (this._use_indent) {
         this._indent -= 4;
     }
 }
 
-BonStringifier.prototype._append_indent = function() {
-    var text = "";
+BonStringifier.prototype._appendIndent = function() {
+    let text = "";
 
     if (this._use_indent) {
         for (let i = 0; i < this._indent; ++i) {
@@ -375,7 +375,7 @@ BonStringifier.prototype._append_indent = function() {
     return text;
 }
 
-BonStringifier.prototype._append_newline = function() {
+BonStringifier.prototype._appendNewline = function() {
     if (this._use_indent) {
         return "\n";
     }
