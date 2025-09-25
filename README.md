@@ -159,13 +159,12 @@ jamkit publish --shorten-url
 
 ```
 my-app/
-├── package.bon          # Project configuration (BON format)
-├── catalogs/           # App resources and content
+├── package.bon        # Project configuration (BON format)
+├── catalogs/          # App resources and content
 │   ├── MainApp/       # Main application catalog
 │   │   ├── catalog.bon
 │   │   └── catalog.sqlite
 │   └── ...
-├── native-extensions/  # Native code integration
 └── ...
 ```
 
