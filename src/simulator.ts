@@ -300,9 +300,9 @@ const _impl: Record<Platform, PlatformImplementation> = {
         },
 
         _readManifest: function(appPath: string): Promise<AndroidManifest> {
-            return (apk() as any).readFile(appPath)
-                .then((reader: any) => {
-                    return reader.readManifest() as Promise<AndroidManifest>;
+            return apk().readFile(appPath)
+                .then((reader) => {
+                    return reader.readManifest();
                 });
         },
 

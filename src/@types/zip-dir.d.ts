@@ -1,9 +1,9 @@
 declare module "zip-dir" {
-    interface Options {
+    interface ZipOptions {
         saveTo: string;
-        filter?: (path: string, stat: any) => boolean;
+        filter?: (path: string, stat: import("fs").Stats) => boolean;
     }
 
-    function zipdir(srcPath: string, options: Options, callback: (error: Error | null) => void): void;
+    function zipdir(srcPath: string, options: ZipOptions, callback: (error: Error | null) => void): void;
     export = zipdir;
 }

@@ -288,10 +288,14 @@ const publishImage = (options: PublishOptions, ipfsOptions: IpfsOptions, callbac
 
 const publishFileToIpfs = (filePath: string, options: IpfsOptions): Promise<string> => {
     return createIpfsClient(options)
-        .then((client: any) => {
-            return Promise.all(client.addAll(ipfsGlobSource("./", filePath)));
+        .then(async (client) => {
+            const results = [];
+            for await (const result of client.addAll(ipfsGlobSource("./", filePath))) {
+                results.push(result);
+            }
+            return results;
         })
-        .then((results: any[]) => {
+        .then((results) => {
             return results[results.length - 1].cid.toString();
         });
 }

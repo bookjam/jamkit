@@ -1,4 +1,15 @@
 declare module "ipfs-http-client" {
-    export function create(options?: any): Promise<any>;
-    export function globSource(basePath: string, pattern: string): any;
+    interface IPFSClient {
+        addAll(source: AsyncIterable<any>): AsyncIterable<{ cid: { toString(): string } }>;
+    }
+
+    interface IPFSOptions {
+        host?: string;
+        port?: number | string;
+        protocol?: "http" | "https";
+        [key: string]: any;
+    }
+
+    export function create(options?: IPFSOptions): Promise<IPFSClient>;
+    export function globSource(basePath: string, pattern: string): AsyncIterable<any>;
 }

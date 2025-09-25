@@ -40,7 +40,7 @@ const simctlModule: SimctlModule = {
     },
 
     list(): SimInfo["json"] | null {
-        const siminfo = simctl.list({ silent: true }) as SimInfo | null;
+        const siminfo = simctl.list({ silent: true }) as any as SimInfo | null;
 
         if (siminfo) {
             return siminfo.json;

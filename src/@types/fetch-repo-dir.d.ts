@@ -1,4 +1,14 @@
 declare module "fetch-repo-dir" {
-    function fetchRepoDir(options: any, config?: any): Promise<void>;
+    interface FetchOptions {
+        src: string;
+        dir: string;
+    }
+
+    interface FetchConfig {
+        replace?: boolean;
+        [key: string]: any;
+    }
+
+    function fetchRepoDir(options: FetchOptions, config?: FetchConfig): Promise<void>;
     export = fetchRepoDir;
 }
