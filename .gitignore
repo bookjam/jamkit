@@ -11,3 +11,7 @@ node_modules
 
 # Tools
 .vscode
+
+# AI Agents
+AGENTS.md
+CLAUDE.md
