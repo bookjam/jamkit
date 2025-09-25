@@ -4,13 +4,68 @@ import commands from "./commands.js";
 import fs from "fs-extra";
 
 import { Command } from "commander";
+
+// Type definitions
+interface CreateOptions {
+    type: "app" | "book";
+    appId: string;
+    version: string;
+    template: string;
+    repository: string;
+    language: string;
+    theme?: string;
+}
+
+interface RunOptions {
+    type: "auto" | "app" | "book";
+    platform: "ios" | "android";
+    mode: "main" | "jam" | "widget";
+    shellHost: string;
+    shellPort: string;
+    skipSync: boolean;
+}
+
+interface BuildOptions {
+    type: "auto" | "app" | "book";
+}
+
+interface InstallOptions {
+    type: "auto" | "app" | "book";
+    platform: "ios" | "android";
+}
+
+interface PublishOptions {
+    type: "auto" | "app" | "book";
+    hostScheme: string;
+    hostUrl: string;
+    fileUrl: string;
+    imageUrl: string;
+    imageFile: string;
+    title: string;
+    language: string;
+    ipfsHost: string;
+    ipfsPort: string;
+    ipfsProtocol: string;
+    shortenUrl: boolean;
+    appleInstallUrl: string;
+    googleInstallUrl: string;
+}
+
+interface OpenOptions {
+    platform: "ios" | "android";
+}
+
+interface NativeOptions {
+    platform: "ios" | "android" | "all";
+}
+
 const program = new Command();
 
 program.name("jamkit")
     .usage("<command> [argument, ...] [options]")
     .helpOption("-h, --help", "Show help for command")
     .addHelpCommand(false)
-    .on("command:*", ([ command ]) => {
+    .on("command:*", ([ command ]: string[]) => {
         program.addHelpText("after", "\n" + "Command not found: " + command);
         program.help();
     });
@@ -25,7 +80,7 @@ program.command("create")
     .option("--repository <repository>", "Template repository", "bookjam/jamkit-templates")
     .option("--language <language>", "Language of the app or book", "global")
     .option("--theme <theme>", "Theme for the app or book")
-    .action((directory, options) => {
+    .action((directory: string, options: CreateOptions) => {
         if (options.type === "app") {
             commands.createApp(directory, {
                 "app-id":     options.appId,
@@ -34,19 +89,20 @@ program.command("create")
                 "repository": options.repository,
                 "language":   options.language,
                 "theme":      options.theme
-            }); 
+            });
 
             return;
         }
 
         if (options.type === "book") {
             commands.createBook(directory, {
+                "app-id":     "auto",
                 "version":    options.version,
                 "template":   options.template,
                 "repository": options.repository,
                 "language":   options.language,
                 "theme":      options.theme
-            }); 
+            });
 
             return;
         }
@@ -62,11 +118,11 @@ program.command("run")
     .option("--shell-host <host>", "Specify the host for the simulator shell", "127.0.0.1")
     .option("--shell-port <port>", "Specify the port for the simulator shell", "8888")
     .option("--skip-sync", "If set, do not copy files to the simulator", false)
-    .action((options) => {
+    .action((options: RunOptions) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
-            commands.runApp(options.platform, options.mode, {
-                "host": options.shellHost, 
-                "port": options.shellPort
+            commands.runApp(options.platform, options.mode as "jam" | "widget" | "main", {
+                "host": options.shellHost,
+                "port": parseInt(options.shellPort)
             }, {
                 "skip-sync": options.skipSync
             });
@@ -76,8 +132,8 @@ program.command("run")
 
         if ((options.type === "auto" && fs.existsSync("./book.bon")) || options.type === "book") {
             commands.runBook(options.platform, {
-                "host": options.shellHost, 
-                "port": options.shellPort
+                "host": options.shellHost,
+                "port": parseInt(options.shellPort)
             }, {
                 "skip-sync": options.skipSync
             });
@@ -91,7 +147,7 @@ program.command("run")
 program.command("build")
     .description("Build a package.")
     .option("-t, --type <type>", "Specify the project type to build: `app`, `book`, or `auto`.", "auto")
-    .action((options) => {
+    .action((options: BuildOptions) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
             commands.buildApp();
 
@@ -111,7 +167,7 @@ program.command("install")
     .description("Install on simulator.")
     .option("-t, --type <type>", "Specify the project type to install: `app`, `book`, or `auto`", "auto")
     .option("--platform <platform>", "Specify the platform for the simulator: `ios` or `android`", (process.platform === "darwin") ? "ios" : "android")
-    .action((options) => {
+    .action((options: InstallOptions) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
             commands.installApp(options.platform);
 
@@ -143,7 +199,7 @@ program.command("publish")
     .option("--shorten-url", "If set, the url will be shortened", "")
     .option("--apple-install-url <url>", "Installation URL of the host app for iOS", "auto")
     .option("--google-install-url <url>", "Installation URL of the host app for Android", "auto")
-    .action((options) => {
+    .action((options: PublishOptions) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
             commands.publishApp({
                 "scheme": options.hostScheme,
@@ -156,8 +212,8 @@ program.command("publish")
                 "language": options.language,
                 "shorten-url": options.shortenUrl
             }, {
-                "host": options.ipfsHost, 
-                "port": options.ipfsPort, 
+                "host": options.ipfsHost,
+                "port": options.ipfsPort,
                 "protocol": options.ipfsProtocol
             }, {
                 "apple": options.appleInstallUrl,
@@ -166,7 +222,7 @@ program.command("publish")
 
             return;
         }
-        
+
         if ((options.type === "auto" && fs.existsSync("./book.bon")) || options.type === "book") {
             commands.publishBook({
                 "scheme": options.hostScheme,
@@ -178,8 +234,8 @@ program.command("publish")
                 "image-file": options.imageFile,
                 "shorten-url": options.shortenUrl
             }, {
-                "host": options.ipfsHost, 
-                "port": options.ipfsPort, 
+                "host": options.ipfsHost,
+                "port": options.ipfsPort,
                 "protocol": options.ipfsProtocol
             }, {
                 "apple": options.appleInstallUrl,
@@ -196,23 +252,23 @@ program.command("open")
     .description("Open the url with simulator.")
     .argument("<url>", "Specify the url to open")
     .option("--platform <platform>", "Specify the platform to run the simulator: `ios` or `android`", (process.platform === "darwin") ? "ios" : "android")
-    .action((url, options) => {
+    .action((url: string, options: OpenOptions) => {
         commands.openUrl(options.platform, url);
-    });    
+    });
 
 const databaseCommand = program.command("database")
     .description("Manage databases.")
-    .on("command:*", ([ command ]) => {
-        database.addHelpText("after", "\n" + "Command not found: " + command);
-        database.help();
+    .on("command:*", ([ command ]: string[]) => {
+        databaseCommand.addHelpText("after", "\n" + "Command not found: " + command);
+        databaseCommand.help();
     });
-            
+
 databaseCommand.command("generate")
     .description("Generate a database using data from an Excel file.")
     .argument("<path>", "Specify the file path of the Excel document")
-    .action((path, options) => {
+    .action((filePath: string, options: any) => {
         if (fs.existsSync("./package.bon")) {
-            commands.generateDatabase("MainApp", "", path);
+            commands.generateDatabase("MainApp", "", filePath);
 
             return;
         }
@@ -223,33 +279,33 @@ databaseCommand.command("generate")
 
 const styleCommand = program.command("style")
     .description("Manage sbss files.")
-    .on("command:*", ([ command ]) => {
-        style.addHelpText("after", "\n" + "Command not found: " + command);
-        style.help();
+    .on("command:*", ([ command ]: string[]) => {
+        styleCommand.addHelpText("after", "\n" + "Command not found: " + command);
+        styleCommand.help();
     });
 
 styleCommand.command("migrate")
     .description("Migrate old style sbss to new style.")
-    .action((options) => {
+    .action((options: any) => {
         commands.migrateStyle();
     });
 
 
 const nativeCommand = program.command("native")
     .description("Manage native apps.")
-    .on("command:*", ([ command ]) => {
-        style.addHelpText("after", "\n" + "Command not found: " + command);
-        style.help();
+    .on("command:*", ([ command ]: string[]) => {
+        nativeCommand.addHelpText("after", "\n" + "Command not found: " + command);
+        nativeCommand.help();
     });
 
 nativeCommand.command("compose")
     .description("Combine native code with your app's codebase.")
     .argument("<path>", "Specify the path for the native code")
     .option("--platform <platform>", "Specify the platform for the native code: `ios`, `android` or `all`", "all")
-    .action((path, options) => {
-        const platforms = options.platform === "all" ? [ "ios", "android"] : [ options.platform ];
+    .action((nativePath: string, options: NativeOptions) => {
+        const platforms = (options.platform === "all" ? [ "ios", "android"] : [ options.platform ]) as ("ios" | "android")[];
 
-        commands.composeNative(path, platforms);
+        commands.composeNative(nativePath, platforms);
     });
-    
+
 program.parse();

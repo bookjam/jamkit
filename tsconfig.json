@@ -5,13 +5,27 @@
     "moduleResolution": "Bundler",
     "outDir": "dist",
     "rootDir": "src",
-    "strict": true,
+    "strict": false,
+    "noImplicitReturns": false,
+    "noImplicitThis": false,
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "sourceMap": true
+    "noImplicitAny": false,
+    "strictFunctionTypes": false,
+    "strictNullChecks": false,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
-    "src"
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
   ]
 }

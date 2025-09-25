@@ -6,42 +6,74 @@ import simctl from "./simctl.js";
 import avdctl from "./avdctl.js";
 import sleep from "./sleep.js";
 
-const _impl = {
+type Platform = "ios" | "android";
+
+interface DeviceInfo {
+    udid: string;
+    state: string;
+    name: string;
+    isAvailable?: boolean;
+}
+
+interface InfoPlist {
+    CFBundleIdentifier: string;
+    CFBundleVersion: string;
+}
+
+interface AndroidManifest {
+    package: string;
+    versionName: string;
+}
+
+interface PlatformImplementation {
+    start(port?: number): Promise<string>;
+    openUrl(url: string): boolean | void;
+    _startDevice?(): boolean;
+    _launchApp?(handler: (appId?: string) => void): void;
+    _findBootedDevice?(): DeviceInfo | null;
+    _findAvailableDevice?(): DeviceInfo | string | null;
+    _readInfoPlist?(appPath: string): Promise<InfoPlist>;
+    _waitUntilDeviceBooted?(): boolean;
+    _forwardPort?(port: number): boolean;
+    _readManifest?(appPath: string): Promise<AndroidManifest>;
+}
+
+const _impl: Record<Platform, PlatformImplementation> = {
     "ios": {
-        start: function() {
+        start: function(): Promise<string> {
             return new Promise((resolve, reject) => {
                 if (this._startDevice()) {
-                    this._launchApp((appId) => {
+                    this._launchApp((appId: string | undefined) => {
                         if (appId) {
                             resolve(appId);
                         } else {
-                            reject();
+                            reject(new Error("Failed to launch app"));
                         }
                     });
                 } else {
-                    reject();
+                    reject(new Error("Failed to start device"));
                 }
             });
         },
 
-        openUrl: function(url) {
-
+        openUrl: function(url: string): void {
+            // iOS URL opening implementation
         },
 
-        _startDevice: function() {
+        _startDevice: function(): boolean {
             let device = this._findBootedDevice();
 
             if (device === null) {
-                device = this._findAvailableDevice();
-        
+                device = this._findAvailableDevice() as any;
+
                 if (device) {
                     process.stdout.write("Starting an simulator... ");
 
                     simctl.start(device.udid);
-                    
+
                     if (this._waitUntilDeviceBooted()) {
                         console.log("Done");
-                        
+
                         return true;
                     }
                 }
@@ -52,58 +84,58 @@ const _impl = {
             return false;
         },
 
-        _launchApp: function(handler) {
+        _launchApp: function(handler: (appId?: string) => void): void {
             const appPath = path.resolve(__dirname, "..", "browsers", "jamkit.app");
 
-            this._readInfoPlist(appPath)
-                .then((info) => {
+            this._readInfoPlist!(appPath)
+                .then((info: InfoPlist) => {
                     const appId = info.CFBundleIdentifier;
                     const appVersion = info.CFBundleVersion;
-                    const container = simctl.container("booted", appId);
-                    
+                    let container = simctl.container("booted", appId);
+
                     if (container) {
-                        return this._readInfoPlist(container)
-                            .then((info) => {
+                        return this._readInfoPlist!(container)
+                            .then((info: InfoPlist) => {
                                 const installedVersion = info.CFBundleVersion;
-                                
+
                                 if (installedVersion !== appVersion) {
                                     simctl.uninstall("booted", appId);
                                     container = null;
                                 }
 
-                                return [ appId, container ];
+                                return [appId, container] as const;
                             });
                     } else {
-                        return [ appId ];
+                        return [appId] as const;
                     }
                 })
-                .then(([ appId, container ]) => {
+                .then(([appId, container]: readonly [string, string | null]) => {
                     if (!container || !fs.existsSync(container)) {
                         simctl.install("booted", appPath);
                     }
 
                     if (simctl.launch("booted", appId)) {
                         console.log("Done");
-    
+
                         handler(appId);
                     } else {
                         handler();
                     }
                 })
-                .catch((error) => {
+                .catch((error: Error) => {
                     handler();
                 });
 
             process.stdout.write("Launching the browser... ");
         },
 
-        _findBootedDevice: function() {
+        _findBootedDevice: function(): DeviceInfo | null {
             const siminfo = simctl.list();
-            let device = null;
+            let device: DeviceInfo | null = null;
 
-            const devices = Object.keys(siminfo.devices).reduce((devices, runtime) => {
+            const devices = Object.keys(siminfo?.devices || {}).reduce<DeviceInfo[]>((devices, runtime) => {
                 if (runtime.includes("SimRuntime.iOS")) {
-                    siminfo.devices[runtime].forEach((devinfo) => {
+                    siminfo!.devices[runtime].forEach((devinfo: DeviceInfo) => {
                         devices.push(devinfo);
                     });
                 }
@@ -121,11 +153,11 @@ const _impl = {
             return device;
         },
 
-        _findAvailableDevice: function() {
+        _findAvailableDevice: function(): DeviceInfo | null {
             const siminfo = simctl.list();
-            let device = null;
+            let device: DeviceInfo | null = null;
 
-            const runtimes = Object.keys(siminfo.devices).filter((runtime) => {
+            const runtimes = Object.keys(siminfo?.devices || {}).filter((runtime) => {
                 if (runtime.includes("SimRuntime.iOS")) {
                     return true;
                 }
@@ -134,30 +166,36 @@ const _impl = {
                 return runtime2.localeCompare(runtime1);
             });
 
-            siminfo.devices[runtimes[0]].every((devinfo) => {
-                if (devinfo.isAvailable && devinfo.name.includes("iPhone")) {
-                    device = devinfo;
+            if (runtimes.length > 0 && siminfo) {
+                siminfo.devices[runtimes[0]].every((devinfo: DeviceInfo) => {
+                    if (devinfo.isAvailable && devinfo.name.includes("iPhone")) {
+                        device = devinfo;
+                        return false;
+                    }
                     return true;
-                }
-                return true;
-            });
+                });
+            }
 
             return device;
         },
 
-        _readInfoPlist: function(appPath) {
+        _readInfoPlist: function(appPath: string): Promise<InfoPlist> {
             return new Promise((resolve, reject) => {
-                const info = plist.readFileSync(path.resolve(appPath, "Info.plist"));
+                try {
+                    const info = plist.readFileSync(path.resolve(appPath, "Info.plist")) as InfoPlist;
 
-                if (info.CFBundleIdentifier) {
-                    resolve(info);
-                } else {
-                    reject();
+                    if (info.CFBundleIdentifier) {
+                        resolve(info);
+                    } else {
+                        reject(new Error("Missing CFBundleIdentifier"));
+                    }
+                } catch (error) {
+                    reject(error);
                 }
             });
         },
 
-        _waitUntilDeviceBooted: function() {
+        _waitUntilDeviceBooted: function(): boolean {
             sleep(3000);
 
             return true;
@@ -165,23 +203,23 @@ const _impl = {
     },
 
     "android": {
-        start: function(port) {
+        start: function(port?: number): Promise<string> {
             return new Promise((resolve, reject) => {
-                if (this._startDevice() && this._forwardPort(port)) {
-                    this._launchApp((appId) => {
+                if (this._startDevice() && this._forwardPort(port || 8888)) {
+                    this._launchApp((appId: string | undefined) => {
                         if (appId) {
                             resolve(appId);
                         } else {
-                            reject();
+                            reject(new Error("Failed to launch app"));
                         }
                     });
                 } else {
-                    reject();
+                    reject(new Error("Failed to start device or forward port"));
                 }
             });
         },
 
-        openUrl: function(url) {
+        openUrl: function(url: string): boolean {
             if (avdctl.open(url)) {
                 return true;
             }
@@ -189,17 +227,17 @@ const _impl = {
             return false;
         },
 
-        _startDevice: function() {
+        _startDevice: function(): boolean {
             if (!avdctl.getProperty("sys.boot_completed")) {
                 const device = this._findAvailableDevice();
 
                 if (device) {
                     process.stdout.write("Starting an emulator... ");
-                    
+
                     if (avdctl.start(device)) {
                         if (this._waitUntilDeviceBooted()) {
                             console.log("Done");
-                            
+
                             return true;
                         }
                     }
@@ -207,11 +245,11 @@ const _impl = {
             } else {
                 return true;
             }
- 
+
             return false;
         },
 
-        _forwardPort: function(port) {
+        _forwardPort: function(port: number): boolean {
             if (avdctl.forward("tcp:" + port, "tcp:" + port)) {
                 return true;
             }
@@ -219,20 +257,20 @@ const _impl = {
             return false;
         },
 
-        _launchApp: function(handler) {
+        _launchApp: function(handler: (appId?: string) => void): void {
             const appPath = path.resolve(__dirname, "..", "browsers", "jamkit.apk");
 
-            this._readManifest(appPath)
-                .then((manifest) => {
-                    const appId = manifest["package"];
-                    const appVersion = manifest["versionName"];
+            this._readManifest!(appPath)
+                .then((manifest: AndroidManifest) => {
+                    const appId = manifest.package;
+                    const appVersion = manifest.versionName;
                     const installedVersion = avdctl.getVersion(appId);
 
-                    if (!installedVersion || installedVersion != appVersion) {
+                    if (!installedVersion || installedVersion !== appVersion) {
                         if (installedVersion) {
                             avdctl.uninstall(appId);
                         }
-                    
+
                         avdctl.install(appPath);
                     }
 
@@ -244,32 +282,33 @@ const _impl = {
                         handler();
                     }
                 })
-                .catch((error) => {
+                .catch((error: Error) => {
                     handler();
                 });
 
             process.stdout.write("Launching the browser... ");
-        }, 
+        },
 
-        _findAvailableDevice: function() {
+        _findAvailableDevice: function(): string | null {
             const devices = avdctl.list();
 
-            if (devices) {
+            if (devices && devices.length > 0) {
                 return devices[0];
             }
 
             return null;
-        }, 
+        },
 
-        _readManifest: function(appPath) {
-            return apk.open(appPath)
-                .then((reader) => {
-                    return reader.readManifest();
+        _readManifest: function(appPath: string): Promise<AndroidManifest> {
+            return (apk() as any).readFile(appPath)
+                .then((reader: any) => {
+                    return reader.readManifest() as Promise<AndroidManifest>;
                 });
         },
 
-        _waitUntilDeviceBooted: function() {
-            const timeout = 10000, interval = 200;
+        _waitUntilDeviceBooted: function(): boolean {
+            let timeout = 10000;
+            const interval = 200;
 
             while (!avdctl.getProperty("sys.boot_completed")) {
                 sleep(interval);
@@ -286,12 +325,19 @@ const _impl = {
     }
 };
 
-export default {
-    start(platform, port) {
+interface SimulatorModule {
+    start(platform: Platform, port?: number): Promise<string>;
+    openUrl(platform: Platform, url: string): boolean | void;
+}
+
+const simulator: SimulatorModule = {
+    start(platform: Platform, port?: number): Promise<string> {
         return _impl[platform].start(port);
     },
 
-    openUrl(platform, url) {
+    openUrl(platform: Platform, url: string): boolean | void {
         return _impl[platform].openUrl(url);
     }
-}
+};
+
+export default simulator;

@@ -22,9 +22,84 @@ import native from "./native.js";
 import leafly from "./leafly.js";
 import utils from "./utils.js";
 
+// Type definitions
+interface AppInfo {
+    id: string;
+    version?: string;
+    title?: string;
+    localization?: {
+        [language: string]: {
+            title?: string;
+        };
+    };
+    [key: string]: any;
+}
+
+interface BookInfo {
+    id: string;
+    version?: string;
+    title?: string;
+    [key: string]: any;
+}
+
+interface ShellOptions {
+    host: string;
+    port: number;
+}
+
+interface CreateOptions {
+    "app-id": string;
+    version: string;
+    template?: string;
+    repository?: string;
+    language?: string;
+    theme?: string;
+}
+
+interface PublishOptions {
+    "file-url"?: string;
+    "image-url"?: string;
+    "image-file"?: string;
+    "shorten-url"?: boolean;
+    title?: string;
+    language?: string;
+}
+
+interface HostOptions {
+    url?: string;
+    scheme?: string;
+}
+
+interface InstallUrls {
+    [platform: string]: string;
+}
+
+interface VsCodeLaunchConfig {
+    name: string;
+    type: string;
+    request: string;
+    port: number;
+}
+
+interface VsCodeLaunchJson {
+    version: string;
+    configurations: VsCodeLaunchConfig[];
+}
+
+interface IpfsOptions {
+    [key: string]: any;
+}
+
+interface RunOptions {
+    [key: string]: any;
+}
+
+type Platform = "ios" | "android";
+type Mode = "jam" | "widget" | "app" | "main";
+
 const CONNECT_BASE_URL = "https://jamkit.io";
 
-const generateAppId = (wantedAppId, templateAppId) => {
+const generateAppId = (wantedAppId: string, templateAppId: string): string => {
     if (wantedAppId === "auto") {
         return `com.yourdomain.${uuid_v4()}`;
     }
@@ -36,23 +111,23 @@ const generateAppId = (wantedAppId, templateAppId) => {
     return wantedAppId;
 }
 
-const compressFolder = (srcPath, zipPath) => {
+const compressFolder = (srcPath: string, zipPath: string): Promise<string> => {
     return new Promise((resolve, reject) => {
-        zipdir(srcPath, { 
+        zipdir(srcPath, {
             saveTo: zipPath,
-            filter(fullPath, stat) {
+            filter(fullPath: string, stat: any): boolean {
                 if (path.basename(fullPath).startsWith(".")) {
                     return false;
                 }
-    
+
                 if ([ ".jam", ".bxp" ].includes(path.extname(fullPath))) {
                     return false;
                 }
-    
+
                 return true;
             }
-         }, 
-         (error) => {
+         },
+         (error: Error | null) => {
             if (!error) {
                 resolve(zipPath);
             } else {
@@ -62,11 +137,11 @@ const compressFolder = (srcPath, zipPath) => {
     });
 }
 
-const getVscodeLaunchJsonPath = () => {
+const getVscodeLaunchJsonPath = (): string => {
     // Starting from the current directory (where package.bon exists),
     // check up to 7 ancestors to see if they have the VSCode configs.
     let configDirPath = ".vscode";
-    
+
     for (let i = 0; i < 7; ++i) {
         if (fs.existsSync(configDirPath)) {
             const isUserConfigDir = fs.existsSync(path.join(configDirPath, "argv.json")) ||
@@ -87,10 +162,10 @@ const getVscodeLaunchJsonPath = () => {
     return path.join(".vscode", "launch.json");
 }
 
-const updateVscodeLaunchJson = (debuggerPort) => {
+const updateVscodeLaunchJson = (debuggerPort: number): void => {
     const jsonPath = getVscodeLaunchJsonPath();
     const configName = "Jamkit attach";
-    const defaultLaunchConfig = {
+    const defaultLaunchConfig: VsCodeLaunchConfig = {
         name: configName,
         type: "node",
         request: "attach",
@@ -98,13 +173,15 @@ const updateVscodeLaunchJson = (debuggerPort) => {
     };
 
     process.stdout.write(`Updating the debugger configuration in ${jsonPath}... `);
-    
+
+    let launchJson: VsCodeLaunchJson;
+    let needsUpdate = false;
+
     try {
-        const launchJson = fs.readJsonSync(jsonPath);
+        launchJson = fs.readJsonSync(jsonPath) as VsCodeLaunchJson;
         const launchConfig = launchJson.configurations.find((config) => {
             return config.name === configName;
         });
-        let needsUpdate = false;
 
         if (launchConfig) {
             if (launchConfig.port != debuggerPort) {
@@ -133,7 +210,7 @@ const updateVscodeLaunchJson = (debuggerPort) => {
     console.log("Done");
 }
 
-const publishApp = (appId, options, ipfsOptions, callback) => {
+const publishApp = (appId: string, options: PublishOptions, ipfsOptions: IpfsOptions, callback: (url: string) => void): void => {
     if (!options["file-url"]) {
         const baseName = appId.split(".").slice(-1);
         const jamPath = path.join(".", `${baseName}.jam`);
@@ -147,7 +224,7 @@ const publishApp = (appId, options, ipfsOptions, callback) => {
                 fs.moveSync(zipPath, jamPath);
 
                 publishFileToIpfs(jamPath, ipfsOptions)
-                    .then((hash) => {
+                    .then((hash: string) => {
                         callback(`ipfs://hash/${hash}`);
                     })
                     .catch((error) => {
@@ -162,7 +239,7 @@ const publishApp = (appId, options, ipfsOptions, callback) => {
     }
 }
 
-const publishBook = (options, ipfsOptions, callback) => {
+const publishBook = (options: PublishOptions, ipfsOptions: IpfsOptions, callback: (url: string) => void): void => {
     if (!options["file-url"]) {
         const baseName = path.basename(path.resolve("."))
         const bxpPath = path.join(".", `${baseName}.bxp`);
@@ -176,7 +253,7 @@ const publishBook = (options, ipfsOptions, callback) => {
                 fs.moveSync(zipPath, bxpPath);
 
                 publishFileToIpfs(bxpPath, ipfsOptions)
-                    .then((hash) => {
+                    .then((hash: string) => {
                         callback("ipfs://hash/" + hash);
                     })
                     .catch((error) => {
@@ -191,11 +268,11 @@ const publishBook = (options, ipfsOptions, callback) => {
     }
 }
 
-const publishImage = (options, ipfsOptions, callback) => {
+const publishImage = (options: PublishOptions, ipfsOptions: IpfsOptions, callback: (url?: string) => void): void => {
     if (!options["image-url"]) {
         if (options["image-file"]) {
             publishFileToIpfs(options["image-file"], ipfsOptions)
-                .then((hash) => {
+                .then((hash: string) => {
                     callback(`https://ipfs.io/ipfs/${hash}`);
                 })
                 .catch((error) => {
@@ -209,54 +286,74 @@ const publishImage = (options, ipfsOptions, callback) => {
     }
 }
 
-const publishFileToIpfs = (path, options) => {
+const publishFileToIpfs = (filePath: string, options: IpfsOptions): Promise<string> => {
     return createIpfsClient(options)
-        .then((client) => {
-            return Promise.all(client.addAll(ipfsGlobSource("./", path)));
+        .then((client: any) => {
+            return Promise.all(client.addAll(ipfsGlobSource("./", filePath)));
+        })
+        .then((results: any[]) => {
+            return results[results.length - 1].cid.toString();
         });
 }
 
-const shortenUrl = (url, callback) => {
+const shortenUrl = (url: string, callback: (url: string) => void): void => {
     leafly.createShortUrl(url)
-        .then(({ url }) => {
-            callback(url);
+        .then(({ url: shortUrl }: { url: string }) => {
+            callback(shortUrl);
         })
         .catch((error) => {
             callback(url);
         });
 }
 
-export default {
-    createApp(directory, options) {
+interface CommandsModule {
+    createApp(directory: string, options: CreateOptions): void;
+    runApp(platform: Platform, mode: Mode, shellOptions: ShellOptions, options: RunOptions): void;
+    buildApp(): void;
+    installApp(platform: Platform): void;
+    publishApp(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void;
+    createBook(directory: string, options: CreateOptions): void;
+    runBook(platform: Platform, shellOptions: ShellOptions, options: RunOptions): void;
+    buildBook(): void;
+    installBook(platform: Platform): void;
+    publishBook(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void;
+    openUrl(platform: Platform, url: string): void;
+    generateDatabase(target: string, store: string, spreadsheetPath: string): void;
+    migrateStyle(): void;
+    composeNative(nativePath: string, platforms: Platform[]): void;
+}
+
+const commands: CommandsModule = {
+    createApp(directory: string, options: CreateOptions): void {
         if (fs.existsSync(path.join(directory, "package.bon"))) {
             console.log("ERROR: directory already exists.");
 
             return;
         }
 
-        template.copy("apps", directory, options)
+        template.copy("apps" as any, directory, options)
             .then(() => {
                 const bonPath = path.resolve(directory, "package.bon");
-                const appInfo = bon.parse(fs.readFileSync(bonPath, "utf8"));
-        
+                const appInfo = bon.parse(fs.readFileSync(bonPath, "utf8")) as AppInfo;
+
                 appInfo["id"] = generateAppId(options["app-id"], appInfo["id"]);
                 appInfo["version"] = options["version"];
-                
-                fs.writeFileSync(bonPath, bon.stringify(appInfo));
+
+                fs.writeFileSync(bonPath, bon.stringify(appInfo) || "");
             })
             .catch((error) => {
                 console.log("ERROR: template may not exists.");
             });
     },
 
-    runApp(platform, mode, shellOptions, options) {
+    runApp(platform: Platform, mode: Mode, shellOptions: ShellOptions, options: RunOptions): void {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
             return;
         }
-        
-        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8"));
+
+        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
         if (!appInfo || !appInfo["id"]) {
             console.log("ERROR: package.bon is malformed.");
@@ -270,13 +367,13 @@ export default {
                     .then(() => {
                         return shell.open();
                     })
-                    .then(() => {
+                    .then((() => {
                         if ([ "jam", "widget" ].includes(mode)) {
                             return Promise.resolve(); // nothing to do
                         } else {
                             return shell.execute("app id " + appInfo["id"]);
                         }
-                    })
+                    }) as any)
                     .then(() => {
                         return shell.execute("app source " + path.join(process.cwd(), "catalogs"));
                     })
@@ -288,28 +385,28 @@ export default {
 
                         return shell.execute("debugger start")
                             .then((result) => {
-                                const devicePort = parseInt(result);
+                                const devicePort = parseInt(result as string);
                                 let localPort = devicePort;
-                                
+
                                 while (true) {
                                     if (avdctl.forward(`tcp:${localPort}`, `tcp:${devicePort}`)) {
                                         break;
                                     }
-                                
+
                                     if (localPort > devicePort + 100) {
                                         return Promise.reject("too many `adb forward` failures");
                                     }
-                                
+
                                     localPort += 1;
                                 }
-                                
+
                                 updateVscodeLaunchJson(localPort);
-                                
+
                                 return Promise.resolve();
                             })
                             .catch((error) => {
                                 console.log(`WARNING: failed to start debugger - ${error}`);
-                                
+
                                 return Promise.resolve();
                             });
                     })
@@ -323,7 +420,7 @@ export default {
                     .then((resourcePath) => {
                         let needsReset = true;
 
-                        syncfolder.start(platform, appId, "./catalogs", resourcePath, options, () => {
+                        syncfolder.start(platform, appId as string, "./catalogs", resourcePath as string, options, () => {
                             if (needsReset) {
                                 if ([ "jam", "widget" ].includes(mode)) {
                                     shell.execute("app install " + utils.dataToDataURL(appInfo));
@@ -352,14 +449,14 @@ export default {
             });
     },
 
-    buildApp() {
+    buildApp(): void {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
             return;
         }
 
-        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8"));
+        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
         if (!appInfo || !appInfo["id"]) {
             console.log("ERROR: package.bon is malformed.");
@@ -383,14 +480,14 @@ export default {
             });
     },
 
-    installApp(platform) {
+    installApp(platform: Platform): void {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
             return;
         }
 
-        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8"));
+        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
         if (!appInfo || !appInfo["id"]) {
             console.log("ERROR: package.bon is malformed.");
@@ -416,14 +513,14 @@ export default {
             });
     },
 
-    publishApp(host, options, ipfsOptions, installUrls) {
+    publishApp(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void {
         if (!options["file-url"] && !fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
             return;
         }
 
-        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) || {};
+        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo || {};
 
         if (!options["file-url"] && !appInfo) {
             console.log("ERROR: package.bon is malformed.");
@@ -440,7 +537,7 @@ export default {
         }
 
         publishApp(appInfo["id"], options, ipfsOptions, (app_url) => {
-            publishImage(options, ipfsOptions, (imageUrl) => {
+            publishImage(options, ipfsOptions, (imageUrl?: string) => {
                 const title = options["title"] || appInfo["title"] || "";
                 let url = `${host["url"] || CONNECT_BASE_URL}/connect/app/?`
                         + `app=${appInfo["id"]}` + "&" + `url=${urlencode(app_url)}`
@@ -448,13 +545,13 @@ export default {
                         + (appInfo["version"] ? "&" + `version=${appInfo["version"]}` : "")
                         + (imageUrl ? "&" + `image=${urlencode(imageUrl)}` : "")
                         + (host["url"] ? "" : "&" + `host-scheme=${host["scheme"]}`);
-    
+
                 Object.keys(installUrls).forEach((platform) => {
                     if (installUrls[platform] !== "auto") {
                         url = url + "&" + `${platform}-install-url=${urlencode(installUrls[platform])}`;
                     }
                 });
-    
+
                 if (options["shorten-url"]) {
                     shortenUrl(url, (url) => {
                         qrcode.generate(url);
@@ -468,28 +565,28 @@ export default {
         });
     },
 
-    createBook(directory, options) {
+    createBook(directory: string, options: CreateOptions): void {
         if (fs.existsSync(path.join(directory, "book.bon"))) {
             console.log("ERROR: directory already exists.");
 
             return;
         }
 
-        template.copy("books", directory, options)
+        template.copy("books" as any, directory, options)
             .then(() => {
                 const bonPath = path.resolve(directory, "book.bon");
-                const bookInfo = bon.parse(fs.readFileSync(bonPath, "utf8"));
-        
+                const bookInfo = bon.parse(fs.readFileSync(bonPath, "utf8")) as BookInfo;
+
                 bookInfo["version"] = options["version"];
-        
-                fs.writeFileSync(bonPath, bon.stringify(bookInfo));        
+
+                fs.writeFileSync(bonPath, bon.stringify(bookInfo) || "");
             })
             .catch((error) => {
                 console.log("ERROR: template may not exists.");
             });
     },
 
-    runBook(platform, shellOptions, options) {
+    runBook(platform: Platform, shellOptions: ShellOptions, options: RunOptions): void {
         if (!fs.existsSync("./book.bon")) {
             console.log("ERROR: book.bon not found.");
 
@@ -499,7 +596,7 @@ export default {
         simulator.start(platform, shellOptions["port"])
             .then((appId) => {
                 shell.ready(shellOptions["host"], shellOptions["port"], 60 * 1000) // 1 minute
-                    .then(() => { 
+                    .then(() => {
                         return shell.open();
                     })
                     .then(() => {
@@ -508,7 +605,7 @@ export default {
                     .then((resourcePath) => {
                         let needsOpen = true;
 
-                        syncfolder.start(platform, appId, ".", resourcePath, options, () => {
+                        syncfolder.start(platform, appId as string, ".", resourcePath as string, options, () => {
                             if (needsOpen) {
                                 shell.execute("book open");
                                 needsOpen = false;
@@ -523,7 +620,7 @@ export default {
         });
     },
 
-    buildBook() {
+    buildBook(): void {
         if (!fs.existsSync("./book.bon")) {
             console.log("ERROR: book.bon not found.");
 
@@ -538,7 +635,7 @@ export default {
         }
 
         compressFolder(".", tmp.tmpNameSync())
-            .then((zipPath, bxpPath) => {
+            .then((zipPath) => {
                 fs.moveSync(zipPath, bxpPath);
             })
             .catch((error) => {
@@ -546,7 +643,7 @@ export default {
             });
     },
 
-    installBook(platform) {
+    installBook(platform: Platform): void {
         if (!fs.existsSync("./book.bon")) {
             console.log("ERROR: book.bon not found.");
 
@@ -561,7 +658,7 @@ export default {
         }
 
         compressFolder(".", tmp.tmpNameSync())
-            .then((zipPath, bxpPath) => {
+            .then((zipPath) => {
                 fs.moveSync(zipPath, bxpPath);
 
                 // TBD: What to do?
@@ -571,14 +668,14 @@ export default {
             });
     },
 
-    publishBook(host, options, ipfsOptions, installUrls) {
+    publishBook(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void {
         if (!options["file-url"] && !fs.existsSync("./book.bon")) {
             console.log("ERROR: book.bon not found.");
 
             return;
         }
 
-        const bookInfo = bon.parse(fs.readFileSync("./book.bon", "utf8"));
+        const bookInfo = bon.parse(fs.readFileSync("./book.bon", "utf8")) as BookInfo;
 
         if (!options["file-url"] && !bookInfo) {
             console.log("ERROR: book.bon is malformed.");
@@ -586,22 +683,22 @@ export default {
             return;
         }
 
-        publishBook(options, (bookUrl) => {
-            publishImage(options, ipfsOptions, (imageUrl) => {
-                const title = options["title"] || appInfo["title"] || "";
+        publishBook(options, ipfsOptions, (bookUrl) => {
+            publishImage(options, ipfsOptions, (imageUrl?: string) => {
+                const title = options["title"] || bookInfo["title"] || "";
                 let url = `${host["url"] || CONNECT_BASE_URL}/connect/book/?`
                         + `book=${bookInfo["id"]}` + "&" + `url=${urlencode(bookUrl)}`
                         + (title ? "&" + `title=${urlencode(title)}` : "")
                         + (bookInfo["version"] ? "&" + `version=${bookInfo["version"]}` : "")
                         + (imageUrl ? "&" + `image=${urlencode(imageUrl)}` : "")
                         + (host["url"] ? "" : "&" + `host-scheme=${host["scheme"]}`);
-    
+
                 Object.keys(installUrls).forEach((platform) => {
                     if (installUrls[platform] !== "auto") {
                         url = url + "&" + `${platform}-install-url=${urlencode(installUrls[platform])}`;
                     }
                 });
-    
+
                 if (options["shorten-url"]) {
                     shortenUrl(url, (url) => {
                         qrcode.generate(url);
@@ -615,13 +712,13 @@ export default {
         });
     },
 
-    openUrl(platform, url) {
+    openUrl(platform: Platform, url: string): void {
         if (!simulator.openUrl(platform, url)) {
             console.log(`ERROR: Failed to open the url: ${url}`);
         }
     },
 
-    generateDatabase(target, store, spreadsheetPath) {
+    generateDatabase(target: string, store: string, spreadsheetPath: string): void {
         const data = catalog.loadFromSpreadsheet(spreadsheetPath, store);
         const baseDir = path.join("catalogs", target);
 
@@ -629,7 +726,7 @@ export default {
         catalog.saveToDatabase(data[0], data[1], path.join(baseDir, "catalog.sqlite"));
     },
 
-    migrateStyle() {
+    migrateStyle(): void {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
@@ -638,24 +735,30 @@ export default {
 
         const baseDir = "catalogs";
 
-        glob(baseDir + "/**/*.sbss", {}, (error, files) => {
-            files.forEach((file) => {
-                style.migrate(file);
+        glob(baseDir + "/**/*.sbss", {})
+            .then((files) => {
+                files.forEach((file) => {
+                    style.migrate(file);
+                });
+            })
+            .catch((error) => {
+                console.log("ERROR: could not find style files.");
             });
-        });
     },
 
-    composeNative(nativePath, platforms) {
+    composeNative(nativePath: string, platforms: Platform[]): void {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
-            
+
             return;
         }
 
-        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8"));
+        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
         platforms.forEach((platform) => {
-            native.compose(nativePath, platform, appInfo);
+            native.compose(nativePath, platform, appInfo as any);
         });
     }
-}
+};
+
+export default commands;

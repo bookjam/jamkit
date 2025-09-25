@@ -3,40 +3,45 @@ import fs from "fs-extra";
 const RE_OLD_STYLE = /(\s*)([#%\/][^:]+):(.*)/;
 const RE_PROP = /(([\w\d-]+)\s*=\s*("(\\"|[^"])+"|'(\\'|[^'])+'|[^,]+))(,|$)/g;
 
-const migrateNewStyle = (line, trailing) => {
+const migrateNewStyle = (line: string, trailing: string): string | undefined => {
     const m = RE_OLD_STYLE.exec(line);
 
     if (m) {
         const props = [...m[3].trim().matchAll(RE_PROP)];
         const style = buildNewStyle(m[1], m[2], props.map((prop) => {
-            const name  = prop[2].trim();
+            const name = prop[2].trim();
             const value = prop[3].trim().replace(/^["']|["']$/g, "");
-        
-            return [ name, value ];
+
+            return [name, value];
         }));
 
         return style + trailing;
     }
-}
+};
 
-const buildNewStyle = (leading, selector, props) => {
+const buildNewStyle = (leading: string, selector: string, props: [string, string][]): string => {
     let style = `${leading}${selector} {\n`;
 
-    props.forEach(([ name, value ]) => {
+    props.forEach(([name, value]) => {
         style += `${leading}    ${name}: ${value};\n`;
     });
 
     style += `${leading}}`;
 
     return style;
+};
+
+interface StyleModule {
+    migrate(path: string): void;
 }
 
-export default {
-    migrate(path) {
+const style: StyleModule = {
+    migrate(path: string): void {
         const source = fs.readFileSync(path, { encoding: "utf8" });
-        let text = "", multiline = false;
-        const lines = [];
-        
+        let text = "";
+        let multiline = false;
+        const lines: string[] = [];
+
         source.split(/\r\n|\n|\r/).forEach((line) => {
             if (multiline) {
                 lines[lines.length - 1] += line.replace(/^\s+|\\$/g, "");
@@ -68,4 +73,6 @@ export default {
 
         fs.writeFileSync(path, text);
     }
-}
+};
+
+export default style;

@@ -2,9 +2,11 @@ import fs from "fs";
 import path from "path";
 import avdctl from "./avdctl.js";
 
-const SDK_VERSION = Number.parseInt(avdctl.getProperty("ro.build.version.sdk"), 10);
+const SDK_VERSION = Number.parseInt(avdctl.getProperty("ro.build.version.sdk") || "0", 10);
 
-const walkDir = (root, dir, handler) => {
+type WalkDirHandler = (file: string, stats: fs.Stats) => void;
+
+const walkDir = (root: string, dir: string, handler: WalkDirHandler): void => {
     const basePath = path.join(root, dir);
 
     for (const file of fs.readdirSync(basePath)) {
@@ -17,16 +19,23 @@ const walkDir = (root, dir, handler) => {
             walkDir(root, subPath, handler);
         }
     }
+};
+
+interface AvdctlHelperModule {
+    push(src: string, dest: string): void;
+    intent(action: string, url: string): void;
+    shell(cmd: string): void;
+    getSdkVersion(): number;
 }
 
-export default {
-    push(src, dest) {
+const avdctlHelper: AvdctlHelperModule = {
+    push(src: string, dest: string): void {
         const stats = fs.statSync(src);
 
         if (stats.isDirectory()) {
             avdctl.shell(`mkdir ${dest}`);
 
-            walkDir(src, ".", (file, stats) => {
+            walkDir(src, ".", (file: string, stats: fs.Stats) => {
                 const subpath = file.replace(/\\/g, "/");
 
                 if (stats.isDirectory()) {
@@ -38,17 +47,19 @@ export default {
         } else {
             avdctl.push(src, dest);
         }
-    }, 
+    },
 
-    intent(action, url) {
+    intent(action: string, url: string): void {
         avdctl.intent(action, url);
     },
 
-    shell(cmd) {
+    shell(cmd: string): void {
         avdctl.shell(cmd);
     },
 
-    getSdkVersion() {
+    getSdkVersion(): number {
         return SDK_VERSION;
     }
-}
+};
+
+export default avdctlHelper;

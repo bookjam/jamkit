@@ -8,7 +8,11 @@
     "bin": {
         "jamkit": "dist/index.js"
     },
-    "files": [ "dist/**", "README.md", "LICENSE" ],
+    "files": [
+        "dist/**",
+        "README.md",
+        "LICENSE"
+    ],
     "scripts": {
         "build": "tsc -p tsconfig.json",
         "dev": "tsc -w -p tsconfig.json",
@@ -63,5 +67,16 @@
         "walk-sync": "^3.0.0",
         "xlsx": "^0.18.5",
         "zip-dir": "^2.0.0"
+    },
+    "devDependencies": {
+        "@types/fs-extra": "^11.0.4",
+        "@types/inquirer": "^9.0.9",
+        "@types/node": "^24.5.2",
+        "@types/qrcode-terminal": "^0.12.2",
+        "@types/shelljs": "^0.8.17",
+        "@types/sprintf-js": "^1.1.4",
+        "@types/tmp": "^0.2.6",
+        "@types/urlencode": "^1.1.4",
+        "@types/uuid": "^10.0.0"
     }
 }

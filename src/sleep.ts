@@ -1,4 +1,4 @@
-export default function sleep(time) {
+export default function sleep(time: number): void {
     const start = Date.now();
 
     while (true) {

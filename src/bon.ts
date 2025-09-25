@@ -1,25 +1,31 @@
-const WHITESPACES = [ ' ', '\t', '\n', '\r', '\f', '\v' ],
-      SYNTAXCHARS = [ '[', ']', '{', '}', ',', ':' ]
+type BonValue = string | number | boolean | BonObject | BonArray;
+type BonObject = { [key: string]: BonValue };
+type BonArray = BonValue[];
 
-const ESCAPE_TABLE = {
+interface EscapeTable {
+    [key: string]: string;
+}
+
+const WHITESPACES: string[] = [' ', '\t', '\n', '\r', '\f', '\v'];
+const SYNTAXCHARS: string[] = ['[', ']', '{', '}', ',', ':'];
+
+const ESCAPE_TABLE: EscapeTable = {
     '"': '"', '\\': '\\', '/': '/',
     'b': '\b', 'f': '\f', 'n': '\n',
     'r': '\r', 't': '\t', 'v': '\v'
-}
+};
 
-const REVERSE_ESCAPE_TABLE = {
+const REVERSE_ESCAPE_TABLE: EscapeTable = {
     '"': '\\"', '\\': '\\\\', '/': '\\/',
     '\b': '\\b', '\f': '\\f', '\n': '\\n',
     '\r': '\\r', '\t': '\\t', '\v': '\\v'
-}
+};
 
 class BonParser {
-    constructor() {
-        this._text = "";
-        this._index = 0;
-    }
+    private _text: string = "";
+    private _index: number = 0;
 
-    parse(text) {
+    parse(text: string): BonValue | undefined {
         this._text = text;
         this._index = 0;
 
@@ -38,8 +44,8 @@ class BonParser {
         }
     }
 
-    _readValue() {
-        let value = this._readArray();
+    private _readValue(): BonValue | undefined {
+        let value: BonValue | undefined = this._readArray();
 
         if (!value) {
             value = this._readObject();
@@ -52,23 +58,23 @@ class BonParser {
         return value;
     }
 
-    _readArray() {
+    private _readArray(): BonArray | undefined {
         if (this._matchChar("[")) {
             this._skipSpaces();
 
-            const array = [];
+            const array: BonArray = [];
 
             while (true) {
                 if (this._matchChar("]")) {
                     return array;
                 }
 
-                var value = this._readValue();
+                const value = this._readValue();
 
                 if (!value) {
                     break;
                 }
-                
+
                 array.push(value);
 
                 this._skipSpaces();
@@ -82,22 +88,22 @@ class BonParser {
                 }
             }
 
-            throw "BonParser: malformed array";
+            throw new Error("BonParser: malformed array");
         }
     }
 
-    _readObject() {
+    private _readObject(): BonObject | undefined {
         if (this._matchChar("{")) {
             this._skipSpaces();
 
-            var object = {}
+            const object: BonObject = {};
 
             while (true) {
                 if (this._matchChar("}")) {
                     return object;
                 }
 
-                var key = this._readString();
+                const key = this._readString();
 
                 if (!key) {
                     break;
@@ -111,7 +117,10 @@ class BonParser {
 
                 this._skipSpaces();
 
-                object[key] = this._readValue();
+                const value = this._readValue();
+                if (value !== undefined) {
+                    object[key] = value;
+                }
 
                 this._skipSpaces();
 
@@ -124,14 +133,14 @@ class BonParser {
                 }
             }
 
-            throw "BonParser: malformed object";
+            throw new Error("BonParser: malformed object");
         }
     }
 
-    _readString() {
+    private _readString(): string | undefined {
         let ch = this._peekChar();
 
-        if (!SYNTAXCHARS.includes(ch)) {
+        if (ch && !SYNTAXCHARS.includes(ch)) {
             let string = "";
 
             if (ch === '"') {
@@ -167,7 +176,7 @@ class BonParser {
                     string = string + ch;
                 }
 
-                throw "BonParser: wrong quoted string";
+                throw new Error("BonParser: wrong quoted string");
             } else {
                 while (true) {
                     const ch = this._peekChar();
@@ -190,29 +199,29 @@ class BonParser {
         }
     }
 
-    _peekChar() {
+    private _peekChar(): string | undefined {
         if (this._index < this._text.length) {
             return this._text.charAt(this._index);
         }
     }
 
-    _consumeChar() {
+    private _consumeChar(): void {
         this._index += 1;
     }
 
-    _matchChar(ch) {
-        if (this._peekChar() == ch) {
+    private _matchChar(ch: string): boolean {
+        if (this._peekChar() === ch) {
             this._consumeChar();
             return true;
         }
         return false;
     }
 
-    _skipSpaces() {
+    private _skipSpaces(): void {
         while (true) {
             const ch = this._peekChar();
 
-            if (!WHITESPACES.includes(ch)) {
+            if (!ch || !WHITESPACES.includes(ch)) {
                 break;
             }
 
@@ -222,12 +231,14 @@ class BonParser {
 }
 
 class BonStringifier {
-    constructor(useIndent) {
+    private _useIndent: boolean;
+    private _indent: number = 0;
+
+    constructor(useIndent: boolean) {
         this._useIndent = useIndent;
-        this._indent = 0;
     }
 
-    stringify(value) {
+    stringify(value: BonValue): string | undefined {
         this._indent = 0;
 
         try {
@@ -237,32 +248,32 @@ class BonStringifier {
         }
     }
 
-    _stringifyValue(value) {
+    private _stringifyValue(value: BonValue): string {
         if (Array.isArray(value)) {
             return this._stringifyArray(value);
         }
 
-        if (typeof(value) === "object") {
-            return this._stringifyObject(value);
+        if (typeof value === "object" && value !== null) {
+            return this._stringifyObject(value as BonObject);
         }
 
-        if (typeof(value) === "string") {
+        if (typeof value === "string") {
             return this._stringifyString(value);
         }
 
-        console.log(typeof(value));
+        console.log(typeof value);
 
-        throw "BonStringifier: Unsupported type"
+        throw new Error("BonStringifier: Unsupported type");
     }
 
-    _stringifyArray(array) {
+    private _stringifyArray(array: BonArray): string {
         let text = "[";
 
         text += this._appendNewline();
         this._incrementIndent();
 
         let once = true;
-        for (let v of array) {
+        for (const v of array) {
             if (once) {
                 once = false;
             } else {
@@ -277,20 +288,20 @@ class BonStringifier {
         text += this._appendNewline();
         this._decrementIndent();
         text += this._appendIndent();
-        
+
         text += "]";
 
         return text;
     }
 
-    _stringifyObject(object) {
+    private _stringifyObject(object: BonObject): string {
         let text = "{";
 
         text += this._appendNewline();
         this._incrementIndent();
 
         let once = true;
-        for (var [ k, v ] of Object.entries(object)) {
+        for (const [k, v] of Object.entries(object)) {
             if (once) {
                 once = false;
             } else {
@@ -312,7 +323,7 @@ class BonStringifier {
         return text;
     }
 
-    _stringifyString(string) {
+    private _stringifyString(string: string): string {
         let text = "";
         let quote_str = false;
 
@@ -323,7 +334,7 @@ class BonStringifier {
             }
         }
 
-        if (string.length == 0) {
+        if (string.length === 0) {
             quote_str = true;
         }
 
@@ -346,19 +357,19 @@ class BonStringifier {
         return text;
     }
 
-    _incrementIndent() {
+    private _incrementIndent(): void {
         if (this._useIndent) {
             this._indent += 4;
         }
     }
 
-    _decrementIndent() {
+    private _decrementIndent(): void {
         if (this._useIndent) {
             this._indent -= 4;
         }
     }
 
-    _appendIndent() {
+    private _appendIndent(): string {
         let text = "";
 
         if (this._useIndent) {
@@ -370,7 +381,7 @@ class BonStringifier {
         return text;
     }
 
-    _appendNewline() {
+    private _appendNewline(): string {
         if (this._useIndent) {
             return "\n";
         }
@@ -379,12 +390,19 @@ class BonStringifier {
     }
 }
 
-export default {
-    parse(text) {
+interface BonModule {
+    parse(text: string): BonValue | undefined;
+    stringify(value: BonValue): string | undefined;
+}
+
+const bon: BonModule = {
+    parse(text: string): BonValue | undefined {
         return new BonParser().parse(text);
     },
 
-    stringify(value) {
+    stringify(value: BonValue): string | undefined {
         return new BonStringifier(true).stringify(value);
     }
-}
+};
+
+export default bon;

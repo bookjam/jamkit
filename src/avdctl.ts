@@ -2,21 +2,37 @@ import shell from "shelljs";
 import { spawn } from "child_process";
 import sleep from "./sleep.js";
 
-const getEmulatorPath = () => {
+const getEmulatorPath = (): string => {
     const command = (process.platform === "win32") ? "where emulator" : "which emulator";
     const result = shell.exec(command, { silent: true });
-        
+
     if (result.code === 0) {
         return result.stdout.trim();
     }
 
     return "emulator";
+};
+
+interface AvdctlModule {
+    start(deviceName: string): boolean;
+    list(): string[] | null;
+    install(path: string): boolean;
+    uninstall(appId: string): boolean;
+    launch(appId: string): boolean;
+    open(url: string): boolean;
+    isRunning(appId: string): boolean;
+    getVersion(appId: string): string | null;
+    forward(src: string, dest: string): boolean;
+    push(src: string, dest: string): boolean;
+    intent(action: string, url: string): boolean;
+    getProperty(name: string): string | null;
+    shell(cmd: string): boolean;
 }
 
-export default {
-    start(deviceName) {
-        const args = [ "-avd", deviceName ];
-        const subprocess = spawn(getEmulatorPath(), args, { 
+const avdctl: AvdctlModule = {
+    start(deviceName: string): boolean {
+        const args = ["-avd", deviceName];
+        const subprocess = spawn(getEmulatorPath(), args, {
             detached: true,
             stdio: "ignore"
         });
@@ -26,7 +42,7 @@ export default {
         return true;
     },
 
-    list() {
+    list(): string[] | null {
         const command = getEmulatorPath() + " -list-avds";
         const result = shell.exec(command, { silent: true });
 
@@ -37,7 +53,7 @@ export default {
         return null;
     },
 
-    install(path) {
+    install(path: string): boolean {
         const command = `adb install ${path}`;
         const result = shell.exec(command, { silent: true });
 
@@ -48,7 +64,7 @@ export default {
         return false;
     },
 
-    uninstall(appId) {
+    uninstall(appId: string): boolean {
         const command = `adb uninstall ${appId}`;
         const result = shell.exec(command, { silent: true });
 
@@ -59,7 +75,7 @@ export default {
         return false;
     },
 
-    launch(appId) {
+    launch(appId: string): boolean {
         const command = `adb shell 'am start -n ${appId}/${appId}.LaunchScreenViewController'`;
         const result = shell.exec(command, { silent: true });
 
@@ -74,7 +90,7 @@ export default {
         return false;
     },
 
-    open(url) {
+    open(url: string): boolean {
         const command = `adb shell 'am start -a android.intent.action.VIEW -d "${url}"'`;
         const result = shell.exec(command, { silent: true });
 
@@ -85,7 +101,7 @@ export default {
         return false;
     },
 
-    isRunning(appId) {
+    isRunning(appId: string): boolean {
         const command = `adb shell ps | grep ${appId}`;
         const result = shell.exec(command, { silent: true });
 
@@ -95,13 +111,13 @@ export default {
 
         return false;
     },
- 
-    getVersion(appId) {
+
+    getVersion(appId: string): string | null {
         const command = `adb shell 'dumpsys package ${appId} | grep versionName'`;
         const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
-            var matched = result.stdout.match(/versionName=([0-9.]+)/);
+            const matched = result.stdout.match(/versionName=([0-9.]+)/);
 
             if (matched) {
                 return matched[1];
@@ -111,7 +127,7 @@ export default {
         return null;
     },
 
-    forward(src, dest) {
+    forward(src: string, dest: string): boolean {
         const command = `adb forward ${src} ${dest}`;
         const result = shell.exec(command, { silent: true });
 
@@ -120,9 +136,9 @@ export default {
         }
 
         return false;
-    }, 
+    },
 
-    push(src, dest) {
+    push(src: string, dest: string): boolean {
         const command = `adb push '${src}' '${dest}'`;
         const result = shell.exec(command, { silent: true });
 
@@ -133,18 +149,18 @@ export default {
         return false;
     },
 
-    intent(action, url) {
+    intent(action: string, url: string): boolean {
         const command = `adb shell am start -a ${action} -d ${url}`;
         const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;
         }
-        
+
         return false;
     },
 
-    getProperty(name) {
+    getProperty(name: string): string | null {
         const command = `adb shell getprop ${name}`;
         const result = shell.exec(command, { silent: true });
 
@@ -154,8 +170,8 @@ export default {
 
         return null;
     },
-    
-    shell(cmd) {
+
+    shell(cmd: string): boolean {
         const command = `adb shell '${cmd}'`;
         const result = shell.exec(command, { silent: true });
 
@@ -165,4 +181,6 @@ export default {
 
         return false;
     }
-}
+};
+
+export default avdctl;

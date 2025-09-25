@@ -3,9 +3,18 @@ import path from "path";
 import fs from "fs-extra";
 import avdctl from "./avdctl-helper.js";
 
-const _impl = {
-    "ios" : {
-        sync: function(appId, src, dest) {
+type Platform = "ios" | "android";
+type SyncOptions = { "skip-sync"?: boolean };
+
+interface PlatformImplementation {
+    sync(appId: string, src: string, dest: string): void;
+    copy(appId: string, src: string, dest: string): void;
+    remove(appId: string, path: string): void;
+}
+
+const _impl: Record<Platform, PlatformImplementation> = {
+    "ios": {
+        sync: function(appId: string, src: string, dest: string): void {
             if (fs.existsSync(dest)) {
                 fs.removeSync(dest);
             }
@@ -13,21 +22,21 @@ const _impl = {
             fs.copySync(src, dest);
         },
 
-        copy: function(appId, src, dest) {
+        copy: function(appId: string, src: string, dest: string): void {
             if (!fs.lstatSync(src).isDirectory()) {
                 fs.writeFileSync(dest, fs.readFileSync(src));
             } else {
                 fs.copySync(src, dest);
             }
         },
-    
-        remove: function(appId, path) {
+
+        remove: function(appId: string, path: string): void {
             fs.removeSync(path);
         }
     },
 
-    "android" : {
-        sync: function(appId, src, dest) {
+    "android": {
+        sync: function(appId: string, src: string, dest: string): void {
             const tmpRoot = "/data/local/tmp/jamkit";
 
             avdctl.shell(`rm -rf ${tmpRoot}`);
@@ -44,7 +53,7 @@ const _impl = {
             }
         },
 
-        copy: function(appId, src, dest) {
+        copy: function(appId: string, src: string, dest: string): void {
             const tmpRoot = "/data/local/tmp/jamkit";
             const tmpPath = `${tmpRoot}/${path.basename(src)}`;
 
@@ -56,8 +65,8 @@ const _impl = {
                 avdctl.shell(`run-as ${appId} cp -rf ${tmpPath} ${dest}`);
             }
         },
-        
-        remove: function(appId, path) {
+
+        remove: function(appId: string, path: string): void {
             if (avdctl.getSdkVersion() >= 30) {
                 avdctl.shell(`rm -rf ${path.replace(/\\/g, "/")}`);
             } else {
@@ -65,13 +74,17 @@ const _impl = {
             }
         }
     }
+};
+
+interface SyncFolderModule {
+    start(platform: Platform, appId: string, src: string, dest: string, options: SyncOptions, handler: () => void): void;
 }
 
-export default {
-    start(platform, appId, src, dest, options, handler) {
+const syncfolder: SyncFolderModule = {
+    start(platform: Platform, appId: string, src: string, dest: string, options: SyncOptions, handler: () => void): void {
         const watcher = chokidar.watch(src, { ignored: /[\/\\]\./, persistent: true });
         let isReady = false;
-        
+
         watcher
             .on("ready", () => {
                 if (!options["skip-sync"]) {
@@ -86,7 +99,7 @@ export default {
             })
             .on("add", (file) => {
                 if (isReady) {
-					const subPath = path.relative(src, file).replace(/\\/g, "/");
+                    const subPath = path.relative(src, file).replace(/\\/g, "/");
 
                     _impl[platform].copy(appId, file, `${dest}/${subPath}`);
 
@@ -95,8 +108,8 @@ export default {
             })
             .on("addDir", (dir) => {
                 if (isReady) {
-					const subPath = path.relative(src, dir).replace(/\\/g, "/");
-					
+                    const subPath = path.relative(src, dir).replace(/\\/g, "/");
+
                     _impl[platform].copy(appId, dir, `${dest}/${subPath}`);
 
                     handler();
@@ -104,8 +117,8 @@ export default {
             })
             .on("change", (file, stats) => {
                 if (isReady) {
-					const subPath = path.relative(src, file).replace(/\\/g, "/");
-					
+                    const subPath = path.relative(src, file).replace(/\\/g, "/");
+
                     _impl[platform].copy(appId, file, `${dest}/${subPath}`);
 
                     handler();
@@ -113,7 +126,7 @@ export default {
             })
             .on("unlink", (file) => {
                 if (isReady) {
-					const subPath = path.relative(src, file).replace(/\\/g, "/");
+                    const subPath = path.relative(src, file).replace(/\\/g, "/");
 
                     _impl[platform].remove(appId, `${dest}/${subPath}`);
 
@@ -122,14 +135,16 @@ export default {
             })
             .on("unlinkDir", (dir) => {
                 if (isReady) {
-					const subPath = path.relative(src, dir).replace(/\\/g, "/");
+                    const subPath = path.relative(src, dir).replace(/\\/g, "/");
 
                     _impl[platform].remove(appId, `${dest}/${subPath}`);
 
                     handler();
                 }
             });
-        
+
         process.stdout.write("Copying files to the browser. It may takes several minutes... ");
     }
-}
+};
+
+export default syncfolder;

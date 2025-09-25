@@ -1,13 +1,15 @@
 import net from "net";
 
-const callbacks = new Array();
-let client;
+type ShellCallback = (data: string) => void;
 
-const _connectToHost = (host, port, timeout, callback) => {
+const callbacks: ShellCallback[] = [];
+let client: net.Socket | undefined;
+
+const _connectToHost = (host: string, port: number, timeout: number, callback: () => void): void => {
     const startedTime = new Date().getTime();
 
     client = net.connect({ host, port }, () => {
-         callback();
+        callback();
     });
 
     client.on("error", (error) => {
@@ -28,8 +30,15 @@ const _connectToHost = (host, port, timeout, callback) => {
     });
 };
 
-export default {
-    ready(host, port, timeout) {
+interface ShellModule {
+    ready(host: string, port: number, timeout: number): Promise<void>;
+    open(): Promise<string>;
+    execute(command: string): Promise<string>;
+    close(): void;
+}
+
+const shell: ShellModule = {
+    ready(host: string, port: number, timeout: number): Promise<void> {
         return new Promise((resolve, reject) => {
             _connectToHost(host, port, timeout, () => {
                 resolve();
@@ -37,40 +46,51 @@ export default {
         });
     },
 
-    open() {
+    open(): Promise<string> {
         return new Promise((resolve, reject) => {
             let lines = "";
 
             callbacks.push(resolve);
 
+            if (!client) {
+                reject(new Error("Client not connected"));
+                return;
+            }
+
             client.on("data", (data) => {
                 lines += data.toString("utf-8");
 
                 if (lines.match(/(.|\n)*\$ $/)) {
-                    (lines.match(/(.|\n)*\$ ?/g)||[]).forEach((line) => {
-                        callbacks.shift()(line.replace("$ ", "").trimEnd());
+                    (lines.match(/(.|\n)*\$ ?/g) || []).forEach((line) => {
+                        const callback = callbacks.shift();
+                        if (callback) {
+                            callback(line.replace("$ ", "").trimEnd());
+                        }
                     });
 
                     lines = "";
-
                     return;
                 }
 
                 if (lines.match(/(DEBUG: .*\n)+/)) {
-                    (lines.match(/DEBUG: .*\n/g)||[]).forEach((line) => {
+                    (lines.match(/DEBUG: .*\n/g) || []).forEach((line) => {
                         console.log(line.replace("DEBUG: ", "").trimEnd());
                     });
 
                     lines = "";
-
                     return;
                 }
             });
         });
     },
 
-    execute(command) {
+    execute(command: string): Promise<string> {
         return new Promise((resolve, reject) => {
+            if (!client) {
+                reject(new Error("Client not connected"));
+                return;
+            }
+
             callbacks.push(resolve);
 
             client.write(command);
@@ -78,7 +98,11 @@ export default {
         });
     },
 
-    close() {
-        client.end();
+    close(): void {
+        if (client) {
+            client.end();
+        }
     }
-}
+};
+
+export default shell;
