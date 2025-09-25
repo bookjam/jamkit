@@ -1,6 +1,6 @@
 # Jamkit CLI
 
-A powerful command-line tool for building native mobile apps using web technologies. Jamkit enables developers to create cross-platform applications for iOS and Android using HTML, CSS, and JavaScript.
+A powerful command-line tool for building native mobile apps using web-like technologies. Jamkit enables developers to create cross-platform applications for iOS and Android using SBML (markup), SBSS (styling), and JavaScript.
 
 ## 🚀 Features
 
