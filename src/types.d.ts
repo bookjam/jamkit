@@ -35,65 +35,21 @@ declare module 'array-extended' {
 }
 
 declare module 'fetch-repo-dir' {
-    function fetchRepoDir(options: {
-        repository: string;
-        directory: string;
-        out: string;
-        filter?: (file: string) => boolean;
-    }): Promise<void>;
+    function fetchRepoDir(options: any, config?: any): Promise<void>;
     export = fetchRepoDir;
 }
 
 declare module 'simctl' {
-    interface SimctlResult {
-        success: boolean;
-        output?: string;
-        error?: string;
-    }
-
-    interface Simctl {
-        list(): Promise<any>;
-        install(udid: string, path: string): Promise<SimctlResult>;
-        uninstall(udid: string, bundleId: string): Promise<SimctlResult>;
-        launch(udid: string, bundleId: string, options?: any): Promise<SimctlResult>;
-        terminate(udid: string, bundleId: string): Promise<SimctlResult>;
-        openurl(udid: string, url: string): Promise<SimctlResult>;
-        create(name: string, deviceType: string, runtime: string): Promise<SimctlResult>;
-        delete(udid: string): Promise<SimctlResult>;
-        boot(udid: string): Promise<SimctlResult>;
-        shutdown(udid: string): Promise<SimctlResult>;
-    }
-
-    const simctl: Simctl;
+    const simctl: any;
     export = simctl;
 }
 
 declare module 'adbkit-apkreader' {
-    interface ApkReader {
-        readFile(path: string): Promise<any>;
-        readBuffer(buffer: Buffer): Promise<any>;
-    }
-
-    function createApkReader(): ApkReader;
+    function createApkReader(): any;
     export = createApkReader;
 }
 
 declare module '@raydeck/xcode' {
-    interface XcodeProject {
-        parse(callback: (error: Error | null, project?: any) => void): void;
-        writeSync(): void;
-        addBuildPhase(filePathsArray: string[], type: string, comment?: string): any;
-        addSourceFile(path: string, options?: any): any;
-        addFramework(fpath: string): any;
-        addPbxGroup(options: any, key: string): any;
-        pbxProjectSection(): any;
-        [key: string]: any;
-    }
-
-    interface XcodeModule {
-        project(path: string): XcodeProject;
-    }
-
-    const xcode: XcodeModule;
+    const xcode: any;
     export = xcode;
 }
