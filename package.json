@@ -38,7 +38,7 @@
     "author": "Hanyeol Cho <hanyeol.cho@gmail.com>",
     "license": "MIT",
     "dependencies": {
-        "@raydeck/xcode": "^2.2.1",
+        "xcode": "^3.0.1",
         "@devicefarmer/adbkit-apkreader": "^3.2.4",
         "array-extended": "^0.0.11",
         "axios": "^1.8.4",

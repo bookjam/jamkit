@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs-extra";
-import xcode from "@raydeck/xcode";
+import xcode from "xcode";
 
 import { XMLParser } from "fast-xml-parser";
 import { globSync } from "glob";
