@@ -19,14 +19,18 @@ const _impl: Record<Platform, PlatformImplementation> = {
                 fs.removeSync(dest);
             }
 
-            fs.copySync(src, dest);
+            fs.copySync(src, dest, {
+                filter: (src) => !src.endsWith(".ts")
+            });
         },
 
         copy: function(appId: string, src: string, dest: string): void {
             if (!fs.lstatSync(src).isDirectory()) {
                 fs.writeFileSync(dest, fs.readFileSync(src));
             } else {
-                fs.copySync(src, dest);
+                fs.copySync(src, dest, {
+                    filter: (src) => !src.endsWith(".ts")
+                });
             }
         },
 
@@ -82,7 +86,7 @@ interface SyncFolderModule {
 
 const syncfolder: SyncFolderModule = {
     start(platform: Platform, appId: string, src: string, dest: string, options: SyncOptions, handler: () => void): void {
-        const watcher = chokidar.watch(src, { ignored: /[\/\\]\./, persistent: true });
+        const watcher = chokidar.watch(src, { ignored: /(^|[\/\\])\.|\.ts$/, persistent: true });
         let isReady = false;
 
         watcher
