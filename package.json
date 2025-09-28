@@ -39,7 +39,6 @@
     "author": "Hanyeol Cho <hanyeol.cho@gmail.com>",
     "license": "MIT",
     "dependencies": {
-        "xcode": "^3.0.1",
         "@devicefarmer/adbkit-apkreader": "^3.2.4",
         "array-extended": "^0.0.11",
         "axios": "^1.8.4",
@@ -67,7 +66,8 @@
         "urlencode": "^1.1.0",
         "uuid": "^8.3.2",
         "walk-sync": "^3.0.0",
-        "xlsx": "^0.18.5",
+        "xcode": "^3.0.1",
+        "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz",
         "zip-dir": "^2.0.0"
     },
     "devDependencies": {
