@@ -2,9 +2,12 @@ import path from "path";
 import fs from "fs-extra";
 import plist from "simple-plist";
 import apk from "adbkit-apkreader";
+import { fileURLToPath } from "url";
 import simctl from "./simctl.js";
 import avdctl from "./avdctl.js";
 import sleep from "./sleep.js";
+
+const moduleDir = path.dirname(fileURLToPath(import.meta.url));
 
 type Platform = "ios" | "android";
 
@@ -85,7 +88,7 @@ const _impl: Record<Platform, PlatformImplementation> = {
         },
 
         _launchApp: function(handler: (appId?: string) => void): void {
-            const appPath = path.resolve(__dirname, "..", "browsers", "jamkit.app");
+            const appPath = path.resolve(moduleDir, "..", "browsers", "jamkit.app");
 
             this._readInfoPlist!(appPath)
                 .then((info: InfoPlist) => {
@@ -258,7 +261,7 @@ const _impl: Record<Platform, PlatformImplementation> = {
         },
 
         _launchApp: function(handler: (appId?: string) => void): void {
-            const appPath = path.resolve(__dirname, "..", "browsers", "jamkit.apk");
+            const appPath = path.resolve(moduleDir, "..", "browsers", "jamkit.apk");
 
             this._readManifest!(appPath)
                 .then((manifest: AndroidManifest) => {
@@ -300,8 +303,8 @@ const _impl: Record<Platform, PlatformImplementation> = {
         },
 
         _readManifest: function(appPath: string): Promise<AndroidManifest> {
-            return apk().readFile(appPath)
-                .then((reader) => {
+            return apk.open(appPath)
+                .then((reader: any) => {
                     return reader.readManifest();
                 });
         },

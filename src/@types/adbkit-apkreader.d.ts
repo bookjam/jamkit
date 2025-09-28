@@ -1,10 +1,6 @@
 declare module "adbkit-apkreader" {
-    interface ApkReader {
-        readFile(path: string): Promise<ApkManifestReader>;
-        readBuffer(buffer: Buffer): Promise<ApkManifestReader>;
-    }
-
-    interface ApkManifestReader {
+    class ApkReader {
+        static open(path: string): Promise<ApkReader>;
         readManifest(): Promise<{
             package: string;
             versionName: string;
@@ -13,6 +9,6 @@ declare module "adbkit-apkreader" {
         }>;
     }
 
-    function createApkReader(): ApkReader;
-    export = createApkReader;
+    const apkReader: typeof ApkReader;
+    export default apkReader;
 }

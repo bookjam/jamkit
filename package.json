@@ -61,6 +61,7 @@
         "simple-plist": "^1.0.0",
         "sprintf-js": "^1.1.2",
         "tmp": "^0.0.28",
+        "typescript": "^5.7.2",
         "uglify-js": "^3.7.5",
         "urlencode": "^1.1.0",
         "uuid": "^8.3.2",
