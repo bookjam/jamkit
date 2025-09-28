@@ -81,11 +81,11 @@ const _impl: Record<Platform, PlatformImplementation> = {
 };
 
 interface SyncFolderModule {
-    start(platform: Platform, appId: string, srcDir: string, destDir: string, options: SyncOptions, handler: () => void): void;
+    start(platform: Platform, appId: string, srcDir: string, destDir: string, options: SyncOptions, handler: (event: string, filePath: string) => void): void;
 }
 
 const syncfolder: SyncFolderModule = {
-    start(platform: Platform, appId: string, srcDir: string, destDir: string, options: SyncOptions, handler: () => void): void {
+    start(platform: Platform, appId: string, srcDir: string, destDir: string, options: SyncOptions, handler: (event: string, filePath: string) => void): void {
         const watcher = chokidar.watch(srcDir, {
             ignored: [
                 /(^|[\/\\])\./,
@@ -103,42 +103,42 @@ const syncfolder: SyncFolderModule = {
 
                 console.log("Done");
 
-                handler();
+                handler("ready", srcDir);
             })
             .on("add", (file) => {
                 const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
 
                 _impl[platform].copy(appId, file, `${destDir}/${subPath}`);
 
-                handler();
+                handler("add", file);
             })
             .on("addDir", (dir) => {
                 const subPath = path.relative(srcDir, dir).replace(/\\/g, "/");
 
                 _impl[platform].copy(appId, dir, `${destDir}/${subPath}`);
 
-                handler();
+                handler("addDir", dir);
             })
             .on("change", (file) => {
                 const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
 
                 _impl[platform].copy(appId, file, `${destDir}/${subPath}`);
 
-                handler();
+                handler("change", file);
             })
             .on("unlink", (file) => {
                 const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
 
                 _impl[platform].remove(appId, `${destDir}/${subPath}`);
 
-                handler();
+                handler("unlink", file);
             })
             .on("unlinkDir", (dir) => {
                 const subPath = path.relative(srcDir, dir).replace(/\\/g, "/");
 
                 _impl[platform].remove(appId, `${destDir}/${subPath}`);
 
-                handler();
+                handler("unlinkDir", dir);
             });
 
         process.stdout.write("Copying files to the browser. It may takes several minutes... ");

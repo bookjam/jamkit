@@ -21,7 +21,7 @@ import style from "./style.js";
 import native from "./native.js";
 import leafly from "./leafly.js";
 import utils from "./utils.js";
-import TypescriptWatcher from "./typescript/watcher.js";
+import typescriptWatcher from "./typescript/watcher.js";
 
 // Type definitions
 interface AppInfo {
@@ -426,34 +426,23 @@ const commands: CommandsModule = {
                         let needsReset = true;
 
                         // Start TypeScript watcher
-                        const tsWatcher = new TypescriptWatcher({
-                            outputDir: "./catalogs",
+                        typescriptWatcher.start("./catalogs", {
                             compilerOptions: {
                                 target: undefined,
                                 module: undefined,
                                 sourceMap: true,
                                 removeComments: true
-                            },
-                            onCompileSuccess: (tsFile, jsFile) => {
-                                console.log(`Compiled: ${tsFile} -> ${jsFile}`);
+                            }
+                        }, (event, filePath) => {
+                            if (event === "compiled") {
+                                console.log(`Compiled: ${filePath}`);
                                 // The compiled JS files will be picked up by syncfolder
-                            },
-                            onCompileError: (tsFile, errors) => {
-                                console.error(`Typescript compilation failed for ${tsFile}:`, errors);
-                            },
-                            onRemove: (tsFile, jsFile) => {
-                                console.log(`Removed compiled file: ${jsFile}`);
+                            } else if (event === "removed") {
+                                console.log(`Removed compiled file: ${filePath}`);
                             }
                         });
 
-                        tsWatcher.start("./catalogs");
-
-                        // Compile all existing TypeScript files first
-                        tsWatcher.compileAll().then(() => {
-                            console.log("Initial Typescript compilation complete");
-                        });
-
-                        syncfolder.start(platform, appId as string, "./catalogs", resourcePath as string, options, () => {
+                        syncfolder.start(platform, appId as string, "./catalogs", resourcePath as string, options, (event, filePath) => {
                             if (needsReset) {
                                 if ([ "jam", "widget" ].includes(mode)) {
                                     shell.execute("app install " + utils.dataToDataURL(appInfo));

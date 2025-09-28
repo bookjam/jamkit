@@ -3,126 +3,94 @@ import path from "path";
 import TypescriptCompiler, { CompilerOptions } from "./compiler.js";
 
 export interface WatcherOptions {
-    outputDir?: string;
     compilerOptions?: CompilerOptions;
-    onCompileSuccess?: (tsFile: string, jsFile: string) => void;
-    onCompileError?: (tsFile: string, errors: string[]) => void;
-    onRemove?: (tsFile: string, jsFile: string) => void;
 }
 
-export class TypescriptWatcher {
-    private compiler: TypescriptCompiler;
-    private watcher?: chokidar.FSWatcher;
-    private options: WatcherOptions;
-    private srcDir: string;
+interface TypescriptWatcherModule {
+    start(srcDir: string, options: WatcherOptions, handler: (event: string, filePath: string) => void): void;
+}
 
-    constructor(options: WatcherOptions = {}) {
-        this.options = options;
-        this.compiler = new TypescriptCompiler(options.compilerOptions);
-        this.srcDir = "";
-    }
+const typescriptWatcher: TypescriptWatcherModule = {
+    start(srcDir: string, options: WatcherOptions, handler: (event: string, filePath: string) => void): void {
+        const compiler = new TypescriptCompiler(options.compilerOptions);
+        const compileTsFile = (tsFilePath: string): string | null => {
+            const jsOutputPath = getJsOutputPath(tsFilePath);
+            const result = compiler.compile(tsFilePath, jsOutputPath);
 
-    start(srcDir: string, patterns?: string | string[]): void {
-        const watchPatterns = patterns || path.join(srcDir, "**/*.ts");
+            if (!result.success) {
+                console.warn(`Compilation failed for ${tsFilePath}:`);
+                if (result.diagnostics) {
+                    result.diagnostics.forEach(diagnostic => console.warn(`  ${diagnostic}`));
+                }
+                return null;
+            }
 
-        this.watcher = chokidar.watch(watchPatterns,  { 
+            return jsOutputPath;
+        };
+
+        const watcher = chokidar.watch(path.join(srcDir, "**/*.ts"), {
             ignored: [
                 /(^|[\/\\])\./,
                 /\.d\.ts$/
-            ], 
+            ],
             persistent: true,
             ignoreInitial: true
         });
 
-        this.watcher
-            .on("ready", () => {
-                console.log(`Typescript watcher ready. Watching: ${srcDir}`);
+        watcher
+            .on("ready", async () => {
+                const glob = await import("glob");
+                const pattern = path.join(srcDir, "**/*.ts");
+                const tsFiles = await glob.glob(pattern, {
+                    ignore: [
+                        "**/node_modules/**",
+                        "**/*.d.ts"
+                    ]
+                });
+
+                if (tsFiles.length > 0) {
+                    console.log(`Compiling ${tsFiles.length} Typescript files...`);
+
+                    for (const tsFile of tsFiles) {
+                        const jsOutputPath = compileTsFile(tsFile);
+                        if (jsOutputPath) {
+                            handler("compiled", jsOutputPath);
+                        }
+                    }
+
+                    console.log("Initial Typescript compilation complete.");
+                }
             })
             .on("add", (tsFilePath) => {
-                this.handleFileAdded(tsFilePath);
+                const jsOutputPath = compileTsFile(tsFilePath);
+
+                if (jsOutputPath) {
+                    handler("compiled", jsOutputPath);
+                }
             })
             .on("change", (tsFilePath) => {
-                this.handleFileChanged(tsFilePath);
+                const jsOutputPath = compileTsFile(tsFilePath);
+
+                if (jsOutputPath) {
+                    handler("compiled", jsOutputPath);
+                }
             })
             .on("unlink", (tsFilePath) => {
-                this.handleFileRemoved(tsFilePath);
+                const jsOutputPath = getJsOutputPath(tsFilePath);
+                const removed = compiler.removeCompiledFile(tsFilePath, jsOutputPath);
+
+                if (removed) {
+                    handler("removed", jsOutputPath);
+                }
             })
             .on("error", (error) => {
                 console.error("Watcher error:", error);
             });
-
-        this.srcDir = srcDir;
     }
+};
 
-    private handleFileAdded(tsFilePath: string): void {
-        console.log(`Typescript file added: ${tsFilePath}`);
-        this.compileTsFile(tsFilePath);
-    }
-
-    private handleFileChanged(tsFilePath: string): void {
-        console.log(`Typescript file changed: ${tsFilePath}`);
-        this.compileTsFile(tsFilePath);
-    }
-
-    private handleFileRemoved(tsFilePath: string): void {
-        console.log(`Typescript file removed: ${tsFilePath}`);
-
-        const jsOutputPath = this.getJsOutputPath(tsFilePath);
-        const removed = this.compiler.removeCompiledFile(tsFilePath, jsOutputPath);
-
-        if (removed && this.options.onRemove) {
-            this.options.onRemove(tsFilePath, jsOutputPath);
-        }
-    }
-
-    private compileTsFile(tsFilePath: string): void {
-        const jsOutputPath = this.getJsOutputPath(tsFilePath);
-        const result = this.compiler.compile(tsFilePath, jsOutputPath);
-
-        if (result.success) {
-            if (this.options.onCompileSuccess) {
-                this.options.onCompileSuccess(tsFilePath, jsOutputPath);
-            }
-        } else {
-            console.error(`Compilation failed for ${tsFilePath}:`);
-            if (result.diagnostics) {
-                result.diagnostics.forEach(diagnostic => console.error(`  ${diagnostic}`));
-            }
-
-            if (this.options.onCompileError && result.diagnostics) {
-                this.options.onCompileError(tsFilePath, result.diagnostics);
-            }
-        }
-    }
-
-    private getJsOutputPath(tsFilePath: string): string {
-        if (this.options.outputDir) {
-            const relativePath = path.relative(this.srcDir, tsFilePath);
-            return path.join(this.options.outputDir, relativePath.replace(/\.ts$/, ".js"));
-        }
-        return tsFilePath.replace(/\.ts$/, ".js");
-    }
-
-    stop(): void {
-        if (this.watcher) {
-            this.watcher.close();
-            console.log("Typescript watcher stopped");
-        }
-    }
-
-    async compileAll(): Promise<Map<string, { success: boolean; diagnostics?: string[] }>> {
-        const glob = await import("glob");
-        const pattern = path.join(this.srcDir, "**/*.ts");
-        const tsFiles = await glob.glob(pattern, {
-            ignore: [
-                "**/node_modules/**",
-                "**/*.d.ts"
-            ]
-        });
-
-        console.log(`Compiling ${tsFiles.length} Typescript files...`);
-        return this.compiler.compileMany(tsFiles, this.options.outputDir);
-    }
+function getJsOutputPath(tsFilePath: string): string {
+    return tsFilePath.replace(/\.ts$/, ".js");
 }
 
-export default TypescriptWatcher;
+export default typescriptWatcher;
