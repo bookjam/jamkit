@@ -1,5 +1,6 @@
 import xlsx from "xlsx";
 import fs from "fs";
+import path from "path";
 import { vsprintf } from "sprintf-js";
 import isObject from "is-object";
 import isEmptyObject from "is-empty-object";
@@ -22,12 +23,13 @@ const KEYS_IN_DATABASE = [
     "points", "events", "ads", "notifications", "strings"
 ];
 
-function _loadSpreadsheetData(path: string): SpreadsheetData {
-    const sheets = xlsx.readFile(path).Sheets;
+function _loadSpreadsheetData(filePath: string): SpreadsheetData {
+    const fileBuffer = fs.readFileSync(filePath);
+    const workbook = xlsx.read(fileBuffer, { type: "buffer" });
     const data: SpreadsheetData = {};
 
-    Object.keys(sheets || {}).forEach((name) => {
-        data[name] = xlsx.utils.sheet_to_json(sheets[name]);
+    Object.keys(workbook.Sheets || {}).forEach((name) => {
+        data[name] = xlsx.utils.sheet_to_json(workbook.Sheets[name]);
     });
 
     return data;
