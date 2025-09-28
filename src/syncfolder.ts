@@ -2,6 +2,7 @@ import chokidar from "chokidar";
 import path from "path";
 import fs from "fs-extra";
 import avdctl from "./avdctl-helper.js";
+import TypescriptWatcher from "./typescript/watcher.js";
 
 type Platform = "ios" | "android";
 type SyncOptions = { "skip-sync"?: boolean };
@@ -14,22 +15,22 @@ interface PlatformImplementation {
 
 const _impl: Record<Platform, PlatformImplementation> = {
     "ios": {
-        sync: function(appId: string, src: string, dest: string): void {
-            if (fs.existsSync(dest)) {
-                fs.removeSync(dest);
+        sync: function(appId: string, srcDir: string, destDir: string): void {
+            if (fs.existsSync(destDir)) {
+                fs.removeSync(destDir);
             }
 
-            fs.copySync(src, dest, {
+            fs.copySync(srcDir, destDir, {
                 filter: (src) => !src.endsWith(".ts")
             });
         },
 
-        copy: function(appId: string, src: string, dest: string): void {
-            if (!fs.lstatSync(src).isDirectory()) {
-                fs.writeFileSync(dest, fs.readFileSync(src));
+        copy: function(appId: string, srcPath: string, destPath: string): void {
+            if (!fs.lstatSync(srcPath).isDirectory()) {
+                fs.writeFileSync(destPath, fs.readFileSync(srcPath));
             } else {
-                fs.copySync(src, dest, {
-                    filter: (src) => !src.endsWith(".ts")
+                fs.copySync(srcPath, destPath, {
+                    filter: (srcPath) => !srcPath.endsWith(".ts")
                 });
             }
         },
@@ -40,33 +41,33 @@ const _impl: Record<Platform, PlatformImplementation> = {
     },
 
     "android": {
-        sync: function(appId: string, src: string, dest: string): void {
+        sync: function(appId: string, srcDir: string, destDir: string): void {
             const tmpRoot = "/data/local/tmp/jamkit";
 
             avdctl.shell(`rm -rf ${tmpRoot}`);
-            avdctl.push(src, tmpRoot);
+            avdctl.push(srcDir, tmpRoot);
 
             if (avdctl.getSdkVersion() >= 30) {
-                avdctl.shell(`rm -rf ${dest}`);
-                avdctl.shell(`mkdir ${dest}`);
-                avdctl.shell(`cp -rf ${tmpRoot}/* ${dest}`);
+                avdctl.shell(`rm -rf ${destDir}`);
+                avdctl.shell(`mkdir ${destDir}`);
+                avdctl.shell(`cp -rf ${tmpRoot}/* ${destDir}`);
             } else {
-                avdctl.shell(`run-as ${appId} rm -rf ${dest}`);
-                avdctl.shell(`run-as ${appId} mkdir ${dest}`);
-                avdctl.shell(`run-as ${appId} cp -rf ${tmpRoot}/* ${dest}`);
+                avdctl.shell(`run-as ${appId} rm -rf ${destDir}`);
+                avdctl.shell(`run-as ${appId} mkdir ${destDir}`);
+                avdctl.shell(`run-as ${appId} cp -rf ${tmpRoot}/* ${destDir}`);
             }
         },
 
-        copy: function(appId: string, src: string, dest: string): void {
+        copy: function(appId: string, srcPath: string, destPath: string): void {
             const tmpRoot = "/data/local/tmp/jamkit";
-            const tmpPath = `${tmpRoot}/${path.basename(src)}`;
+            const tmpPath = `${tmpRoot}/${path.basename(srcPath)}`;
 
-            avdctl.push(src, tmpPath);
+            avdctl.push(srcPath, tmpPath);
 
             if (avdctl.getSdkVersion() >= 30) {
-                avdctl.shell(`cp -rf ${tmpPath} ${dest}`);
+                avdctl.shell(`cp -rf ${tmpPath} ${destPath}`);
             } else {
-                avdctl.shell(`run-as ${appId} cp -rf ${tmpPath} ${dest}`);
+                avdctl.shell(`run-as ${appId} cp -rf ${tmpPath} ${destPath}`);
             }
         },
 
@@ -81,18 +82,56 @@ const _impl: Record<Platform, PlatformImplementation> = {
 };
 
 interface SyncFolderModule {
-    start(platform: Platform, appId: string, src: string, dest: string, options: SyncOptions, handler: () => void): void;
+    start(platform: Platform, appId: string, srcDir: string, destDir: string, options: SyncOptions, handler: () => void): void;
 }
 
 const syncfolder: SyncFolderModule = {
-    start(platform: Platform, appId: string, src: string, dest: string, options: SyncOptions, handler: () => void): void {
-        const watcher = chokidar.watch(src, { ignored: /(^|[\/\\])\.|\.ts$/, persistent: true });
+    start(platform: Platform, appId: string, srcDir: string, destDir: string, options: SyncOptions, handler: () => void): void {
+        const watcher = chokidar.watch(srcDir, { 
+            ignored: [ 
+                /(^|[\/\\])\./,
+                /\.ts$/
+            ],
+            persistent: true,
+            ignoreInitial: true
+        });
         let isReady = false;
 
+        const tsWatcher = new TypescriptWatcher({
+            outputDir: srcDir,
+            compilerOptions: {
+                target: undefined,
+                module: undefined,
+                sourceMap: true,
+                removeComments: true
+            },
+            onCompileSuccess: (tsFile, jsFile) => {
+                if (isReady) {
+                    const subPath = path.relative(srcDir, jsFile).replace(/\\/g, "/");
+                    _impl[platform].copy(appId, jsFile, `${destDir}/${subPath}`);
+                    handler();
+                }
+            },
+            onCompileError: (tsFile, errors) => {
+                console.error(`Typescript compilation failed for ${tsFile}:`, errors);
+            },
+            onRemove: (tsFile, jsFile) => {
+                if (isReady) {
+                    const subPath = path.relative(srcDir, jsFile).replace(/\\/g, "/");
+                    _impl[platform].remove(appId, `${destDir}/${subPath}`);
+                    handler();
+                }
+            }
+        });
+
+        tsWatcher.start(srcDir);
+
         watcher
-            .on("ready", () => {
+            .on("ready", async () => {
                 if (!options["skip-sync"]) {
-                    _impl[platform].sync(appId, src, dest);
+                    _impl[platform].sync(appId, srcDir, destDir);
+
+                    await tsWatcher.compileAll();
                 }
 
                 isReady = true;
@@ -103,45 +142,45 @@ const syncfolder: SyncFolderModule = {
             })
             .on("add", (file) => {
                 if (isReady) {
-                    const subPath = path.relative(src, file).replace(/\\/g, "/");
+                    const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
 
-                    _impl[platform].copy(appId, file, `${dest}/${subPath}`);
+                    _impl[platform].copy(appId, file, `${destDir}/${subPath}`);
 
                     handler();
                 }
             })
             .on("addDir", (dir) => {
                 if (isReady) {
-                    const subPath = path.relative(src, dir).replace(/\\/g, "/");
+                    const subPath = path.relative(srcDir, dir).replace(/\\/g, "/");
 
-                    _impl[platform].copy(appId, dir, `${dest}/${subPath}`);
+                    _impl[platform].copy(appId, dir, `${destDir}/${subPath}`);
 
                     handler();
                 }
             })
             .on("change", (file, stats) => {
                 if (isReady) {
-                    const subPath = path.relative(src, file).replace(/\\/g, "/");
+                    const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
 
-                    _impl[platform].copy(appId, file, `${dest}/${subPath}`);
+                    _impl[platform].copy(appId, file, `${destDir}/${subPath}`);
 
                     handler();
                 }
             })
             .on("unlink", (file) => {
                 if (isReady) {
-                    const subPath = path.relative(src, file).replace(/\\/g, "/");
+                    const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
 
-                    _impl[platform].remove(appId, `${dest}/${subPath}`);
+                    _impl[platform].remove(appId, `${destDir}/${subPath}`);
 
                     handler();
                 }
             })
             .on("unlinkDir", (dir) => {
                 if (isReady) {
-                    const subPath = path.relative(src, dir).replace(/\\/g, "/");
+                    const subPath = path.relative(srcDir, dir).replace(/\\/g, "/");
 
-                    _impl[platform].remove(appId, `${dest}/${subPath}`);
+                    _impl[platform].remove(appId, `${destDir}/${subPath}`);
 
                     handler();
                 }
