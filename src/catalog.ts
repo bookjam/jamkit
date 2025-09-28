@@ -1,6 +1,5 @@
 import xlsx from "xlsx";
 import fs from "fs";
-import path from "path";
 import { vsprintf } from "sprintf-js";
 import isObject from "is-object";
 import isEmptyObject from "is-empty-object";

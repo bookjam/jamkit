@@ -67,7 +67,7 @@
         "uuid": "^8.3.2",
         "walk-sync": "^3.0.0",
         "xcode": "^3.0.1",
-        "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz",
+        "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz",
         "zip-dir": "^2.0.0"
     },
     "devDependencies": {
