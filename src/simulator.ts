@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs-extra";
 import plist from "simple-plist";
-import apk from "adbkit-apkreader";
+import apk from "@devicefarmer/adbkit-apkreader";
 import { fileURLToPath } from "url";
 import simctl from "./simctl.js";
 import avdctl from "./avdctl.js";

@@ -1,4 +1,4 @@
-declare module "adbkit-apkreader" {
+declare module "@devicefarmer/adbkit-apkreader" {
     class ApkReader {
         static open(path: string): Promise<ApkReader>;
         readManifest(): Promise<{
