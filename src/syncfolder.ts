@@ -2,7 +2,6 @@ import chokidar from "chokidar";
 import path from "path";
 import fs from "fs-extra";
 import avdctl from "./avdctl-helper.js";
-import TypescriptWatcher from "./typescript/watcher.js";
 
 type Platform = "ios" | "android";
 type SyncOptions = { "skip-sync"?: boolean };
@@ -87,103 +86,59 @@ interface SyncFolderModule {
 
 const syncfolder: SyncFolderModule = {
     start(platform: Platform, appId: string, srcDir: string, destDir: string, options: SyncOptions, handler: () => void): void {
-        const watcher = chokidar.watch(srcDir, { 
-            ignored: [ 
+        const watcher = chokidar.watch(srcDir, {
+            ignored: [
                 /(^|[\/\\])\./,
                 /\.ts$/
             ],
             persistent: true,
             ignoreInitial: true
         });
-        let isReady = false;
-
-        const tsWatcher = new TypescriptWatcher({
-            outputDir: srcDir,
-            compilerOptions: {
-                target: undefined,
-                module: undefined,
-                sourceMap: true,
-                removeComments: true
-            },
-            onCompileSuccess: (tsFile, jsFile) => {
-                if (isReady) {
-                    const subPath = path.relative(srcDir, jsFile).replace(/\\/g, "/");
-                    _impl[platform].copy(appId, jsFile, `${destDir}/${subPath}`);
-                    handler();
-                }
-            },
-            onCompileError: (tsFile, errors) => {
-                console.error(`Typescript compilation failed for ${tsFile}:`, errors);
-            },
-            onRemove: (tsFile, jsFile) => {
-                if (isReady) {
-                    const subPath = path.relative(srcDir, jsFile).replace(/\\/g, "/");
-                    _impl[platform].remove(appId, `${destDir}/${subPath}`);
-                    handler();
-                }
-            }
-        });
-
-        tsWatcher.start(srcDir);
 
         watcher
-            .on("ready", async () => {
+            .on("ready", () => {
                 if (!options["skip-sync"]) {
                     _impl[platform].sync(appId, srcDir, destDir);
-
-                    await tsWatcher.compileAll();
                 }
-
-                isReady = true;
 
                 console.log("Done");
 
                 handler();
             })
             .on("add", (file) => {
-                if (isReady) {
-                    const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
+                const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
 
-                    _impl[platform].copy(appId, file, `${destDir}/${subPath}`);
+                _impl[platform].copy(appId, file, `${destDir}/${subPath}`);
 
-                    handler();
-                }
+                handler();
             })
             .on("addDir", (dir) => {
-                if (isReady) {
-                    const subPath = path.relative(srcDir, dir).replace(/\\/g, "/");
+                const subPath = path.relative(srcDir, dir).replace(/\\/g, "/");
 
-                    _impl[platform].copy(appId, dir, `${destDir}/${subPath}`);
+                _impl[platform].copy(appId, dir, `${destDir}/${subPath}`);
 
-                    handler();
-                }
+                handler();
             })
-            .on("change", (file, stats) => {
-                if (isReady) {
-                    const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
+            .on("change", (file) => {
+                const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
 
-                    _impl[platform].copy(appId, file, `${destDir}/${subPath}`);
+                _impl[platform].copy(appId, file, `${destDir}/${subPath}`);
 
-                    handler();
-                }
+                handler();
             })
             .on("unlink", (file) => {
-                if (isReady) {
-                    const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
+                const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
 
-                    _impl[platform].remove(appId, `${destDir}/${subPath}`);
+                _impl[platform].remove(appId, `${destDir}/${subPath}`);
 
-                    handler();
-                }
+                handler();
             })
             .on("unlinkDir", (dir) => {
-                if (isReady) {
-                    const subPath = path.relative(srcDir, dir).replace(/\\/g, "/");
+                const subPath = path.relative(srcDir, dir).replace(/\\/g, "/");
 
-                    _impl[platform].remove(appId, `${destDir}/${subPath}`);
+                _impl[platform].remove(appId, `${destDir}/${subPath}`);
 
-                    handler();
-                }
+                handler();
             });
 
         process.stdout.write("Copying files to the browser. It may takes several minutes... ");
