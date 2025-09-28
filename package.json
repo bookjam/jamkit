@@ -10,6 +10,7 @@
     },
     "files": [
         "dist/**",
+        "browsers",
         "README.md",
         "LICENSE"
     ],
