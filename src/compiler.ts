@@ -52,6 +52,7 @@ const compiler: CompilerModule = {
                 return null;
             }
 
+            // If no errors, transpile the code
             const result = ts.transpileModule(sourceCode, {
                 compilerOptions: compilerOptions,
                 fileName: path.basename(tsFilePath)
