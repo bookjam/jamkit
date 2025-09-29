@@ -16,7 +16,7 @@ interface ObfuscatorOptions {
     stringArrayThreshold?: number;
 }
 
-class JavascriptObfuscator {
+class JavaScriptObfuscator {
     private options: any;
     private basePath?: string;
 
@@ -81,12 +81,11 @@ interface ObfuscatorModule {
 
 const obfuscatorModule: ObfuscatorModule = {
     async obfuscate(srcDir: string, options: ObfuscatorOptions = {}): Promise<void> {
-        const jsObfuscator = new JavascriptObfuscator(options, srcDir);
+        const jsObfuscator = new JavaScriptObfuscator(options, srcDir);
 
         const pattern = path.join(srcDir, "**/*.js");
         const jsFiles = await glob(pattern, {
             ignore: [
-                "**/node_modules/**",
                 "**/*.min.js"
             ]
         });

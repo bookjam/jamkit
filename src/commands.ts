@@ -114,21 +114,7 @@ const generateAppId = (wantedAppId: string, templateAppId: string): string => {
 
 const compressFolder = (srcPath: string, zipPath: string): Promise<string> => {
     return new Promise((resolve, reject) => {
-        zipdir(srcPath, {
-            saveTo: zipPath,
-            filter(fullPath: string, stat: any): boolean {
-                if (path.basename(fullPath).startsWith(".")) {
-                    return false;
-                }
-
-                if ([ ".jam", ".bxp", ".ts" ].includes(path.extname(fullPath))) {
-                    return false;
-                }
-
-                return true;
-            }
-         },
-         (error: Error | null) => {
+        zipdir(srcPath, { saveTo: zipPath }, (error: Error | null) => {
             if (!error) {
                 resolve(zipPath);
             } else {
@@ -220,12 +206,9 @@ const buildApp = (appInfo: AppInfo): Promise<string> => {
             fs.unlinkSync(jamPath);
         }
 
-        // Create temporary directory for build process
-        const tempDir = tmp.dirSync({ unsafeCleanup: true });
-        const tempPath = tempDir.name;
+        const buildDir = tmp.dirSync({ unsafeCleanup: true });
 
-        // Copy current directory to temp directory
-        fs.copySync(".", tempPath, {
+        fs.copySync(".", buildDir.name, {
             filter: (src) => {
                 const basename = path.basename(src);
 
@@ -233,7 +216,7 @@ const buildApp = (appInfo: AppInfo): Promise<string> => {
                     return false;
                 }
                 
-                if ([ ".jam", ".bxp" ].includes(path.extname(src))) {
+                if ([ ".jam", ".bxp", ".ts" ].includes(path.extname(src))) {
                     return false;
                 }
 
@@ -241,24 +224,24 @@ const buildApp = (appInfo: AppInfo): Promise<string> => {
             }
         });
 
-        const tempCatalogsPath = path.join(tempPath, "catalogs");
+        const buildCatalogsPath = path.join(buildDir.name, "catalogs");
 
-        compiler.build(tempCatalogsPath, { sourceMap: false, removeComments: true })
+        compiler.build("./catalogs", { sourceMap: false, removeComments: true }, buildCatalogsPath)
             .then(() => {
-                return obfuscator.obfuscate(tempCatalogsPath);
+                return obfuscator.obfuscate(buildCatalogsPath);
             })
             .then(() => {
-                return compressFolder(tempPath, tmp.tmpNameSync());
+                return compressFolder(buildDir.name, tmp.tmpNameSync());
             })
             .then((zipPath) => {
                 fs.moveSync(zipPath, jamPath);
                 console.log(`Package created: ${jamPath}`);
 
-                tempDir.removeCallback();
+                buildDir.removeCallback();
                 resolve(jamPath);
             })
             .catch((error) => {
-                tempDir.removeCallback();
+                buildDir.removeCallback();
                 reject(error);
             });
     });
@@ -284,12 +267,9 @@ const buildBook = (): Promise<string> => {
             fs.unlinkSync(bxpPath);
         }
 
-        // Create temporary directory for build process
-        const tempDir = tmp.dirSync({ unsafeCleanup: true });
-        const tempPath = tempDir.name;
+        const buildDir = tmp.dirSync({ unsafeCleanup: true });
 
-        // Copy current directory to temp directory
-        fs.copySync(".", tempPath, {
+        fs.copySync(".", buildDir.name, {
             filter: (src) => {
                 const basename = path.basename(src);
                 
@@ -301,16 +281,16 @@ const buildBook = (): Promise<string> => {
             }
         });
 
-        compressFolder(tempPath, tmp.tmpNameSync())
+        compressFolder(buildDir.name, tmp.tmpNameSync())
             .then((zipPath) => {
                 fs.moveSync(zipPath, bxpPath);
                 console.log(`Package created: ${bxpPath}`);
 
-                tempDir.removeCallback();
+                buildDir.removeCallback();
                 resolve(bxpPath);
             })
             .catch((error) => {
-                tempDir.removeCallback();
+                buildDir.removeCallback();
                 reject(error);
             });
     });
