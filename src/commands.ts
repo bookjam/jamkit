@@ -121,7 +121,7 @@ const compressFolder = (srcPath: string, zipPath: string): Promise<string> => {
                     return false;
                 }
 
-                if ([ ".jam", ".bxp" ].includes(path.extname(fullPath))) {
+                if ([ ".jam", ".bxp", ".ts" ].includes(path.extname(fullPath))) {
                     return false;
                 }
 
@@ -483,6 +483,7 @@ const commands: CommandsModule = {
         compressFolder(".", tmp.tmpNameSync())
             .then((zipPath) => {
                 fs.moveSync(zipPath, jamPath);
+                console.log(`Package created: ${jamPath}`);
             })
             .catch((error) => {
                 console.log("ERROR: could not generate a package.");
@@ -646,6 +647,7 @@ const commands: CommandsModule = {
         compressFolder(".", tmp.tmpNameSync())
             .then((zipPath) => {
                 fs.moveSync(zipPath, bxpPath);
+                console.log(`Package created: ${bxpPath}`);
             })
             .catch((error) => {
                 console.log("ERROR: could not generate a package.");
