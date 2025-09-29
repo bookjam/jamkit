@@ -123,7 +123,7 @@ const compiler: CompilerModule = {
                 });
 
                 if (tsFiles.length > 0) {
-                    console.log(`Compiling ${tsFiles.length} Typescript files...`);
+                    console.log(`Compiling Typescript files...`);
 
                     for (const tsFile of tsFiles) {
                         const jsOutputPath = compileTsFile(tsFile);
