@@ -29,6 +29,18 @@ const compiler: CompilerModule = {
 
         const compileTsFile = (tsFilePath: string): string | null => {
             const jsOutputPath = tsFilePath.replace(/\.ts$/, ".js");
+
+            // Check if compilation is needed (ts file is newer than js file)
+            if (fs.existsSync(jsOutputPath)) {
+                const tsStats = fs.statSync(tsFilePath);
+                const jsStats = fs.statSync(jsOutputPath);
+
+                if (tsStats.mtime <= jsStats.mtime) {
+                    // JS file is up to date, no need to compile
+                    return jsOutputPath;
+                }
+            }
+
             const sourceCode = fs.readFileSync(tsFilePath, "utf-8");
 
             // Create a temporary program for type checking
