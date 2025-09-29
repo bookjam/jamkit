@@ -66,6 +66,7 @@ const compiler: CompilerModule = {
             }
 
             console.log(`Compiled: ${tsFilePath} -> ${jsOutputPath}`);
+
             return jsOutputPath;
         };
 
