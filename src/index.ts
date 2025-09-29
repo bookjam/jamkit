@@ -27,6 +27,7 @@ interface RunOptions {
 
 interface BuildOptions {
     type: "auto" | "app" | "book";
+    skipObfuscation: boolean;
 }
 
 interface CleanOptions {
@@ -150,10 +151,11 @@ program.command("run")
 
 program.command("build")
     .description("Build a package.")
-    .option("-t, --type <type>", "Specify the project type to build: `app`, `book`, or `auto`.", "auto")
+    .option("-t, --type <type>", "Specify the project type to build: `app`, `book`, or `auto`", "auto")
+    .option("--skip-obfuscation", "Skip JavaScript obfuscation during build", false)
     .action((options: BuildOptions) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
-            commands.buildApp();
+            commands.buildApp(options.skipObfuscation);
 
             return;
         }
@@ -169,7 +171,7 @@ program.command("build")
 
 program.command("clean")
     .description("Clean build artifacts.")
-    .option("-t, --type <type>", "Specify the project type to clean: `app`, `book`, or `auto`.", "auto")
+    .option("-t, --type <type>", "Specify the project type to clean: `app`, `book`, or `auto`", "auto")
     .action((options: CleanOptions) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
             commands.cleanApp();

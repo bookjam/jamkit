@@ -197,7 +197,7 @@ const updateVscodeLaunchJson = (debuggerPort: number): void => {
     console.log("Done");
 }
 
-const buildApp = (appInfo: AppInfo): Promise<string> => {
+const buildApp = (appInfo: AppInfo, skipObfuscation: boolean = false): Promise<string> => {
     return new Promise((resolve, reject) => {
         const baseName = appInfo["id"].split(".").slice(-1);
         const jamPath = path.join(".", `${baseName}.jam`);
@@ -228,7 +228,12 @@ const buildApp = (appInfo: AppInfo): Promise<string> => {
 
         compiler.build("./catalogs", { sourceMap: false, removeComments: true }, buildCatalogsPath)
             .then(() => {
-                return obfuscator.obfuscate(buildCatalogsPath);
+                if (skipObfuscation) {
+                    console.log("Skipping JavaScript obfuscation...");
+                    return Promise.resolve();
+                } else {
+                    return obfuscator.obfuscate(buildCatalogsPath);
+                }
             })
             .then(() => {
                 return compressFolder(buildDir.name, tmp.tmpNameSync());
@@ -349,7 +354,7 @@ const shortenUrl = (url: string, callback: (url: string) => void): void => {
 interface CommandsModule {
     createApp(directory: string, options: CreateOptions): void;
     runApp(platform: Platform, mode: Mode, shellOptions: ShellOptions, options: RunOptions): void;
-    buildApp(): void;
+    buildApp(skipObfuscation?: boolean): void;
     cleanApp(): void;
     installApp(platform: Platform): void;
     publishApp(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void;
@@ -495,7 +500,7 @@ const commands: CommandsModule = {
             });
     },
 
-    buildApp(): void {
+    buildApp(skipObfuscation: boolean = false): void {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
@@ -510,7 +515,7 @@ const commands: CommandsModule = {
             return;
         }
 
-        buildApp(appInfo)
+        buildApp(appInfo, skipObfuscation)
             .then(() => {
                 console.log("Build completed successfully.");
             })
