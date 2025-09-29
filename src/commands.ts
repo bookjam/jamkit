@@ -211,79 +211,138 @@ const updateVscodeLaunchJson = (debuggerPort: number): void => {
     console.log("Done");
 }
 
-const publishApp = (appId: string, options: PublishOptions, ipfsOptions: IpfsOptions, callback: (url: string) => void): void => {
-    if (!options["file-url"]) {
-        const baseName = appId.split(".").slice(-1);
+const buildApp = (appInfo: AppInfo): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const baseName = appInfo["id"].split(".").slice(-1);
         const jamPath = path.join(".", `${baseName}.jam`);
 
         if (fs.existsSync(jamPath)) {
             fs.unlinkSync(jamPath);
         }
 
-        compressFolder(".", tmp.tmpNameSync())
+        // Create temporary directory for build process
+        const tempDir = tmp.dirSync({ unsafeCleanup: true });
+        const tempPath = tempDir.name;
+
+        // Copy current directory to temp directory
+        fs.copySync(".", tempPath, {
+            filter: (src) => {
+                const basename = path.basename(src);
+                // Exclude hidden files, jam/bxp files, and node_modules
+                if (basename.startsWith(".") || [".jam", ".bxp"].includes(path.extname(src))) {
+                    return false;
+                }
+                if (basename === "node_modules") {
+                    return false;
+                }
+                return true;
+            }
+        });
+
+        const tempCatalogsPath = path.join(tempPath, "catalogs");
+
+        compiler.build(tempCatalogsPath, { sourceMap: false, removeComments: true })
+            .then(() => {
+                return obfuscator.obfuscate(tempCatalogsPath);
+            })
+            .then(() => {
+                return compressFolder(tempPath, tmp.tmpNameSync());
+            })
             .then((zipPath) => {
                 fs.moveSync(zipPath, jamPath);
-
-                publishFileToIpfs(jamPath, ipfsOptions)
-                    .then((hash: string) => {
-                        callback(`ipfs://hash/${hash}`);
-                    })
-                    .catch((error) => {
-                        console.log("ERROR: could not publish to ipfs.");
-                    });
+                console.log(`Package created: ${jamPath}`);
+                // Clean up temp directory
+                tempDir.removeCallback();
+                resolve(jamPath);
             })
             .catch((error) => {
                 console.log("ERROR: could not generate a package.");
+                // Clean up temp directory on error
+                tempDir.removeCallback();
+                reject(error);
+            });
+    });
+};
+
+const publishApp = (jamPath: string, options: PublishOptions, ipfsOptions: IpfsOptions): Promise<string> => {
+    if (!options["file-url"]) {
+        return publishFileToIpfs(jamPath, ipfsOptions)
+            .then((hash: string) => {
+                return `ipfs://hash/${hash}`;
             });
     } else {
-        callback(options["file-url"]);
+        return Promise.resolve(options["file-url"]);
     }
 }
 
-const publishBook = (options: PublishOptions, ipfsOptions: IpfsOptions, callback: (url: string) => void): void => {
-    if (!options["file-url"]) {
-        const baseName = path.basename(path.resolve("."))
+const buildBook = (): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const baseName = path.basename(path.resolve("."));
         const bxpPath = path.join(".", `${baseName}.bxp`);
 
         if (fs.existsSync(bxpPath)) {
             fs.unlinkSync(bxpPath);
         }
 
-        compressFolder(".", tmp.tmpNameSync())
+        // Create temporary directory for build process
+        const tempDir = tmp.dirSync({ unsafeCleanup: true });
+        const tempPath = tempDir.name;
+
+        // Copy current directory to temp directory
+        fs.copySync(".", tempPath, {
+            filter: (src) => {
+                const basename = path.basename(src);
+                // Exclude hidden files, jam/bxp files, and node_modules
+                if (basename.startsWith(".") || [".jam", ".bxp"].includes(path.extname(src))) {
+                    return false;
+                }
+                if (basename === "node_modules") {
+                    return false;
+                }
+                return true;
+            }
+        });
+
+        compressFolder(tempPath, tmp.tmpNameSync())
             .then((zipPath) => {
                 fs.moveSync(zipPath, bxpPath);
-
-                publishFileToIpfs(bxpPath, ipfsOptions)
-                    .then((hash: string) => {
-                        callback("ipfs://hash/" + hash);
-                    })
-                    .catch((error) => {
-                        console.log("ERROR: could not publish to ipfs.");
-                    });
+                console.log(`Package created: ${bxpPath}`);
+                // Clean up temp directory
+                tempDir.removeCallback();
+                resolve(bxpPath);
             })
             .catch((error) => {
                 console.log("ERROR: could not generate a package.");
+                // Clean up temp directory on error
+                tempDir.removeCallback();
+                reject(error);
+            });
+    });
+};
+
+const publishBook = (bxpPath: string, options: PublishOptions, ipfsOptions: IpfsOptions): Promise<string> => {
+    if (!options["file-url"]) {
+        return publishFileToIpfs(bxpPath, ipfsOptions)
+            .then((hash: string) => {
+                return "ipfs://hash/" + hash;
             });
     } else {
-        callback(options["file-url"]);
+        return Promise.resolve(options["file-url"])
     }
 }
 
-const publishImage = (options: PublishOptions, ipfsOptions: IpfsOptions, callback: (url?: string) => void): void => {
+const publishImage = (options: PublishOptions, ipfsOptions: IpfsOptions): Promise<string | void> => {
     if (!options["image-url"]) {
         if (options["image-file"]) {
-            publishFileToIpfs(options["image-file"], ipfsOptions)
+            return publishFileToIpfs(options["image-file"], ipfsOptions)
                 .then((hash: string) => {
-                    callback(`https://ipfs.io/ipfs/${hash}`);
-                })
-                .catch((error) => {
-                    console.log(error);
+                    return `https://ipfs.io/ipfs/${hash}`;
                 });
         } else {
-            callback();
+            return Promise.resolve();
         }
     } else {
-        callback(options["image-url"]);
+        return Promise.resolve(options["image-url"]);
     }
 }
 
@@ -475,23 +534,12 @@ const commands: CommandsModule = {
             return;
         }
 
-        const baseName = appInfo["id"].split(".").slice(-1);
-        const jamPath = path.join(".", `${baseName}.jam`);
-
-        if (fs.existsSync(jamPath)) {
-            fs.unlinkSync(jamPath);
-        }
-
-        compiler.build("./catalogs", { sourceMap: false, removeComments: true })
+        buildApp(appInfo)
             .then(() => {
-                return compressFolder(".", tmp.tmpNameSync());
+                // Build completed successfully
             })
-            .then((zipPath) => {
-                fs.moveSync(zipPath, jamPath);
-                console.log(`Package created: ${jamPath}`);
-            })
-            .catch((error) => {
-                console.log("ERROR: could not generate a package.");
+            .catch(() => {
+                // Error already logged in buildApp function
             });
     },
 
@@ -526,21 +574,12 @@ const commands: CommandsModule = {
             return;
         }
 
-        const baseName = appInfo["id"].split(".").slice(-1);
-        const jamPath = path.join(".", `${baseName}.jam`);
-
-        if (fs.existsSync(jamPath)) {
-            fs.unlinkSync(jamPath);
-        }
-
-       compressFolder(".", tmp.tmpNameSync())
-            .then((zipPath) => {
-                fs.moveSync(zipPath, jamPath);
-
+        buildApp(appInfo)
+            .then((jamPath) => {
                 installer.install(platform, jamPath);
             })
-            .catch((error) => {
-                console.log("ERROR: could not generate a package.");
+            .catch(() => {
+                // Error already logged in buildApp function
             });
     },
 
@@ -551,9 +590,9 @@ const commands: CommandsModule = {
             return;
         }
 
-        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo || {};
+        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
-        if (!options["file-url"] && !appInfo) {
+        if (!options["file-url"] && (!appInfo || !appInfo.id)) {
             console.log("ERROR: package.bon is malformed.");
 
             return;
@@ -567,11 +606,17 @@ const commands: CommandsModule = {
             }
         }
 
-        publishApp(appInfo["id"], options, ipfsOptions, (app_url) => {
-            publishImage(options, ipfsOptions, (imageUrl?: string) => {
+        buildApp(appInfo)
+            .then((jamPath) => {
+                return Promise.all([
+                    publishApp(jamPath, options, ipfsOptions),
+                    publishImage(options, ipfsOptions)
+                ]);
+            })
+            .then(([ appUrl, imageUrl ]) => {
                 const title = options["title"] || appInfo["title"] || "";
                 let url = `${host["url"] || CONNECT_BASE_URL}/connect/app/?`
-                        + `app=${appInfo["id"]}` + "&" + `url=${urlencode(app_url)}`
+                        + `app=${appInfo["id"]}` + "&" + `url=${urlencode(appUrl)}`
                         + (title ? "&" + `title=${urlencode(title)}` : "")
                         + (appInfo["version"] ? "&" + `version=${appInfo["version"]}` : "")
                         + (imageUrl ? "&" + `image=${urlencode(imageUrl)}` : "")
@@ -592,8 +637,10 @@ const commands: CommandsModule = {
                     qrcode.generate(url);
                     console.log(url);
                 }
+            })
+            .catch(() => {
+                // Error already logged in buildApp function
             });
-        });
     },
 
     createBook(directory: string, options: CreateOptions): void {
@@ -658,20 +705,12 @@ const commands: CommandsModule = {
             return;
         }
 
-        const baseName = path.basename(path.resolve("."))
-        const bxpPath = path.join(".", `${baseName}.bxp`);
-
-        if (fs.existsSync(bxpPath)) {
-            fs.unlinkSync(bxpPath);
-        }
-
-        compressFolder(".", tmp.tmpNameSync())
-            .then((zipPath) => {
-                fs.moveSync(zipPath, bxpPath);
-                console.log(`Package created: ${bxpPath}`);
+        buildBook()
+            .then(() => {
+                // Build completed successfully
             })
-            .catch((error) => {
-                console.log("ERROR: could not generate a package.");
+            .catch(() => {
+                // Error already logged in buildBook function
             });
     },
 
@@ -692,21 +731,13 @@ const commands: CommandsModule = {
             return;
         }
 
-        const baseName = path.basename(path.resolve("."))
-        const bxpPath = path.join(".", `${baseName}.bxp`);
-
-        if (fs.existsSync(bxpPath)) {
-            fs.unlinkSync(bxpPath);
-        }
-
-        compressFolder(".", tmp.tmpNameSync())
-            .then((zipPath) => {
-                fs.moveSync(zipPath, bxpPath);
-
-                // TBD: What to do?
+        buildBook()
+            .then((bxpPath) => {
+                // TBD: What to do with the built book package?
+                console.log(`Book package ready: ${bxpPath}`);
             })
-            .catch((error) => {
-                console.log("ERROR: could not generate a package.");
+            .catch(() => {
+                // Error already logged in buildBook function
             });
     },
 
@@ -725,8 +756,14 @@ const commands: CommandsModule = {
             return;
         }
 
-        publishBook(options, ipfsOptions, (bookUrl) => {
-            publishImage(options, ipfsOptions, (imageUrl?: string) => {
+        buildBook()
+            .then((bxpPath) => {
+                return Promise.all([
+                    publishBook(bxpPath, options, ipfsOptions),
+                    publishImage(options, ipfsOptions)
+                ]);
+            })
+            .then(([bookUrl, imageUrl]) => {
                 const title = options["title"] || bookInfo["title"] || "";
                 let url = `${host["url"] || CONNECT_BASE_URL}/connect/book/?`
                         + `book=${bookInfo["id"]}` + "&" + `url=${urlencode(bookUrl)}`
@@ -750,8 +787,10 @@ const commands: CommandsModule = {
                     qrcode.generate(url);
                     console.log(url);
                 }
+            })
+            .catch(() => {
+                // Error already logged in buildBook function
             });
-        });
     },
 
     openUrl(platform: Platform, url: string): void {
