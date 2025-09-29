@@ -28,7 +28,7 @@ const compiler: CompilerModule = {
         };
 
         const compileTsFile = (tsFilePath: string): string | null => {
-           const jsOutputPath = tsFilePath.replace(/\.ts$/, ".js");
+            const jsOutputPath = tsFilePath.replace(/\.ts$/, ".js");
             const sourceCode = fs.readFileSync(tsFilePath, "utf-8");
 
             const result = ts.transpileModule(sourceCode, {
@@ -45,6 +45,7 @@ const compiler: CompilerModule = {
 
                 console.warn(`Compilation failed for ${tsFilePath}:`);
                 diagnostics.forEach(diagnostic => console.warn(`  ${diagnostic}`));
+
                 return null;
             }
 

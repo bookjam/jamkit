@@ -425,7 +425,7 @@ const commands: CommandsModule = {
                     .then((resourcePath) => {
                         let needsReset = true;
 
-                        compiler.start("./catalogs", { sourceMap: true, removeComments: true }, (event, filePath) => {
+                        compiler.start("./catalogs", { sourceMap: false, removeComments: true }, (event, filePath) => {
                             if (event === "ready") {
                                 syncfolder.start(platform, appId as string, "./catalogs", resourcePath as string, options, (event, filePath) => {
                                     if (needsReset) {
