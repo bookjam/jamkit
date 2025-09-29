@@ -70,7 +70,8 @@ const simctlModule: SimctlModule = {
     },
 
     launch(device: string, appId: string): boolean {
-        const result = simctl.launch(false, device, appId, {}) as SimctlResult;
+        const command = `xcrun simctl launch "${device}" "${appId}"`;
+        const result = shell.exec(command, { silent: true });
 
         if (result.code === 0) {
             return true;
