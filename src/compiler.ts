@@ -12,8 +12,9 @@ interface CompilerOptions {
 
 class TypescriptCompiler {
     private compilerOptions: ts.CompilerOptions;
+    private basePath?: string;
 
-    constructor(options: CompilerOptions = {}) {
+    constructor(options: CompilerOptions = {}, basePath?: string) {
         this.compilerOptions = {
             target: options.target || ts.ScriptTarget.ES2020,
             module: options.module || ts.ModuleKind.CommonJS,
@@ -24,6 +25,7 @@ class TypescriptCompiler {
             forceConsistentCasingInFileNames: true,
             moduleResolution: ts.ModuleResolutionKind.Node10,
         };
+        this.basePath = basePath;
     }
 
     compileTsFile(tsFilePath: string, force: boolean = false): string | null {
@@ -76,7 +78,7 @@ class TypescriptCompiler {
             fs.writeFileSync(`${jsOutputPath}.map`, result.sourceMapText);
         }
 
-        console.log(`Compiled: ${tsFilePath} -> ${jsOutputPath}`);
+        console.log(`Compiled: ${this._getDisplayPath(tsFilePath)} -> ${this._getDisplayPath(jsOutputPath)}`);
 
         return jsOutputPath;
     }
@@ -89,16 +91,24 @@ class TypescriptCompiler {
 
         if (fs.existsSync(jsOutputPath)) {
             fs.removeSync(jsOutputPath);
-            console.log(`Removed: ${jsOutputPath}`);
+            console.log(`Removed: ${this._getDisplayPath(jsOutputPath)}`);
             removed = true;
         }
 
         if (fs.existsSync(mapPath)) {
             fs.removeSync(mapPath);
-            console.log(`Removed: ${mapPath}`);
+            console.log(`Removed: ${this._getDisplayPath(mapPath)}`);
         }
 
         return removed;
+    }
+
+    private _getDisplayPath(filePath: string): string {
+        if (this.basePath) {
+            return path.join(path.basename(this.basePath), path.relative(this.basePath, filePath));
+        }
+
+        return filePath;
     }
 }
 
@@ -175,15 +185,12 @@ const compiler: CompilerModule = {
     },
 
     async build(srcDir: string, options: CompilerOptions = {}): Promise<void> {
-        const tsCompiler = new TypescriptCompiler(options);
+        const tsCompiler = new TypescriptCompiler(options, srcDir);
 
         const glob = await import("glob");
         const pattern = path.join(srcDir, "**/*.ts");
         const tsFiles = await glob.glob(pattern, {
-            ignore: [
-                "**/node_modules/**",
-                "**/*.d.ts"
-            ]
+            ignore: [ "**/*.d.ts" ]
         });
 
         if (tsFiles.length > 0) {
@@ -205,10 +212,7 @@ const compiler: CompilerModule = {
         const glob = await import("glob");
         const pattern = path.join(srcDir, "**/*.ts");
         const tsFiles = await glob.glob(pattern, {
-            ignore: [
-                "**/node_modules/**",
-                "**/*.d.ts"
-            ]
+            ignore: [ "**/*.d.ts" ]
         });
 
         if (tsFiles.length > 0) {

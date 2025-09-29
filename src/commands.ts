@@ -228,13 +228,15 @@ const buildApp = (appInfo: AppInfo): Promise<string> => {
         fs.copySync(".", tempPath, {
             filter: (src) => {
                 const basename = path.basename(src);
-                // Exclude hidden files, jam/bxp files, and node_modules
-                if (basename.startsWith(".") || [".jam", ".bxp"].includes(path.extname(src))) {
+
+                if (basename !== "." && basename.startsWith(".")) {
                     return false;
                 }
-                if (basename === "node_modules") {
+                
+                if ([ ".jam", ".bxp" ].includes(path.extname(src))) {
                     return false;
                 }
+
                 return true;
             }
         });
@@ -251,14 +253,13 @@ const buildApp = (appInfo: AppInfo): Promise<string> => {
             .then((zipPath) => {
                 fs.moveSync(zipPath, jamPath);
                 console.log(`Package created: ${jamPath}`);
-                // Clean up temp directory
+
                 tempDir.removeCallback();
                 resolve(jamPath);
             })
             .catch((error) => {
-                // Clean up temp directory on error
                 tempDir.removeCallback();
-                reject(new Error("Could not generate a package"));
+                reject(error);
             });
     });
 };
@@ -291,13 +292,11 @@ const buildBook = (): Promise<string> => {
         fs.copySync(".", tempPath, {
             filter: (src) => {
                 const basename = path.basename(src);
-                // Exclude hidden files, jam/bxp files, and node_modules
-                if (basename.startsWith(".") || [".jam", ".bxp"].includes(path.extname(src))) {
+                
+                if (basename !== "." && basename.startsWith(".")) {
                     return false;
                 }
-                if (basename === "node_modules") {
-                    return false;
-                }
+
                 return true;
             }
         });
@@ -306,14 +305,13 @@ const buildBook = (): Promise<string> => {
             .then((zipPath) => {
                 fs.moveSync(zipPath, bxpPath);
                 console.log(`Package created: ${bxpPath}`);
-                // Clean up temp directory
+
                 tempDir.removeCallback();
                 resolve(bxpPath);
             })
             .catch((error) => {
-                // Clean up temp directory on error
                 tempDir.removeCallback();
-                reject(new Error("Could not generate a package"));
+                reject(error);
             });
     });
 };
@@ -533,8 +531,8 @@ const commands: CommandsModule = {
         }
 
         buildApp(appInfo)
-            .then((jamPath) => {
-                console.log(`Build completed successfully. Package created: ${jamPath}`);
+            .then(() => {
+                console.log("Build completed successfully.");
             })
             .catch((error) => {
                 console.log(`ERROR: could not generate a package. ${error.message || error}`);
@@ -704,8 +702,8 @@ const commands: CommandsModule = {
         }
 
         buildBook()
-            .then((bxpPath) => {
-                console.log(`Build completed successfully. Package created: ${bxpPath}`);
+            .then(() => {
+                console.log("Build completed successfully.");
             })
             .catch((error) => {
                 console.log(`ERROR: could not generate a package. ${error.message || error}`);
