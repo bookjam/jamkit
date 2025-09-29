@@ -31,23 +31,31 @@ const compiler: CompilerModule = {
             const jsOutputPath = tsFilePath.replace(/\.ts$/, ".js");
             const sourceCode = fs.readFileSync(tsFilePath, "utf-8");
 
-            const result = ts.transpileModule(sourceCode, {
-                compilerOptions: compilerOptions,
-                fileName: path.basename(tsFilePath),
-                reportDiagnostics: true
-            });
+            // Create a temporary program for type checking
+            const host = ts.createCompilerHost(compilerOptions);
+            const program = ts.createProgram([tsFilePath], compilerOptions, host);
+            const diagnostics = ts.getPreEmitDiagnostics(program);
 
-            if (result.diagnostics && result.diagnostics.length > 0) {
-                const diagnostics = result.diagnostics.map(diagnostic => {
-                    const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
-                    return `${diagnostic.file?.fileName || "unknown"}: ${message}`;
-                });
-
+            if (diagnostics.length > 0) {
                 console.warn(`Compilation failed for ${tsFilePath}:`);
-                diagnostics.forEach(diagnostic => console.warn(`  ${diagnostic}`));
+
+                diagnostics.forEach(diagnostic => {
+                    if (diagnostic.file) {
+                        const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!);
+                        const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
+                        console.warn(`  Line ${line + 1}, Column ${character + 1}: ${message}`);
+                    } else {
+                        console.warn(`  ${ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")}`);
+                    }
+                });
 
                 return null;
             }
+
+            const result = ts.transpileModule(sourceCode, {
+                compilerOptions: compilerOptions,
+                fileName: path.basename(tsFilePath)
+            });
 
             fs.ensureDirSync(path.dirname(jsOutputPath));
             fs.writeFileSync(jsOutputPath, result.outputText);
