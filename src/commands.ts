@@ -315,11 +315,13 @@ interface CommandsModule {
     createApp(directory: string, options: CreateOptions): void;
     runApp(platform: Platform, mode: Mode, shellOptions: ShellOptions, options: RunOptions): void;
     buildApp(): void;
+    cleanApp(): void;
     installApp(platform: Platform): void;
     publishApp(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void;
     createBook(directory: string, options: CreateOptions): void;
     runBook(platform: Platform, shellOptions: ShellOptions, options: RunOptions): void;
     buildBook(): void;
+    cleanBook(): void;
     installBook(platform: Platform): void;
     publishBook(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void;
     openUrl(platform: Platform, url: string): void;
@@ -493,6 +495,22 @@ const commands: CommandsModule = {
             });
     },
 
+    cleanApp(): void {
+        if (!fs.existsSync("./package.bon")) {
+            console.log("ERROR: package.bon not found.");
+
+            return;
+        }
+
+        compiler.clean("./catalogs")
+            .then(() => {
+                console.log("Build artifacts cleaned successfully.");
+            })
+            .catch(() => {
+                console.log("ERROR: could not clean build artifacts.");
+            });
+    },
+
     installApp(platform: Platform): void {
         if (!fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
@@ -655,6 +673,16 @@ const commands: CommandsModule = {
             .catch((error) => {
                 console.log("ERROR: could not generate a package.");
             });
+    },
+
+    cleanBook(): void {
+        if (!fs.existsSync("./book.bon")) {
+            console.log("ERROR: book.bon not found.");
+
+            return;
+        }
+
+        /* Do nothing for now */
     },
 
     installBook(platform: Platform): void {

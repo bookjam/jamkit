@@ -29,6 +29,10 @@ interface BuildOptions {
     type: "auto" | "app" | "book";
 }
 
+interface CleanOptions {
+    type: "auto" | "app" | "book";
+}
+
 interface InstallOptions {
     type: "auto" | "app" | "book";
     platform: "ios" | "android";
@@ -156,6 +160,25 @@ program.command("build")
 
         if ((options.type === "auto" && fs.existsSync("./book.bon")) || options.type === "book") {
             commands.buildBook();
+
+            return;
+        }
+
+        console.log("ERROR: package.bon or book.bon not found.");
+    });
+
+program.command("clean")
+    .description("Clean build artifacts.")
+    .option("-t, --type <type>", "Specify the project type to clean: `app`, `book`, or `auto`.", "auto")
+    .action((options: CleanOptions) => {
+        if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
+            commands.cleanApp();
+
+            return;
+        }
+
+        if ((options.type === "auto" && fs.existsSync("./book.bon")) || options.type === "book") {
+            commands.cleanBook();
 
             return;
         }
