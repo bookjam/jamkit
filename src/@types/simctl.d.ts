@@ -21,7 +21,7 @@ declare module "simctl" {
         list(options?: { silent?: boolean }): SimInfo;
         install(device: string, path: string): { code: number; stdout?: string };
         uninstall(device: string, appId: string): { code: number; stdout?: string };
-        launch(wait: boolean, device: string, appId: string, options?: any): { code: number; stdout?: string };
+        launch(waitForDebugger: boolean, device: string, appId: string, options?: any): { code: number; stdout?: string };
         container(device: string, appId: string): string | null;
     }
 
