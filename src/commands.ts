@@ -256,10 +256,9 @@ const buildApp = (appInfo: AppInfo): Promise<string> => {
                 resolve(jamPath);
             })
             .catch((error) => {
-                console.log("ERROR: could not generate a package.");
                 // Clean up temp directory on error
                 tempDir.removeCallback();
-                reject(error);
+                reject(new Error("Could not generate a package"));
             });
     });
 };
@@ -312,10 +311,9 @@ const buildBook = (): Promise<string> => {
                 resolve(bxpPath);
             })
             .catch((error) => {
-                console.log("ERROR: could not generate a package.");
                 // Clean up temp directory on error
                 tempDir.removeCallback();
-                reject(error);
+                reject(new Error("Could not generate a package"));
             });
     });
 };
@@ -535,11 +533,11 @@ const commands: CommandsModule = {
         }
 
         buildApp(appInfo)
-            .then(() => {
-                // Build completed successfully
+            .then((jamPath) => {
+                console.log(`Build completed successfully. Package created: ${jamPath}`);
             })
-            .catch(() => {
-                // Error already logged in buildApp function
+            .catch((error) => {
+                console.log(`ERROR: could not generate a package. ${error.message || error}`);
             });
     },
 
@@ -554,8 +552,8 @@ const commands: CommandsModule = {
             .then(() => {
                 console.log("Build artifacts cleaned successfully.");
             })
-            .catch(() => {
-                console.log("ERROR: could not clean build artifacts.");
+            .catch((error) => {
+                console.log(`ERROR: could not clean build artifacts. ${error.message || error}`);
             });
     },
 
@@ -578,8 +576,8 @@ const commands: CommandsModule = {
             .then((jamPath) => {
                 installer.install(platform, jamPath);
             })
-            .catch(() => {
-                // Error already logged in buildApp function
+            .catch((error) => {
+                console.log(`ERROR: could not generate a package. ${error.message || error}`);
             });
     },
 
@@ -638,8 +636,8 @@ const commands: CommandsModule = {
                     console.log(url);
                 }
             })
-            .catch(() => {
-                // Error already logged in buildApp function
+            .catch((error) => {
+                console.log(`ERROR: could not publish app. ${error.message || error}`);
             });
     },
 
@@ -706,11 +704,11 @@ const commands: CommandsModule = {
         }
 
         buildBook()
-            .then(() => {
-                // Build completed successfully
+            .then((bxpPath) => {
+                console.log(`Build completed successfully. Package created: ${bxpPath}`);
             })
-            .catch(() => {
-                // Error already logged in buildBook function
+            .catch((error) => {
+                console.log(`ERROR: could not generate a package. ${error.message || error}`);
             });
     },
 
@@ -721,7 +719,13 @@ const commands: CommandsModule = {
             return;
         }
 
-        /* Do nothing for now */
+        compiler.clean(".")
+            .then(() => {
+                console.log("Build artifacts cleaned successfully.");
+            })
+            .catch((error) => {
+                console.log(`ERROR: could not clean build artifacts. ${error.message || error}`);
+            });
     },
 
     installBook(platform: Platform): void {
@@ -736,8 +740,8 @@ const commands: CommandsModule = {
                 // TBD: What to do with the built book package?
                 console.log(`Book package ready: ${bxpPath}`);
             })
-            .catch(() => {
-                // Error already logged in buildBook function
+            .catch((error) => {
+                console.log(`ERROR: could not generate a package. ${error.message || error}`);
             });
     },
 
@@ -788,8 +792,8 @@ const commands: CommandsModule = {
                     console.log(url);
                 }
             })
-            .catch(() => {
-                // Error already logged in buildBook function
+            .catch((error) => {
+                console.log(`ERROR: could not publish book. ${error.message || error}`);
             });
     },
 
