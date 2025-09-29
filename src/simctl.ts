@@ -70,7 +70,7 @@ const simctlModule: SimctlModule = {
     },
 
     launch(device: string, appId: string): boolean {
-        const result = simctl.launch(false, device, appId, { silent: true }) as SimctlResult;
+        const result = simctl.launch(false, device, appId, {}) as SimctlResult;
 
         if (result.code === 0) {
             return true;
