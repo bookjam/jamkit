@@ -14,6 +14,7 @@ import simulator from "./simulator.js";
 import avdctl from "./avdctl.js";
 import shell from "./shell.js";
 import syncfolder from "./syncfolder.js";
+import compiler from "./compiler.js";
 import obfuscator from "./obfuscator.js";
 import installer from "./installer.js";
 import bon from "./bon.js";
@@ -21,7 +22,6 @@ import style from "./style.js";
 import native from "./native.js";
 import leafly from "./leafly.js";
 import utils from "./utils.js";
-import typescriptWatcher from "./typescript/watcher.js";
 
 // Type definitions
 interface AppInfo {
@@ -425,43 +425,30 @@ const commands: CommandsModule = {
                     .then((resourcePath) => {
                         let needsReset = true;
 
-                        // Start TypeScript watcher
-                        typescriptWatcher.start("./catalogs", {
-                            compilerOptions: {
-                                target: undefined,
-                                module: undefined,
-                                sourceMap: true,
-                                removeComments: true
-                            }
-                        }, (event, filePath) => {
-                            if (event === "compiled") {
-                                console.log(`Compiled: ${filePath}`);
-                                // The compiled JS files will be picked up by syncfolder
-                            } else if (event === "removed") {
-                                console.log(`Removed compiled file: ${filePath}`);
-                            }
-                        });
+                        compiler.start("./catalogs", { sourceMap: true, removeComments: true }, (event, filePath) => {
+                            if (event === "ready") {
+                                syncfolder.start(platform, appId as string, "./catalogs", resourcePath as string, options, (event, filePath) => {
+                                    if (needsReset) {
+                                        if ([ "jam", "widget" ].includes(mode)) {
+                                            shell.execute("app install " + utils.dataToDataURL(appInfo));
 
-                        syncfolder.start(platform, appId as string, "./catalogs", resourcePath as string, options, (event, filePath) => {
-                            if (needsReset) {
-                                if ([ "jam", "widget" ].includes(mode)) {
-                                    shell.execute("app install " + utils.dataToDataURL(appInfo));
-
-                                    if ([ "jam" ].includes(mode)) {
-                                        shell.execute("catalog reset " + appInfo["id"]);
+                                            if ([ "jam" ].includes(mode)) {
+                                                shell.execute("catalog reset " + appInfo["id"]);
+                                            } else {
+                                                shell.execute("catalog reload");
+                                            }
+                                        } else {
+                                            shell.execute("catalog reset");
+                                        }
+                                        needsReset = false;
                                     } else {
-                                        shell.execute("catalog reload");
+                                        if ([ "jam" ].includes(mode)) {
+                                            shell.execute("catalog reload " + appInfo["id"]);
+                                        } else {
+                                            shell.execute("catalog reload");
+                                        }
                                     }
-                                } else {
-                                    shell.execute("catalog reset");
-                                }
-                                needsReset = false;
-                            } else {
-                                if ([ "jam" ].includes(mode)) {
-                                    shell.execute("catalog reload " + appInfo["id"]);
-                                } else {
-                                    shell.execute("catalog reload");
-                                }
+                                });
                             }
                         });
                 });
