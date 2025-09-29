@@ -480,7 +480,10 @@ const commands: CommandsModule = {
             fs.unlinkSync(jamPath);
         }
 
-        compressFolder(".", tmp.tmpNameSync())
+        compiler.build("./catalogs", { sourceMap: false, removeComments: true })
+            .then(() => {
+                return compressFolder(".", tmp.tmpNameSync());
+            })
             .then((zipPath) => {
                 fs.moveSync(zipPath, jamPath);
                 console.log(`Package created: ${jamPath}`);
