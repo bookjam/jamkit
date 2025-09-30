@@ -106,6 +106,26 @@ class TypeScriptCompiler {
         return removedFiles;
     }
 
+    typecheckTsFiles(tsFiles: string[]): number {
+        const host = ts.createCompilerHost(this.compilerOptions);
+        const program = ts.createProgram(tsFiles, this.compilerOptions, host);
+        const diagnostics = ts.getPreEmitDiagnostics(program);
+
+        if (diagnostics.length > 0) {
+            diagnostics.forEach(diagnostic => {
+                if (diagnostic.file) {
+                    const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!);
+                    const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
+                    console.error(`${diagnostic.file.fileName}(${line + 1},${character + 1}): ${message}`);
+                } else {
+                    console.error(ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"));
+                }
+            });
+        }
+
+        return diagnostics.length;
+    }
+
     private _getOutputPath(tsFilePath: string, basePath: string, outputDir?: string): string {
         if (outputDir) {
             return path.join(outputDir, path.relative(basePath, tsFilePath).replace(/\.ts$/, ".js"));
@@ -241,6 +261,8 @@ const compiler: CompilerModule = {
     },
 
     async typecheck(srcDir: string): Promise<void> {
+        const tsCompiler = new TypeScriptCompiler({}, srcDir);
+
         const glob = await import("glob");
         const pattern = path.join(srcDir, "**/*.ts");
         const tsFiles = await glob.glob(pattern, {
@@ -254,32 +276,10 @@ const compiler: CompilerModule = {
 
         console.log(`Type checking ${tsFiles.length} TypeScript files...`);
 
-        const compilerOptions: ts.CompilerOptions = {
-            target: ts.ScriptTarget.ES2020,
-            module: ts.ModuleKind.CommonJS,
-            esModuleInterop: true,
-            skipLibCheck: true,
-            forceConsistentCasingInFileNames: true,
-            moduleResolution: ts.ModuleResolutionKind.Node10,
-            noEmit: true
-        };
+        const errorCount = tsCompiler.typecheckTsFiles(tsFiles);
 
-        const host = ts.createCompilerHost(compilerOptions);
-        const program = ts.createProgram(tsFiles, compilerOptions, host);
-        const diagnostics = ts.getPreEmitDiagnostics(program);
-
-        if (diagnostics.length > 0) {
-            diagnostics.forEach(diagnostic => {
-                if (diagnostic.file) {
-                    const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!);
-                    const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
-                    console.error(`${diagnostic.file.fileName}(${line + 1},${character + 1}): ${message}`);
-                } else {
-                    console.error(ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"));
-                }
-            });
-
-            throw new Error(`Found ${diagnostics.length} type error(s)`);
+        if (errorCount > 0) {
+            throw new Error(`Found ${errorCount} type error(s)`);
         }
 
         console.log("No type errors found.");
