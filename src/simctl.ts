@@ -1,10 +1,10 @@
-import simctl from "simctl";
+import simctlLib from "simctl";
 import shell from "shelljs";
-import type { SimInfo as SimctlSimInfo } from "simctl";
+import type { SimulatorInfo } from "simctl";
 
 interface SimctlModule {
     start(deviceId: string): boolean;
-    list(): SimctlSimInfo | null;
+    list(): SimulatorInfo | null;
     install(device: string, path: string): boolean;
     uninstall(device: string, appId: string): boolean;
     launch(device: string, appId: string): boolean;
@@ -12,9 +12,9 @@ interface SimctlModule {
     openUrl(device: string, url: string): boolean;
 }
 
-const simctlModule: SimctlModule = {
+const simctl: SimctlModule = {
     start(deviceId: string): boolean {
-        const result = simctl.extensions.start(deviceId);
+        const result = simctlLib.extensions.start(deviceId);
 
         if (result.code === 0) {
             return true;
@@ -23,8 +23,8 @@ const simctlModule: SimctlModule = {
         return false;
     },
 
-    list(): SimctlSimInfo | null {
-        const siminfo = simctl.list({ silent: true });
+    list(): SimulatorInfo | null {
+        const siminfo = simctlLib.list({ silent: true });
 
         if (siminfo) {
             return siminfo.json;
@@ -34,7 +34,7 @@ const simctlModule: SimctlModule = {
     },
 
     install(device: string, path: string): boolean {
-        const result = simctl.install(device, path);
+        const result = simctlLib.install(device, path);
 
         if (result.code === 0) {
             return true;
@@ -44,7 +44,7 @@ const simctlModule: SimctlModule = {
     },
 
     uninstall(device: string, appId: string): boolean {
-        const result = simctl.uninstall(device, appId);
+        const result = simctlLib.uninstall(device, appId);
 
         if (result.code === 0) {
             return true;
@@ -87,4 +87,4 @@ const simctlModule: SimctlModule = {
     }
 };
 
-export default simctlModule;
+export default simctl;

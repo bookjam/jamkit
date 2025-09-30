@@ -289,7 +289,7 @@ class AndroidSimulator extends SimulatorBase {
 
     private _readManifest(appPath: string): Promise<AndroidManifest> {
         return apk.open(appPath)
-            .then((reader: any) => {
+            .then((reader) => {
                 return reader.readManifest();
             });
     }

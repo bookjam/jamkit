@@ -4,7 +4,7 @@ declare module "simctl" {
         stdout?: string;
     }
 
-    export interface SimInfo {
+    export interface SimulatorInfo {
         devices: {
             [runtime: string]: DeviceInfo[];
         };
@@ -23,7 +23,7 @@ declare module "simctl" {
 
     interface SimctlModule {
         extensions: SimctlExtensions;
-        list(options?: { silent?: boolean }): { json: SimInfo } | null;
+        list(options?: { silent?: boolean }): { json: SimulatorInfo } | null;
         install(device: string, path: string): SimctlResult;
         uninstall(device: string, appId: string): SimctlResult;
         launch(waitForDebugger: boolean, device: string, appId: string, options?: any): SimctlResult;
