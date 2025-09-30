@@ -516,9 +516,6 @@ const commands: CommandsModule = {
         }
 
         buildApp(appInfo, skipObfuscation)
-            .then(() => {
-                console.log("Build completed successfully.");
-            })
             .catch((error) => {
                 console.error(`ERROR: could not generate a package. ${error.message || error}`);
                 process.exit(1);
@@ -532,9 +529,6 @@ const commands: CommandsModule = {
         }
 
         compiler.clean("./catalogs")
-            .then(() => {
-                console.log("Build artifacts cleaned successfully.");
-            })
             .catch((error) => {
                 console.error(`ERROR: could not clean build artifacts. ${error.message || error}`);
                 process.exit(1);
@@ -685,9 +679,6 @@ const commands: CommandsModule = {
         }
 
         buildBook()
-            .then(() => {
-                console.log("Build completed successfully.");
-            })
             .catch((error) => {
                 console.error(`ERROR: could not generate a package. ${error.message || error}`);
                 process.exit(1);
@@ -701,9 +692,6 @@ const commands: CommandsModule = {
         }
 
         compiler.clean(".")
-            .then(() => {
-                console.log("Build artifacts cleaned successfully.");
-            })
             .catch((error) => {
                 console.error(`ERROR: could not clean build artifacts. ${error.message || error}`);
                 process.exit(1);
@@ -796,8 +784,6 @@ const commands: CommandsModule = {
 
         catalog.saveToFile(data[0], path.join(baseDir, "catalog.bon"));
         catalog.saveToDatabase(data[0], data[1], path.join(baseDir, "catalog.sqlite"));
-
-        console.log("Database generation completed successfully.");
     },
 
     migrateStyle(): void {
@@ -811,11 +797,9 @@ const commands: CommandsModule = {
                 files.forEach((file) => {
                     style.migrate(file);
                 });
-
-                console.log("Style migration completed successfully.");
             })
-            .catch(() => {
-                console.error("ERROR: could not find style files.");
+            .catch((error) => {
+                console.error(`ERROR: failed to search for style files. ${error.message || error}`);
                 process.exit(1);
             });
     },
@@ -831,8 +815,6 @@ const commands: CommandsModule = {
         platforms.forEach((platform) => {
             native.compose(nativePath, platform, appInfo);
         });
-
-        console.log("Native code composition completed successfully.");
     },
 
     checkTypes(): void {
@@ -842,9 +824,6 @@ const commands: CommandsModule = {
         }
 
         compiler.typecheck("catalogs")
-            .then(() => {
-                console.log("Type checking completed successfully.");
-            })
             .catch((error) => {
                 console.error(`ERROR: type checking failed. ${error.message || error}`);
                 process.exit(1);
