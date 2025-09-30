@@ -2,6 +2,7 @@ import obfuscator from "javascript-obfuscator";
 import fs from "fs-extra";
 import path from "path";
 import { glob } from "glob";
+import logger from "./logger.js";
 
 interface ObfuscatorOptions {
     compact?: boolean;
@@ -58,10 +59,10 @@ class JavaScriptObfuscator {
             const obfuscationResult = obfuscator.obfuscate(sourceCode, this.options);
 
             fs.writeFileSync(jsFilePath, obfuscationResult.getObfuscatedCode());
-            console.log(`Obfuscated: ${this._getDisplayPath(jsFilePath, this.basePath)}`);
+            logger.debug(`Obfuscated: ${this._getDisplayPath(jsFilePath, this.basePath)}`);
             return true;
         } catch (error) {
-            console.warn(`Warning: Could not obfuscate ${this._getDisplayPath(jsFilePath, this.basePath)}: ${error}`);
+            logger.warn(`WARNING: Could not obfuscate ${this._getDisplayPath(jsFilePath, this.basePath)}: ${error}`);
             return false;
         }
     }
@@ -91,15 +92,15 @@ const obfuscatorModule: ObfuscatorModule = {
         });
 
         if (jsFiles.length > 0) {
-            console.log(`Obfuscating ${jsFiles.length} JavaScript files...`);
+            logger.info(`Obfuscating ${jsFiles.length} JavaScript files...`);
 
             for (const jsFile of jsFiles) {
                 jsObfuscator.obfuscateFile(jsFile);
             }
 
-            console.log("JavaScript obfuscation complete.");
+            logger.info("JavaScript obfuscation complete.");
         } else {
-            console.log("No JavaScript files found to obfuscate.");
+            logger.info("No JavaScript files found to obfuscate.");
         }
     }
 };
