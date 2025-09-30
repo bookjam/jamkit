@@ -58,17 +58,17 @@ class JavaScriptObfuscator {
             const obfuscationResult = obfuscator.obfuscate(sourceCode, this.options);
 
             fs.writeFileSync(jsFilePath, obfuscationResult.getObfuscatedCode());
-            console.log(`Obfuscated: ${this._getDisplayPath(jsFilePath)}`);
+            console.log(`Obfuscated: ${this._getDisplayPath(jsFilePath, this.basePath)}`);
             return true;
         } catch (error) {
-            console.warn(`Warning: Could not obfuscate ${this._getDisplayPath(jsFilePath)}: ${error}`);
+            console.warn(`Warning: Could not obfuscate ${this._getDisplayPath(jsFilePath, this.basePath)}: ${error}`);
             return false;
         }
     }
 
-    private _getDisplayPath(filePath: string): string {
-        if (this.basePath) {
-            return path.join(path.basename(this.basePath), path.relative(this.basePath, filePath));
+    private _getDisplayPath(filePath: string, basePath?: string): string {
+        if (basePath) {
+            return path.join(path.basename(basePath), path.relative(basePath, filePath));
         }
     
         return filePath;
