@@ -1,4 +1,5 @@
 import path from "path";
+import simctl from "./simctl.js";
 import avdctl from "./avdctl-helper.js";
 
 type Platform = "ios" | "android";
@@ -8,8 +9,8 @@ abstract class InstallerBase {
 }
 
 class IOSInstaller extends InstallerBase {
-    install(_file: string): void {
-        // iOS installation implementation (currently empty)
+    install(file: string): void {
+        simctl.openUrl("booted", `file://${path.resolve(file)}`);
     }
 }
 

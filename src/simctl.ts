@@ -9,6 +9,7 @@ interface SimctlModule {
     uninstall(device: string, appId: string): boolean;
     launch(device: string, appId: string): boolean;
     container(device: string, appId: string): string | null;
+    openUrl(device: string, url: string): boolean;
 }
 
 const simctlModule: SimctlModule = {
@@ -72,6 +73,17 @@ const simctlModule: SimctlModule = {
         }
 
         return null;
+    },
+
+    openUrl(device: string, url: string): boolean {
+        const command = `xcrun simctl openurl "${device}" "${url}"`;
+        const result = shell.exec(command, { silent: true });
+
+        if (result.code === 0) {
+            return true;
+        }
+
+        return false;
     }
 };
 
