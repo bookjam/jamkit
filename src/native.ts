@@ -435,10 +435,10 @@ interface NativeModule {
 const native: NativeModule = {
     compose(rootDir: string, platform: Platform, appInfo: AppInfo): void {
         const platformImpl = PlatformFactory.create(platform);
-        const platformRootDir = path.join(rootDir, "src", platform);
+        const platformDir = path.join(rootDir, "src", platform);
         const languages = [ "ko", "ja" ];
         
-        platformImpl.compose(platformRootDir, appInfo, languages);
+        platformImpl.compose(platformDir, appInfo, languages);
     }
 };
 

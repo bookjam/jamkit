@@ -6,79 +6,97 @@ import avdctl from "./avdctl-helper.js";
 type Platform = "ios" | "android";
 type SyncOptions = { skipSync?: boolean };
 
-interface PlatformImplementation {
-    sync(appId: string, src: string, dest: string): void;
-    copy(appId: string, src: string, dest: string): void;
-    remove(appId: string, path: string): void;
+abstract class FileHandler {
+    abstract sync(appId: string, src: string, dest: string): void;
+    abstract copy(appId: string, src: string, dest: string): void;
+    abstract remove(appId: string, path: string): void;
 }
 
-const _impl: Record<Platform, PlatformImplementation> = {
-    "ios": {
-        sync: function(appId: string, srcDir: string, destDir: string): void {
-            if (fs.existsSync(destDir)) {
-                fs.removeSync(destDir);
-            }
-
-            fs.copySync(srcDir, destDir, {
-                filter: (src) => !src.endsWith(".ts")
-            });
-        },
-
-        copy: function(appId: string, srcPath: string, destPath: string): void {
-            if (!fs.lstatSync(srcPath).isDirectory()) {
-                fs.writeFileSync(destPath, fs.readFileSync(srcPath));
-            } else {
-                fs.copySync(srcPath, destPath, {
-                    filter: (srcPath) => !srcPath.endsWith(".ts")
-                });
-            }
-        },
-
-        remove: function(appId: string, path: string): void {
-            fs.removeSync(path);
+class IOSFileHandler extends FileHandler {
+    sync(_appId: string, srcDir: string, destDir: string): void {
+        if (fs.existsSync(destDir)) {
+            fs.removeSync(destDir);
         }
-    },
 
-    "android": {
-        sync: function(appId: string, srcDir: string, destDir: string): void {
-            const tmpRoot = "/data/local/tmp/jamkit";
+        fs.copySync(srcDir, destDir, {
+            filter: (src) => !src.endsWith(".ts")
+        });
+    }
 
-            avdctl.shell(`rm -rf ${tmpRoot}`);
-            avdctl.push(srcDir, tmpRoot);
-
-            if (avdctl.getSdkVersion() >= 30) {
-                avdctl.shell(`rm -rf ${destDir}`);
-                avdctl.shell(`mkdir ${destDir}`);
-                avdctl.shell(`cp -rf ${tmpRoot}/* ${destDir}`);
-            } else {
-                avdctl.shell(`run-as ${appId} rm -rf ${destDir}`);
-                avdctl.shell(`run-as ${appId} mkdir ${destDir}`);
-                avdctl.shell(`run-as ${appId} cp -rf ${tmpRoot}/* ${destDir}`);
-            }
-        },
-
-        copy: function(appId: string, srcPath: string, destPath: string): void {
-            const tmpRoot = "/data/local/tmp/jamkit";
-            const tmpPath = `${tmpRoot}/${path.basename(srcPath)}`;
-
-            avdctl.push(srcPath, tmpPath);
-
-            if (avdctl.getSdkVersion() >= 30) {
-                avdctl.shell(`cp -rf ${tmpPath} ${destPath}`);
-            } else {
-                avdctl.shell(`run-as ${appId} cp -rf ${tmpPath} ${destPath}`);
-            }
-        },
-
-        remove: function(appId: string, path: string): void {
-            if (avdctl.getSdkVersion() >= 30) {
-                avdctl.shell(`rm -rf ${path.replace(/\\/g, "/")}`);
-            } else {
-                avdctl.shell(`run-as ${appId} rm -rf ${path.replace(/\\/g, "/")}`);
-            }
+    copy(_appId: string, srcPath: string, destPath: string): void {
+        if (!fs.lstatSync(srcPath).isDirectory()) {
+            fs.writeFileSync(destPath, fs.readFileSync(srcPath));
+        } else {
+            fs.copySync(srcPath, destPath, {
+                filter: (srcPath) => !srcPath.endsWith(".ts")
+            });
         }
     }
-};
+
+    remove(_appId: string, path: string): void {
+        fs.removeSync(path);
+    }
+}
+
+class AndroidFileHandler extends FileHandler {
+    sync(appId: string, srcDir: string, destDir: string): void {
+        const tmpRoot = "/data/local/tmp/jamkit";
+
+        avdctl.shell(`rm -rf ${tmpRoot}`);
+        avdctl.push(srcDir, tmpRoot);
+
+        if (avdctl.getSdkVersion() >= 30) {
+            avdctl.shell(`rm -rf ${destDir}`);
+            avdctl.shell(`mkdir ${destDir}`);
+            avdctl.shell(`cp -rf ${tmpRoot}/* ${destDir}`);
+        } else {
+            avdctl.shell(`run-as ${appId} rm -rf ${destDir}`);
+            avdctl.shell(`run-as ${appId} mkdir ${destDir}`);
+            avdctl.shell(`run-as ${appId} cp -rf ${tmpRoot}/* ${destDir}`);
+        }
+    }
+
+    copy(appId: string, srcPath: string, destPath: string): void {
+        const tmpRoot = "/data/local/tmp/jamkit";
+        const tmpPath = `${tmpRoot}/${path.basename(srcPath)}`;
+
+        avdctl.push(srcPath, tmpPath);
+
+        if (avdctl.getSdkVersion() >= 30) {
+            avdctl.shell(`cp -rf ${tmpPath} ${destPath}`);
+        } else {
+            avdctl.shell(`run-as ${appId} cp -rf ${tmpPath} ${destPath}`);
+        }
+    }
+
+    remove(appId: string, path: string): void {
+        if (avdctl.getSdkVersion() >= 30) {
+            avdctl.shell(`rm -rf ${path.replace(/\\/g, "/")}`);
+        } else {
+            avdctl.shell(`run-as ${appId} rm -rf ${path.replace(/\\/g, "/")}`);
+        }
+    }
+}
+
+class FileHandlerFactory {
+    private static instances: Map<Platform, FileHandler> = new Map();
+
+    static create(platform: Platform): FileHandler {
+        if (!this.instances.has(platform)) {
+            switch (platform) {
+                case "ios":
+                    this.instances.set(platform, new IOSFileHandler());
+                    break;
+
+                case "android":
+                    this.instances.set(platform, new AndroidFileHandler());
+                    break;
+            }
+        }
+
+        return this.instances.get(platform)!;
+    }
+}
 
 interface SyncFolderModule {
     start(platform: Platform, appId: string, srcDir: string, destDir: string, options: SyncOptions, handler: (event: string, filePath: string) => void): void;
@@ -86,6 +104,7 @@ interface SyncFolderModule {
 
 const syncfolder: SyncFolderModule = {
     start(platform: Platform, appId: string, srcDir: string, destDir: string, options: SyncOptions, handler: (event: string, filePath: string) => void): void {
+        const fileHanderImpl = FileHandlerFactory.create(platform);
         const watcher = chokidar.watch(srcDir, {
             ignored: [
                 /(^|[\/\\])\./,
@@ -98,7 +117,7 @@ const syncfolder: SyncFolderModule = {
         watcher
             .on("ready", () => {
                 if (!options.skipSync) {
-                    _impl[platform].sync(appId, srcDir, destDir);
+                    fileHanderImpl.sync(appId, srcDir, destDir);
                 }
 
                 console.log("Done");
@@ -108,35 +127,35 @@ const syncfolder: SyncFolderModule = {
             .on("add", (file) => {
                 const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
 
-                _impl[platform].copy(appId, file, `${destDir}/${subPath}`);
+                fileHanderImpl.copy(appId, file, `${destDir}/${subPath}`);
 
                 handler("add", file);
             })
             .on("addDir", (dir) => {
                 const subPath = path.relative(srcDir, dir).replace(/\\/g, "/");
 
-                _impl[platform].copy(appId, dir, `${destDir}/${subPath}`);
+                fileHanderImpl.copy(appId, dir, `${destDir}/${subPath}`);
 
                 handler("addDir", dir);
             })
             .on("change", (file) => {
                 const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
 
-                _impl[platform].copy(appId, file, `${destDir}/${subPath}`);
+                fileHanderImpl.copy(appId, file, `${destDir}/${subPath}`);
 
                 handler("change", file);
             })
             .on("unlink", (file) => {
                 const subPath = path.relative(srcDir, file).replace(/\\/g, "/");
 
-                _impl[platform].remove(appId, `${destDir}/${subPath}`);
+                fileHanderImpl.remove(appId, `${destDir}/${subPath}`);
 
                 handler("unlink", file);
             })
             .on("unlinkDir", (dir) => {
                 const subPath = path.relative(srcDir, dir).replace(/\\/g, "/");
 
-                _impl[platform].remove(appId, `${destDir}/${subPath}`);
+                fileHanderImpl.remove(appId, `${destDir}/${subPath}`);
 
                 handler("unlinkDir", dir);
             });
