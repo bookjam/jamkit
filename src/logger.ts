@@ -4,7 +4,10 @@ const COLORS = {
     yellow: '\x1b[33m'
 };
 
+let verbose = false;
+
 interface LoggerModule {
+    setVerbose(value: boolean): void;
     debug(message: string): void;
     info(message: string): void;
     warn(message: string): void;
@@ -12,8 +15,14 @@ interface LoggerModule {
 }
 
 const logger: LoggerModule = {
+    setVerbose(value: boolean): void {
+        verbose = value;
+    },
+
     debug(message: string): void {
-        console.log(message);
+        if (verbose) {
+            console.log(message);
+        }
     },
 
     info(message: string): void {

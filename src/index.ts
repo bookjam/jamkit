@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import commands from "./commands.js";
+import logger from "./logger.js";
 import fs from "fs-extra";
 
 import { Command } from "commander";
@@ -70,6 +71,13 @@ program.name("jamkit")
     .usage("<command> [argument, ...] [options]")
     .helpOption("-h, --help", "Show help for command")
     .addHelpCommand(false)
+    .option("-v, --verbose", "Enable verbose output")
+    .hook("preAction", (thisCommand) => {
+        const opts = thisCommand.optsWithGlobals();
+        if (opts.verbose) {
+            logger.setVerbose(true);
+        }
+    })
     .on("command:*", ([ command ]: string[]) => {
         program.addHelpText("after", "\n" + "Command not found: " + command);
         program.help();

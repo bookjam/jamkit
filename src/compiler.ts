@@ -81,7 +81,7 @@ class TypeScriptCompiler {
             fs.writeFileSync(`${jsOutputPath}.map`, result.sourceMapText);
         }
 
-        logger.info(`Compiled: ${this._getDisplayPath(tsFilePath, this.basePath)} -> ${this._getDisplayPath(jsOutputPath, this.outputDir || this.basePath)}`);
+        logger.debug(`Compiled: ${this._getDisplayPath(tsFilePath, this.basePath)} -> ${this._getDisplayPath(jsOutputPath, this.outputDir || this.basePath)}`);
 
         return jsOutputPath;
     }
@@ -94,13 +94,13 @@ class TypeScriptCompiler {
 
         if (fs.existsSync(jsOutputPath)) {
             fs.removeSync(jsOutputPath);
-            logger.info(`Removed: ${this._getDisplayPath(jsOutputPath, this.outputDir || this.basePath)}`);
+            logger.debug(`Removed: ${this._getDisplayPath(jsOutputPath, this.outputDir || this.basePath)}`);
             removedFiles.push(jsOutputPath);
         }
 
         if (fs.existsSync(mapPath)) {
             fs.removeSync(mapPath);
-            logger.info(`Removed: ${this._getDisplayPath(mapPath, this.outputDir || this.basePath)}`);
+            logger.debug(`Removed: ${this._getDisplayPath(mapPath, this.outputDir || this.basePath)}`);
             removedFiles.push(mapPath);
         }
 
