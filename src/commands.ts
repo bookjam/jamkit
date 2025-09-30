@@ -201,7 +201,7 @@ const updateVscodeLaunchJson = (debuggerPort: number): void => {
 
 const buildApp = (appInfo: AppInfo, skipObfuscation: boolean = false): Promise<string> => {
     return new Promise((resolve, reject) => {
-        const baseName = appInfo["id"].split(".").slice(-1);
+        const baseName = appInfo.id.split(".").slice(-1);
         const jamPath = path.join(".", `${baseName}.jam`);
 
         if (fs.existsSync(jamPath)) {
@@ -386,8 +386,8 @@ const commands: CommandsModule = {
                 const bonPath = path.resolve(directory, "package.bon");
                 const appInfo = bon.parse(fs.readFileSync(bonPath, "utf8")) as AppInfo;
 
-                appInfo["id"] = generateAppId(options.appId, appInfo["id"]);
-                appInfo["version"] = options["version"];
+                appInfo.id = generateAppId(options.appId, appInfo.id);
+                appInfo.version = options.version;
 
                 fs.writeFileSync(bonPath, bon.stringify(appInfo) || "");
             })
@@ -405,15 +405,15 @@ const commands: CommandsModule = {
 
         const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
-        if (!appInfo || !appInfo["id"]) {
+        if (!appInfo || !appInfo.id) {
             logger.error("package.bon is malformed.");
 
             return;
         }
 
-        simulator.start(platform, shellOptions["port"])
+        simulator.start(platform, shellOptions.port)
             .then((appId) => {
-                shell.ready(shellOptions["host"], shellOptions["port"], 60 * 1000) // 1 minute
+                shell.ready(shellOptions.host, shellOptions.port, 60 * 1000) // 1 minute
                     .then(() => {
                         return shell.open();
                     })
@@ -421,7 +421,7 @@ const commands: CommandsModule = {
                         if ([ "jam", "widget" ].includes(mode)) {
                             return Promise.resolve(); // nothing to do
                         } else {
-                            return shell.execute("app id " + appInfo["id"]);
+                            return shell.execute("app id " + appInfo.id);
                         }
                     }) as any)
                     .then(() => {
@@ -455,14 +455,14 @@ const commands: CommandsModule = {
                                 return Promise.resolve();
                             })
                             .catch((error) => {
-                                console.log(`WARNING: failed to start debugger - ${error}`);
+                                console.warn(`failed to start debugger - ${error}`);
 
                                 return Promise.resolve();
                             });
                     })
                     .then(() => {
                         if ([ "jam", "widget" ].includes(mode)) {
-                            return shell.execute(`catalog path resource ${appInfo["id"]}`);
+                            return shell.execute(`catalog path resource ${appInfo.id}`);
                         } else {
                             return shell.execute("catalog path resource");
                         }
@@ -478,17 +478,18 @@ const commands: CommandsModule = {
                                             shell.execute("app install " + utils.dataToDataURL(appInfo));
 
                                             if ([ "jam" ].includes(mode)) {
-                                                shell.execute("catalog reset " + appInfo["id"]);
+                                                shell.execute("catalog reset " + appInfo.id);
                                             } else {
                                                 shell.execute("catalog reload");
                                             }
                                         } else {
                                             shell.execute("catalog reset");
                                         }
+
                                         needsReset = false;
                                     } else {
                                         if ([ "jam" ].includes(mode)) {
-                                            shell.execute("catalog reload " + appInfo["id"]);
+                                            shell.execute("catalog reload " + appInfo.id);
                                         } else {
                                             shell.execute("catalog reload");
                                         }
@@ -512,7 +513,7 @@ const commands: CommandsModule = {
 
         const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
-        if (!appInfo || !appInfo["id"]) {
+        if (!appInfo || !appInfo.id) {
             logger.error("package.bon is malformed.");
 
             return;
@@ -552,7 +553,7 @@ const commands: CommandsModule = {
 
         const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
-        if (!appInfo || !appInfo["id"]) {
+        if (!appInfo || !appInfo.id) {
             console.log("ERROR: package.bon is malformed.");
 
             return;
@@ -582,11 +583,11 @@ const commands: CommandsModule = {
             return;
         }
 
-        if (options["language"] && appInfo["localization"]) {
-            const localization = appInfo["localization"][options["language"]] || {};
+        if (options.language && appInfo.localization) {
+            const localization = appInfo.localization[options.language] || {};
 
-            if (localization["title"]) {
-                appInfo["title"] = localization["title"];
+            if (localization.title) {
+                appInfo.title = localization.title;
             }
         }
 
@@ -598,13 +599,13 @@ const commands: CommandsModule = {
                 ]);
             })
             .then(([ appUrl, imageUrl ]) => {
-                const title = options["title"] || appInfo["title"] || "";
-                let url = `${host["url"] || CONNECT_BASE_URL}/connect/app/?`
-                        + `app=${appInfo["id"]}` + "&" + `url=${urlencode(appUrl)}`
+                const title = options.title || appInfo.title || "";
+                let url = `${host.url || CONNECT_BASE_URL}/connect/app/?`
+                        + `app=${appInfo.id}` + "&" + `url=${urlencode(appUrl)}`
                         + (title ? "&" + `title=${urlencode(title)}` : "")
-                        + (appInfo["version"] ? "&" + `version=${appInfo["version"]}` : "")
+                        + (appInfo.version ? "&" + `version=${appInfo.version}` : "")
                         + (imageUrl ? "&" + `image=${urlencode(imageUrl)}` : "")
-                        + (host["url"] ? "" : "&" + `host-scheme=${host["scheme"]}`);
+                        + (host.url ? "" : "&" + `host-scheme=${host.scheme}`);
 
                 Object.keys(installUrls).forEach((platform) => {
                     if (installUrls[platform] !== "auto") {
@@ -639,7 +640,7 @@ const commands: CommandsModule = {
                 const bonPath = path.resolve(directory, "book.bon");
                 const bookInfo = bon.parse(fs.readFileSync(bonPath, "utf8")) as BookInfo;
 
-                bookInfo["version"] = options["version"];
+                bookInfo.version = options.version;
 
                 fs.writeFileSync(bonPath, bon.stringify(bookInfo) || "");
             })
@@ -655,9 +656,9 @@ const commands: CommandsModule = {
             return;
         }
 
-        simulator.start(platform, shellOptions["port"])
+        simulator.start(platform, shellOptions.port)
             .then((appId) => {
-                shell.ready(shellOptions["host"], shellOptions["port"], 60 * 1000) // 1 minute
+                shell.ready(shellOptions.host, shellOptions.port, 60 * 1000) // 1 minute
                     .then(() => {
                         return shell.open();
                     })
@@ -754,13 +755,13 @@ const commands: CommandsModule = {
                 ]);
             })
             .then(([bookUrl, imageUrl]) => {
-                const title = options["title"] || bookInfo["title"] || "";
-                let url = `${host["url"] || CONNECT_BASE_URL}/connect/book/?`
-                        + `book=${bookInfo["id"]}` + "&" + `url=${urlencode(bookUrl)}`
+                const title = options.title || bookInfo.title || "";
+                let url = `${host.url || CONNECT_BASE_URL}/connect/book/?`
+                        + `book=${bookInfo.id}` + "&" + `url=${urlencode(bookUrl)}`
                         + (title ? "&" + `title=${urlencode(title)}` : "")
-                        + (bookInfo["version"] ? "&" + `version=${bookInfo["version"]}` : "")
+                        + (bookInfo.version ? "&" + `version=${bookInfo.version}` : "")
                         + (imageUrl ? "&" + `image=${urlencode(imageUrl)}` : "")
-                        + (host["url"] ? "" : "&" + `host-scheme=${host["scheme"]}`);
+                        + (host.url ? "" : "&" + `host-scheme=${host.scheme}`);
 
                 Object.keys(installUrls).forEach((platform) => {
                     if (installUrls[platform] !== "auto") {
