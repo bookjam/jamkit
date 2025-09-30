@@ -1,11 +1,16 @@
 declare module "simctl" {
-    interface SimInfo {
+    export interface SimctlResult {
+        code: number;
+        stdout?: string;
+    }
+
+    export interface SimInfo {
         devices: {
             [runtime: string]: DeviceInfo[];
         };
     }
 
-    interface DeviceInfo {
+    export interface DeviceInfo {
         udid: string;
         name: string;
         state: string;
@@ -13,15 +18,15 @@ declare module "simctl" {
     }
 
     interface SimctlExtensions {
-        start(deviceId: string): { code: number; stdout?: string };
+        start(deviceId: string): SimctlResult;
     }
 
     interface SimctlModule {
         extensions: SimctlExtensions;
-        list(options?: { silent?: boolean }): SimInfo;
-        install(device: string, path: string): { code: number; stdout?: string };
-        uninstall(device: string, appId: string): { code: number; stdout?: string };
-        launch(waitForDebugger: boolean, device: string, appId: string, options?: any): { code: number; stdout?: string };
+        list(options?: { silent?: boolean }): { json: SimInfo } | null;
+        install(device: string, path: string): SimctlResult;
+        uninstall(device: string, appId: string): SimctlResult;
+        launch(waitForDebugger: boolean, device: string, appId: string, options?: any): SimctlResult;
         container(device: string, appId: string): string | null;
     }
 

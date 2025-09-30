@@ -3,6 +3,7 @@ import fs from "fs-extra";
 import plist from "simple-plist";
 import apk from "@devicefarmer/adbkit-apkreader";
 import { fileURLToPath } from "url";
+import type { DeviceInfo } from "simctl";
 import simctl from "./simctl.js";
 import avdctl from "./avdctl.js";
 import sleep from "./sleep.js";
@@ -10,13 +11,6 @@ import sleep from "./sleep.js";
 const moduleDir = path.dirname(fileURLToPath(import.meta.url));
 
 type Platform = "ios" | "android";
-
-interface DeviceInfo {
-    udid: string;
-    state: string;
-    name: string;
-    isAvailable?: boolean;
-}
 
 interface InfoPlist {
     CFBundleIdentifier: string;

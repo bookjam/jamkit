@@ -417,13 +417,13 @@ const commands: CommandsModule = {
                     .then(() => {
                         return shell.open();
                     })
-                    .then((() => {
+                    .then(() => {
                         if ([ "jam", "widget" ].includes(mode)) {
-                            return Promise.resolve(); // nothing to do
+                            return Promise.resolve(""); // nothing to do
                         } else {
                             return shell.execute("app id " + appInfo.id);
                         }
-                    }) as any)
+                    })
                     .then(() => {
                         return shell.execute("app source " + path.join(process.cwd(), "catalogs"));
                     })
@@ -828,7 +828,7 @@ const commands: CommandsModule = {
         const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
         platforms.forEach((platform) => {
-            native.compose(nativePath, platform, appInfo as any);
+            native.compose(nativePath, platform, appInfo);
         });
     },
 

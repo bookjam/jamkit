@@ -1,27 +1,10 @@
 import simctl from "simctl";
 import shell from "shelljs";
-
-interface SimctlResult {
-    code: number;
-    stdout?: string;
-}
-
-interface SimInfo {
-    json: {
-        devices: { [runtime: string]: DeviceInfo[] };
-    };
-}
-
-interface DeviceInfo {
-    udid: string;
-    state: string;
-    name: string;
-    isAvailable?: boolean;
-}
+import type { SimInfo as SimctlSimInfo } from "simctl";
 
 interface SimctlModule {
-    start(device_id: string): boolean;
-    list(): SimInfo["json"] | null;
+    start(deviceId: string): boolean;
+    list(): SimctlSimInfo | null;
     install(device: string, path: string): boolean;
     uninstall(device: string, appId: string): boolean;
     launch(device: string, appId: string): boolean;
@@ -29,8 +12,8 @@ interface SimctlModule {
 }
 
 const simctlModule: SimctlModule = {
-    start(device_id: string): boolean {
-        const result = simctl.extensions.start(device_id) as SimctlResult;
+    start(deviceId: string): boolean {
+        const result = simctl.extensions.start(deviceId);
 
         if (result.code === 0) {
             return true;
@@ -39,8 +22,8 @@ const simctlModule: SimctlModule = {
         return false;
     },
 
-    list(): SimInfo["json"] | null {
-        const siminfo = simctl.list({ silent: true }) as any as SimInfo | null;
+    list(): SimctlSimInfo | null {
+        const siminfo = simctl.list({ silent: true });
 
         if (siminfo) {
             return siminfo.json;
@@ -50,7 +33,7 @@ const simctlModule: SimctlModule = {
     },
 
     install(device: string, path: string): boolean {
-        const result = simctl.install(device, path) as SimctlResult;
+        const result = simctl.install(device, path);
 
         if (result.code === 0) {
             return true;
@@ -60,7 +43,7 @@ const simctlModule: SimctlModule = {
     },
 
     uninstall(device: string, appId: string): boolean {
-        const result = simctl.uninstall(device, appId) as SimctlResult;
+        const result = simctl.uninstall(device, appId);
 
         if (result.code === 0) {
             return true;

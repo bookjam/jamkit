@@ -10,7 +10,8 @@ type Platform = "ios" | "android";
 
 interface AppInfo {
     id: string;
-    title: string;
+    title?: string;
+    version?: string;
     localization?: { [language: string]: { title?: string } };
 }
 
