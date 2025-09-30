@@ -53,15 +53,15 @@ class TypeScriptCompiler {
         const diagnostics = ts.getPreEmitDiagnostics(program);
 
         if (diagnostics.length > 0) {
-            logger.warn(`Compilation failed for ${tsFilePath}:`);
+            logger.error(`ERROR: Compilation failed for ${tsFilePath}:`);
 
             diagnostics.forEach(diagnostic => {
                 if (diagnostic.file) {
                     const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!);
                     const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
-                    logger.warn(`  Line ${line + 1}, Column ${character + 1}: ${message}`);
+                    logger.error(`  Line ${line + 1}, Column ${character + 1}: ${message}`);
                 } else {
-                    logger.warn(`  ${ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")}`);
+                    logger.error(`  ${ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")}`);
                 }
             });
 
@@ -213,7 +213,7 @@ const compiler: CompilerModule = {
                 }
             })
             .on("error", (error) => {
-                logger.error(`TypeScript Watcher error: ${error}`);
+                logger.error(`ERROR: TypeScript Watcher error: ${error}`);
             });
     },
 

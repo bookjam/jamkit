@@ -22,7 +22,6 @@ import style from "./style.js";
 import native from "./native.js";
 import leafly from "./leafly.js";
 import utils from "./utils.js";
-import logger from "./logger.js";
 
 // Type definitions
 interface AppInfo {
@@ -376,9 +375,8 @@ interface CommandsModule {
 const commands: CommandsModule = {
     createApp(directory: string, options: CreateOptions): void {
         if (fs.existsSync(path.join(directory, "package.bon"))) {
-            logger.error("directory already exists.");
-
-            return;
+            console.error("ERROR: directory already exists.");
+            process.exit(1);
         }
 
         scaffold.generate("app", directory, options)
@@ -391,24 +389,23 @@ const commands: CommandsModule = {
 
                 fs.writeFileSync(bonPath, bon.stringify(appInfo) || "");
             })
-            .catch((error) => {
-                logger.error("template may not exists.");
+            .catch(() => {
+                console.error("ERROR: template may not exists.");
+                process.exit(1);
             });
     },
 
     runApp(platform: Platform, mode: Mode, shellOptions: ShellOptions, options: RunOptions): void {
         if (!fs.existsSync("./package.bon")) {
-            logger.error("package.bon not found.");
-
-            return;
+            console.error("ERROR: package.bon not found.");
+            process.exit(1);
         }
 
         const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
         if (!appInfo || !appInfo.id) {
-            logger.error("package.bon is malformed.");
-
-            return;
+            console.error("ERROR: package.bon is malformed.");
+            process.exit(1);
         }
 
         simulator.start(platform, shellOptions.port)
@@ -499,64 +496,62 @@ const commands: CommandsModule = {
                         });
                 });
             })
-            .catch((error) => {
-                logger.error("could not start a simulator.");
+            .catch(() => {
+                console.error("ERROR: could not start a simulator.");
+                process.exit(1);
             });
     },
 
     buildApp(skipObfuscation: boolean = false): void {
         if (!fs.existsSync("./package.bon")) {
-            logger.error("package.bon not found.");
-
-            return;
+            console.error("ERROR: package.bon not found.");
+            process.exit(1);
         }
 
         const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
         if (!appInfo || !appInfo.id) {
-            logger.error("package.bon is malformed.");
-
-            return;
+            console.error("ERROR: package.bon is malformed.");
+            process.exit(1);
         }
 
         buildApp(appInfo, skipObfuscation)
             .then(() => {
-                logger.info("Build completed successfully.");
+                console.log("Build completed successfully.");
             })
             .catch((error) => {
-                logger.error(`could not generate a package. ${error.message || error}`);
+                console.error(`ERROR: could not generate a package. ${error.message || error}`);
+                process.exit(1);
             });
     },
 
     cleanApp(): void {
         if (!fs.existsSync("./package.bon")) {
-            logger.error("package.bon not found.");
-
-            return;
+            console.error("ERROR: package.bon not found.");
+            process.exit(1);
         }
 
         compiler.clean("./catalogs")
             .then(() => {
-                logger.info("Build artifacts cleaned successfully.");
+                console.log("Build artifacts cleaned successfully.");
             })
             .catch((error) => {
-                logger.error(`could not clean build artifacts. ${error.message || error}`);
+                console.error(`ERROR: could not clean build artifacts. ${error.message || error}`);
+                process.exit(1);
             });
     },
 
     installApp(platform: Platform): void {
         if (!fs.existsSync("./package.bon")) {
-            console.log("ERROR: package.bon not found.");
-
-            return;
+            console.error("ERROR: package.bon not found.");
+            process.exit(1);
         }
 
         const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
         if (!appInfo || !appInfo.id) {
-            console.log("ERROR: package.bon is malformed.");
-
-            return;
+            console.error("ERROR: package.bon is malformed.");
+            process.exit(1);
         }
 
         buildApp(appInfo)
@@ -564,23 +559,22 @@ const commands: CommandsModule = {
                 installer.install(platform, jamPath);
             })
             .catch((error) => {
-                console.log(`ERROR: could not generate a package. ${error.message || error}`);
+                console.error(`ERROR: could not generate a package. ${error.message || error}`);
+                process.exit(1);
             });
     },
 
     publishApp(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void {
         if (!options.fileUrl && !fs.existsSync("./package.bon")) {
-            console.log("ERROR: package.bon not found.");
-
-            return;
+            console.error("ERROR: package.bon not found.");
+            process.exit(1);
         }
 
         const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
         if (!options.fileUrl && (!appInfo || !appInfo.id)) {
-            console.log("ERROR: package.bon is malformed.");
-
-            return;
+            console.error("ERROR: package.bon is malformed.");
+            process.exit(1);
         }
 
         if (options.language && appInfo.localization) {
@@ -624,15 +618,15 @@ const commands: CommandsModule = {
                 }
             })
             .catch((error) => {
-                console.log(`ERROR: could not publish app. ${error.message || error}`);
+                console.error(`ERROR: could not publish app. ${error.message || error}`);
+                process.exit(1);
             });
     },
 
     createBook(directory: string, options: CreateOptions): void {
         if (fs.existsSync(path.join(directory, "book.bon"))) {
-            console.log("ERROR: directory already exists.");
-
-            return;
+            console.error("ERROR: directory already exists.");
+            process.exit(1);
         }
 
         scaffold.generate("book", directory, options)
@@ -644,16 +638,16 @@ const commands: CommandsModule = {
 
                 fs.writeFileSync(bonPath, bon.stringify(bookInfo) || "");
             })
-            .catch((error) => {
-                console.log("ERROR: template may not exists.");
+            .catch(() => {
+                console.error("ERROR: template may not exists.");
+                process.exit(1);
             });
     },
 
     runBook(platform: Platform, shellOptions: ShellOptions, options: RunOptions): void {
         if (!fs.existsSync("./book.bon")) {
-            console.log("ERROR: book.bon not found.");
-
-            return;
+            console.error("ERROR: book.bon not found.");
+            process.exit(1);
         }
 
         simulator.start(platform, shellOptions.port)
@@ -678,16 +672,16 @@ const commands: CommandsModule = {
                         });
                     });
         })
-        .catch((error) => {
-            console.log("ERROR: could not start a simulator.");
+        .catch(() => {
+            console.error("ERROR: could not start a simulator.");
+            process.exit(1);
         });
     },
 
     buildBook(): void {
         if (!fs.existsSync("./book.bon")) {
-            console.log("ERROR: book.bon not found.");
-
-            return;
+            console.error("ERROR: book.bon not found.");
+            process.exit(1);
         }
 
         buildBook()
@@ -695,15 +689,15 @@ const commands: CommandsModule = {
                 console.log("Build completed successfully.");
             })
             .catch((error) => {
-                console.log(`ERROR: could not generate a package. ${error.message || error}`);
+                console.error(`ERROR: could not generate a package. ${error.message || error}`);
+                process.exit(1);
             });
     },
 
     cleanBook(): void {
         if (!fs.existsSync("./book.bon")) {
-            console.log("ERROR: book.bon not found.");
-
-            return;
+            console.error("ERROR: book.bon not found.");
+            process.exit(1);
         }
 
         compiler.clean(".")
@@ -711,15 +705,15 @@ const commands: CommandsModule = {
                 console.log("Build artifacts cleaned successfully.");
             })
             .catch((error) => {
-                console.log(`ERROR: could not clean build artifacts. ${error.message || error}`);
+                console.error(`ERROR: could not clean build artifacts. ${error.message || error}`);
+                process.exit(1);
             });
     },
 
     installBook(platform: Platform): void {
         if (!fs.existsSync("./book.bon")) {
-            console.log("ERROR: book.bon not found.");
-
-            return;
+            console.error("ERROR: book.bon not found.");
+            process.exit(1);
         }
 
         buildBook()
@@ -728,23 +722,22 @@ const commands: CommandsModule = {
                 console.log(`Book package ready: ${bxpPath}`);
             })
             .catch((error) => {
-                console.log(`ERROR: could not generate a package. ${error.message || error}`);
+                console.error(`ERROR: could not generate a package. ${error.message || error}`);
+                process.exit(1);
             });
     },
 
     publishBook(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void {
         if (!options.fileUrl && !fs.existsSync("./book.bon")) {
-            console.log("ERROR: book.bon not found.");
-
-            return;
+            console.error("ERROR: book.bon not found.");
+            process.exit(1);
         }
 
         const bookInfo = bon.parse(fs.readFileSync("./book.bon", "utf8")) as BookInfo;
 
         if (!options.fileUrl && !bookInfo) {
-            console.log("ERROR: book.bon is malformed.");
-
-            return;
+            console.error("ERROR: book.bon is malformed.");
+            process.exit(1);
         }
 
         buildBook()
@@ -780,49 +773,57 @@ const commands: CommandsModule = {
                 }
             })
             .catch((error) => {
-                console.log(`ERROR: could not publish book. ${error.message || error}`);
+                console.error(`ERROR: could not publish book. ${error.message || error}`);
+                process.exit(1);
             });
     },
 
     openUrl(platform: Platform, url: string): void {
         if (!simulator.openUrl(platform, url)) {
-            console.log(`ERROR: Failed to open the url: ${url}`);
+            console.error(`ERROR: Failed to open the url: ${url}`);
+            process.exit(1);
         }
     },
 
     generateDatabase(target: string, store: string, spreadsheetPath: string): void {
+        if (!fs.existsSync("./package.bon")) {
+            console.error("ERROR: package.bon not found.");
+            process.exit(1);
+        }
+
         const data = catalog.loadFromSpreadsheet(spreadsheetPath, store);
         const baseDir = path.join("catalogs", target);
 
         catalog.saveToFile(data[0], path.join(baseDir, "catalog.bon"));
         catalog.saveToDatabase(data[0], data[1], path.join(baseDir, "catalog.sqlite"));
+
+        console.log("Database generation completed successfully.");
     },
 
     migrateStyle(): void {
         if (!fs.existsSync("./package.bon")) {
-            console.log("ERROR: package.bon not found.");
-
-            return;
+            console.error("ERROR: package.bon not found.");
+            process.exit(1);
         }
 
-        const baseDir = "catalogs";
-
-        glob(baseDir + "/**/*.sbss", {})
+        glob("catalogs" + "/**/*.sbss", {})
             .then((files) => {
                 files.forEach((file) => {
                     style.migrate(file);
                 });
+
+                console.log("Style migration completed successfully.");
             })
-            .catch((error) => {
-                console.log("ERROR: could not find style files.");
+            .catch(() => {
+                console.error("ERROR: could not find style files.");
+                process.exit(1);
             });
     },
 
     composeNative(nativePath: string, platforms: Platform[]): void {
         if (!fs.existsSync("./package.bon")) {
-            console.log("ERROR: package.bon not found.");
-
-            return;
+            console.error("ERROR: package.bon not found.");
+            process.exit(1);
         }
 
         const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
@@ -830,15 +831,23 @@ const commands: CommandsModule = {
         platforms.forEach((platform) => {
             native.compose(nativePath, platform, appInfo);
         });
+
+        console.log("Native code composition completed successfully.");
     },
 
     checkTypes(): void {
-        compiler.typecheck("./catalogs")
+        if (!fs.existsSync("./package.bon")) {
+            console.error("ERROR: package.bon not found.");
+            process.exit(1);
+        }
+
+        compiler.typecheck("catalogs")
             .then(() => {
-                logger.info("Type checking completed successfully.");
+                console.log("Type checking completed successfully.");
             })
             .catch((error) => {
-                logger.error(`type checking failed. ${error.message || error}`);
+                console.error(`ERROR: type checking failed. ${error.message || error}`);
+                process.exit(1);
             });
     }
 };

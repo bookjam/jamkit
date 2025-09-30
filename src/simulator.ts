@@ -24,7 +24,7 @@ interface AndroidManifest {
 
 abstract class SimulatorBase {
     abstract start(port?: number): Promise<string>;
-    abstract openUrl(url: string): boolean | void;
+    abstract openUrl(url: string): boolean;
 }
 
 class IOSSimulator extends SimulatorBase {
@@ -44,8 +44,12 @@ class IOSSimulator extends SimulatorBase {
         });
     }
 
-    openUrl(_url: string): void {
-        // iOS URL opening implementation
+    openUrl(url: string): boolean {
+        if (simctl.openUrl("booted", url)) {
+            return true;
+        }
+
+        return false;
     }
 
     private _startDevice(): boolean {
@@ -334,7 +338,7 @@ class SimulatorFactory {
 
 interface SimulatorModule {
     start(platform: Platform, port?: number): Promise<string>;
-    openUrl(platform: Platform, url: string): boolean | void;
+    openUrl(platform: Platform, url: string): boolean;
 }
 
 const simulator: SimulatorModule = {
@@ -343,7 +347,7 @@ const simulator: SimulatorModule = {
         return simulatorImpl.start(port);
     },
 
-    openUrl(platform: Platform, url: string): boolean | void {
+    openUrl(platform: Platform, url: string): boolean {
         const simulatorImpl = SimulatorFactory.create(platform);
         return simulatorImpl.openUrl(url);
     }

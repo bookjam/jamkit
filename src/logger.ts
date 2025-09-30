@@ -17,11 +17,11 @@ const logger: LoggerModule = {
     },
 
     error(message: string): void {
-        console.error(`${COLORS.red}ERROR: ${message}${COLORS.reset}`);
+        console.error(`${COLORS.red}${message}${COLORS.reset}`);
     },
 
     warn(message: string): void {
-        console.warn(`${COLORS.yellow}WARNING: ${message}${COLORS.reset}`);
+        console.warn(`${COLORS.yellow}${message}${COLORS.reset}`);
     },
 
     info(message: string): void {
