@@ -369,6 +369,7 @@ interface CommandsModule {
     generateDatabase(target: string, store: string, spreadsheetPath: string): void;
     migrateStyle(): void;
     composeNative(nativePath: string, platforms: Platform[]): void;
+    checkTypes(): void;
 }
 
 const commands: CommandsModule = {
@@ -827,6 +828,16 @@ const commands: CommandsModule = {
         platforms.forEach((platform) => {
             native.compose(nativePath, platform, appInfo as any);
         });
+    },
+
+    checkTypes(): void {
+        compiler.typecheck("./catalogs")
+            .then(() => {
+                console.log("Type checking completed successfully.");
+            })
+            .catch((error) => {
+                console.log(`ERROR: type checking failed. ${error.message || error}`);
+            });
     }
 };
 

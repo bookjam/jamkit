@@ -127,6 +127,7 @@ interface CompilerModule {
     start(srcDir: string, options: CompilerOptions, handler: (event: string, filePath: string) => void): void;
     build(srcDir: string, options?: CompilerOptions, outputDir?: string): Promise<void>;
     clean(srcDir: string): Promise<void>;
+    typecheck(srcDir: string): Promise<void>;
 }
 
 const compiler: CompilerModule = {
@@ -204,17 +205,18 @@ const compiler: CompilerModule = {
             ignore: [ "**/*.d.ts" ]
         });
 
-        if (tsFiles.length > 0) {
-            console.log(`Compiling ${tsFiles.length} TypeScript files...`);
-
-            for (const tsFile of tsFiles) {
-                tsCompiler.compileTsFile(tsFile, true);
-            }
-
-            console.log("TypeScript compilation complete.");
-        } else {
+        if (tsFiles.length === 0) {
             console.log("No TypeScript files found to compile.");
+            return;
         }
+
+        console.log(`Compiling ${tsFiles.length} TypeScript files...`);
+
+        for (const tsFile of tsFiles) {
+            tsCompiler.compileTsFile(tsFile, true);
+        }
+
+        console.log("TypeScript compilation complete.");
     },
 
     async clean(srcDir: string): Promise<void> {
@@ -226,15 +228,61 @@ const compiler: CompilerModule = {
             ignore: [ "**/*.d.ts" ]
         });
 
-        if (tsFiles.length > 0) {
-            console.log(`Cleaning compiled files for ${tsFiles.length} TypeScript files...`);
-
-            for (const tsFile of tsFiles) {
-                tsCompiler.removeCompiledFiles(tsFile)
-            }
-        } else {
+        if (tsFiles.length === 0) {
             console.log("No TypeScript files found to clean.");
+            return;
         }
+
+        console.log(`Cleaning compiled files for ${tsFiles.length} TypeScript files...`);
+
+        for (const tsFile of tsFiles) {
+            tsCompiler.removeCompiledFiles(tsFile)
+        }
+    },
+
+    async typecheck(srcDir: string): Promise<void> {
+        const glob = await import("glob");
+        const pattern = path.join(srcDir, "**/*.ts");
+        const tsFiles = await glob.glob(pattern, {
+            ignore: [ "**/*.d.ts" ]
+        });
+
+        if (tsFiles.length === 0) {
+            console.log("No TypeScript files found to check.");
+            return;
+        }
+
+        console.log(`Type checking ${tsFiles.length} TypeScript files...`);
+
+        const compilerOptions: ts.CompilerOptions = {
+            target: ts.ScriptTarget.ES2020,
+            module: ts.ModuleKind.CommonJS,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            moduleResolution: ts.ModuleResolutionKind.Node10,
+            noEmit: true
+        };
+
+        const host = ts.createCompilerHost(compilerOptions);
+        const program = ts.createProgram(tsFiles, compilerOptions, host);
+        const diagnostics = ts.getPreEmitDiagnostics(program);
+
+        if (diagnostics.length > 0) {
+            diagnostics.forEach(diagnostic => {
+                if (diagnostic.file) {
+                    const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!);
+                    const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
+                    console.error(`${diagnostic.file.fileName}(${line + 1},${character + 1}): ${message}`);
+                } else {
+                    console.error(ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"));
+                }
+            });
+
+            throw new Error(`Found ${diagnostics.length} type error(s)`);
+        }
+
+        console.log("No type errors found.");
     }
 };
 

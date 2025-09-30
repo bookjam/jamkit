@@ -333,4 +333,18 @@ nativeCommand.command("compose")
         commands.composeNative(nativePath, platforms);
     });
 
+
+const typeCommand = program.command("type")
+    .description("Manage TypeScript types.")
+    .on("command:*", ([ command ]: string[]) => {
+        typeCommand.addHelpText("after", "\n" + "Command not found: " + command);
+        typeCommand.help();
+    });
+
+typeCommand.command("check")
+    .description("Check TypeScript type errors.")
+    .action(() => {
+        commands.checkTypes();
+    });
+
 program.parse();
