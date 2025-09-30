@@ -22,6 +22,7 @@ import style from "./style.js";
 import native from "./native.js";
 import leafly from "./leafly.js";
 import utils from "./utils.js";
+import logger from "./logger.js";
 
 // Type definitions
 interface AppInfo {
@@ -375,7 +376,7 @@ interface CommandsModule {
 const commands: CommandsModule = {
     createApp(directory: string, options: CreateOptions): void {
         if (fs.existsSync(path.join(directory, "package.bon"))) {
-            console.log("ERROR: directory already exists.");
+            logger.error("directory already exists.");
 
             return;
         }
@@ -391,13 +392,13 @@ const commands: CommandsModule = {
                 fs.writeFileSync(bonPath, bon.stringify(appInfo) || "");
             })
             .catch((error) => {
-                console.log("ERROR: template may not exists.");
+                logger.error("template may not exists.");
             });
     },
 
     runApp(platform: Platform, mode: Mode, shellOptions: ShellOptions, options: RunOptions): void {
         if (!fs.existsSync("./package.bon")) {
-            console.log("ERROR: package.bon not found.");
+            logger.error("package.bon not found.");
 
             return;
         }
@@ -405,7 +406,7 @@ const commands: CommandsModule = {
         const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
         if (!appInfo || !appInfo["id"]) {
-            console.log("ERROR: package.bon is malformed.");
+            logger.error("package.bon is malformed.");
 
             return;
         }
@@ -498,13 +499,13 @@ const commands: CommandsModule = {
                 });
             })
             .catch((error) => {
-                console.log("ERROR: could not start a simulator.");
+                logger.error("could not start a simulator.");
             });
     },
 
     buildApp(skipObfuscation: boolean = false): void {
         if (!fs.existsSync("./package.bon")) {
-            console.log("ERROR: package.bon not found.");
+            logger.error("package.bon not found.");
 
             return;
         }
@@ -512,33 +513,33 @@ const commands: CommandsModule = {
         const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
         if (!appInfo || !appInfo["id"]) {
-            console.log("ERROR: package.bon is malformed.");
+            logger.error("package.bon is malformed.");
 
             return;
         }
 
         buildApp(appInfo, skipObfuscation)
             .then(() => {
-                console.log("Build completed successfully.");
+                logger.info("Build completed successfully.");
             })
             .catch((error) => {
-                console.log(`ERROR: could not generate a package. ${error.message || error}`);
+                logger.error(`could not generate a package. ${error.message || error}`);
             });
     },
 
     cleanApp(): void {
         if (!fs.existsSync("./package.bon")) {
-            console.log("ERROR: package.bon not found.");
+            logger.error("package.bon not found.");
 
             return;
         }
 
         compiler.clean("./catalogs")
             .then(() => {
-                console.log("Build artifacts cleaned successfully.");
+                logger.info("Build artifacts cleaned successfully.");
             })
             .catch((error) => {
-                console.log(`ERROR: could not clean build artifacts. ${error.message || error}`);
+                logger.error(`could not clean build artifacts. ${error.message || error}`);
             });
     },
 
@@ -833,10 +834,10 @@ const commands: CommandsModule = {
     checkTypes(): void {
         compiler.typecheck("./catalogs")
             .then(() => {
-                console.log("Type checking completed successfully.");
+                logger.info("Type checking completed successfully.");
             })
             .catch((error) => {
-                console.log(`ERROR: type checking failed. ${error.message || error}`);
+                logger.error(`type checking failed. ${error.message || error}`);
             });
     }
 };

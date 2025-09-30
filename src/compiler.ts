@@ -2,6 +2,7 @@ import chokidar from "chokidar";
 import path from "path";
 import fs from "fs-extra";
 import * as ts from "typescript";
+import logger from "./logger.js";
 
 interface CompilerOptions {
     target?: ts.ScriptTarget;
@@ -52,15 +53,15 @@ class TypeScriptCompiler {
         const diagnostics = ts.getPreEmitDiagnostics(program);
 
         if (diagnostics.length > 0) {
-            console.warn(`Compilation failed for ${tsFilePath}:`);
+            logger.warn(`Compilation failed for ${tsFilePath}:`);
 
             diagnostics.forEach(diagnostic => {
                 if (diagnostic.file) {
                     const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!);
                     const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
-                    console.warn(`  Line ${line + 1}, Column ${character + 1}: ${message}`);
+                    logger.warn(`  Line ${line + 1}, Column ${character + 1}: ${message}`);
                 } else {
-                    console.warn(`  ${ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")}`);
+                    logger.warn(`  ${ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")}`);
                 }
             });
 
@@ -80,7 +81,7 @@ class TypeScriptCompiler {
             fs.writeFileSync(`${jsOutputPath}.map`, result.sourceMapText);
         }
 
-        console.log(`Compiled: ${this._getDisplayPath(tsFilePath, this.basePath)} -> ${this._getDisplayPath(jsOutputPath, this.outputDir || this.basePath)}`);
+        logger.info(`Compiled: ${this._getDisplayPath(tsFilePath, this.basePath)} -> ${this._getDisplayPath(jsOutputPath, this.outputDir || this.basePath)}`);
 
         return jsOutputPath;
     }
@@ -93,13 +94,13 @@ class TypeScriptCompiler {
 
         if (fs.existsSync(jsOutputPath)) {
             fs.removeSync(jsOutputPath);
-            console.log(`Removed: ${this._getDisplayPath(jsOutputPath, this.outputDir || this.basePath)}`);
+            logger.info(`Removed: ${this._getDisplayPath(jsOutputPath, this.outputDir || this.basePath)}`);
             removedFiles.push(jsOutputPath);
         }
 
         if (fs.existsSync(mapPath)) {
             fs.removeSync(mapPath);
-            console.log(`Removed: ${this._getDisplayPath(mapPath, this.outputDir || this.basePath)}`);
+            logger.info(`Removed: ${this._getDisplayPath(mapPath, this.outputDir || this.basePath)}`);
             removedFiles.push(mapPath);
         }
 
@@ -116,9 +117,9 @@ class TypeScriptCompiler {
                 if (diagnostic.file) {
                     const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!);
                     const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
-                    console.error(`${diagnostic.file.fileName}(${line + 1},${character + 1}): ${message}`);
+                    logger.error(`${diagnostic.file.fileName}(${line + 1},${character + 1}): ${message}`);
                 } else {
-                    console.error(ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"));
+                    logger.error(ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"));
                 }
             });
         }
@@ -175,7 +176,7 @@ const compiler: CompilerModule = {
                 });
 
                 if (tsFiles.length > 0) {
-                    console.log(`Compiling TypeScript files...`);
+                    logger.info(`Compiling TypeScript files...`);
 
                     for (const tsFile of tsFiles) {
                         const jsOutputPath = tsCompiler.compileTsFile(tsFile, false);
@@ -185,7 +186,7 @@ const compiler: CompilerModule = {
                         }
                     }
 
-                    console.log("Initial TypeScript compilation complete.");
+                    logger.info("Initial TypeScript compilation complete.");
                 }
 
                 handler("ready", srcDir);
@@ -212,7 +213,7 @@ const compiler: CompilerModule = {
                 }
             })
             .on("error", (error) => {
-                console.error("TypeScript Watcher error:", error);
+                logger.error(`TypeScript Watcher error: ${error}`);
             });
     },
 
@@ -226,17 +227,17 @@ const compiler: CompilerModule = {
         });
 
         if (tsFiles.length === 0) {
-            console.log("No TypeScript files found to compile.");
+            logger.info("No TypeScript files found to compile.");
             return;
         }
 
-        console.log(`Compiling ${tsFiles.length} TypeScript files...`);
+        logger.info(`Compiling ${tsFiles.length} TypeScript files...`);
 
         for (const tsFile of tsFiles) {
             tsCompiler.compileTsFile(tsFile, true);
         }
 
-        console.log("TypeScript compilation complete.");
+        logger.info("TypeScript compilation complete.");
     },
 
     async clean(srcDir: string): Promise<void> {
@@ -249,11 +250,11 @@ const compiler: CompilerModule = {
         });
 
         if (tsFiles.length === 0) {
-            console.log("No TypeScript files found to clean.");
+            logger.info("No TypeScript files found to clean.");
             return;
         }
 
-        console.log(`Cleaning compiled files for ${tsFiles.length} TypeScript files...`);
+        logger.info(`Cleaning compiled files for ${tsFiles.length} TypeScript files...`);
 
         for (const tsFile of tsFiles) {
             tsCompiler.removeCompiledFiles(tsFile)
@@ -270,11 +271,11 @@ const compiler: CompilerModule = {
         });
 
         if (tsFiles.length === 0) {
-            console.log("No TypeScript files found to check.");
+            logger.info("No TypeScript files found to check.");
             return;
         }
 
-        console.log(`Type checking ${tsFiles.length} TypeScript files...`);
+        logger.info(`Type checking ${tsFiles.length} TypeScript files...`);
 
         const errorCount = tsCompiler.typecheckTsFiles(tsFiles);
 
@@ -282,7 +283,7 @@ const compiler: CompilerModule = {
             throw new Error(`Found ${errorCount} type error(s)`);
         }
 
-        console.log("No type errors found.");
+        logger.info("No type errors found.");
     }
 };
 
