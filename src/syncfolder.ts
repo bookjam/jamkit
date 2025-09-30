@@ -6,13 +6,13 @@ import avdctl from "./avdctl-helper.js";
 type Platform = "ios" | "android";
 type SyncOptions = { skipSync?: boolean };
 
-abstract class FileHandler {
+abstract class FileHandlerBase {
     abstract sync(appId: string, src: string, dest: string): void;
     abstract copy(appId: string, src: string, dest: string): void;
     abstract remove(appId: string, path: string): void;
 }
 
-class IOSFileHandler extends FileHandler {
+class IOSFileHandler extends FileHandlerBase {
     sync(_appId: string, srcDir: string, destDir: string): void {
         if (fs.existsSync(destDir)) {
             fs.removeSync(destDir);
@@ -38,7 +38,7 @@ class IOSFileHandler extends FileHandler {
     }
 }
 
-class AndroidFileHandler extends FileHandler {
+class AndroidFileHandler extends FileHandlerBase {
     sync(appId: string, srcDir: string, destDir: string): void {
         const tmpRoot = "/data/local/tmp/jamkit";
 
@@ -79,9 +79,9 @@ class AndroidFileHandler extends FileHandler {
 }
 
 class FileHandlerFactory {
-    private static instances: Map<Platform, FileHandler> = new Map();
+    private static instances: Map<Platform, FileHandlerBase> = new Map();
 
-    static create(platform: Platform): FileHandler {
+    static create(platform: Platform): FileHandlerBase {
         if (!this.instances.has(platform)) {
             switch (platform) {
                 case "ios":

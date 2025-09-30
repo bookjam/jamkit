@@ -3,17 +3,17 @@ import avdctl from "./avdctl-helper.js";
 
 type Platform = "ios" | "android";
 
-abstract class Installer {
+abstract class InstallerBase {
     abstract install(file: string): void;
 }
 
-class IOSInstaller extends Installer {
+class IOSInstaller extends InstallerBase {
     install(_file: string): void {
         // iOS installation implementation (currently empty)
     }
 }
 
-class AndroidInstaller extends Installer {
+class AndroidInstaller extends InstallerBase {
     install(file: string): void {
         const tmpRoot = "/data/local/tmp";
         const tmpPath = `${tmpRoot}/${path.basename(file)}`;
@@ -25,9 +25,9 @@ class AndroidInstaller extends Installer {
 }
 
 class InstallerFactory {
-    private static instances: Map<Platform, Installer> = new Map();
+    private static instances: Map<Platform, InstallerBase> = new Map();
 
-    static create(platform: Platform): Installer {
+    static create(platform: Platform): InstallerBase {
         if (!this.instances.has(platform)) {
             switch (platform) {
                 case "ios":
