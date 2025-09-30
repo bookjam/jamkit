@@ -259,6 +259,8 @@ const compiler: CompilerModule = {
         for (const tsFile of tsFiles) {
             tsCompiler.removeCompiledFiles(tsFile)
         }
+
+        logger.info("Cleanup complete.");
     },
 
     async typecheck(srcDir: string): Promise<void> {
@@ -280,7 +282,7 @@ const compiler: CompilerModule = {
         const errorCount = tsCompiler.typecheckTsFiles(tsFiles);
 
         if (errorCount > 0) {
-            throw new Error(`Found ${errorCount} type error(s)`);
+            throw logger.error(`Found ${errorCount} type error(s)`);
         }
 
         logger.info("No type errors found.");

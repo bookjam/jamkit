@@ -691,11 +691,7 @@ const commands: CommandsModule = {
             process.exit(1);
         }
 
-        compiler.clean(".")
-            .catch((error) => {
-                console.error(`ERROR: could not clean build artifacts. ${error.message || error}`);
-                process.exit(1);
-            });
+        compiler.clean(".");
     },
 
     installBook(platform: Platform): void {
@@ -797,10 +793,6 @@ const commands: CommandsModule = {
                 files.forEach((file) => {
                     style.migrate(file);
                 });
-            })
-            .catch((error) => {
-                console.error(`ERROR: failed to search for style files. ${error.message || error}`);
-                process.exit(1);
             });
     },
 
@@ -823,11 +815,7 @@ const commands: CommandsModule = {
             process.exit(1);
         }
 
-        compiler.typecheck("catalogs")
-            .catch((error) => {
-                console.error(`ERROR: type checking failed. ${error.message || error}`);
-                process.exit(1);
-            });
+        compiler.typecheck("catalogs");
     }
 };
 
