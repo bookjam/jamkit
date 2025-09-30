@@ -4,7 +4,7 @@ import fs from "fs-extra";
 import avdctl from "./avdctl-helper.js";
 
 type Platform = "ios" | "android";
-type SyncOptions = { "skip-sync"?: boolean };
+type SyncOptions = { skipSync?: boolean };
 
 interface PlatformImplementation {
     sync(appId: string, src: string, dest: string): void;
@@ -97,7 +97,7 @@ const syncfolder: SyncFolderModule = {
 
         watcher
             .on("ready", () => {
-                if (!options["skip-sync"]) {
+                if (!options.skipSync) {
                     _impl[platform].sync(appId, srcDir, destDir);
                 }
 

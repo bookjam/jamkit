@@ -49,7 +49,7 @@ interface ShellOptions {
 }
 
 interface CreateOptions {
-    "app-id": string;
+    appId: string;
     version: string;
     template?: string;
     repository?: string;
@@ -58,10 +58,10 @@ interface CreateOptions {
 }
 
 interface PublishOptions {
-    "file-url"?: string;
-    "image-url"?: string;
-    "image-file"?: string;
-    "shorten-url"?: boolean;
+    fileUrl?: string;
+    imageUrl?: string;
+    imageFile?: string;
+    shortenUrl?: boolean;
     title?: string;
     language?: string;
 }
@@ -92,6 +92,7 @@ interface IpfsOptions {
 }
 
 interface RunOptions {
+    skipSync?: boolean;
     [key: string]: any;
 }
 
@@ -253,13 +254,13 @@ const buildApp = (appInfo: AppInfo, skipObfuscation: boolean = false): Promise<s
 };
 
 const publishApp = (jamPath: string, options: PublishOptions, ipfsOptions: IpfsOptions): Promise<string> => {
-    if (!options["file-url"]) {
+    if (!options.fileUrl) {
         return publishFileToIpfs(jamPath, ipfsOptions)
             .then((hash: string) => {
                 return `ipfs://hash/${hash}`;
             });
     } else {
-        return Promise.resolve(options["file-url"]);
+        return Promise.resolve(options.fileUrl);
     }
 }
 
@@ -302,20 +303,20 @@ const buildBook = (): Promise<string> => {
 };
 
 const publishBook = (bxpPath: string, options: PublishOptions, ipfsOptions: IpfsOptions): Promise<string> => {
-    if (!options["file-url"]) {
+    if (!options.fileUrl) {
         return publishFileToIpfs(bxpPath, ipfsOptions)
             .then((hash: string) => {
                 return "ipfs://hash/" + hash;
             });
     } else {
-        return Promise.resolve(options["file-url"])
+        return Promise.resolve(options.fileUrl)
     }
 }
 
 const publishImage = (options: PublishOptions, ipfsOptions: IpfsOptions): Promise<string | void> => {
-    if (!options["image-url"]) {
-        if (options["image-file"]) {
-            return publishFileToIpfs(options["image-file"], ipfsOptions)
+    if (!options.imageUrl) {
+        if (options.imageFile) {
+            return publishFileToIpfs(options.imageFile, ipfsOptions)
                 .then((hash: string) => {
                     return `https://ipfs.io/ipfs/${hash}`;
                 });
@@ -323,7 +324,7 @@ const publishImage = (options: PublishOptions, ipfsOptions: IpfsOptions): Promis
             return Promise.resolve();
         }
     } else {
-        return Promise.resolve(options["image-url"]);
+        return Promise.resolve(options.imageUrl);
     }
 }
 
@@ -383,7 +384,7 @@ const commands: CommandsModule = {
                 const bonPath = path.resolve(directory, "package.bon");
                 const appInfo = bon.parse(fs.readFileSync(bonPath, "utf8")) as AppInfo;
 
-                appInfo["id"] = generateAppId(options["app-id"], appInfo["id"]);
+                appInfo["id"] = generateAppId(options.appId, appInfo["id"]);
                 appInfo["version"] = options["version"];
 
                 fs.writeFileSync(bonPath, bon.stringify(appInfo) || "");
@@ -565,7 +566,7 @@ const commands: CommandsModule = {
     },
 
     publishApp(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void {
-        if (!options["file-url"] && !fs.existsSync("./package.bon")) {
+        if (!options.fileUrl && !fs.existsSync("./package.bon")) {
             console.log("ERROR: package.bon not found.");
 
             return;
@@ -573,7 +574,7 @@ const commands: CommandsModule = {
 
         const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
 
-        if (!options["file-url"] && (!appInfo || !appInfo.id)) {
+        if (!options.fileUrl && (!appInfo || !appInfo.id)) {
             console.log("ERROR: package.bon is malformed.");
 
             return;
@@ -609,7 +610,7 @@ const commands: CommandsModule = {
                     }
                 });
 
-                if (options["shorten-url"]) {
+                if (options.shortenUrl) {
                     shortenUrl(url, (url) => {
                         qrcode.generate(url);
                         console.log(url);
@@ -729,7 +730,7 @@ const commands: CommandsModule = {
     },
 
     publishBook(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void {
-        if (!options["file-url"] && !fs.existsSync("./book.bon")) {
+        if (!options.fileUrl && !fs.existsSync("./book.bon")) {
             console.log("ERROR: book.bon not found.");
 
             return;
@@ -737,7 +738,7 @@ const commands: CommandsModule = {
 
         const bookInfo = bon.parse(fs.readFileSync("./book.bon", "utf8")) as BookInfo;
 
-        if (!options["file-url"] && !bookInfo) {
+        if (!options.fileUrl && !bookInfo) {
             console.log("ERROR: book.bon is malformed.");
 
             return;
@@ -765,7 +766,7 @@ const commands: CommandsModule = {
                     }
                 });
 
-                if (options["shorten-url"]) {
+                if (options.shortenUrl) {
                     shortenUrl(url, (url) => {
                         qrcode.generate(url);
                         console.log(url);

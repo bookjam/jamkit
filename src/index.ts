@@ -88,12 +88,12 @@ program.command("create")
     .action((directory: string, options: CreateOptions) => {
         if (options.type === "app") {
             commands.createApp(directory, {
-                "app-id":     options.appId,
-                "version":    options.version,
-                "template":   options.template,
-                "repository": options.repository,
-                "language":   options.language,
-                "theme":      options.theme
+                appId:     options.appId,
+                version:    options.version,
+                template:   options.template,
+                repository: options.repository,
+                language:   options.language,
+                theme:      options.theme
             });
 
             return;
@@ -101,12 +101,12 @@ program.command("create")
 
         if (options.type === "book") {
             commands.createBook(directory, {
-                "app-id":     "auto",
-                "version":    options.version,
-                "template":   options.template,
-                "repository": options.repository,
-                "language":   options.language,
-                "theme":      options.theme
+                appId:     "auto",
+                version:    options.version,
+                template:   options.template,
+                repository: options.repository,
+                language:   options.language,
+                theme:      options.theme
             });
 
             return;
@@ -126,10 +126,10 @@ program.command("run")
     .action((options: RunOptions) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
             commands.runApp(options.platform, options.mode as "jam" | "widget" | "main", {
-                "host": options.shellHost,
-                "port": parseInt(options.shellPort)
+                host: options.shellHost,
+                port: parseInt(options.shellPort)
             }, {
-                "skip-sync": options.skipSync
+                skipSync: options.skipSync
             });
 
             return;
@@ -137,10 +137,10 @@ program.command("run")
 
         if ((options.type === "auto" && fs.existsSync("./book.bon")) || options.type === "book") {
             commands.runBook(options.platform, {
-                "host": options.shellHost,
-                "port": parseInt(options.shellPort)
+                host: options.shellHost,
+                port: parseInt(options.shellPort)
             }, {
-                "skip-sync": options.skipSync
+                skipSync: options.skipSync
             });
 
             return;
@@ -227,22 +227,22 @@ program.command("publish")
     .action((options: PublishOptions) => {
         if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
             commands.publishApp({
-                "scheme": options.hostScheme,
-                "url": options.hostUrl
+                scheme: options.hostScheme,
+                url: options.hostUrl
             }, {
-                "title": options.title,
-                "file-url": options.fileUrl,
-                "image-url": options.imageUrl,
-                "image-file": options.imageFile,
-                "language": options.language,
-                "shorten-url": options.shortenUrl
+                title: options.title,
+                fileUrl: options.fileUrl,
+                imageUrl: options.imageUrl,
+                imageFile: options.imageFile,
+                language: options.language,
+                shortenUrl: options.shortenUrl
             }, {
-                "host": options.ipfsHost,
-                "port": options.ipfsPort,
-                "protocol": options.ipfsProtocol
+                host: options.ipfsHost,
+                port: options.ipfsPort,
+                protocol: options.ipfsProtocol
             }, {
-                "apple": options.appleInstallUrl,
-                "google": options.googleInstallUrl
+                apple: options.appleInstallUrl,
+                google: options.googleInstallUrl
             });
 
             return;
@@ -250,21 +250,21 @@ program.command("publish")
 
         if ((options.type === "auto" && fs.existsSync("./book.bon")) || options.type === "book") {
             commands.publishBook({
-                "scheme": options.hostScheme,
-                "url": options.hostUrl
+                scheme: options.hostScheme,
+                url: options.hostUrl
             }, {
-                "title": options.title,
-                "file-url": options.fileUrl,
-                "image-url": options.imageUrl,
-                "image-file": options.imageFile,
-                "shorten-url": options.shortenUrl
+                title: options.title,
+                fileUrl: options.fileUrl,
+                imageUrl: options.imageUrl,
+                imageFile: options.imageFile,
+                shortenUrl: options.shortenUrl
             }, {
-                "host": options.ipfsHost,
-                "port": options.ipfsPort,
-                "protocol": options.ipfsProtocol
+                host: options.ipfsHost,
+                port: options.ipfsPort,
+                protocol: options.ipfsProtocol
             }, {
-                "apple": options.appleInstallUrl,
-                "google": options.googleInstallUrl
+                apple: options.appleInstallUrl,
+                google: options.googleInstallUrl
             });
 
             return;
