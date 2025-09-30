@@ -1,5 +1,12 @@
 // Logger module for consistent output formatting
 
+// ANSI color codes
+const colors = {
+    reset: '\x1b[0m',
+    red: '\x1b[31m',
+    yellow: '\x1b[33m'
+};
+
 interface LoggerModule {
     log(message: string): void;
     error(message: string): void;
@@ -13,11 +20,11 @@ const logger: LoggerModule = {
     },
 
     error(message: string): void {
-        console.error(`ERROR: ${message}`);
+        console.error(`${colors.red}ERROR: ${message}${colors.reset}`);
     },
 
     warn(message: string): void {
-        console.warn(`WARNING: ${message}`);
+        console.warn(`${colors.yellow}WARNING: ${message}${colors.reset}`);
     },
 
     info(message: string): void {
