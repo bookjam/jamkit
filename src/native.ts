@@ -1,10 +1,9 @@
 import path from "path";
 import fs from "fs-extra";
-import xcode from "xcode";
+import xcode, { XcodeProject } from "xcode";
 
 import { XMLParser } from "fast-xml-parser";
 import { globSync } from "glob";
-import walkSync from "walk-sync";
 
 type Platform = "ios" | "android";
 
@@ -13,46 +12,6 @@ interface AppInfo {
     title: string;
     localization?: { [language: string]: { title?: string } };
 }
-
-interface XcodeProject {
-    filepath: string;
-    productName: string;
-    parseSync(): XcodeProject;
-    getBuildProperty(key: string, config: string): string;
-    updateBuildProperty(key: string, value: string): void;
-    updateProductName(name: string): void;
-    writeSync(): string;
-}
-
-const _getAppTitle = (appInfo: AppInfo, language?: string): string => {
-    if (language) {
-        const localization = appInfo.localization || {};
-        const localizedAppInfo = localization[language] || {};
-
-        if (localizedAppInfo.title) {
-            return localizedAppInfo.title;
-        }
-    }
-
-    return appInfo.title;
-};
-
-const _getProjectName = (appInfo: AppInfo): string => {
-    return appInfo.id.split(".").pop()!;
-};
-
-const _getCustomUrlScheme = (appInfo: AppInfo): string => {
-    return appInfo.id.split(".").pop()!.toLowerCase();
-};
-
-const _replaceWordInFile = (filePath: string, oldWord: string, newWord: string): void => {
-    const oldText = fs.readFileSync(filePath, { encoding: "utf8" });
-    const newText = oldText.replaceAll(oldWord, newWord);
-
-    if (oldText !== newText) {
-        fs.writeFileSync(filePath, newText);
-    }
-};
 
 interface PlatformImplementation {
     compose(rootDir: string, appInfo: AppInfo, languages: string[]): void;
