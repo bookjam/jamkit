@@ -5,27 +5,27 @@ const COLORS = {
 };
 
 interface LoggerModule {
-    log(message: string): void;
-    error(message: string): void;
-    warn(message: string): void;
+    debug(message: string): void;
     info(message: string): void;
+    warn(message: string): void;
+    error(message: string): void;
 }
 
 const logger: LoggerModule = {
-    log(message: string): void {
+    debug(message: string): void {
         console.log(message);
     },
 
-    error(message: string): void {
-        console.error(`${COLORS.red}${message}${COLORS.reset}`);
+    info(message: string): void {
+        console.log(message);
     },
 
     warn(message: string): void {
         console.warn(`${COLORS.yellow}${message}${COLORS.reset}`);
     },
 
-    info(message: string): void {
-        console.log(message);
+    error(message: string): void {
+        console.error(`${COLORS.red}${message}${COLORS.reset}`);
     }
 };
 
