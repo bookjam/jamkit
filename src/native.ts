@@ -417,6 +417,7 @@ class PlatformFactory {
                 case "ios":
                     this.instances.set(platform, new IOSPlatform());
                     break;
+
                 case "android":
                     this.instances.set(platform, new AndroidPlatform());
                     break;
