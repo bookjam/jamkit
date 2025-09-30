@@ -8,7 +8,7 @@ import urlencode from "urlencode";
 import { v4 as uuid_v4 } from "uuid";
 import qrcode from "qrcode-terminal";
 
-import template from "./template.js";
+import scaffold from "./scaffold.js";
 import catalog from "./catalog.js";
 import simulator from "./simulator.js";
 import avdctl from "./avdctl.js";
@@ -381,7 +381,7 @@ const commands: CommandsModule = {
             return;
         }
 
-        template.copy("apps" as any, directory, options)
+        scaffold.generate("app", directory, options)
             .then(() => {
                 const bonPath = path.resolve(directory, "package.bon");
                 const appInfo = bon.parse(fs.readFileSync(bonPath, "utf8")) as AppInfo;
@@ -634,7 +634,7 @@ const commands: CommandsModule = {
             return;
         }
 
-        template.copy("books" as any, directory, options)
+        scaffold.generate("book", directory, options)
             .then(() => {
                 const bonPath = path.resolve(directory, "book.bon");
                 const bookInfo = bon.parse(fs.readFileSync(bonPath, "utf8")) as BookInfo;

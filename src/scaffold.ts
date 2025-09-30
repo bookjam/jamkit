@@ -2,7 +2,7 @@ import fetchRepoDir from "fetch-repo-dir";
 
 type ProjectType = "app" | "book";
 
-interface TemplateOptions {
+interface ScaffoldOptions {
     repository?: string;
     template?: string;
     language?: string;
@@ -17,12 +17,12 @@ interface FetchRepoDirConfig {
     replace: boolean;
 }
 
-interface TemplateModule {
-    copy(type: ProjectType, destdir: string, options: TemplateOptions): Promise<void>;
+interface ScaffoldModule {
+    generate(type: ProjectType, destdir: string, options: ScaffoldOptions): Promise<void>;
 }
 
-const template: TemplateModule = {
-    async copy(type: ProjectType, destdir: string, options: TemplateOptions): Promise<void> {
+const scaffold: ScaffoldModule = {
+    async generate(type: ProjectType, destdir: string, options: ScaffoldOptions): Promise<void> {
         const repository = options.repository || "bookjam/jamkit-templates";
         const template = options.template || "hello-world";
         const language = options.language || "global";
@@ -37,4 +37,4 @@ const template: TemplateModule = {
     }
 };
 
-export default template;
+export default scaffold;
