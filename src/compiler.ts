@@ -112,7 +112,7 @@ class TypeScriptCompiler {
 
     typecheckTsFiles(tsFiles: string[]): number {
         const host = ts.createCompilerHost(this.compilerOptions);
-        const program = ts.createProgram([...tsFiles, ...this._getTypeFiles()], this.compilerOptions, host);
+        const program = ts.createProgram([ ...tsFiles, ...this.typeFiles ], this.compilerOptions, host);
         const diagnostics = ts.getPreEmitDiagnostics(program);
 
         if (diagnostics.length > 0) {
