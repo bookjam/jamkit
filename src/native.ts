@@ -94,8 +94,8 @@ class IOSPlatform extends PlatformBase {
     }
 
     private _replaceBundleIdentifierInProject(project: XcodeProject, oldBundleIdentifier: string, newBundleIdentifier: string): void {
-        const [, oldProductName] = this._parseBundleIdentifier(oldBundleIdentifier);
-        const [newBundleDomain, newProductName] = this._parseBundleIdentifier(newBundleIdentifier);
+        const [ , oldProductName ] = this._parseBundleIdentifier(oldBundleIdentifier);
+        const [ newBundleDomain, newProductName ] = this._parseBundleIdentifier(newBundleIdentifier);
 
         project.updateBuildProperty("PRODUCT_BUNDLE_IDENTIFIER", `"${newBundleDomain}.\${PRODUCT_NAME}"`);
         project.updateProductName(newProductName);
@@ -137,7 +137,7 @@ class IOSPlatform extends PlatformBase {
 
     private _renameProjectSources(rootDir: string, newBundleIdentifier: string): void {
         const newProductName = this._getProductName(newBundleIdentifier);
-        const [xcschemePath] = globSync(`${rootDir}/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme`);
+        const [ xcschemePath ] = globSync(`${rootDir}/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme`);
 
         if (path.basename(xcschemePath) !== `${newProductName}.xcscheme`) {
             fs.renameSync(xcschemePath, path.join(path.dirname(xcschemePath), `${newProductName}.xcscheme`));

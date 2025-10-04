@@ -55,14 +55,15 @@ class JavaScriptObfuscator {
     obfuscateFile(jsFilePath: string): boolean {
         try {
             const sourceCode = fs.readFileSync(jsFilePath, "utf-8");
+            const obfuscation = obfuscator.obfuscate(sourceCode, this.options);
+            fs.writeFileSync(jsFilePath, obfuscation.getObfuscatedCode());
 
-            const obfuscationResult = obfuscator.obfuscate(sourceCode, this.options);
-
-            fs.writeFileSync(jsFilePath, obfuscationResult.getObfuscatedCode());
             logger.debug(`Obfuscated: ${this._getDisplayPath(jsFilePath, this.basePath)}`);
+            
             return true;
         } catch (error) {
             logger.warn(`WARNING: Could not obfuscate ${this._getDisplayPath(jsFilePath, this.basePath)}: ${error}`);
+            
             return false;
         }
     }
