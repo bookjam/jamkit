@@ -15,8 +15,12 @@ class TypeScriptCompiler {
     private compilerOptions: ts.CompilerOptions;
     private basePath?: string;
     private outputDir?: string;
+    private jamkitRoot: string;
 
     constructor(options: CompilerOptions = {}, basePath?: string, outputDir?: string) {
+        // Get the jamkit CLI root directory (@types folder location)
+        this.jamkitRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+
         this.compilerOptions = {
             target: options.target || ts.ScriptTarget.ES2020,
             module: options.module || ts.ModuleKind.CommonJS,
@@ -46,10 +50,11 @@ class TypeScriptCompiler {
         }
 
         const sourceCode = fs.readFileSync(tsFilePath, "utf-8");
+        const typeFiles = this._getTypeFiles();
 
         // Create a temporary program for type checking
         const host = ts.createCompilerHost(this.compilerOptions);
-        const program = ts.createProgram([tsFilePath], this.compilerOptions, host);
+        const program = ts.createProgram([ tsFilePath, ...typeFiles ], this.compilerOptions, host);
         const diagnostics = ts.getPreEmitDiagnostics(program);
 
         if (diagnostics.length > 0) {
@@ -108,8 +113,11 @@ class TypeScriptCompiler {
     }
 
     typecheckTsFiles(tsFiles: string[]): number {
+        // Get type definition files
+        const typeFiles = this._getTypeFiles();
+
         const host = ts.createCompilerHost(this.compilerOptions);
-        const program = ts.createProgram(tsFiles, this.compilerOptions, host);
+        const program = ts.createProgram([...tsFiles, ...typeFiles], this.compilerOptions, host);
         const diagnostics = ts.getPreEmitDiagnostics(program);
 
         if (diagnostics.length > 0) {
@@ -141,6 +149,21 @@ class TypeScriptCompiler {
         }
 
         return filePath;
+    }
+
+    private _getTypeFiles(): string[] {
+        const typesDir = path.join(this.jamkitRoot, "@types");
+
+        const typeFiles: string[] = [];
+        if (fs.existsSync(typesDir)) {
+            const files = fs.readdirSync(typesDir);
+            for (const file of files) {
+                if (file.endsWith(".d.ts")) {
+                    typeFiles.push(path.join(typesDir, file));
+                }
+            }
+        }
+        return typeFiles;
     }
 }
 

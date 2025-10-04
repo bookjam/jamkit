@@ -357,6 +357,7 @@ interface CommandsModule {
     runApp(platform: Platform, mode: Mode, shellOptions: ShellOptions, options: RunOptions): void;
     buildApp(skipObfuscation?: boolean): void;
     cleanApp(): void;
+    checkTypes(): void;
     installApp(platform: Platform): void;
     publishApp(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void;
     createBook(directory: string, options: CreateOptions): void;
@@ -369,7 +370,6 @@ interface CommandsModule {
     generateDatabase(target: string, store: string, spreadsheetPath: string): void;
     migrateStyle(): void;
     composeNative(nativePath: string, platforms: Platform[]): void;
-    checkTypes(): void;
 }
 
 const commands: CommandsModule = {
@@ -533,6 +533,15 @@ const commands: CommandsModule = {
                 console.error(`ERROR: could not clean build artifacts. ${error.message || error}`);
                 process.exit(1);
             });
+    },
+
+    checkTypes(): void {
+        if (!fs.existsSync("./package.bon")) {
+            console.error("ERROR: package.bon not found.");
+            process.exit(1);
+        }
+
+        compiler.typecheck("catalogs");
     },
 
     installApp(platform: Platform): void {
@@ -807,15 +816,6 @@ const commands: CommandsModule = {
         platforms.forEach((platform) => {
             native.compose(nativePath, platform, appInfo);
         });
-    },
-
-    checkTypes(): void {
-        if (!fs.existsSync("./package.bon")) {
-            console.error("ERROR: package.bon not found.");
-            process.exit(1);
-        }
-
-        compiler.typecheck("catalogs");
     }
 };
 

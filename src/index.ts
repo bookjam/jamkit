@@ -196,6 +196,12 @@ program.command("clean")
         console.log("ERROR: package.bon or book.bon not found.");
     });
 
+program.command("typecheck")
+    .description("Check TypeScript type errors.")
+    .action(() => {
+        commands.checkTypes();
+    });
+
 program.command("install")
     .description("Install on simulator.")
     .option("-t, --type <type>", "Specify the project type to install: `app`, `book`, or `auto`", "auto")
@@ -339,20 +345,6 @@ nativeCommand.command("compose")
         const platforms = (options.platform === "all" ? [ "ios", "android"] : [ options.platform ]) as ("ios" | "android")[];
 
         commands.composeNative(nativePath, platforms);
-    });
-
-
-const typeCommand = program.command("type")
-    .description("Manage TypeScript types.")
-    .on("command:*", ([ command ]: string[]) => {
-        typeCommand.addHelpText("after", "\n" + "Command not found: " + command);
-        typeCommand.help();
-    });
-
-typeCommand.command("check")
-    .description("Check TypeScript type errors.")
-    .action(() => {
-        commands.checkTypes();
     });
 
 program.parse();
