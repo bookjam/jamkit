@@ -132,17 +132,13 @@ class TypeScriptCompiler {
 
     private _getTypeFiles(): string[] {
         const moduleRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
-        const typesDir = path.join(moduleRoot, "@types");
-
+        const typePath = path.join(moduleRoot, "@types", "jamkit", "index.d.ts");
         const typeFiles: string[] = [];
-        if (fs.existsSync(typesDir)) {
-            const files = fs.readdirSync(typesDir);
-            for (const file of files) {
-                if (file.endsWith(".d.ts")) {
-                    typeFiles.push(path.join(typesDir, file));
-                }
-            }
+
+        if (fs.existsSync(typePath)) {
+            typeFiles.push(typePath);
         }
+
         return typeFiles;
     }
 
