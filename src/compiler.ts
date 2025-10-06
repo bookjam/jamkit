@@ -9,15 +9,17 @@ interface CompilerOptions {
     module?: ts.ModuleKind;
     sourceMap?: boolean;
     removeComments?: boolean;
+    typeRoots?: string[];
 }
 
 class TypeScriptCompiler {
     private compilerOptions: ts.CompilerOptions;
-    private typeFiles: string[];
     private basePath?: string;
     private outputDir?: string;
 
     constructor(options: CompilerOptions = {}, basePath?: string, outputDir?: string) {
+        const typeRoot = this._getTypeRoot();
+
         this.compilerOptions = {
             target: options.target || ts.ScriptTarget.ES2020,
             module: options.module || ts.ModuleKind.CommonJS,
@@ -27,8 +29,8 @@ class TypeScriptCompiler {
             skipLibCheck: true,
             forceConsistentCasingInFileNames: true,
             moduleResolution: ts.ModuleResolutionKind.Node10,
+            typeRoots: typeRoot ? [ ...(options.typeRoots || []), typeRoot ] : options.typeRoots,
         };
-        this.typeFiles = this._getTypeFiles();
 
         this.basePath  = basePath;
         this.outputDir = outputDir;
@@ -52,7 +54,7 @@ class TypeScriptCompiler {
 
         // Create a temporary program for type checking
         const host = ts.createCompilerHost(this.compilerOptions);
-        const program = ts.createProgram([ tsFilePath, ...this.typeFiles ], this.compilerOptions, host);
+        const program = ts.createProgram([ tsFilePath ], this.compilerOptions, host);
         const diagnostics = ts.getPreEmitDiagnostics(program);
 
         if (diagnostics.length > 0) {
@@ -112,7 +114,7 @@ class TypeScriptCompiler {
 
     typecheckTsFiles(tsFiles: string[]): number {
         const host = ts.createCompilerHost(this.compilerOptions);
-        const program = ts.createProgram([ ...tsFiles, ...this.typeFiles ], this.compilerOptions, host);
+        const program = ts.createProgram(tsFiles, this.compilerOptions, host);
         const diagnostics = ts.getPreEmitDiagnostics(program);
 
         if (diagnostics.length > 0) {
@@ -130,16 +132,15 @@ class TypeScriptCompiler {
         return diagnostics.length;
     }
 
-    private _getTypeFiles(): string[] {
+    private _getTypeRoot(): string | undefined {
         const moduleRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
-        const typePath = path.join(moduleRoot, "@types", "jamkit", "index.d.ts");
-        const typeFiles: string[] = [];
+        const typeRoot = path.join(moduleRoot, "@types");
 
-        if (fs.existsSync(typePath)) {
-            typeFiles.push(typePath);
+        if (fs.existsSync(typeRoot)) {
+            return typeRoot;
         }
 
-        return typeFiles;
+        return undefined;
     }
 
     private _getOutputPath(tsFilePath: string, basePath: string, outputDir?: string): string {
