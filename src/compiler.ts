@@ -18,8 +18,6 @@ class TypeScriptCompiler {
     private outputDir?: string;
 
     constructor(options: CompilerOptions = {}, basePath?: string, outputDir?: string) {
-        const typeRoot = this._getTypeRoot();
-
         this.compilerOptions = {
             target: options.target || ts.ScriptTarget.ES2020,
             module: options.module || ts.ModuleKind.CommonJS,
@@ -29,7 +27,7 @@ class TypeScriptCompiler {
             skipLibCheck: true,
             forceConsistentCasingInFileNames: true,
             moduleResolution: ts.ModuleResolutionKind.Node10,
-            typeRoots: typeRoot ? [ ...(options.typeRoots || []), typeRoot ] : options.typeRoots,
+            typeRoots: this._getTypeRoots(options.typeRoots),
         };
 
         this.basePath  = basePath;
@@ -130,6 +128,16 @@ class TypeScriptCompiler {
         }
 
         return diagnostics.length;
+    }
+
+    private _getTypeRoots(typeRoots?: string[]): string[] | undefined {
+        const typeRoot = this._getTypeRoot();
+
+        if (typeRoot && !typeRoots?.includes(typeRoot)) {
+            return [ ...(typeRoots || []), typeRoot ];
+        }
+
+        return typeRoots;
     }
 
     private _getTypeRoot(): string | undefined {
