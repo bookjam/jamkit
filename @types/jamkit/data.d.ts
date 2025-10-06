@@ -22,3 +22,10 @@ export interface DisplayUnit {
 export interface Environment {
   [key: string]: string;
 }
+
+/**
+ * Function parameters
+ */
+export interface Params {
+    [key: string]: string;
+}

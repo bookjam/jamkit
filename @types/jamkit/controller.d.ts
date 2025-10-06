@@ -7,6 +7,7 @@
 
 import type { ObjectBridge } from "./object";
 import type { ViewBridge } from "./view";
+import type { ActionParams, ScriptActionParams } from "./actions";
 
 // ============================================================================
 // Controller Action Parameters
@@ -15,7 +16,7 @@ import type { ViewBridge } from "./view";
 /**
  * Navigation action parameters
  */
-interface NavigationParams {
+interface NavigationParams extends ActionParams {
   /** Target view type */
   "target"?: "view" | "page" | "popup" | "detail" | "self" | "browser";
   /** Catalog identifier */
@@ -31,7 +32,7 @@ interface NavigationParams {
 /**
  * UI control action parameters
  */
-interface UIControlParams {
+interface UIControlParams extends ActionParams {
   /** Object identifier */
   "object"?: string;
   /** Group identifier */
@@ -42,14 +43,12 @@ interface UIControlParams {
   "layout"?: string;
   /** Loading message to display */
   "message"?: string;
-  /** Additional property key-value pairs */
-  [key: string]: any;
 }
 
 /**
  * Data management action parameters
  */
-interface DataManagementParams {
+interface DataManagementParams extends ActionParams {
   /** Form identifier */
   "form"?: string | Record<string, any>;
   /** Submit target */
@@ -85,18 +84,17 @@ interface DataManagementParams {
 /**
  * Media action parameters
  */
-interface MediaActionParams {
+interface MediaActionParams extends ActionParams {
   /** Media type (audio, video, image, text) */
   "media"?: string;
   /** Text content */
   "text"?: string;
-  [key: string]: any;
 }
 
 /**
  * System action parameters
  */
-interface SystemActionParams {
+interface SystemActionParams extends ActionParams {
   /** Title */
   "title"?: string;
   /** Message */
@@ -117,13 +115,12 @@ interface SystemActionParams {
   "buttons"?: ButtonConfig[];
   /** Target */
   "target"?: "clipboard" | "autorun" | "app";
-  [key: string]: any;
 }
 
 /**
  * Copy action parameters
  */
-interface CopyActionParams {
+interface CopyActionParams extends ActionParams {
   /** Text to copy */
   "text"?: string;
   /** Media to copy */
@@ -133,7 +130,7 @@ interface CopyActionParams {
 /**
  * Share action parameters
  */
-interface ShareActionParams {
+interface ShareActionParams extends ActionParams {
   /** Text to share */
   "text"?: string;
   /** URL to share */
@@ -145,7 +142,7 @@ interface ShareActionParams {
 /**
  * Notify action parameters
  */
-interface NotifyActionParams {
+interface NotifyActionParams extends ActionParams {
   /** Notification title */
   "title"?: string;
   /** Notification message */
@@ -157,7 +154,7 @@ interface NotifyActionParams {
 /**
  * Alert action parameters
  */
-interface AlertActionParams {
+interface AlertActionParams extends ActionParams {
   /** Alert title */
   "title"?: string;
   /** Alert message */
@@ -169,7 +166,7 @@ interface AlertActionParams {
 /**
  * Toast action parameters
  */
-interface ToastActionParams {
+interface ToastActionParams extends ActionParams {
   /** Toast message */
   "message"?: string;
 }
@@ -177,23 +174,13 @@ interface ToastActionParams {
 /**
  * Prompt action parameters
  */
-interface PromptActionParams {
+interface PromptActionParams extends ActionParams {
   /** Prompt title */
   "title"?: string;
   /** Prompt message */
   "message"?: string;
   /** Button configurations */
   "buttons"?: ButtonConfig[];
-}
-
-/**
- * Script action parameters
- */
-interface ScriptActionParams {
-  /** JavaScript code to execute */
-  "script"?: string;
-  /** Form data context */
-  "form"?: Record<string, any>;
 }
 
 /**
@@ -209,17 +196,6 @@ interface ButtonConfig {
   /** Button style */
   "style"?: "default" | "cancel" | "destructive";
 }
-
-/**
- * Combined action parameters type
- */
-type ActionParams =
-  | NavigationParams
-  | UIControlParams
-  | DataManagementParams
-  | MediaActionParams
-  | SystemActionParams
-  | Record<string, any>;
 
 // ============================================================================
 // Group Interface
@@ -648,7 +624,6 @@ export {
   Bookcase,
   ProductInfo,
   MembershipInfo,
-  ActionParams,
   NavigationParams,
   UIControlParams,
   DataManagementParams,

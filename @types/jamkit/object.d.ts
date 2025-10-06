@@ -5,29 +5,9 @@
  * JavaScript interface and common object actions.
  */
 
-import type { Rect, Point, Size } from "./geometry";
-
-// ============================================================================
-// Object Options
-// ============================================================================
-
-/**
- * Layout operation options
- */
-interface ObjectLayoutOptions {
-  /** Add object as child */
-  "add-as-child"?: "yes" | "no";
-  /** Send to back in z-order */
-  "send-to-back"?: "yes" | "no";
-  /** Bring to front in z-order */
-  "bring-to-front"?: "yes" | "no";
-  /** Animation duration */
-  "duration"?: string;
-  /** Animation curve */
-  "curve"?: "linear" | "ease-in" | "ease-out" | "ease-in-out";
-  /** Animation delay */
-  "delay"?: string;
-}
+import type { Rect, Point, Size, LayoutOptions } from "./geometry";
+import type { ActionParams, ScriptActionParams } from "./actions";
+import { ViewBridge } from "./view";
 
 // ============================================================================
 // Object Property Types
@@ -70,15 +50,15 @@ interface ObjectProperties {
 /**
  * Property action parameters
  */
-interface PropertyActionParams {
+interface PropertyActionParams extends ActionParams {
   /** Properties to set */
-  "properties"?: ObjectProperties;
+  "properties": string;
 }
 
 /**
  * Show action parameters
  */
-interface ShowActionParams {
+interface ShowActionParams extends ActionParams {
   /** Toggle visibility */
   "toggle"?: "yes" | "no";
 }
@@ -86,29 +66,17 @@ interface ShowActionParams {
 /**
  * Rotate action parameters
  */
-interface RotateActionParams {
+interface RotateActionParams extends ActionParams {
   /** Rotation duration in seconds */
   "duration"?: string;
 }
 
 /**
- * Script action parameters
- */
-interface ObjectScriptActionParams {
-  /** JavaScript code to execute */
-  "script"?: string;
-  /** Form identifier for context */
-  "form"?: string;
-}
-
-/**
  * Capture action parameters
  */
-interface CaptureActionParams {
-  /** Capture target */
-  "target"?: string;
-  /** Capture options */
-  [key: string]: any;
+interface CaptureActionParams extends ActionParams {
+  /** Filename for captured image */
+  "filename": string;
 }
 
 // ============================================================================
@@ -160,7 +128,7 @@ interface ObjectBridge {
   action(action: "rotate", params?: RotateActionParams): void;
   action(action: "stop-rotate"): void;
   action(action: "capture", params?: CaptureActionParams): void;
-  action(action: "script", params?: ObjectScriptActionParams): void;
+  action(action: "script", params?: ScriptActionParams): void;
   action(action: string, params?: Record<string, any>): void;
 
   /**
@@ -250,7 +218,7 @@ interface ObjectBridge {
    * @param identifier - Object identifier
    * @returns Child object bridge
    */
-  view(key: string | null, identifier: string): ObjectBridge;
+  view(key: string | null, identifier: string): ViewBridge;
 
   // ========================================
   // Geometry Methods
@@ -306,7 +274,7 @@ interface ObjectBridge {
    * @param layout - New frame rectangle
    * @param options - Layout options (optional)
    */
-  layout(identifier: string | null, layout: Rect, options?: ObjectLayoutOptions): void;
+  layout(identifier: string | null, layout: Rect, options?: LayoutOptions): void;
 
   /**
    * Moves object to new position
@@ -314,7 +282,7 @@ interface ObjectBridge {
    * @param point - New position
    * @param options - Layout options (optional)
    */
-  move(identifier: string | null, point: Point, options?: ObjectLayoutOptions): void;
+  move(identifier: string | null, point: Point, options?: LayoutOptions): void;
 
   /**
    * Centers object at specified point
@@ -322,7 +290,7 @@ interface ObjectBridge {
    * @param point - Center point
    * @param options - Layout options (optional)
    */
-  center(identifier: string | null, point: Point, options?: ObjectLayoutOptions): void;
+  center(identifier: string | null, point: Point, options?: LayoutOptions): void;
 
   /**
    * Centers object in parent container
@@ -330,7 +298,7 @@ interface ObjectBridge {
    * @param point - null to center in parent
    * @param options - Layout options (optional)
    */
-  center(identifier: string | null, point: null, options?: ObjectLayoutOptions): void;
+  center(identifier: string | null, point: null, options?: LayoutOptions): void;
 
   // ========================================
   // Helper Methods
@@ -359,12 +327,10 @@ interface ObjectBridge {
 
 export {
   ObjectBridge,
-  ObjectLayoutOptions,
   ObjectProperties,
   PropertyActionParams,
   ShowActionParams,
   RotateActionParams,
-  ObjectScriptActionParams,
   CaptureActionParams,
   ObjectActionName
 };

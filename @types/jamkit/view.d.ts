@@ -6,24 +6,8 @@
  */
 
 import type { ObjectBridge } from "./object";
-import type { Rect, Point, Size } from "./geometry";
+import type { Rect, Point, Size, LayoutOptions } from "./geometry";
 import type { DisplayUnit, Environment } from "./data";
-
-// ============================================================================
-// Animation Options
-// ============================================================================
-
-/**
- * Animation and layout options
- */
-interface LayoutOptions {
-  /** Animation duration in milliseconds */
-  "duration"?: string;
-  /** Animation curve (linear, ease-in, ease-out, ease-in-out) */
-  "curve"?: "linear" | "ease-in" | "ease-out" | "ease-in-out";
-  /** Delay before animation starts */
-  "delay"?: string;
-}
 
 // ============================================================================
 // View Bridge Interface
@@ -211,6 +195,5 @@ interface ViewBridge {
 // ============================================================================
 
 export {
-  ViewBridge,
-  LayoutOptions
+  ViewBridge
 };

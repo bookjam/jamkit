@@ -9,4 +9,5 @@ export * from "./view";
 export * from "./object";
 export * from "./geometry";
 export * from "./data";
+export * from "./actions";
 export * from "./global";
