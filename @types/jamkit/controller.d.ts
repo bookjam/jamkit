@@ -16,7 +16,7 @@ import type { ActionParams, ScriptActionParams } from "./actions";
 /**
  * Navigation action parameters
  */
-interface NavigationParams extends ActionParams {
+interface NavigationActionParams extends Omit<ActionParams, "target"> {
   /** Target view type */
   "target"?: "view" | "page" | "popup" | "detail" | "self" | "browser";
   /** Catalog identifier */
@@ -32,7 +32,7 @@ interface NavigationParams extends ActionParams {
 /**
  * UI control action parameters
  */
-interface UIControlParams extends ActionParams {
+interface UIControlActionParams extends ActionParams {
   /** Object identifier */
   "object"?: string;
   /** Group identifier */
@@ -46,9 +46,9 @@ interface UIControlParams extends ActionParams {
 }
 
 /**
- * Data management action parameters
+ * Data action parameters
  */
-interface DataManagementParams extends ActionParams {
+interface DataActionParams extends Omit<ActionParams, "target"> {
   /** Form identifier */
   "form"?: string | Record<string, any>;
   /** Submit target */
@@ -94,7 +94,7 @@ interface MediaActionParams extends ActionParams {
 /**
  * System action parameters
  */
-interface SystemActionParams extends ActionParams {
+interface SystemActionParams extends Omit<ActionParams, "target"> {
   /** Title */
   "title"?: string;
   /** Message */
@@ -142,7 +142,7 @@ interface ShareActionParams extends ActionParams {
 /**
  * Notify action parameters
  */
-interface NotifyActionParams extends ActionParams {
+interface NotifyActionParams extends Omit<ActionParams, "target"> {
   /** Notification title */
   "title"?: string;
   /** Notification message */
@@ -292,14 +292,14 @@ interface ControllerBridge {
    * @param action - "catalog", "subcatalog", or "category"
    * @param params - Navigation parameters
    */
-  action(action: "catalog" | "subcatalog" | "category", params?: NavigationParams): void;
+  action(action: "catalog" | "subcatalog" | "category", params?: NavigationActionParams): void;
 
   /**
    * Executes view navigation action
    * @param action - "page", "popup", "detail", or "bottom-sheet"
    * @param params - Navigation parameters
    */
-  action(action: "page" | "popup" | "detail" | "bottom-sheet", params?: NavigationParams): void;
+  action(action: "page" | "popup" | "detail" | "bottom-sheet", params?: NavigationActionParams): void;
 
   /**
    * Executes navigation back action
@@ -312,7 +312,7 @@ interface ControllerBridge {
    * @param action - "show", "hide", "toggle", or "property"
    * @param params - UI control parameters
    */
-  action(action: "show" | "hide" | "toggle" | "property", params?: UIControlParams): void;
+  action(action: "show" | "hide" | "toggle" | "property", params?: UIControlActionParams): void;
 
   /**
    * Executes UI state action
@@ -325,7 +325,7 @@ interface ControllerBridge {
    * @param action - "submit", "categorize", "remove", "review", or "answer"
    * @param params - Data management parameters
    */
-  action(action: "submit" | "categorize" | "remove" | "review" | "answer", params?: DataManagementParams): void;
+  action(action: "submit" | "categorize" | "remove" | "review" | "answer", params?: DataActionParams): void;
 
   /**
    * Executes media playback control action
@@ -624,9 +624,9 @@ export {
   Bookcase,
   ProductInfo,
   MembershipInfo,
-  NavigationParams,
-  UIControlParams,
-  DataManagementParams,
+  NavigationActionParams,
+  UIControlActionParams,
+  DataActionParams,
   MediaActionParams,
   SystemActionParams,
   CopyActionParams,
