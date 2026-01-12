@@ -465,10 +465,13 @@ const commands: CommandsModule = {
                         }
                     })
                     .then((resourcePath) => {
+                        const buildDir = path.join(process.cwd(), ".jamkit", "build", "catalogs");
                         let needsReset = true;
 
-                        compiler.start("./catalogs", { sourceMap: false, removeComments: true }, (event, filePath) => {
+                        fs.ensureDirSync(buildDir);
+                        compiler.start("./catalogs", { sourceMap: false, removeComments: true }, buildDir, (event, filePath) => {
                             if (event === "ready") {
+                                process.stdout.write("Copying files to the browser. It may takes several minutes... ");
                                 syncfolder.start(platform, appId as string, "./catalogs", resourcePath as string, options, (event, filePath) => {
                                     if (needsReset) {
                                         if ([ "jam", "widget" ].includes(mode)) {
@@ -490,6 +493,18 @@ const commands: CommandsModule = {
                                         } else {
                                             shell.execute("catalog reload");
                                         }
+                                    }
+
+                                    if (event === "ready") {
+                                        syncfolder.start(platform, appId as string, buildDir, resourcePath as string, { ...options, mergeSync: true }, (event, filePath) => {
+                                            if ([ "jam" ].includes(mode)) {
+                                                shell.execute("catalog reload " + appInfo.id);
+                                            } else {
+                                                shell.execute("catalog reload");
+                                            }
+                                        });
+                                        
+                                        console.log("Done");
                                     }
                                 });
                             }

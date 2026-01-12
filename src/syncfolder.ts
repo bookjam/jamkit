@@ -4,17 +4,17 @@ import fs from "fs-extra";
 import avdctl from "./avdctl-helper.js";
 
 type Platform = "ios" | "android";
-type SyncOptions = { skipSync?: boolean };
+type SyncOptions = { skipSync?: boolean; mergeSync?: boolean };
 
 abstract class FileHandlerBase {
-    abstract sync(appId: string, src: string, dest: string): void;
+    abstract sync(appId: string, src: string, dest: string, options?: SyncOptions): void;
     abstract copy(appId: string, src: string, dest: string): void;
     abstract remove(appId: string, path: string): void;
 }
 
 class IOSFileHandler extends FileHandlerBase {
-    sync(_appId: string, srcDir: string, destDir: string): void {
-        if (fs.existsSync(destDir)) {
+    sync(_appId: string, srcDir: string, destDir: string, options?: SyncOptions): void {
+        if (!options?.mergeSync && fs.existsSync(destDir)) {
             fs.removeSync(destDir);
         }
 
@@ -39,19 +39,25 @@ class IOSFileHandler extends FileHandlerBase {
 }
 
 class AndroidFileHandler extends FileHandlerBase {
-    sync(appId: string, srcDir: string, destDir: string): void {
+    sync(appId: string, srcDir: string, destDir: string, options?: SyncOptions): void {
         const tmpRoot = "/data/local/tmp/jamkit";
 
         avdctl.shell(`rm -rf ${tmpRoot}`);
         avdctl.push(srcDir, tmpRoot);
 
         if (avdctl.getSdkVersion() >= 30) {
-            avdctl.shell(`rm -rf ${destDir}`);
-            avdctl.shell(`mkdir ${destDir}`);
+            if (!options?.mergeSync) {
+                avdctl.shell(`rm -rf ${destDir}`);
+            }
+
+            avdctl.shell(`mkdir -p ${destDir}`);
             avdctl.shell(`cp -rf ${tmpRoot}/* ${destDir}`);
         } else {
-            avdctl.shell(`run-as ${appId} rm -rf ${destDir}`);
-            avdctl.shell(`run-as ${appId} mkdir ${destDir}`);
+            if (!options?.mergeSync) {
+                avdctl.shell(`run-as ${appId} rm -rf ${destDir}`);
+            }
+
+            avdctl.shell(`run-as ${appId} mkdir -p ${destDir}`);
             avdctl.shell(`run-as ${appId} cp -rf ${tmpRoot}/* ${destDir}`);
         }
     }
@@ -106,10 +112,24 @@ const syncfolder: SyncFolderModule = {
     start(platform: Platform, appId: string, srcDir: string, destDir: string, options: SyncOptions, handler: (event: string, filePath: string) => void): void {
         const fileHanderImpl = FileHandlerFactory.create(platform);
         const watcher = chokidar.watch(srcDir, {
-            ignored: [
-                /(^|[\/\\])\./,
-                /\.ts$/
-            ],
+            ignored: (srcPath: string) => {
+                const relativePath = path.relative(srcDir, srcPath);
+
+                // ignore .ts files
+                if (relativePath.endsWith(".ts")) {
+                    return true;
+                }
+
+                // ignore hidden files and directories
+                const segments = relativePath.split(path.sep);
+                for (const segment of segments) {
+                    if (segment.startsWith(".")) {
+                        return true;
+                    }
+                }
+
+                return false;
+            },
             persistent: true,
             ignoreInitial: true
         });
@@ -117,10 +137,8 @@ const syncfolder: SyncFolderModule = {
         watcher
             .on("ready", () => {
                 if (!options.skipSync) {
-                    fileHanderImpl.sync(appId, srcDir, destDir);
+                    fileHanderImpl.sync(appId, srcDir, destDir, options);
                 }
-
-                console.log("Done");
 
                 handler("ready", srcDir);
             })
@@ -159,8 +177,6 @@ const syncfolder: SyncFolderModule = {
 
                 handler("unlinkDir", dir);
             });
-
-        process.stdout.write("Copying files to the browser. It may takes several minutes... ");
     }
 };
 

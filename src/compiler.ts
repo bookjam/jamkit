@@ -90,7 +90,7 @@ class TypeScriptCompiler {
     }
 
     removeCompiledFiles(tsFilePath: string): string[] {
-        const jsOutputPath = tsFilePath.replace(/\.ts$/, ".js");
+        const jsOutputPath = this._getOutputPath(tsFilePath, this.basePath || path.dirname(tsFilePath), this.outputDir);
         const mapPath = `${jsOutputPath}.map`;
 
         const removedFiles: string[] = [];
@@ -169,21 +169,18 @@ class TypeScriptCompiler {
 }
 
 interface CompilerModule {
-    start(srcDir: string, options: CompilerOptions, handler: (event: string, filePath: string) => void): void;
+    start(srcDir: string, options: CompilerOptions, outputDir: string | undefined, handler: (event: string, filePath: string) => void): void;
     build(srcDir: string, options?: CompilerOptions, outputDir?: string): Promise<void>;
     clean(srcDir: string): Promise<void>;
     typecheck(srcDir: string): Promise<void>;
 }
 
 const compiler: CompilerModule = {
-    start(srcDir: string, options: CompilerOptions = {}, handler: (event: string, filePath: string) => void): void {
-        const tsCompiler = new TypeScriptCompiler(options);
+    start(srcDir: string, options: CompilerOptions = {}, outputDir: string | undefined, handler: (event: string, filePath: string) => void): void {
+        const tsCompiler = new TypeScriptCompiler(options, srcDir, outputDir);
 
         const watcher = chokidar.watch(path.join(srcDir, "**/*.ts"), {
-            ignored: [
-                /(^|[\/\\])\./,
-                /\.d\.ts$/
-            ],
+            ignored: [ /\.d\.ts$/ ],
             persistent: true,
             ignoreInitial: true
         });
