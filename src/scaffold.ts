@@ -17,7 +17,7 @@ const scaffold: ScaffoldModule = {
         const repository = options.repository || "bookjam/jamkit-templates";
         const template = options.template || "hello-world";
         const language = options.language || "global";
-        const path = `${type}/${template}/${language}`;
+        const path = `${type === "app" ? "apps" : "books"}/${template}/${language}`;
 
         await fetchRepoDir({
             src: `${repository}/${path}`,
