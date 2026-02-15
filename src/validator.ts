@@ -83,15 +83,15 @@ const reportSbmlValidation = (result: SbmlValidationResult): void => {
 
     if (result.errors.length > 0) {
         if (result.warnings.length > 0) {
-            console.error(`\n${result.errors.length} errors, ${result.warnings.length} warnings in ${result.fileCount} SBML file(s).`);
+            console.error(`\n${result.errors.length} error(s), ${result.warnings.length} warning(s) in ${result.fileCount} SBML file(s).`);
         } else {
-            console.error(`\n${result.errors.length} errors in ${result.fileCount} SBML file(s).`);
+            console.error(`\n${result.errors.length} error(s) in ${result.fileCount} SBML file(s).`);
         }
         process.exit(1);
     }
 
     if (result.warnings.length > 0) {
-        console.log(`\n${result.warnings.length} warnings in ${result.fileCount} SBML file(s).`);
+        console.log(`\n${result.warnings.length} warning(s) in ${result.fileCount} SBML file(s).`);
     } else {
         console.log(`Validated ${result.fileCount} SBML file(s) successfully.`);
     }

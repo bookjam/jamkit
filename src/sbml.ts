@@ -7,11 +7,11 @@ const __dirname = path.dirname(__filename);
 
 let cachedModule: SbmlModule | null = null;
 
-interface SbmlLoaderModule {
+interface SbmlWrapperModule {
     load(): Promise<SbmlModule>;
 }
 
-const sbml: SbmlLoaderModule = {
+const sbmlModule: SbmlWrapperModule = {
     async load(): Promise<SbmlModule> {
         if (!cachedModule) {
             const sbmlPath = path.resolve(__dirname, "lib", "sbml", "sbml.js");
@@ -28,4 +28,4 @@ const sbml: SbmlLoaderModule = {
     }
 };
 
-export default sbml;
+export default sbmlModule;
