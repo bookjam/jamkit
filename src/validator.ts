@@ -5,11 +5,10 @@ import sbml from "./sbml.js";
 import type { SbmlParserDelegate } from "./@types/sbml/index.js";
 import type { AppInfo, BookInfo } from "./types.js";
 
-interface ValidateResult {
+interface SbmlValidationResult {
     errors: string[];
     warnings: string[];
     fileCount: number;
-    document: boolean;
 }
 
 interface ValidatorModule {
@@ -17,18 +16,8 @@ interface ValidatorModule {
     validateBook(bookInfo: BookInfo, srcDir?: string): void;
 }
 
-async function validateSbml(dir: string): Promise<ValidateResult> {
+async function validateSbml(dir: string, filesList: string[][]): Promise<SbmlValidationResult> {
     const sbmlModule = await sbml.load();
-    const sbmlFiles = await glob("**/*.sbml", { cwd: dir });
-
-    if (sbmlFiles.length === 0) {
-        return {
-            errors: ["No .sbml files found."],
-            warnings: [],
-            fileCount: 0,
-            document: false
-        };
-    }
 
     const errors: string[] = [];
     const warnings: string[] = [];
@@ -40,7 +29,6 @@ async function validateSbml(dir: string): Promise<ValidateResult> {
             try {
                 return fs.readFileSync(filePath, "utf8");
             } catch {
-                errors.push(`File not found: ${fileName}`);
                 return null;
             }
         },
@@ -57,31 +45,33 @@ async function validateSbml(dir: string): Promise<ValidateResult> {
     const parser = new sbmlModule.SbmlParser(2.0, delegate);
 
     try {
-        const document = parser.parseFiles(sbmlFiles, {}, {});
+        for (const fileNames of filesList) {
+            try {
+                const document = parser.parseFiles(fileNames, {}, {});
 
-        if (!document) {
-            if (errors.length === 0) {
-                errors.push("Failed to parse SBML files.");
+                if (!document) {
+                    if (errors.length === 0) {
+                        errors.push(`Failed to parse: ${fileNames.join(", ")}`);
+                    }
+                } else {
+                    document.delete();
+                }
+            } catch {
+                errors.push(`Failed to parse: ${fileNames.join(", ")}`);
             }
-
-            return { errors, warnings, fileCount: sbmlFiles.length, document: false };
         }
 
-        document.delete();
-
-        return { errors, warnings, fileCount: sbmlFiles.length, document: true };
+        return { errors, warnings, fileCount: filesList.length };
     } finally {
         parser.delete();
     }
 }
 
-const printResult = (result: ValidateResult): void => {
+const reportSbmlValidation = (result: SbmlValidationResult): void => {
     if (result.fileCount === 0) {
-        console.error("ERROR: " + result.errors[0]);
+        console.error("ERROR: No SBML files found.");
         process.exit(1);
     }
-
-    console.log(`Validated ${result.fileCount} SBML file(s).`);
 
     result.warnings.forEach((warning) => {
         console.warn(`WARNING: ${warning}`);
@@ -92,22 +82,38 @@ const printResult = (result: ValidateResult): void => {
     });
 
     if (result.errors.length > 0) {
-        console.error(`\nValidation failed with ${result.errors.length} error(s).`);
+        if (result.warnings.length > 0) {
+            console.error(`\n${result.errors.length} errors, ${result.warnings.length} warnings in ${result.fileCount} SBML file(s).`);
+        } else {
+            console.error(`\n${result.errors.length} errors in ${result.fileCount} SBML file(s).`);
+        }
         process.exit(1);
     }
 
     if (result.warnings.length > 0) {
-        console.log(`\nValidation passed with ${result.warnings.length} warning(s).`);
+        console.log(`\n${result.warnings.length} warnings in ${result.fileCount} SBML file(s).`);
     } else {
-        console.log("\nValidation passed.");
+        console.log(`Validated ${result.fileCount} SBML file(s) successfully.`);
     }
 }
 
 const validatorModule: ValidatorModule = {
     validateApp(appInfo: AppInfo, srcDir: string = "."): void {
-        validateSbml(srcDir)
+        glob("**/*.sbml", { cwd: srcDir })
+            .then((sbmlFiles) => {
+                const filesList: string[][] = [];
+
+                for (const sbmlFile of sbmlFiles) {
+                    filesList.push([
+                        sbmlFile.replace(/\.sbml$/, ".sbss"),
+                        sbmlFile
+                    ]);
+                }
+
+                return validateSbml(srcDir, filesList);
+            })
             .then((result) => {
-                printResult(result);
+                reportSbmlValidation(result);
             })
             .catch((error) => {
                 console.error(`ERROR: ${error.message || error}`);
@@ -116,9 +122,21 @@ const validatorModule: ValidatorModule = {
     },
 
     validateBook(bookInfo: BookInfo, srcDir: string = "."): void {
-        validateSbml(srcDir)
+        const filesList: string[][] = [];
+
+        for (const key of Object.keys(bookInfo)) {
+            if (key.endsWith("-files")) {
+                const value = bookInfo[key];
+
+                if (Array.isArray(value)) {
+                    filesList.push(value);
+                }
+            }
+        }
+
+        validateSbml(srcDir, filesList)
             .then((result) => {
-                printResult(result);
+                reportSbmlValidation(result);
             })
             .catch((error) => {
                 console.error(`ERROR: ${error.message || error}`);

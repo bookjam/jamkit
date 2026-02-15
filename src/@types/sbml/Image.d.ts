@@ -6,12 +6,12 @@
  * SbmlImageSpec - Device-specific image variant specification
  */
 export interface SbmlImageSpec {
-  fileName: string;
+  name: string;
   scale: number;
 }
 
 export interface SbmlImageSpecType {
-  new(fileName: string, scale: number): SbmlImageSpec;
+  new(name: string, scale: number): SbmlImageSpec;
 }
 
 /**

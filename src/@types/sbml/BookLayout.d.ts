@@ -14,7 +14,7 @@ export enum SbmlPageDirection {
  * SbmlBookLayout - Book layout configuration
  */
 export interface SbmlBookLayout {
-  twoSided: boolean;
+  isTwoSided: boolean;
   pageDirection: SbmlPageDirection;
   pageWidth: number;
   pageHeight: number;

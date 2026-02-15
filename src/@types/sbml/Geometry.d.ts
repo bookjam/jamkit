@@ -54,6 +54,7 @@ export interface ScreenSpec {
   density: number;
   scale: number;
   dpFactor: number;
+  dpBased: boolean;
   statusbarHeight: number;
   edgeBottom: number;
 }
