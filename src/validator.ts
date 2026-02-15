@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs-extra";
 import { glob } from "glob";
 import sbml from "./sbml.js";
-import type { SbmlParserDelegate } from "./@types/libsbml/index.js";
+import type { SbmlParserDelegate } from "./@types/sbml/index.js";
 import type { AppInfo, BookInfo } from "./types.js";
 
 interface ValidateResult {
