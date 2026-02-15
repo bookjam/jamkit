@@ -273,6 +273,44 @@ jamkit native compose ./native-code --platform ios
 jamkit native compose ./native-code --platform android
 ```
 
+### `jamkit validate`
+
+Validate SBML files in the project.
+
+```bash
+jamkit validate [options]
+```
+
+#### Options
+- `-t, --type <type>` - Project type: `app`, `book`, or `auto` (default: `auto`)
+
+#### Examples
+```bash
+# Validate with auto-detection
+jamkit validate
+
+# Validate app project
+jamkit validate --type app
+```
+
+---
+
+### `jamkit typecheck`
+
+Check TypeScript type errors in app catalogs.
+
+```bash
+jamkit typecheck
+```
+
+#### Examples
+```bash
+# Run type checking
+jamkit typecheck
+```
+
+---
+
 ## Debugging
 
 When using VSCode, debugger configuration is automatically added to `.vscode/launch.json`:
