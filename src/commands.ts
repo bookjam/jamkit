@@ -17,32 +17,15 @@ import syncfolder from "./syncfolder.js";
 import compiler from "./compiler.js";
 import obfuscator from "./obfuscator.js";
 import installer from "./installer.js";
+import validator from "./validator.js";
 import bon from "./bon.js";
 import style from "./style.js";
 import native from "./native.js";
 import leafly from "./leafly.js";
 import utils from "./utils.js";
+import type { AppInfo, BookInfo } from "./types.js";
 
 // Type definitions
-interface AppInfo {
-    id: string;
-    version?: string;
-    title?: string;
-    localization?: {
-        [language: string]: {
-            title?: string;
-        };
-    };
-    [key: string]: any;
-}
-
-interface BookInfo {
-    id: string;
-    version?: string;
-    title?: string;
-    [key: string]: any;
-}
-
 interface ShellOptions {
     host: string;
     port: number;
@@ -354,22 +337,24 @@ const shortenUrl = (url: string, callback: (url: string) => void): void => {
 
 interface CommandsModule {
     createApp(directory: string, options: CreateOptions): void;
-    runApp(platform: Platform, mode: Mode, shellOptions: ShellOptions, options: RunOptions): void;
-    buildApp(skipObfuscation?: boolean): void;
+    runApp(platform: Platform, mode: Mode, shellOptions: ShellOptions, options: RunOptions): Promise<void>;
+    buildApp(skipObfuscation?: boolean): Promise<void>;
     cleanApp(): void;
-    checkTypes(): void;
-    installApp(platform: Platform): void;
-    publishApp(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void;
+    installApp(platform: Platform): Promise<void>;
+    publishApp(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): Promise<void>;
     createBook(directory: string, options: CreateOptions): void;
     runBook(platform: Platform, shellOptions: ShellOptions, options: RunOptions): void;
     buildBook(): void;
     cleanBook(): void;
     installBook(platform: Platform): void;
-    publishBook(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void;
+    publishBook(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): Promise<void>;
     openUrl(platform: Platform, url: string): void;
     generateDatabase(target: string, store: string, spreadsheetPath: string): void;
     migrateStyle(): void;
-    composeNative(nativePath: string, platforms: Platform[]): void;
+    composeNative(nativePath: string, platforms: Platform[]): Promise<void>;
+    validateApp(): Promise<void>;
+    validateBook(): Promise<void>;
+    checkTypes(): void;
 }
 
 const commands: CommandsModule = {
@@ -380,14 +365,14 @@ const commands: CommandsModule = {
         }
 
         scaffold.generate("app", directory, options)
-            .then(() => {
+            .then(async () => {
                 const bonPath = path.resolve(directory, "package.bon");
-                const appInfo = bon.parse(fs.readFileSync(bonPath, "utf8")) as AppInfo;
+                const appInfo = await bon.parse(bonPath) as AppInfo;
 
                 appInfo.id = generateAppId(options.appId, appInfo.id);
                 appInfo.version = options.version;
 
-                fs.writeFileSync(bonPath, bon.stringify(appInfo) || "");
+                await bon.write(bonPath, appInfo);
             })
             .catch(() => {
                 console.error("ERROR: template may not exists.");
@@ -395,15 +380,15 @@ const commands: CommandsModule = {
             });
     },
 
-    runApp(platform: Platform, mode: Mode, shellOptions: ShellOptions, options: RunOptions): void {
+    async runApp(platform: Platform, mode: Mode, shellOptions: ShellOptions, options: RunOptions): Promise<void> {
         if (!fs.existsSync("./package.bon")) {
             console.error("ERROR: package.bon not found.");
             process.exit(1);
         }
 
-        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
+        const appInfo = await bon.parse("./package.bon") as AppInfo;
 
-        if (!appInfo || !appInfo.id) {
+        if (!appInfo) {
             console.error("ERROR: package.bon is malformed.");
             process.exit(1);
         }
@@ -517,15 +502,15 @@ const commands: CommandsModule = {
             });
     },
 
-    buildApp(skipObfuscation: boolean = false): void {
+    async buildApp(skipObfuscation: boolean = false): Promise<void> {
         if (!fs.existsSync("./package.bon")) {
             console.error("ERROR: package.bon not found.");
             process.exit(1);
         }
 
-        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
+        const appInfo = await bon.parse("./package.bon") as AppInfo;
 
-        if (!appInfo || !appInfo.id) {
+        if (!appInfo) {
             console.error("ERROR: package.bon is malformed.");
             process.exit(1);
         }
@@ -550,24 +535,15 @@ const commands: CommandsModule = {
             });
     },
 
-    checkTypes(): void {
+    async installApp(platform: Platform): Promise<void> {
         if (!fs.existsSync("./package.bon")) {
             console.error("ERROR: package.bon not found.");
             process.exit(1);
         }
 
-        compiler.typecheck("catalogs");
-    },
+        const appInfo = await bon.parse("./package.bon") as AppInfo;
 
-    installApp(platform: Platform): void {
-        if (!fs.existsSync("./package.bon")) {
-            console.error("ERROR: package.bon not found.");
-            process.exit(1);
-        }
-
-        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
-
-        if (!appInfo || !appInfo.id) {
+        if (!appInfo) {
             console.error("ERROR: package.bon is malformed.");
             process.exit(1);
         }
@@ -582,15 +558,15 @@ const commands: CommandsModule = {
             });
     },
 
-    publishApp(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void {
+    async publishApp(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): Promise<void> {
         if (!options.fileUrl && !fs.existsSync("./package.bon")) {
             console.error("ERROR: package.bon not found.");
             process.exit(1);
         }
 
-        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
+        const appInfo = await bon.parse("./package.bon") as AppInfo;
 
-        if (!options.fileUrl && (!appInfo || !appInfo.id)) {
+        if (!appInfo && !options.fileUrl) {
             console.error("ERROR: package.bon is malformed.");
             process.exit(1);
         }
@@ -648,13 +624,13 @@ const commands: CommandsModule = {
         }
 
         scaffold.generate("book", directory, options)
-            .then(() => {
+            .then(async () => {
                 const bonPath = path.resolve(directory, "book.bon");
-                const bookInfo = bon.parse(fs.readFileSync(bonPath, "utf8")) as BookInfo;
+                const bookInfo = await bon.parse(bonPath) as BookInfo;
 
                 bookInfo.version = options.version;
 
-                fs.writeFileSync(bonPath, bon.stringify(bookInfo) || "");
+                await bon.write(bonPath, bookInfo);
             })
             .catch(() => {
                 console.error("ERROR: template may not exists.");
@@ -735,15 +711,15 @@ const commands: CommandsModule = {
             });
     },
 
-    publishBook(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): void {
+    async publishBook(host: HostOptions, options: PublishOptions, ipfsOptions: IpfsOptions, installUrls: InstallUrls): Promise<void> {
         if (!options.fileUrl && !fs.existsSync("./book.bon")) {
             console.error("ERROR: book.bon not found.");
             process.exit(1);
         }
 
-        const bookInfo = bon.parse(fs.readFileSync("./book.bon", "utf8")) as BookInfo;
+        const bookInfo = await bon.parse("./book.bon") as BookInfo;
 
-        if (!options.fileUrl && !bookInfo) {
+        if (!bookInfo && !options.fileUrl) {
             console.error("ERROR: book.bon is malformed.");
             process.exit(1);
         }
@@ -820,17 +796,58 @@ const commands: CommandsModule = {
             });
     },
 
-    composeNative(nativePath: string, platforms: Platform[]): void {
+    async composeNative(nativePath: string, platforms: Platform[]): Promise<void> {
         if (!fs.existsSync("./package.bon")) {
             console.error("ERROR: package.bon not found.");
             process.exit(1);
         }
 
-        const appInfo = bon.parse(fs.readFileSync("./package.bon", "utf8")) as AppInfo;
+        const appInfo = await bon.parse("./package.bon") as AppInfo;
 
         platforms.forEach((platform) => {
             native.compose(nativePath, platform, appInfo);
         });
+    },
+
+    async validateApp(): Promise<void> {
+        if (!fs.existsSync("./package.bon")) {
+            console.error("ERROR: package.bon not found.");
+            process.exit(1);
+        }
+
+        const appInfo = await bon.parse("./package.bon") as AppInfo;
+
+        if (!appInfo) {
+            console.error("ERROR: package.bon is malformed.");
+            process.exit(1);
+        }
+
+        validator.validateApp(appInfo);
+    },
+
+    async validateBook(): Promise<void> {
+        if (!fs.existsSync("./book.bon")) {
+            console.error("ERROR: book.bon not found.");
+            process.exit(1);
+        }
+
+        const bookInfo = await bon.parse("./book.bon") as BookInfo;
+
+        if (!bookInfo) {
+            console.error("ERROR: book.bon is malformed.");
+            process.exit(1);
+        }
+
+        validator.validateBook(bookInfo);
+    },
+
+    checkTypes(): void {
+        if (!fs.existsSync("./package.bon")) {
+            console.error("ERROR: package.bon not found.");
+            process.exit(1);
+        }
+
+        compiler.typecheck("catalogs");
     }
 };
 

@@ -196,6 +196,25 @@ program.command("clean")
         console.log("ERROR: package.bon or book.bon not found.");
     });
 
+program.command("validate")
+    .description("Validate project files.")
+    .option("-t, --type <type>", "Specify project type: `app`, `book`, or `auto`", "auto")
+    .action((options: { type: "auto" | "app" | "book" }) => {
+        if ((options.type === "auto" && fs.existsSync("./package.bon")) || options.type === "app") {
+            commands.validateApp();
+
+            return;
+        }
+
+        if ((options.type === "auto" && fs.existsSync("./book.bon")) || options.type === "book") {
+            commands.validateBook();
+
+            return;
+        }
+
+        console.log("ERROR: package.bon or book.bon not found.");
+    });
+
 program.command("typecheck")
     .description("Check TypeScript type errors.")
     .action(() => {

@@ -5,15 +5,9 @@ import xcode, { XcodeProject } from "xcode";
 import { XMLParser } from "fast-xml-parser";
 import { globSync } from "glob";
 import walkSync from "walk-sync";
+import { AppInfo } from "./types.js";
 
 type Platform = "ios" | "android";
-
-interface AppInfo {
-    id: string;
-    title?: string;
-    version?: string;
-    localization?: { [language: string]: { title?: string } };
-}
 
 abstract class PlatformBase {
     abstract compose(rootDir: string, appInfo: AppInfo, languages: string[]): void;
